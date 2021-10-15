@@ -3,10 +3,10 @@
 #  Use  >> build.sh --publish <<  to update its content.  #
 # ------------------------------------------------------- #
 
-OPENSSL_FETCH_VERSION='1.1.1h'
-OPENSSL_FETCH_ANDROID_URL='https://github.com/wultra/cc7/releases/download/0.3.1/openssl-1.1.1h-android.tar.gz'
-OPENSSL_FETCH_ANDROID_HASH='bebdc8a49f6bf33444e967ebb36fa452d527a8a8a3b632dfc1a6ba8c40846c37'
-OPENSSL_FETCH_APPLE_URL='https://github.com/wultra/cc7/releases/download/0.3.4/openssl-1.1.1h-apple.tar.gz'
-OPENSSL_FETCH_APPLE_HASH='676d3db263b5b052093b6d151d2fa73bcba25ec42744a10b663d069d05b5d77d'
-OPENSSL_FETCH_APPLE_XCFW_URL='https://github.com/wultra/cc7/releases/download/0.3.4/openssl-1.1.1h.xcframework.zip'
-OPENSSL_FETCH_APPLE_XCFW_HASH='5d0fe6e2593421d937c57e988d0734041ecb44be7c6dc6db941836549ae27f50'
+OPENSSL_FETCH_VERSION='1.1.1l'
+OPENSSL_FETCH_ANDROID_URL='https://github.com/wultra/cc7/releases/download/0.3.5/openssl-1.1.1l-android.tar.gz'
+OPENSSL_FETCH_ANDROID_HASH='366a4690411bf549a8ce3a36c2ac1ef330551389d969689a45c67ff990222bda'
+OPENSSL_FETCH_APPLE_URL='https://github.com/wultra/cc7/releases/download/0.3.5/openssl-1.1.1l-apple.tar.gz'
+OPENSSL_FETCH_APPLE_HASH='d33b3f7a86314d7fe71f4ac42da10028d87311e2f653f61f6eed4cbd31edef46'
+OPENSSL_FETCH_APPLE_XCFW_URL='https://github.com/wultra/cc7/releases/download/0.3.5/openssl-1.1.1l.xcframework.zip'
+OPENSSL_FETCH_APPLE_XCFW_HASH='bc530c2c66be2970d0f3f2d39f49cf5f0352eff52008645822d416ba985236e4'
