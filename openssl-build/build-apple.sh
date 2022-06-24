@@ -43,6 +43,8 @@ function BUILD_APPLE
     LOG_LINE
     LOG "Building OpenSSL ${OPENSSL_VERSION} for Apple platforms..."
     
+    BUILD_APPLE_XCODE_SWITCH
+    
     DEBUG_LOG "Destination folders cleanup"
     
     [[ -d "${OPENSSL_DEST_APPLE}" ]] && $RM -rf "${OPENSSL_DEST_APPLE}"
@@ -115,6 +117,7 @@ function BUILD_APPLE_TARGET
     local ARCH=$(BUILD_APPLE_ARCH_NAME ${TARGET})
     local SDK=$(BUILD_APPLE_SDK_NAME ${TARGET})
     local SDK_NAME=$(BUILD_APPLE_FAT_NAME ${TARGET})
+    local TARGET_OPTION=$(BUILD_APPLE_TARGET_OPTION ${TARGET})
     local MIN_OS_VERSION=$(BUILD_APPLE_SDK_MIN_VERSION ${SDK_NAME})
     local SRC_PATH="$TMP_PATH/src"
     local OUT_PATH="$TMP_PATH/${OUT_NAME}.tmp"
@@ -138,11 +141,13 @@ function BUILD_APPLE_TARGET
     
     export CROSS_SYSROOT=`xcrun -sdk $SDK --show-sdk-path`
     export CROSS_MIN_VERSION=$MIN_OS_VERSION
+    export CROSS_TARGET=$TARGET_OPTION
     export SDKVERSION=`xcrun -sdk $SDK --show-sdk-version`
     
     DEBUG_LOG "Exported env vars:"
     DEBUG_LOG " - CROSS_SYSROOT='$CROSS_SYSROOT'"
     DEBUG_LOG " - CROSS_MIN_VERSION='$CROSS_MIN_VERSION'"
+    DEBUG_LOG " - CROSS_TARGET='$CROSS_TARGET'"
     DEBUG_LOG " - CROSS_SYSROOT='$SDKVERSION'"
     
     set +e
@@ -575,6 +580,27 @@ function BUILD_APPLE_PLATFORM_SWITCH
 }
 
 # -----------------------------------------------------------------------------
+# BUILD_APPLE_XCODE_SWITCH prepares various runtime variables depending
+# on Xcode version.
+# -----------------------------------------------------------------------------
+function BUILD_APPLE_XCODE_SWITCH
+{
+    local xcv=$(GET_XCODE_VERSION --full)
+    case $xcv in
+        12.*) 
+            BUILD_APPLE_MACABI_VER=13.0 
+            ;;
+        13.*) 
+            BUILD_APPLE_MACABI_VER=13.1
+            ;;
+        *) 
+            BUILD_APPLE_MACABI_VER=13.0
+            WARNING "Build on Xcode $xcv is not tested."
+            ;;
+    esac
+}
+
+# -----------------------------------------------------------------------------
 # BUILD_APPLE_SDK_NAME converts compile TARGET into SDK name. For example, for
 # "ios-cross-armv7" target prints "iphoneos".
 #
@@ -594,6 +620,26 @@ function BUILD_APPLE_SDK_NAME
         *)
             FAILURE "Unable to determine SDK for target $1"
             ;;
+    esac
+}
+
+# -----------------------------------------------------------------------------
+# BUILD_APPLE_TARGET_OPTION converts compile TARGET into value for -target
+# build parameter. For example, for 'ios-sim-cross-arm64' prints
+# "arm64-apple-ios13.0-simulator". If target option is not required, prints
+# empty string.
+#
+# Parameters:
+#   $1   - target to convert (e.g. ios-cross-armv7)
+# -----------------------------------------------------------------------------
+function BUILD_APPLE_TARGET_OPTION
+{   
+    case $1 in
+        mac-catalyst-x86_64)        echo "x86_64-apple-ios${BUILD_APPLE_MACABI_VER}-macabi" ;;
+        mac-catalyst-arm64)         echo "arm64-apple-ios${BUILD_APPLE_MACABI_VER}-macabi" ;;
+        ios-sim-cross-arm64)        echo "arm64-apple-ios13.0-simulator" ;;
+        tvos-sim-cross-arm64)       echo "arm64-apple-tvos13.0-simulator" ;;
+        *) echo "" ;;
     esac
 }
 
