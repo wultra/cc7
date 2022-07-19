@@ -322,6 +322,9 @@ function BUILD_ANDROID_LOOK_FOR_NDK
 {
     if [ ! -z "${ANDROID_BUILD_NDK_HOME}" ]; then
         return  # already set to global var
+    elif [ ! -z "${ANDROID_NDK_USER_HOME}" ]; then
+        ANDROID_BUILD_NDK_HOME="${ANDROID_NDK_USER_HOME}"
+        local ndk_source='ANDROID_NDK_USER_HOME'
     elif [ ! -z "${ANDROID_NDK_HOME}" ]; then
         ANDROID_BUILD_NDK_HOME="${ANDROID_NDK_HOME}"
         local ndk_source='ANDROID_NDK_HOME'
