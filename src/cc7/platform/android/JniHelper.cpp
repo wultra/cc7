@@ -110,10 +110,14 @@ namespace jni
         if (env && array) {
             jsize length = env->GetArrayLength(array);
             if (length > 0) {
-                jbyte * bytes = env->GetByteArrayElements(array, 0);
+                jboolean is_copy = false;
+                jbyte * bytes = env->GetByteArrayElements(array, &is_copy);
                 if (CC7_CHECK(bytes != nullptr, "JNI: byteArray has no bytes but size greater than 0.")) {
                     result.assign(bytes, bytes + length);
-                    env->ReleaseByteArrayElements(array, bytes, 0);
+                    if (is_copy) {
+                        memset(bytes, 0, length);
+                    }
+                    env->ReleaseByteArrayElements(array, bytes, JNI_ABORT);
                 }
             }
         }
