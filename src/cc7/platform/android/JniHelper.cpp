@@ -106,22 +106,22 @@ namespace jni
     
     cc7::ByteArray CopyFromJavaByteArray(JNIEnv * env, jbyteArray array)
     {
-	    cc7::ByteArray result;
-	    if (env && array) {
-		    jsize length = env->GetArrayLength(array);
-		    if (length > 0) {
-			    jboolean is_copy = false;
-			    jbyte * bytes = env->GetByteArrayElements(array, &is_copy);
-			    if (CC7_CHECK(bytes != nullptr, "JNI: byteArray has no bytes but size greater than 0.")) {
-				    result.assign(bytes, bytes + length);
-				    if (is_copy) {
-					    memset(bytes, 0, length);
-				    }
-				    env->ReleaseByteArrayElements(array, bytes, JNI_ABORT);
-			    }
-		    }
-	    }
-	    return result;
+        cc7::ByteArray result;
+        if (env && array) {
+            jsize length = env->GetArrayLength(array);
+            if (length > 0) {
+                jboolean is_copy = false;
+                jbyte * bytes = env->GetByteArrayElements(array, &is_copy);
+                if (CC7_CHECK(bytes != nullptr, "JNI: byteArray has no bytes but size greater than 0.")) {
+                    result.assign(bytes, bytes + length);
+                    if (is_copy) {
+                        memset(bytes, 0, length);
+                    }
+                    env->ReleaseByteArrayElements(array, bytes, JNI_ABORT);
+                }
+            }
+        }
+        return result;
     }
     
     
