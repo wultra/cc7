@@ -590,7 +590,7 @@ function BUILD_APPLE_XCODE_SWITCH
         12.*) 
             BUILD_APPLE_MACABI_VER=13.0 
             ;;
-        13.*) 
+        13.*|14.*) 
             BUILD_APPLE_MACABI_VER=13.1
             ;;
         *) 
