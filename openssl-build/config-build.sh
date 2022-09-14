@@ -42,7 +42,10 @@ APPLE_TVOS_MIN_SDK="11.0"
 APPLE_CATALYST_MIN_SDK="10.15"
 APPLE_WATCHOS_MIN_SDK="4.0"
 APPLE_OSX_MIN_SDK="10.15"
-
+# Minimum system versions for legacy archs
+APPLE_LEGACY_IOS_MIN_SDK="9.0"
+APPLE_LEGACY_TVOS_MIN_SDK="9.0"
+APPLE_LEGACY_WATCHOS_MIN_SDK="2.0"
 
 # -----------------------------------------------------------------------------
 # Android specific

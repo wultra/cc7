@@ -602,20 +602,25 @@ function BUILD_APPLE_XCODE_SWITCH
             WARNING "Build on Xcode $xcv is not tested."
             ;;
     esac
+    if [ x$APPLE_ENABLE_BITCODE == x1 ]; then
+        if (( $(GET_XCODE_VERSION --major) >= 14 )); then
+            WARNING "Bitcode is deprecated in Xcode 14+"
+        fi
+    fi
     if [ x$APPLE_LEGACY_ARCHS == x1 ]; then
         if (( $(GET_XCODE_VERSION --major) >= 14 )); then
-            FAILURE "Xcode 14 doesn't support legacy architectures."
+            WARNING "Legacy architectures should not be used with Xcode 14+"
         fi
+        WARNING "Adding legacy targets: $APPLE_LEGACY_TARGETS"
+        APPLE_TARGETS="$APPLE_LEGACY_TARGETS $APPLE_TARGETS"
         if (( $(echo $APPLE_IOS_MIN_SDK | cut -d. -f1) >= 11 )); then
-            WARNING "Changing 'APPLE_IOS_MIN_SDK' to 10 due to support for legacy targets."
-            APPLE_IOS_MIN_SDK=10
+            WARNING "Changing 'APPLE_IOS_MIN_SDK' to $APPLE_LEGACY_IOS_MIN_SDK due to support for legacy targets."
+            APPLE_IOS_MIN_SDK=$APPLE_LEGACY_IOS_MIN_SDK
         fi
         if (( $(echo $APPLE_TVOS_MIN_SDK | cut -d. -f1) >= 11 )); then
-            WARNING "Changing 'APPLE_TVOS_MIN_SDK' to 10 due to support for legacy targets."
-            APPLE_TVOS_MIN_SDK=10
+            WARNING "Changing 'APPLE_TVOS_MIN_SDK' to $APPLE_LEGACY_TVOS_MIN_SDK due to support for legacy targets."
+            APPLE_TVOS_MIN_SDK=$APPLE_LEGACY_TVOS_MIN_SDK
         fi
-        DEBUG_LOG "Adding legacy targets $APPLE_LEGACY_TARGETS"
-        APPLE_TARGETS+=" $APPLE_LEGACY_TARGETS"
     fi
 }
 
