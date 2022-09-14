@@ -42,7 +42,8 @@ function BUILD_APPLE
     
     LOG_LINE
     LOG "Building OpenSSL ${OPENSSL_VERSION} for Apple platforms..."
-    
+    LOG "  - macOS $(sw_vers -productVersion) ($(uname -m))"
+    LOG "  - Xcode $(GET_XCODE_VERSION --full)"
     BUILD_APPLE_XCODE_SWITCH
     
     DEBUG_LOG "Destination folders cleanup"
@@ -118,6 +119,7 @@ function BUILD_APPLE_TARGET
     local SDK=$(BUILD_APPLE_SDK_NAME ${TARGET})
     local SDK_NAME=$(BUILD_APPLE_FAT_NAME ${TARGET})
     local TARGET_OPTION=$(BUILD_APPLE_TARGET_OPTION ${TARGET})
+    local COMMON_OPTION=$(BUILD_APPLE_COMMON_OPTION ${TARGET})
     local MIN_OS_VERSION=$(BUILD_APPLE_SDK_MIN_VERSION ${SDK_NAME})
     local SRC_PATH="$TMP_PATH/src"
     local OUT_PATH="$TMP_PATH/${OUT_NAME}.tmp"
@@ -142,6 +144,7 @@ function BUILD_APPLE_TARGET
     export CROSS_SYSROOT=`xcrun -sdk $SDK --show-sdk-path`
     export CROSS_MIN_VERSION=$MIN_OS_VERSION
     export CROSS_TARGET=$TARGET_OPTION
+    export CROSS_COMMON=$COMMON_OPTION
     export SDKVERSION=`xcrun -sdk $SDK --show-sdk-version`
     
     DEBUG_LOG "Exported env vars:"
@@ -149,6 +152,7 @@ function BUILD_APPLE_TARGET
     DEBUG_LOG " - CROSS_MIN_VERSION='$CROSS_MIN_VERSION'"
     DEBUG_LOG " - CROSS_TARGET='$CROSS_TARGET'"
     DEBUG_LOG " - CROSS_SYSROOT='$SDKVERSION'"
+    DEBUG_LOG " - CROSS_COMMON='$CROSS_COMMON'"
     
     set +e
     
@@ -590,7 +594,7 @@ function BUILD_APPLE_XCODE_SWITCH
         12.*) 
             BUILD_APPLE_MACABI_VER=13.0 
             ;;
-        13.*|14.*) 
+        13.* | 14.*) 
             BUILD_APPLE_MACABI_VER=13.1
             ;;
         *) 
@@ -598,6 +602,21 @@ function BUILD_APPLE_XCODE_SWITCH
             WARNING "Build on Xcode $xcv is not tested."
             ;;
     esac
+    if [ x$APPLE_LEGACY_ARCHS == x1 ]; then
+        if (( $(GET_XCODE_VERSION --major) >= 14 )); then
+            FAILURE "Xcode 14 doesn't support legacy architectures."
+        fi
+        if (( $(echo $APPLE_IOS_MIN_SDK | cut -d. -f1) >= 11 )); then
+            WARNING "Changing 'APPLE_IOS_MIN_SDK' to 10 due to support for legacy targets."
+            APPLE_IOS_MIN_SDK=10
+        fi
+        if (( $(echo $APPLE_TVOS_MIN_SDK | cut -d. -f1) >= 11 )); then
+            WARNING "Changing 'APPLE_TVOS_MIN_SDK' to 10 due to support for legacy targets."
+            APPLE_TVOS_MIN_SDK=10
+        fi
+        DEBUG_LOG "Adding legacy targets $APPLE_LEGACY_TARGETS"
+        APPLE_TARGETS+=" $APPLE_LEGACY_TARGETS"
+    fi
 }
 
 # -----------------------------------------------------------------------------
@@ -641,6 +660,22 @@ function BUILD_APPLE_TARGET_OPTION
         tvos-sim-cross-arm64)       echo "arm64-apple-tvos13.0-simulator" ;;
         *) echo "" ;;
     esac
+}
+
+# -----------------------------------------------------------------------------
+# BUILD_APPLE_COMMON_OPTION converts compile TARGET into value common
+# compiler options.
+#
+# Parameters:
+#   $1   - target to convert (e.g. ios-cross-armv7)
+# -----------------------------------------------------------------------------
+function BUILD_APPLE_COMMON_OPTION
+{   
+    if [ x$APPLE_ENABLE_BITCODE == x1 ]; then
+        echo '-fembed-bitcode'
+    else
+        echo ''
+    fi
 }
 
 # -----------------------------------------------------------------------------
