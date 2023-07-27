@@ -408,5 +408,10 @@ namespace cc7
         static_assert(std::is_pod<POD>::value, "POD type is expected");
         return ByteRange(&value, sizeof(value));
     }
+
+    /**
+     Compare two ranges of bytes in constant time.
+     */
+    bool ConstTimeEqual(const ByteRange & a, const ByteRange & b);
     
 } // cc7

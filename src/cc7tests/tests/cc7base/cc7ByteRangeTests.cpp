@@ -35,6 +35,7 @@ namespace tests
             CC7_REGISTER_TEST_METHOD(testCornerCases)
             CC7_REGISTER_TEST_METHOD(testSubRanges)
             CC7_REGISTER_TEST_METHOD(testOtherMethods)
+            CC7_REGISTER_TEST_METHOD(testConstTimeCompare)
         }
         
         // Helper methods
@@ -323,6 +324,32 @@ namespace tests
             ccstAssertEqual(cc7::CopyToString(r1), s1);
             ByteRange r2;
             ccstAssertEqual(cc7::CopyToString(r2), "");
+        }
+        
+        void testConstTimeCompare()
+        {
+            std::string s1("Hello world!");
+            std::string s2("Hello world!");
+            std::string s3("Hello world!!");
+            std::string s4("HEllo world!");
+            std::string s5("");
+            
+            ByteRange r1(s1), r2(s2), r3(s3), r4(s4), r5(s5);
+            // true
+            ccstAssertTrue(ConstTimeEqual(r1, r1));
+            ccstAssertTrue(ConstTimeEqual(r2, r2));
+            ccstAssertTrue(ConstTimeEqual(r3, r3));
+            ccstAssertTrue(ConstTimeEqual(r4, r4));
+            ccstAssertTrue(ConstTimeEqual(r5, r5));
+            ccstAssertTrue(ConstTimeEqual(r1, r2));
+            ccstAssertTrue(ConstTimeEqual(r2, r1));
+            // false
+            ccstAssertFalse(ConstTimeEqual(r1, r3));
+            ccstAssertFalse(ConstTimeEqual(r3, r1));
+            ccstAssertFalse(ConstTimeEqual(r1, r4));
+            ccstAssertFalse(ConstTimeEqual(r4, r1));
+            ccstAssertFalse(ConstTimeEqual(r1, r5));
+            ccstAssertFalse(ConstTimeEqual(r5, r1));
         }
     };
     

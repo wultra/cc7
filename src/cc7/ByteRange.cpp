@@ -17,6 +17,7 @@
 #include <cc7/ByteRange.h>
 #include <cc7/Base64.h>
 #include <cc7/HexString.h>
+#include <openssl/crypto.h>
 
 namespace cc7
 {
@@ -32,6 +33,13 @@ namespace cc7
         std::string result;
         HexString_Encode(*this, lower_case, result);
         return result;
+    }
+
+    bool ConstTimeEqual(const ByteRange & a, const ByteRange & b)
+    {
+        auto size = std::min(a.size(), b.size());
+        return CRYPTO_memcmp(a.begin(), b.begin(), size) == 0 &&
+                a.size() == b.size();
     }
 
 } // cc7
