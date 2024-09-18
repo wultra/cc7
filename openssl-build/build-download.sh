@@ -39,12 +39,30 @@ function VALIDATE_DOWNLOADED_OPENSSL
     echo $RESULT
 }
 
+function GET_DOWNLOAD_OPENSSL_URL
+{
+    local VERSION_UNDERSCORE=${OPENSSL_VERSION//./_}
+    local DOWNLOAD_PATH=
+    case "$OPENSSL_VERSION" in
+        1.*)
+            # legacy naming 
+            DOWNLOAD_PATH="OpenSSL_${VERSION_UNDERSCORE}/${OPENSSL_ARCHIVE_FILE}"
+            ;;
+        *)
+            # New naming
+            DOWNLOAD_PATH="/openssl-${OPENSSL_VERSION}/${OPENSSL_ARCHIVE_FILE}"
+            ;;
+    esac
+    echo ${OPENSSL_ARCHIVE_BASE_URL}/${DOWNLOAD_PATH}
+}
+
 function DOWNLOAD_OPENSSL
 {
+    local DOWNLOAD_URL=$(GET_DOWNLOAD_OPENSSL_URL)
     LOG "Downloading ${OPENSSL_ARCHIVE_FILE} ..."
-    
+    DEBUG_LOG "- source: ${DOWNLOAD_URL}"
     $MD ${OPENSSL_DEST}
-    curl ${CURL_OPTIONS} -sL ${OPENSSL_ARCHIVE_URL} > "${OPENSSL_ARCHIVE_LOCAL_PATH}"
+    curl ${CURL_OPTIONS} -sL ${DOWNLOAD_URL} > "${OPENSSL_ARCHIVE_LOCAL_PATH}"
     
     LOG "Validating downloaded file ..."
     if [ x$(VALIDATE_DOWNLOADED_OPENSSL) != x1 ]; then

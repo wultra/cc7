@@ -2,7 +2,7 @@
 # Archive file, remote URL and local path
 
 OPENSSL_ARCHIVE_FILE="openssl-${OPENSSL_VERSION}.tar.gz"
-OPENSSL_ARCHIVE_URL="https://www.openssl.org/source/${OPENSSL_ARCHIVE_FILE}"
+OPENSSL_ARCHIVE_BASE_URL="https://github.com/openssl/openssl/releases/download"
 OPENSSL_ARCHIVE_LOCAL_PATH="${OPENSSL_DEST}/${OPENSSL_ARCHIVE_FILE}"
 
 # OpenSSL features
