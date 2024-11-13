@@ -175,9 +175,9 @@ function BUILD_ANDROID_ARCH
     if [ $ABI == "armeabi-v7a" ]; then
         $CP -r "$SRC_PATH/out/usr/local/include/openssl" "${OPENSSL_DEST_ANDROID}/include" 
     fi
-    # Copy ABI specific opensslconf into unique header.
-    local ABI_CONF_HEADER="${OPENSSL_DEST_ANDROID}/include/openssl/opensslconf_${ABI}.h"
-    $CP "$SRC_PATH/out/usr/local/include/openssl/opensslconf.h" "${ABI_CONF_HEADER}"
+    # Copy ABI specific configuration into unique header.
+    local ABI_CONF_HEADER="${OPENSSL_DEST_ANDROID}/include/openssl/configuration_${ABI}.h"
+    $CP "$SRC_PATH/out/usr/local/include/openssl/configuration.h" "${ABI_CONF_HEADER}"
     # Keep that header for later processing
     ANDROID_CONF_ALL+=("${ABI_CONF_HEADER}")
     
@@ -261,7 +261,7 @@ function BUILD_ANDROID_PLATFORM_SWITCH
     local INCLUDE="$1"
     
     LOG_LINE
-    LOG "Preparing platform switch to opensslconf.h..."
+    LOG "Preparing platform switch to configuration.h..."
     
     if [ ${#ANDROID_CONF_ALL[@]} -eq 0 ]; then
         FAILURE "No architecture has been produced (e.g. \$ANDROID_CONF_ALL array is empty)"
@@ -269,8 +269,8 @@ function BUILD_ANDROID_PLATFORM_SWITCH
         
     # Copy template file into the final configuration file
     local DEST_PATH="${INCLUDE}/openssl"
-    local DEST_CONF="${DEST_PATH}/opensslconf.h"
-    $CP "${TOP}/assets/android/opensslconf-template.h" "${DEST_CONF}"
+    local DEST_CONF="${DEST_PATH}/configuration.h"
+    $CP "${TOP}/assets/android/configuration-template.h" "${DEST_CONF}"
     printf "\n\n" >> "${DEST_CONF}"
     
     # Iterate over all collected platform specific header files

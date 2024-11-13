@@ -62,7 +62,7 @@ function BUILD_APPLE
     APPLE_CONF_ALL=()       # All configuration headers
     for TARGET in ${APPLE_TARGETS}
     do
-        #APPLE_CONF_ALL+=("${TMP_PATH}/${TARGET}/openssl.tmp/include/openssl/opensslconf_${TARGET}.h")
+        #APPLE_CONF_ALL+=("${TMP_PATH}/${TARGET}/openssl.tmp/include/openssl/configuration_${TARGET}.h")
         BUILD_APPLE_TARGET ${TARGET} ${LIB_NAME} "${TMP_PATH}"
     done
     
@@ -202,9 +202,9 @@ function BUILD_APPLE_TARGET
     $MD "${OUT_PATH}/include"
     $CP -r "$SRC_PATH/out/usr/local/include/openssl" "${OUT_PATH}/include"
     
-    # Copy ABI specific opensslconf into unique header.
-    local TARGET_CONF_HEADER="${OUT_PATH}/include/openssl/opensslconf_${TARGET}.h"
-    $CP "${OUT_PATH}/include/openssl/opensslconf.h" "${TARGET_CONF_HEADER}"
+    # Copy ABI specific configuration into unique header.
+    local TARGET_CONF_HEADER="${OUT_PATH}/include/openssl/configuration_${TARGET}.h"
+    $CP "${OUT_PATH}/include/openssl/configuration.h" "${TARGET_CONF_HEADER}"
     # Keep that header for later processing
     APPLE_CONF_ALL+=("${TARGET_CONF_HEADER}")
     
@@ -505,7 +505,7 @@ function BUILD_APPLE_PLATFORM_SWITCH
 {
     local INCLUDE="$1"
     
-    DEBUG_LOG "Preparing platform switch to opensslconf.h..."
+    DEBUG_LOG "Preparing platform switch to configuration.h..."
     
     if [ ${#APPLE_CONF_ALL[@]} -eq 0 ]; then
         FAILURE "No architecture has been produced (e.g. \$APPLE_CONF_ALL array is empty)"
@@ -513,8 +513,8 @@ function BUILD_APPLE_PLATFORM_SWITCH
         
     # Copy template file into the final configuration file
     local DEST_PATH="${INCLUDE}"
-    local DEST_CONF="${DEST_PATH}/opensslconf.h"
-    $CP "${TOP}/assets/apple/opensslconf-template.h" "${DEST_CONF}"
+    local DEST_CONF="${DEST_PATH}/configuration.h"
+    $CP "${TOP}/assets/apple/configuration-template.h" "${DEST_CONF}"
     printf "\n\n" >> "${DEST_CONF}"
     
     # Iterate over all collected platform specific header files

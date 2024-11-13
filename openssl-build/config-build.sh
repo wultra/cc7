@@ -26,15 +26,11 @@ APPLE_TARGETS+=" tvos-sim-cross-x86_64 tvos-sim-cross-arm64"
 APPLE_TARGETS+=" tvos64-cross-arm64"
 
 # Minimum system versions
-APPLE_IOS_MIN_SDK="11.0"
-APPLE_TVOS_MIN_SDK="11.0"
-APPLE_CATALYST_MIN_SDK="11.0"
+APPLE_IOS_MIN_SDK="12.0"
+APPLE_TVOS_MIN_SDK="12.0"
+APPLE_CATALYST_MIN_SDK="12.0"
 APPLE_WATCHOS_MIN_SDK="4.0"
 APPLE_OSX_MIN_SDK="11.0"
-# Minimum system versions for legacy archs
-APPLE_LEGACY_IOS_MIN_SDK="9.0"
-APPLE_LEGACY_TVOS_MIN_SDK="9.0"
-APPLE_LEGACY_WATCHOS_MIN_SDK="2.0"
 
 # -----------------------------------------------------------------------------
 # Android specific
