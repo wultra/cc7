@@ -18,14 +18,16 @@ OPENSSL_CONF_PARAMS+=" no-scrypt no-blake2 no-siphash"
 # -----------------------------------------------------------------------------
 # Apple specific
 #  - Note that we don't build all architectures and platforms. 
-#    The following lists exclude watchOS variants from the build.
+#    The following lists exclude watchOS and macOSX variants from the build.
 
 APPLE_PLATFORMS="iOS iOS_Simulator macOS_Catalyst tvOS tvOS_Simulator"
+APPLE_REF_PLATFORM="iOS"
 APPLE_TARGETS="ios-sim-cross-x86_64 ios-sim-cross-arm64"
 APPLE_TARGETS+=" ios64-cross-arm64"
 APPLE_TARGETS+=" mac-catalyst-x86_64 mac-catalyst-arm64"
 APPLE_TARGETS+=" tvos-sim-cross-x86_64 tvos-sim-cross-arm64"
 APPLE_TARGETS+=" tvos64-cross-arm64"
+# APPLE_TARGETS+=" macos64-x86_64 macos64-arm64"
 
 # Minimum system versions
 APPLE_IOS_MIN_SDK="12.0"

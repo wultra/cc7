@@ -142,6 +142,7 @@ function BUILD_APPLE_TARGET
     echo "### Configure" > ${BUILD_LOG}
     
     export CROSS_SYSROOT=`xcrun -sdk $SDK --show-sdk-path`
+    export CROSS_SDK=$SDK
     export CROSS_MIN_VERSION=$MIN_OS_VERSION
     export CROSS_TARGET=$TARGET_OPTION
     export CROSS_COMMON=$COMMON_OPTION
@@ -149,6 +150,7 @@ function BUILD_APPLE_TARGET
 
     DEBUG_LOG "Exported env vars:"
     DEBUG_LOG " - CROSS_SYSROOT='$CROSS_SYSROOT'"
+    DEBUG_LOG " - CROSS_SDK='$CROSS_SDK'"
     DEBUG_LOG " - CROSS_MIN_VERSION='$CROSS_MIN_VERSION'"
     DEBUG_LOG " - CROSS_TARGET='$CROSS_TARGET'"
     DEBUG_LOG " - CROSS_SYSROOT='$SDKVERSION'"
@@ -365,7 +367,7 @@ function BUILD_APPLE_XC_FRAMEWORK
         local LIB_IDENTIFIER=${TMP[0]#\"}
         echo "    $BUILD_SUFFIX)"                                       >> $HELPER
         echo "      echo \"$LIB_IDENTIFIER\" ;;"                        >> $HELPER
-        [[ $PLATFORM == "iOS" ]] && SRC_HEADERS="${FW_PATH}/$LIB_IDENTIFIER/openssl.framework"
+        [[ $PLATFORM == "$APPLE_REF_PLATFORM" ]] && SRC_HEADERS="${FW_PATH}/$LIB_IDENTIFIER/openssl.framework"
     done
     # Close 'case' & 'function'
     echo '    *)'                                                       >> $HELPER
@@ -373,9 +375,9 @@ function BUILD_APPLE_XC_FRAMEWORK
     echo '  esac'                                                       >> $HELPER
     echo '}'                                                            >> $HELPER
     
-    LOG "Copying headers from 'iOS' platform framework..."
+    LOG "Copying headers from '$APPLE_REF_PLATFORM' platform framework..."
     
-    [[ -z "${SRC_HEADERS}" ]] && FAILURE "Failed to acquire path to iOS platform headers."
+    [[ -z "${SRC_HEADERS}" ]] && FAILURE "Failed to acquire path to $APPLE_REF_PLATFORM platform headers."
     
     $MD "${DST_HEADERS}"
     $CP -r "${SRC_HEADERS}/Headers" "${DST_HEADERS}"
