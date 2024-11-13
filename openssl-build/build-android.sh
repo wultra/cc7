@@ -24,6 +24,8 @@ fi
 REQUIRE_COMMAND clang
 REQUIRE_COMMAND tail
 
+TAIL_LOG_LINES=60
+
 # -----------------------------------------------------------------------------
 # BUILD_ANDROID builds all Android architectures
 # -----------------------------------------------------------------------------
@@ -50,7 +52,7 @@ function BUILD_ANDROID
     local KEEP_PATH="$PATH"
     local TOOLCHAIN_PATH=$(BUILD_ANDROID_TOOLCHAIN_PATH $NDK_DIR)
     export PATH=$NDK_DIR:$TOOLCHAIN_PATH:$PATH
-    export ANDROID_NDK_HOME="${NDK_DIR}"
+    export ANDROID_NDK_ROOT="${NDK_DIR}"
     
     DEBUG_LOG "Validate clang"
         
@@ -128,6 +130,8 @@ function BUILD_ANDROID_ARCH
     
     echo "### Configure" > ${BUILD_LOG}
     
+    DEBUG_LOG "Command: ./Configure ${BUILD_TARGET} -D__ANDROID_API__=${ANDROID_API_LEVEL} ${OPENSSL_CONF_PARAMS}"
+
     set +e
     
     ./Configure \
@@ -137,7 +141,7 @@ function BUILD_ANDROID_ARCH
         >> ${BUILD_LOG} 2>&1
 
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Configure script did fail"
     fi
@@ -149,7 +153,7 @@ function BUILD_ANDROID_ARCH
     make -j$BUILD_JOBS_COUNT >> ${BUILD_LOG} 2>&1   
     
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Build did not produce final library"
     fi
@@ -160,7 +164,7 @@ function BUILD_ANDROID_ARCH
     make DESTDIR=out install_sw -j$BUILD_JOBS_COUNT >> ${BUILD_LOG} 2>&1
     
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Failed to install headers"
     fi
@@ -171,9 +175,9 @@ function BUILD_ANDROID_ARCH
     if [ $ABI == "armeabi-v7a" ]; then
         $CP -r "$SRC_PATH/out/usr/local/include/openssl" "${OPENSSL_DEST_ANDROID}/include" 
     fi
-    # Copy ABI specific opensslconf into unique header.
-    local ABI_CONF_HEADER="${OPENSSL_DEST_ANDROID}/include/openssl/opensslconf_${ABI}.h"
-    $CP "$SRC_PATH/out/usr/local/include/openssl/opensslconf.h" "${ABI_CONF_HEADER}"
+    # Copy ABI specific configuration into unique header.
+    local ABI_CONF_HEADER="${OPENSSL_DEST_ANDROID}/include/openssl/configuration_${ABI}.h"
+    $CP "$SRC_PATH/out/usr/local/include/openssl/configuration.h" "${ABI_CONF_HEADER}"
     # Keep that header for later processing
     ANDROID_CONF_ALL+=("${ABI_CONF_HEADER}")
     
@@ -257,7 +261,7 @@ function BUILD_ANDROID_PLATFORM_SWITCH
     local INCLUDE="$1"
     
     LOG_LINE
-    LOG "Preparing platform switch to opensslconf.h..."
+    LOG "Preparing platform switch to configuration.h..."
     
     if [ ${#ANDROID_CONF_ALL[@]} -eq 0 ]; then
         FAILURE "No architecture has been produced (e.g. \$ANDROID_CONF_ALL array is empty)"
@@ -265,8 +269,8 @@ function BUILD_ANDROID_PLATFORM_SWITCH
         
     # Copy template file into the final configuration file
     local DEST_PATH="${INCLUDE}/openssl"
-    local DEST_CONF="${DEST_PATH}/opensslconf.h"
-    $CP "${TOP}/assets/android/opensslconf-template.h" "${DEST_CONF}"
+    local DEST_CONF="${DEST_PATH}/configuration.h"
+    $CP "${TOP}/assets/android/configuration-template.h" "${DEST_CONF}"
     printf "\n\n" >> "${DEST_CONF}"
     
     # Iterate over all collected platform specific header files
@@ -320,31 +324,41 @@ function BUILD_ANDROID_PLATFORM_SWITCH
 # -----------------------------------------------------------------------------
 function BUILD_ANDROID_LOOK_FOR_NDK
 {
+    local sdk_path=
+    local ndk_source=
     if [ ! -z "${ANDROID_BUILD_NDK_HOME}" ]; then
         return  # already set to global var
     elif [ ! -z "${ANDROID_NDK_USER_HOME}" ]; then
         ANDROID_BUILD_NDK_HOME="${ANDROID_NDK_USER_HOME}"
-        local ndk_source='ANDROID_NDK_USER_HOME'
+        ndk_source='ANDROID_NDK_USER_HOME'
     elif [ ! -z "${ANDROID_NDK_HOME}" ]; then
         ANDROID_BUILD_NDK_HOME="${ANDROID_NDK_HOME}"
-        local ndk_source='ANDROID_NDK_HOME'
+        ndk_source='ANDROID_NDK_HOME'
     elif [ ! -z "${ANDROID_NDK}" ]; then
         ANDROID_BUILD_NDK_HOME="${ANDROID_NDK}"
-        local ndk_source='ANDROID_NDK'
+        ndk_source='ANDROID_NDK'
     elif [ ! -z "${NDK_HOME}" ]; then
         ANDROID_BUILD_NDK_HOME="${NDK_HOME}"
-        local ndk_source='NDK_HOME'
+        ndk_source='NDK_HOME'
     elif [ ! -z "${NDK_ROOT}" ]; then
         ANDROID_BUILD_NDK_HOME="${NDK_ROOT}"
-        local ndk_source='NDK_ROOT'
+        ndk_source='NDK_ROOT'
     elif [ ! -z "${ANDROID_HOME}" ]; then
-        ANDROID_BUILD_NDK_HOME="${ANDROID_HOME}/ndk-bundle"
-        local ndk_source='ANDROID_HOME/ndk-bundle'
+        sdk_path="${ANDROID_HOME}"
+        ndk_source='ANDROID_HOME'
     elif [ ! -z "${ANDROID_SDK}" ]; then
-        ANDROID_BUILD_NDK_HOME="${ANDROID_SDK}/ndk-bundle"
-        local ndk_source='ANDROID_SDK/ndk-bundle'
+        sdk_path="${ANDROID_SDK}"
+        ndk_source='ANDROID_SDK'
     else
         FAILURE "Unable to determine location of Android NDK."
+    fi
+    if [ ! -z "$sdk_path" ]; then
+        if [ -d "$sdk_path/ndk-bundle" ]; then
+            ANDROID_BUILD_NDK_HOME="$sdk_path/ndk-bundle"
+            ndk_source+='/ndk-bundle'
+        else
+            FAILURE "Unable to determine location of Android NDK from SDK folder."
+        fi
     fi
     [[ ! -d "${ANDROID_BUILD_NDK_HOME}" ]] && FAILURE "Android NDK located via variable \$${ndk_source}, but directory doesn't exist: ${ANDROID_BUILD_NDK_HOME}"
     DEBUG_LOG "Android NDK located via variable \$${ndk_source} at path: ${ANDROID_BUILD_NDK_HOME}"

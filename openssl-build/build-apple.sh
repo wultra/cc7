@@ -31,6 +31,8 @@ REQUIRE_COMMAND plutil
 REQUIRE_COMMAND zip
 REQUIRE_COMMAND tail
 
+TAIL_LOG_LINES=60
+
 # -----------------------------------------------------------------------------
 # BUILD_APPLE builds all supported Apple platforms.
 # -----------------------------------------------------------------------------
@@ -60,7 +62,7 @@ function BUILD_APPLE
     APPLE_CONF_ALL=()       # All configuration headers
     for TARGET in ${APPLE_TARGETS}
     do
-        #APPLE_CONF_ALL+=("${TMP_PATH}/${TARGET}/openssl.tmp/include/openssl/opensslconf_${TARGET}.h")
+        #APPLE_CONF_ALL+=("${TMP_PATH}/${TARGET}/openssl.tmp/include/openssl/configuration_${TARGET}.h")
         BUILD_APPLE_TARGET ${TARGET} ${LIB_NAME} "${TMP_PATH}"
     done
     
@@ -71,8 +73,6 @@ function BUILD_APPLE
     do
         BUILD_APPLE_FAT_FRAMEWORK ${PLATFORM} ${LIB_NAME} "${TMP_PATH}"
     done
-    # We still have to support a FAT static library for older mobile SDKs
-    [[ x$APPLE_LEGACY_LIB == x1 ]] && BUILD_APPLE_STATIC_LIB ${LIB_NAME} "${TMP_PATH}" "${BUILD_LOG}" libcrypto.a
     # Build final XCFramework
     BUILD_APPLE_XC_FRAMEWORK ${LIB_NAME} "${TMP_PATH}" "${BUILD_LOG}"
 
@@ -135,34 +135,38 @@ function BUILD_APPLE_TARGET
     tar -xf ${OPENSSL_ARCHIVE_LOCAL_PATH} -C $TMP_PATH
     $MV "$TMP_PATH/openssl-$OPENSSL_VERSION" "$SRC_PATH"
     
-    PUSH_DIR $SRC_PATH
+    PUSH_DIR "$SRC_PATH"
     # ----
     LOG "Configuring library..."
     
     echo "### Configure" > ${BUILD_LOG}
     
     export CROSS_SYSROOT=`xcrun -sdk $SDK --show-sdk-path`
+    export CROSS_SDK=$SDK
     export CROSS_MIN_VERSION=$MIN_OS_VERSION
     export CROSS_TARGET=$TARGET_OPTION
     export CROSS_COMMON=$COMMON_OPTION
     export SDKVERSION=`xcrun -sdk $SDK --show-sdk-version`
-    
+
     DEBUG_LOG "Exported env vars:"
     DEBUG_LOG " - CROSS_SYSROOT='$CROSS_SYSROOT'"
+    DEBUG_LOG " - CROSS_SDK='$CROSS_SDK'"
     DEBUG_LOG " - CROSS_MIN_VERSION='$CROSS_MIN_VERSION'"
     DEBUG_LOG " - CROSS_TARGET='$CROSS_TARGET'"
     DEBUG_LOG " - CROSS_SYSROOT='$SDKVERSION'"
     DEBUG_LOG " - CROSS_COMMON='$CROSS_COMMON'"
+
+    DEBUG_LOG "Command: ./Configure ${TARGET} ${OPENSSL_CONF_PARAMS}"
     
     set +e
-    
+
     ./Configure \
         ${TARGET} \
         ${OPENSSL_CONF_PARAMS} \
         >> ${BUILD_LOG} 2>&1
     
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Configure script did fail"
     fi
@@ -174,7 +178,7 @@ function BUILD_APPLE_TARGET
     make -j$BUILD_JOBS_COUNT >> ${BUILD_LOG} 2>&1   
     
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Build did not produce final library"
     fi
@@ -185,7 +189,7 @@ function BUILD_APPLE_TARGET
     make DESTDIR=out install_sw -j$BUILD_JOBS_COUNT >> ${BUILD_LOG} 2>&1
 
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Failed to install headers"
     fi
@@ -200,9 +204,9 @@ function BUILD_APPLE_TARGET
     $MD "${OUT_PATH}/include"
     $CP -r "$SRC_PATH/out/usr/local/include/openssl" "${OUT_PATH}/include"
     
-    # Copy ABI specific opensslconf into unique header.
-    local TARGET_CONF_HEADER="${OUT_PATH}/include/openssl/opensslconf_${TARGET}.h"
-    $CP "${OUT_PATH}/include/openssl/opensslconf.h" "${TARGET_CONF_HEADER}"
+    # Copy ABI specific configuration into unique header.
+    local TARGET_CONF_HEADER="${OUT_PATH}/include/openssl/configuration_${TARGET}.h"
+    $CP "${OUT_PATH}/include/openssl/configuration.h" "${TARGET_CONF_HEADER}"
     # Keep that header for later processing
     APPLE_CONF_ALL+=("${TARGET_CONF_HEADER}")
     
@@ -363,7 +367,7 @@ function BUILD_APPLE_XC_FRAMEWORK
         local LIB_IDENTIFIER=${TMP[0]#\"}
         echo "    $BUILD_SUFFIX)"                                       >> $HELPER
         echo "      echo \"$LIB_IDENTIFIER\" ;;"                        >> $HELPER
-        [[ $PLATFORM == "iOS" ]] && SRC_HEADERS="${FW_PATH}/$LIB_IDENTIFIER/openssl.framework"
+        [[ $PLATFORM == "$APPLE_REF_PLATFORM" ]] && SRC_HEADERS="${FW_PATH}/$LIB_IDENTIFIER/openssl.framework"
     done
     # Close 'case' & 'function'
     echo '    *)'                                                       >> $HELPER
@@ -371,9 +375,9 @@ function BUILD_APPLE_XC_FRAMEWORK
     echo '  esac'                                                       >> $HELPER
     echo '}'                                                            >> $HELPER
     
-    LOG "Copying headers from 'iOS' platform framework..."
+    LOG "Copying headers from '$APPLE_REF_PLATFORM' platform framework..."
     
-    [[ -z "${SRC_HEADERS}" ]] && FAILURE "Failed to acquire path to iOS platform headers."
+    [[ -z "${SRC_HEADERS}" ]] && FAILURE "Failed to acquire path to $APPLE_REF_PLATFORM platform headers."
     
     $MD "${DST_HEADERS}"
     $CP -r "${SRC_HEADERS}/Headers" "${DST_HEADERS}"
@@ -503,7 +507,7 @@ function BUILD_APPLE_PLATFORM_SWITCH
 {
     local INCLUDE="$1"
     
-    DEBUG_LOG "Preparing platform switch to opensslconf.h..."
+    DEBUG_LOG "Preparing platform switch to configuration.h..."
     
     if [ ${#APPLE_CONF_ALL[@]} -eq 0 ]; then
         FAILURE "No architecture has been produced (e.g. \$APPLE_CONF_ALL array is empty)"
@@ -511,8 +515,8 @@ function BUILD_APPLE_PLATFORM_SWITCH
         
     # Copy template file into the final configuration file
     local DEST_PATH="${INCLUDE}"
-    local DEST_CONF="${DEST_PATH}/opensslconf.h"
-    $CP "${TOP}/assets/apple/opensslconf-template.h" "${DEST_CONF}"
+    local DEST_CONF="${DEST_PATH}/configuration.h"
+    $CP "${TOP}/assets/apple/configuration-template.h" "${DEST_CONF}"
     printf "\n\n" >> "${DEST_CONF}"
     
     # Iterate over all collected platform specific header files
@@ -602,26 +606,6 @@ function BUILD_APPLE_XCODE_SWITCH
             WARNING "Build on Xcode $xcv is not tested."
             ;;
     esac
-    if [ x$APPLE_ENABLE_BITCODE == x1 ]; then
-        if (( $(GET_XCODE_VERSION --major) >= 14 )); then
-            WARNING "Bitcode is deprecated in Xcode 14+"
-        fi
-    fi
-    if [ x$APPLE_LEGACY_ARCHS == x1 ]; then
-        if (( $(GET_XCODE_VERSION --major) >= 14 )); then
-            WARNING "Legacy architectures should not be used with Xcode 14+"
-        fi
-        WARNING "Adding legacy targets: $APPLE_LEGACY_TARGETS"
-        APPLE_TARGETS="$APPLE_LEGACY_TARGETS $APPLE_TARGETS"
-        if (( $(echo $APPLE_IOS_MIN_SDK | cut -d. -f1) >= 11 )); then
-            WARNING "Changing 'APPLE_IOS_MIN_SDK' to $APPLE_LEGACY_IOS_MIN_SDK due to support for legacy targets."
-            APPLE_IOS_MIN_SDK=$APPLE_LEGACY_IOS_MIN_SDK
-        fi
-        if (( $(echo $APPLE_TVOS_MIN_SDK | cut -d. -f1) >= 11 )); then
-            WARNING "Changing 'APPLE_TVOS_MIN_SDK' to $APPLE_LEGACY_TVOS_MIN_SDK due to support for legacy targets."
-            APPLE_TVOS_MIN_SDK=$APPLE_LEGACY_TVOS_MIN_SDK
-        fi
-    fi
 }
 
 # -----------------------------------------------------------------------------
@@ -676,11 +660,7 @@ function BUILD_APPLE_TARGET_OPTION
 # -----------------------------------------------------------------------------
 function BUILD_APPLE_COMMON_OPTION
 {   
-    if [ x$APPLE_ENABLE_BITCODE == x1 ]; then
-        echo '-fembed-bitcode'
-    else
-        echo ''
-    fi
+    echo ''
 }
 
 # -----------------------------------------------------------------------------
