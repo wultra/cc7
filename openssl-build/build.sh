@@ -61,13 +61,6 @@ function USAGE
     echo "                        must have following scopes: 'public_repo',"
     echo "                        'repo:status' and 'repo_deployment'"
     echo ""
-    echo "  --apple-legacy-archs"
-    echo "                        Build also legacy 32-bit architectures for"
-    echo "                        Apple platforms."
-    echo ""
-    echo "  --apple-enable-bitcode"
-    echo "                        Include bitcode in Apple build."
-    echo ""
     echo "  -v0                   turn off all prints to stdout"
     echo "  -v1                   print only basic log about execution progress"
     echo "  -v2                   print full build log with rich debug info"
@@ -120,12 +113,6 @@ do
         --github-access)
             GITHUB_ACCESS=$2
             shift
-            ;;
-        --apple-legacy-archs)
-            APPLE_LEGACY_ARCHS=1
-            ;;
-        --apple-enable-bitcode)
-            APPLE_ENABLE_BITCODE=1
             ;;
         -v*)
             SET_VERBOSE_LEVEL_FROM_SWITCH $opt

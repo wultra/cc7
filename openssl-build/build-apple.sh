@@ -71,8 +71,6 @@ function BUILD_APPLE
     do
         BUILD_APPLE_FAT_FRAMEWORK ${PLATFORM} ${LIB_NAME} "${TMP_PATH}"
     done
-    # We still have to support a FAT static library for older mobile SDKs
-    [[ x$APPLE_LEGACY_LIB == x1 ]] && BUILD_APPLE_STATIC_LIB ${LIB_NAME} "${TMP_PATH}" "${BUILD_LOG}" libcrypto.a
     # Build final XCFramework
     BUILD_APPLE_XC_FRAMEWORK ${LIB_NAME} "${TMP_PATH}" "${BUILD_LOG}"
 
@@ -135,7 +133,7 @@ function BUILD_APPLE_TARGET
     tar -xf ${OPENSSL_ARCHIVE_LOCAL_PATH} -C $TMP_PATH
     $MV "$TMP_PATH/openssl-$OPENSSL_VERSION" "$SRC_PATH"
     
-    PUSH_DIR $SRC_PATH
+    PUSH_DIR "$SRC_PATH"
     # ----
     LOG "Configuring library..."
     
@@ -146,23 +144,25 @@ function BUILD_APPLE_TARGET
     export CROSS_TARGET=$TARGET_OPTION
     export CROSS_COMMON=$COMMON_OPTION
     export SDKVERSION=`xcrun -sdk $SDK --show-sdk-version`
-    
+
     DEBUG_LOG "Exported env vars:"
     DEBUG_LOG " - CROSS_SYSROOT='$CROSS_SYSROOT'"
     DEBUG_LOG " - CROSS_MIN_VERSION='$CROSS_MIN_VERSION'"
     DEBUG_LOG " - CROSS_TARGET='$CROSS_TARGET'"
     DEBUG_LOG " - CROSS_SYSROOT='$SDKVERSION'"
     DEBUG_LOG " - CROSS_COMMON='$CROSS_COMMON'"
+
+    DEBUG_LOG "Command: ./Configure ${TARGET} ${OPENSSL_CONF_PARAMS}"
     
     set +e
-    
+
     ./Configure \
         ${TARGET} \
         ${OPENSSL_CONF_PARAMS} \
         >> ${BUILD_LOG} 2>&1
     
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -60 "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Configure script did fail"
     fi
@@ -602,26 +602,6 @@ function BUILD_APPLE_XCODE_SWITCH
             WARNING "Build on Xcode $xcv is not tested."
             ;;
     esac
-    if [ x$APPLE_ENABLE_BITCODE == x1 ]; then
-        if (( $(GET_XCODE_VERSION --major) >= 14 )); then
-            WARNING "Bitcode is deprecated in Xcode 14+"
-        fi
-    fi
-    if [ x$APPLE_LEGACY_ARCHS == x1 ]; then
-        if (( $(GET_XCODE_VERSION --major) >= 14 )); then
-            WARNING "Legacy architectures should not be used with Xcode 14+"
-        fi
-        WARNING "Adding legacy targets: $APPLE_LEGACY_TARGETS"
-        APPLE_TARGETS="$APPLE_LEGACY_TARGETS $APPLE_TARGETS"
-        if (( $(echo $APPLE_IOS_MIN_SDK | cut -d. -f1) >= 11 )); then
-            WARNING "Changing 'APPLE_IOS_MIN_SDK' to $APPLE_LEGACY_IOS_MIN_SDK due to support for legacy targets."
-            APPLE_IOS_MIN_SDK=$APPLE_LEGACY_IOS_MIN_SDK
-        fi
-        if (( $(echo $APPLE_TVOS_MIN_SDK | cut -d. -f1) >= 11 )); then
-            WARNING "Changing 'APPLE_TVOS_MIN_SDK' to $APPLE_LEGACY_TVOS_MIN_SDK due to support for legacy targets."
-            APPLE_TVOS_MIN_SDK=$APPLE_LEGACY_TVOS_MIN_SDK
-        fi
-    fi
 }
 
 # -----------------------------------------------------------------------------
@@ -676,11 +656,7 @@ function BUILD_APPLE_TARGET_OPTION
 # -----------------------------------------------------------------------------
 function BUILD_APPLE_COMMON_OPTION
 {   
-    if [ x$APPLE_ENABLE_BITCODE == x1 ]; then
-        echo '-fembed-bitcode'
-    else
-        echo ''
-    fi
+    echo ''
 }
 
 # -----------------------------------------------------------------------------

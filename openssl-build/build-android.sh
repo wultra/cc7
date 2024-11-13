@@ -50,7 +50,7 @@ function BUILD_ANDROID
     local KEEP_PATH="$PATH"
     local TOOLCHAIN_PATH=$(BUILD_ANDROID_TOOLCHAIN_PATH $NDK_DIR)
     export PATH=$NDK_DIR:$TOOLCHAIN_PATH:$PATH
-    export ANDROID_NDK_HOME="${NDK_DIR}"
+    export ANDROID_NDK_ROOT="${NDK_DIR}"
     
     DEBUG_LOG "Validate clang"
         
@@ -128,6 +128,8 @@ function BUILD_ANDROID_ARCH
     
     echo "### Configure" > ${BUILD_LOG}
     
+    DEBUG_LOG "Command: ./Configure ${BUILD_TARGET} -D__ANDROID_API__=${ANDROID_API_LEVEL} ${OPENSSL_CONF_PARAMS}"
+
     set +e
     
     ./Configure \
@@ -320,31 +322,41 @@ function BUILD_ANDROID_PLATFORM_SWITCH
 # -----------------------------------------------------------------------------
 function BUILD_ANDROID_LOOK_FOR_NDK
 {
+    local sdk_path=
+    local ndk_source=
     if [ ! -z "${ANDROID_BUILD_NDK_HOME}" ]; then
         return  # already set to global var
     elif [ ! -z "${ANDROID_NDK_USER_HOME}" ]; then
         ANDROID_BUILD_NDK_HOME="${ANDROID_NDK_USER_HOME}"
-        local ndk_source='ANDROID_NDK_USER_HOME'
+        ndk_source='ANDROID_NDK_USER_HOME'
     elif [ ! -z "${ANDROID_NDK_HOME}" ]; then
         ANDROID_BUILD_NDK_HOME="${ANDROID_NDK_HOME}"
-        local ndk_source='ANDROID_NDK_HOME'
+        ndk_source='ANDROID_NDK_HOME'
     elif [ ! -z "${ANDROID_NDK}" ]; then
         ANDROID_BUILD_NDK_HOME="${ANDROID_NDK}"
-        local ndk_source='ANDROID_NDK'
+        ndk_source='ANDROID_NDK'
     elif [ ! -z "${NDK_HOME}" ]; then
         ANDROID_BUILD_NDK_HOME="${NDK_HOME}"
-        local ndk_source='NDK_HOME'
+        ndk_source='NDK_HOME'
     elif [ ! -z "${NDK_ROOT}" ]; then
         ANDROID_BUILD_NDK_HOME="${NDK_ROOT}"
-        local ndk_source='NDK_ROOT'
+        ndk_source='NDK_ROOT'
     elif [ ! -z "${ANDROID_HOME}" ]; then
-        ANDROID_BUILD_NDK_HOME="${ANDROID_HOME}/ndk-bundle"
-        local ndk_source='ANDROID_HOME/ndk-bundle'
+        sdk_path="${ANDROID_HOME}"
+        ndk_source='ANDROID_HOME'
     elif [ ! -z "${ANDROID_SDK}" ]; then
-        ANDROID_BUILD_NDK_HOME="${ANDROID_SDK}/ndk-bundle"
-        local ndk_source='ANDROID_SDK/ndk-bundle'
+        sdk_path="${ANDROID_SDK}"
+        ndk_source='ANDROID_SDK'
     else
         FAILURE "Unable to determine location of Android NDK."
+    fi
+    if [ ! -z "$sdk_path" ]; then
+        if [ -d "$sdk_path/ndk-bundle" ]; then
+            ANDROID_BUILD_NDK_HOME="$sdk_path/ndk-bundle"
+            ndk_source+='/ndk-bundle'
+        else
+            FAILURE "Unable to determine location of Android NDK from SDK folder."
+        fi
     fi
     [[ ! -d "${ANDROID_BUILD_NDK_HOME}" ]] && FAILURE "Android NDK located via variable \$${ndk_source}, but directory doesn't exist: ${ANDROID_BUILD_NDK_HOME}"
     DEBUG_LOG "Android NDK located via variable \$${ndk_source} at path: ${ANDROID_BUILD_NDK_HOME}"
