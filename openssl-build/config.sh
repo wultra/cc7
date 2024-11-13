@@ -17,6 +17,7 @@
 source "${TOP}/version.sh"
 
 OPENSSL_VERSION='3.4.0'
+OPENSSL_API_VERSION='1.1.1'     # include deprecated functions
 OPENSSL_SHA256='e15dda82fe2fe8139dc2ac21a36d4ca01d5313c75f99f46c4e8a27709b7294bf'
 
 CC7_VERSION=${CC7_VERSION_EXT}

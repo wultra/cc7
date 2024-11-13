@@ -12,6 +12,8 @@ OPENSSL_CONF_PARAMS+=" no-idea no-camellia no-seed no-bf no-cast no-des no-rc2 n
 OPENSSL_CONF_PARAMS+=" no-whirlpool no-srp no-mdc2 no-srtp no-aria no-ct no-gost no-poly1305 no-sm2 no-sm3 no-sm4"
 OPENSSL_CONF_PARAMS+=" no-scrypt no-blake2 no-siphash"
 
+# Include specific supported API version if is set
+[[ -n "$OPENSSL_API_VERSION" ]] && OPENSSL_CONF_PARAMS+=" --api=$OPENSSL_API_VERSION"
 
 # -----------------------------------------------------------------------------
 # Apple specific
