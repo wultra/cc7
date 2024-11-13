@@ -31,6 +31,8 @@ REQUIRE_COMMAND plutil
 REQUIRE_COMMAND zip
 REQUIRE_COMMAND tail
 
+TAIL_LOG_LINES=60
+
 # -----------------------------------------------------------------------------
 # BUILD_APPLE builds all supported Apple platforms.
 # -----------------------------------------------------------------------------
@@ -162,7 +164,7 @@ function BUILD_APPLE_TARGET
         >> ${BUILD_LOG} 2>&1
     
     if [ $? -ne 0 ]; then
-        tail -60 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Configure script did fail"
     fi
@@ -174,7 +176,7 @@ function BUILD_APPLE_TARGET
     make -j$BUILD_JOBS_COUNT >> ${BUILD_LOG} 2>&1   
     
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Build did not produce final library"
     fi
@@ -185,7 +187,7 @@ function BUILD_APPLE_TARGET
     make DESTDIR=out install_sw -j$BUILD_JOBS_COUNT >> ${BUILD_LOG} 2>&1
 
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Failed to install headers"
     fi

@@ -24,6 +24,8 @@ fi
 REQUIRE_COMMAND clang
 REQUIRE_COMMAND tail
 
+TAIL_LOG_LINES=60
+
 # -----------------------------------------------------------------------------
 # BUILD_ANDROID builds all Android architectures
 # -----------------------------------------------------------------------------
@@ -139,7 +141,7 @@ function BUILD_ANDROID_ARCH
         >> ${BUILD_LOG} 2>&1
 
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Configure script did fail"
     fi
@@ -151,7 +153,7 @@ function BUILD_ANDROID_ARCH
     make -j$BUILD_JOBS_COUNT >> ${BUILD_LOG} 2>&1   
     
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Build did not produce final library"
     fi
@@ -162,7 +164,7 @@ function BUILD_ANDROID_ARCH
     make DESTDIR=out install_sw -j$BUILD_JOBS_COUNT >> ${BUILD_LOG} 2>&1
     
     if [ $? -ne 0 ]; then
-        tail -20 "${BUILD_LOG}"
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
         LOG_LINE
         FAILURE "Failed to install headers"
     fi
