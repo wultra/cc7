@@ -17,7 +17,7 @@
 #include <cc7tests/CC7Tests.h>
 #include <cc7/CC7.h>
 
-#include <openssl/aes.h>
+#include <openssl/evp.h>
 #include <openssl/rand.h>
 
 namespace cc7
@@ -35,10 +35,11 @@ namespace tests
         /// This test only validates whether we have OpenSSL properly integrated into the project.
         void testLinking()
         {
-            AES_KEY key;
             const unsigned char key_bytes[16] = { 0 };
-            auto result = AES_set_decrypt_key(key_bytes, 128, &key);
-            ccstAssertTrue(result == 0);
+            const unsigned char iv_bytes[16] = { 0 };
+            auto ctx = EVP_CIPHER_CTX_new();
+            ccstAssertEqual(1, EVP_EncryptInit(ctx, EVP_aes_128_cbc(), key_bytes, iv_bytes));
+            EVP_CIPHER_CTX_free(ctx);
         }
     };
     
