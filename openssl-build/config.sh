@@ -16,12 +16,12 @@
 
 source "${TOP}/version.sh"
 
-OPENSSL_VERSION='3.4.1'
+OPENSSL_VERSION='3.5.0-beta1'
 OPENSSL_API_VERSION='3.0.0'     # exclude deprecated functions
-OPENSSL_SHA256='002a2d6b30b58bf4bea46c43bdd96365aaf8daa6c428782aa4feee06da197df3'
+OPENSSL_SHA256='8f0be61fae28c9f83dec382587b0d4103eddbdaa6c20f194da198e8f76d40fbc'
 
 CC7_VERSION=${CC7_VERSION_EXT}
-CC7_BRANCH='develop'
+CC7_BRANCH='feature/crypto4'
 
 
 # -----------------------------------------------------------------------------
