@@ -59,7 +59,6 @@
     // -------------------------------------------------------------------
     // APPLE PLATFORMS (e.g. iOS, OSX, etc...)
     // -------------------------------------------------------------------
-    #define __STDC_WANT_LIB_EXT1__ 1
     #ifdef __OBJC__
         // Objective-C specific
         #import <Foundation/Foundation.h>
@@ -82,7 +81,8 @@
     #endif
     // Common defines for Apple platforms
     #define CC7_APPLE
-    #define CC7_SecureClean(ptr, size)  memset_s(ptr, size, 0, size)
+    CC7_EXTERN_C void OPENSSL_cleanse(void *ptr, size_t len);
+    #define CC7_SecureClean(ptr, size)  OPENSSL_cleanse(ptr, size)
     // 64 bit
     #if TARGET_RT_64_BIT == 0
         #define CC7_PLATFORM32
