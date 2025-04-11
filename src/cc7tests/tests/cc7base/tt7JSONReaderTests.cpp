@@ -22,7 +22,7 @@ namespace cc7
 {
 namespace tests
 {
-    extern TestDirectory g_baseFiles;
+    extern TestDirectory g_testFiles;
     
     class tt7JSONReaderTests : public UnitTest
     {
@@ -82,7 +82,7 @@ namespace tests
         
         void testSimpleJsonFile()
         {
-            JSONValue root = JSON_ParseFile(g_baseFiles, "test-data/cc7base/json-simple.json");
+            JSONValue root = JSON_ParseFile(g_testFiles, "test-data/json-simple.json");
             simpleJsonValidation(root);
         }
         
@@ -133,7 +133,7 @@ namespace tests
             //
             // The complex test file was grabbed from http://json.org/example.html
             //
-            JSONValue root = JSON_ParseFile(g_baseFiles, "test-data/cc7base/json-complex.json");
+            JSONValue root = JSON_ParseFile(g_testFiles, "test-data/json-complex.json");
             ccstAssertTrue(root.isType(JSONValue::Object));
             ccstAssertEqual(root.stringAtPath("web-app.servlet-mapping.cofaxEmail"), "/cofaxutil/aemail/*");
             ccstAssertEqual(root.stringAtPath("web-app.taglib.taglib-location"), "/WEB-INF/tlds/cofax.tld");

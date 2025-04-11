@@ -7,4 +7,4 @@ CONVERT=../../tools/conv-tool/data-converter.sh
 
 touch ${DEST_DIR}/foo
 rm    ${DEST_DIR}/*
-${CONVERT} test-data.conf
+${CONVERT} cc7-test-data.conf

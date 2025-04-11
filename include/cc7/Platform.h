@@ -269,6 +269,8 @@
     // C++
     #include <string>
     #include <vector>
+    #include <stdexcept>
+    #include <memory>
 
     namespace cc7
     {

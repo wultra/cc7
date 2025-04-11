@@ -222,6 +222,16 @@ namespace tests
             return _t == t;
         }
         
+        bool containsValueAtPath(const std::string & path, Type expected_type = NaT) const
+        {
+            try {
+                valueAtPath(path, expected_type);
+                return true;
+            } catch (std::invalid_argument exception) {
+                return false;
+            }
+        }
+        
         const JSONValue & valueAtPath(const std::string & path, Type expected_type = NaT) const;
         
         const JSONValue::TObject & objectAtPath(const std::string & path) const

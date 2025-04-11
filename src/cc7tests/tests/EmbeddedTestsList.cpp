@@ -36,6 +36,12 @@ namespace tests
         CC7_ADD_UNIT_TEST(cc7Base64Tests, list);
         CC7_ADD_UNIT_TEST(cc7HexStringTests, list);
         
+        // cc7/crypto framework tests
+        CC7_ADD_UNIT_TEST(cc7CryptoMessageDigestTests, list);
+        CC7_ADD_UNIT_TEST(cc7CryptoMACTests, list);
+        CC7_ADD_UNIT_TEST(cc7CryptoSignature, list);
+        CC7_ADD_UNIT_TEST(cc7CryptoKeyAgreement, list);
+        
         // OpenSSL
         CC7_ADD_UNIT_TEST(cc7OpenSSLIntegration, list);
         

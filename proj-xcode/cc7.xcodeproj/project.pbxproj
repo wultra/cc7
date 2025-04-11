@@ -21,6 +21,72 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		BF0058D42D9424DC00C0F3AF /* Signature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058D32D9424DC00C0F3AF /* Signature.cpp */; };
+		BF0058D52D9424DC00C0F3AF /* Signature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058D32D9424DC00C0F3AF /* Signature.cpp */; };
+		BF0058D62D9424DC00C0F3AF /* Signature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058D32D9424DC00C0F3AF /* Signature.cpp */; };
+		BF0058DF2D9A9F9B00C0F3AF /* AEAD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058DE2D9A9F9B00C0F3AF /* AEAD.cpp */; };
+		BF0058E02D9A9F9B00C0F3AF /* AEAD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058DE2D9A9F9B00C0F3AF /* AEAD.cpp */; };
+		BF0058E12D9A9F9B00C0F3AF /* AEAD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058DE2D9A9F9B00C0F3AF /* AEAD.cpp */; };
+		BF0058E72D9A9FF300C0F3AF /* KeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E42D9A9FF300C0F3AF /* KeyPair.cpp */; };
+		BF0058E82D9A9FF300C0F3AF /* Cipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E22D9A9FF300C0F3AF /* Cipher.cpp */; };
+		BF0058E92D9A9FF300C0F3AF /* Key.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E32D9A9FF300C0F3AF /* Key.cpp */; };
+		BF0058EA2D9A9FF300C0F3AF /* MAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E52D9A9FF300C0F3AF /* MAC.cpp */; };
+		BF0058EB2D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E62D9A9FF300C0F3AF /* MessageDigest.cpp */; };
+		BF0058EC2D9A9FF300C0F3AF /* KeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E42D9A9FF300C0F3AF /* KeyPair.cpp */; };
+		BF0058ED2D9A9FF300C0F3AF /* Cipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E22D9A9FF300C0F3AF /* Cipher.cpp */; };
+		BF0058EE2D9A9FF300C0F3AF /* Key.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E32D9A9FF300C0F3AF /* Key.cpp */; };
+		BF0058EF2D9A9FF300C0F3AF /* MAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E52D9A9FF300C0F3AF /* MAC.cpp */; };
+		BF0058F02D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E62D9A9FF300C0F3AF /* MessageDigest.cpp */; };
+		BF0058F12D9A9FF300C0F3AF /* KeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E42D9A9FF300C0F3AF /* KeyPair.cpp */; };
+		BF0058F22D9A9FF300C0F3AF /* Cipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E22D9A9FF300C0F3AF /* Cipher.cpp */; };
+		BF0058F32D9A9FF300C0F3AF /* Key.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E32D9A9FF300C0F3AF /* Key.cpp */; };
+		BF0058F42D9A9FF300C0F3AF /* MAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E52D9A9FF300C0F3AF /* MAC.cpp */; };
+		BF0058F52D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E62D9A9FF300C0F3AF /* MessageDigest.cpp */; };
+		BF0058FA2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058F92D9AA0D500C0F3AF /* OSSLObjects.cpp */; };
+		BF0058FB2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058F92D9AA0D500C0F3AF /* OSSLObjects.cpp */; };
+		BF0058FC2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058F92D9AA0D500C0F3AF /* OSSLObjects.cpp */; };
+		BF0059012D9AA27900C0F3AF /* AES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059002D9AA27900C0F3AF /* AES.cpp */; };
+		BF0059022D9AA27900C0F3AF /* AES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059002D9AA27900C0F3AF /* AES.cpp */; };
+		BF0059032D9AA27900C0F3AF /* AES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059002D9AA27900C0F3AF /* AES.cpp */; };
+		BF0059072D9AA68800C0F3AF /* SHA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059062D9AA68800C0F3AF /* SHA.cpp */; };
+		BF0059082D9AA68800C0F3AF /* SHA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059062D9AA68800C0F3AF /* SHA.cpp */; };
+		BF0059092D9AA68800C0F3AF /* SHA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059062D9AA68800C0F3AF /* SHA.cpp */; };
+		BF00590D2D9AB9E600C0F3AF /* KMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00590C2D9AB9E600C0F3AF /* KMAC.cpp */; };
+		BF00590E2D9AB9E600C0F3AF /* KMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00590C2D9AB9E600C0F3AF /* KMAC.cpp */; };
+		BF00590F2D9AB9E600C0F3AF /* KMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00590C2D9AB9E600C0F3AF /* KMAC.cpp */; };
+		BF0059122D9AB9F700C0F3AF /* MACBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059112D9AB9F700C0F3AF /* MACBase.cpp */; };
+		BF0059132D9AB9F700C0F3AF /* MACBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059112D9AB9F700C0F3AF /* MACBase.cpp */; };
+		BF0059142D9AB9F700C0F3AF /* MACBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059112D9AB9F700C0F3AF /* MACBase.cpp */; };
+		BF00591E2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00591D2D9BFB8A00C0F3AF /* HMAC.cpp */; };
+		BF00591F2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00591D2D9BFB8A00C0F3AF /* HMAC.cpp */; };
+		BF0059202D9BFB8A00C0F3AF /* HMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00591D2D9BFB8A00C0F3AF /* HMAC.cpp */; };
+		BF0059222D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059212D9C093500C0F3AF /* CryptoPrivate.cpp */; };
+		BF0059232D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059212D9C093500C0F3AF /* CryptoPrivate.cpp */; };
+		BF0059242D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059212D9C093500C0F3AF /* CryptoPrivate.cpp */; };
+		BF00592B2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00592A2D9C49C400C0F3AF /* g_testFiles.cpp */; };
+		BF00592C2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00592A2D9C49C400C0F3AF /* g_testFiles.cpp */; };
+		BF00592D2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00592A2D9C49C400C0F3AF /* g_testFiles.cpp */; };
+		BF0059362D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059352D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp */; };
+		BF0059372D9E72F300C0F3AF /* cc7CryptoMACTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059342D9E72F300C0F3AF /* cc7CryptoMACTests.cpp */; };
+		BF0059382D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059352D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp */; };
+		BF0059392D9E72F300C0F3AF /* cc7CryptoMACTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059342D9E72F300C0F3AF /* cc7CryptoMACTests.cpp */; };
+		BF00593A2D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059352D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp */; };
+		BF00593B2D9E72F300C0F3AF /* cc7CryptoMACTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059342D9E72F300C0F3AF /* cc7CryptoMACTests.cpp */; };
+		BF00593E2D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
+		BF00593F2D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
+		BF0059402D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
+		BF0059412D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
+		BF0059422D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
+		BF0059432D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
+		BF0059462D9E927200C0F3AF /* MLDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059452D9E927200C0F3AF /* MLDSA.cpp */; };
+		BF0059472D9E927200C0F3AF /* MLDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059452D9E927200C0F3AF /* MLDSA.cpp */; };
+		BF0059482D9E927200C0F3AF /* MLDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059452D9E927200C0F3AF /* MLDSA.cpp */; };
+		BF00594B2D9E957400C0F3AF /* ECDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594A2D9E957400C0F3AF /* ECDSA.cpp */; };
+		BF00594C2D9E957400C0F3AF /* ECDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594A2D9E957400C0F3AF /* ECDSA.cpp */; };
+		BF00594D2D9E957400C0F3AF /* ECDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594A2D9E957400C0F3AF /* ECDSA.cpp */; };
+		BF0059502D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
+		BF0059512D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
+		BF0059522D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
 		BF1C7BBF1CE0CE9300C4399E /* cc7PlatformTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1C7BBE1CE0CE9300C4399E /* cc7PlatformTests.cpp */; };
 		BF22BDFD2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF22BDFC2476995A00029A38 /* cc7OpenSSLIntegration.cpp */; };
 		BF22BDFE2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF22BDFC2476995A00029A38 /* cc7OpenSSLIntegration.cpp */; };
@@ -37,6 +103,33 @@
 		BF498ACA1CDDD7ED00D7E904 /* cc7ByteArrayTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498AC91CDDD7ED00D7E904 /* cc7ByteArrayTests.cpp */; };
 		BF498ACD1CDDDABE00D7E904 /* cc7ByteRangeTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498ACB1CDDD80700D7E904 /* cc7ByteRangeTests.cpp */; };
 		BF4B4A881CB93B8B00BF2C9D /* ByteRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4B4A861CB93B8B00BF2C9D /* ByteRange.cpp */; };
+		BF5A00092DA53F570068992F /* cc7CryptoSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* cc7CryptoSignature.cpp */; };
+		BF5A000A2DA53F570068992F /* cc7CryptoSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* cc7CryptoSignature.cpp */; };
+		BF5A000B2DA53F570068992F /* cc7CryptoSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* cc7CryptoSignature.cpp */; };
+		BF5A000E2DA541930068992F /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Utility.cpp */; };
+		BF5A000F2DA541930068992F /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Utility.cpp */; };
+		BF5A00102DA541930068992F /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Utility.cpp */; };
+		BF5A00182DA654EC0068992F /* KeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00172DA654EC0068992F /* KeyAgreement.cpp */; };
+		BF5A00192DA654EC0068992F /* KeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00172DA654EC0068992F /* KeyAgreement.cpp */; };
+		BF5A001A2DA654EC0068992F /* KeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00172DA654EC0068992F /* KeyAgreement.cpp */; };
+		BF5A001C2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A001B2DA65D1F0068992F /* KeyEncapsulation.cpp */; };
+		BF5A001D2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A001B2DA65D1F0068992F /* KeyEncapsulation.cpp */; };
+		BF5A001E2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A001B2DA65D1F0068992F /* KeyEncapsulation.cpp */; };
+		BF5A00212DA66AB50068992F /* ECDH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00202DA66AB50068992F /* ECDH.cpp */; };
+		BF5A00222DA66AB50068992F /* ECDH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00202DA66AB50068992F /* ECDH.cpp */; };
+		BF5A00232DA66AB50068992F /* ECDH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00202DA66AB50068992F /* ECDH.cpp */; };
+		BF5A00262DA6768E0068992F /* KeyDerivation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00252DA6768E0068992F /* KeyDerivation.cpp */; };
+		BF5A00272DA6768E0068992F /* KeyDerivation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00252DA6768E0068992F /* KeyDerivation.cpp */; };
+		BF5A00282DA6768E0068992F /* KeyDerivation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00252DA6768E0068992F /* KeyDerivation.cpp */; };
+		BF5A002B2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A002A2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp */; };
+		BF5A002C2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A002A2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp */; };
+		BF5A002D2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A002A2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp */; };
+		BF5A00302DA69B450068992F /* MLKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A002F2DA69B450068992F /* MLKEM.cpp */; };
+		BF5A00312DA69B450068992F /* MLKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A002F2DA69B450068992F /* MLKEM.cpp */; };
+		BF5A00322DA69B450068992F /* MLKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A002F2DA69B450068992F /* MLKEM.cpp */; };
+		BF5A00352DA906430068992F /* KeyUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00342DA906430068992F /* KeyUtility.cpp */; };
+		BF5A00362DA906430068992F /* KeyUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00342DA906430068992F /* KeyUtility.cpp */; };
+		BF5A00372DA906430068992F /* KeyUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00342DA906430068992F /* KeyUtility.cpp */; };
 		BF79F0181D04BFB7004653A1 /* ObjcHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF79F0171D04BFB7004653A1 /* ObjcHelper.mm */; };
 		BF8EEBF3266629ED009AC5FD /* CC7TestWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */; };
 		BF8EEC0126662A01009AC5FD /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC41CE3AEFE006CAA74 /* Base64.cpp */; };
@@ -60,7 +153,6 @@
 		BF8EEC1D26662A0B009AC5FD /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498A991CDBD4F600D7E904 /* StringUtils.cpp */; };
 		BF8EEC1E26662A0B009AC5FD /* EmbeddedTestsList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498AB61CDCC24F00D7E904 /* EmbeddedTestsList.cpp */; };
 		BF8EEC1F26662A0B009AC5FD /* TestManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068511CC91E56002FD3BC /* TestManager.cpp */; };
-		BF8EEC2026662A0B009AC5FD /* g_baseFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494041CE900E500F8D81B /* g_baseFiles.cpp */; };
 		BF8EEC2126662A0B009AC5FD /* cc7Base32Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFABCD732150036A00A9221F /* cc7Base32Tests.cpp */; };
 		BF8EEC2226662A0B009AC5FD /* cc7PlatformTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1C7BBE1CE0CE9300C4399E /* cc7PlatformTests.cpp */; };
 		BF8EEC2326662A0B009AC5FD /* cc7ByteArrayTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498AC91CDDD7ED00D7E904 /* cc7ByteArrayTests.cpp */; };
@@ -83,7 +175,12 @@
 		BFB493FF1CE8E74600F8D81B /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB493FE1CE8E74600F8D81B /* TestFile.cpp */; };
 		BFB494011CE8E79400F8D81B /* TestDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494001CE8E79400F8D81B /* TestDirectory.cpp */; };
 		BFB494031CE8E7C600F8D81B /* TestResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494021CE8E7C600F8D81B /* TestResource.cpp */; };
-		BFB494071CE900E500F8D81B /* g_baseFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494041CE900E500F8D81B /* g_baseFiles.cpp */; };
+		BFC372922DA0286D00BA292D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
+		BFC372932DA0286D00BA292D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
+		BFC372942DA0286D00BA292D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
+		BFC372972DA02B2D00BA292D /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* Constants.cpp */; };
+		BFC372982DA02B2D00BA292D /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* Constants.cpp */; };
+		BFC372992DA02B2D00BA292D /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* Constants.cpp */; };
 		BFC5254B1CDBC887002E653C /* PerformanceTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC5254A1CDBC887002E653C /* PerformanceTimer.cpp */; };
 		BFC5254E1CDBC985002E653C /* PerformanceTimerApple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC5254D1CDBC985002E653C /* PerformanceTimerApple.cpp */; };
 		BFE174041CC9664500039466 /* PlatformApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFE174021CC9664500039466 /* PlatformApple.mm */; };
@@ -108,7 +205,6 @@
 		BFFE8ABD2449B53C0032821F /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498A991CDBD4F600D7E904 /* StringUtils.cpp */; };
 		BFFE8ABE2449B53C0032821F /* EmbeddedTestsList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498AB61CDCC24F00D7E904 /* EmbeddedTestsList.cpp */; };
 		BFFE8ABF2449B53C0032821F /* TestManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068511CC91E56002FD3BC /* TestManager.cpp */; };
-		BFFE8AC02449B53C0032821F /* g_baseFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494041CE900E500F8D81B /* g_baseFiles.cpp */; };
 		BFFE8AC12449B53C0032821F /* cc7Base32Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFABCD732150036A00A9221F /* cc7Base32Tests.cpp */; };
 		BFFE8AC22449B53C0032821F /* cc7PlatformTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1C7BBE1CE0CE9300C4399E /* cc7PlatformTests.cpp */; };
 		BFFE8AC32449B53C0032821F /* cc7ByteArrayTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498AC91CDDD7ED00D7E904 /* cc7ByteArrayTests.cpp */; };
@@ -246,6 +342,54 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BF0058D02D94248A00C0F3AF /* Signature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Signature.h; sourceTree = "<group>"; };
+		BF0058D32D9424DC00C0F3AF /* Signature.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Signature.cpp; sourceTree = "<group>"; };
+		BF0058D72D942A6600C0F3AF /* KeyPair.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyPair.h; sourceTree = "<group>"; };
+		BF0058D82D9547F600C0F3AF /* Cipher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cipher.h; sourceTree = "<group>"; };
+		BF0058D92D9548A500C0F3AF /* Key.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Key.h; sourceTree = "<group>"; };
+		BF0058DB2D996AA400C0F3AF /* AEAD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AEAD.h; sourceTree = "<group>"; };
+		BF0058DC2D9A91BA00C0F3AF /* MessageDigest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageDigest.h; sourceTree = "<group>"; };
+		BF0058DD2D9A933300C0F3AF /* MAC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAC.h; sourceTree = "<group>"; };
+		BF0058DE2D9A9F9B00C0F3AF /* AEAD.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AEAD.cpp; sourceTree = "<group>"; };
+		BF0058E22D9A9FF300C0F3AF /* Cipher.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cipher.cpp; sourceTree = "<group>"; };
+		BF0058E32D9A9FF300C0F3AF /* Key.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Key.cpp; sourceTree = "<group>"; };
+		BF0058E42D9A9FF300C0F3AF /* KeyPair.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyPair.cpp; sourceTree = "<group>"; };
+		BF0058E52D9A9FF300C0F3AF /* MAC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MAC.cpp; sourceTree = "<group>"; };
+		BF0058E62D9A9FF300C0F3AF /* MessageDigest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MessageDigest.cpp; sourceTree = "<group>"; };
+		BF0058F72D9AA0D500C0F3AF /* LLObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LLObject.h; sourceTree = "<group>"; };
+		BF0058F82D9AA0D500C0F3AF /* OSSLObjects.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSSLObjects.h; sourceTree = "<group>"; };
+		BF0058F92D9AA0D500C0F3AF /* OSSLObjects.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OSSLObjects.cpp; sourceTree = "<group>"; };
+		BF0058FD2D9AA16D00C0F3AF /* CryptoPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptoPrivate.h; sourceTree = "<group>"; };
+		BF0058FF2D9AA27900C0F3AF /* AES.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AES.h; sourceTree = "<group>"; };
+		BF0059002D9AA27900C0F3AF /* AES.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AES.cpp; sourceTree = "<group>"; };
+		BF0059052D9AA68800C0F3AF /* SHA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHA.h; sourceTree = "<group>"; };
+		BF0059062D9AA68800C0F3AF /* SHA.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SHA.cpp; sourceTree = "<group>"; };
+		BF00590C2D9AB9E600C0F3AF /* KMAC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KMAC.cpp; sourceTree = "<group>"; };
+		BF0059102D9AB9F700C0F3AF /* MACBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MACBase.h; sourceTree = "<group>"; };
+		BF0059112D9AB9F700C0F3AF /* MACBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MACBase.cpp; sourceTree = "<group>"; };
+		BF0059152D9ABA6C00C0F3AF /* Algorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Algorithm.h; sourceTree = "<group>"; };
+		BF00591B2D9BFB5400C0F3AF /* KMAC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KMAC.h; sourceTree = "<group>"; };
+		BF00591C2D9BFB8A00C0F3AF /* HMAC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMAC.h; sourceTree = "<group>"; };
+		BF00591D2D9BFB8A00C0F3AF /* HMAC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HMAC.cpp; sourceTree = "<group>"; };
+		BF0059212D9C093500C0F3AF /* CryptoPrivate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CryptoPrivate.cpp; sourceTree = "<group>"; };
+		BF0059272D9C49AF00C0F3AF /* json-complex.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "json-complex.json"; sourceTree = "<group>"; };
+		BF0059282D9C49AF00C0F3AF /* json-simple.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "json-simple.json"; sourceTree = "<group>"; };
+		BF0059292D9C49AF00C0F3AF /* mac-test-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mac-test-data.json"; sourceTree = "<group>"; };
+		BF00592A2D9C49C400C0F3AF /* g_testFiles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = g_testFiles.cpp; sourceTree = "<group>"; };
+		BF0059322D9C4AC700C0F3AF /* Crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crypto.h; sourceTree = "<group>"; };
+		BF0059332D9E721400C0F3AF /* md-test-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "md-test-data.json"; sourceTree = "<group>"; };
+		BF0059342D9E72F300C0F3AF /* cc7CryptoMACTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7CryptoMACTests.cpp; sourceTree = "<group>"; };
+		BF0059352D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7CryptoMessageDigestTests.cpp; sourceTree = "<group>"; };
+		BF00593C2D9E7CC300C0F3AF /* Parameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parameter.h; sourceTree = "<group>"; };
+		BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parameter.cpp; sourceTree = "<group>"; };
+		BF0059442D9E927200C0F3AF /* MLDSA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLDSA.h; sourceTree = "<group>"; };
+		BF0059452D9E927200C0F3AF /* MLDSA.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MLDSA.cpp; sourceTree = "<group>"; };
+		BF0059492D9E957400C0F3AF /* ECDSA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECDSA.h; sourceTree = "<group>"; };
+		BF00594A2D9E957400C0F3AF /* ECDSA.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ECDSA.cpp; sourceTree = "<group>"; };
+		BF00594E2D9E982900C0F3AF /* ECKeyPair.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECKeyPair.h; sourceTree = "<group>"; };
+		BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ECKeyPair.cpp; sourceTree = "<group>"; };
+		BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SymmetricKey.cpp; sourceTree = "<group>"; };
+		BF0059592DA025CD00C0F3AF /* SymmetricKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SymmetricKey.h; sourceTree = "<group>"; };
 		BF0D67EF1CE63DF90070D853 /* PrefixCC7.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixCC7.pch; sourceTree = "<group>"; };
 		BF0D67F01CE63EDA0070D853 /* PrefixCC7Tests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixCC7Tests.pch; sourceTree = "<group>"; };
 		BF1C7BBE1CE0CE9300C4399E /* cc7PlatformTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cc7PlatformTests.cpp; sourceTree = "<group>"; };
@@ -271,7 +415,6 @@
 		BF498AA61CDCBE8400D7E904 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CC7TestWrapper.mm; sourceTree = "<group>"; };
 		BF498AAF1CDCBF4500D7E904 /* CC7Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CC7Tests.h; sourceTree = "<group>"; };
-		BF498AB41CDCC22500D7E904 /* EMPTY */ = {isa = PBXFileReference; lastKnownFileType = text; path = EMPTY; sourceTree = "<group>"; };
 		BF498AB61CDCC24F00D7E904 /* EmbeddedTestsList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EmbeddedTestsList.cpp; sourceTree = "<group>"; };
 		BF498AB81CDCC34A00D7E904 /* TestRegistrationMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestRegistrationMacros.h; sourceTree = "<group>"; };
 		BF498AB91CDD065B00D7E904 /* tt7Testception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tt7Testception.cpp; sourceTree = "<group>"; };
@@ -279,6 +422,23 @@
 		BF498ACB1CDDD80700D7E904 /* cc7ByteRangeTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cc7ByteRangeTests.cpp; sourceTree = "<group>"; };
 		BF4B4A861CB93B8B00BF2C9D /* ByteRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ByteRange.cpp; sourceTree = "<group>"; };
 		BF4B4AB41CC6BF6100BF2C9D /* CC7.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CC7.h; sourceTree = "<group>"; };
+		BF5A00082DA53F570068992F /* cc7CryptoSignature.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7CryptoSignature.cpp; sourceTree = "<group>"; };
+		BF5A000C2DA540D50068992F /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		BF5A000D2DA541930068992F /* Utility.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Utility.cpp; sourceTree = "<group>"; };
+		BF5A00152DA5D0DA0068992F /* KeyEncapsulation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyEncapsulation.h; sourceTree = "<group>"; };
+		BF5A00162DA654370068992F /* KeyAgreement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyAgreement.h; sourceTree = "<group>"; };
+		BF5A00172DA654EC0068992F /* KeyAgreement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyAgreement.cpp; sourceTree = "<group>"; };
+		BF5A001B2DA65D1F0068992F /* KeyEncapsulation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyEncapsulation.cpp; sourceTree = "<group>"; };
+		BF5A001F2DA66AB50068992F /* ECDH.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECDH.h; sourceTree = "<group>"; };
+		BF5A00202DA66AB50068992F /* ECDH.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ECDH.cpp; sourceTree = "<group>"; };
+		BF5A00242DA675B50068992F /* KeyDerivation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyDerivation.h; sourceTree = "<group>"; };
+		BF5A00252DA6768E0068992F /* KeyDerivation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyDerivation.cpp; sourceTree = "<group>"; };
+		BF5A00292DA67ECF0068992F /* BaseObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseObject.h; sourceTree = "<group>"; };
+		BF5A002A2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7CryptoKeyAgreement.cpp; sourceTree = "<group>"; };
+		BF5A002E2DA69B450068992F /* MLKEM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLKEM.h; sourceTree = "<group>"; };
+		BF5A002F2DA69B450068992F /* MLKEM.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MLKEM.cpp; sourceTree = "<group>"; };
+		BF5A00332DA906430068992F /* KeyUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyUtility.h; sourceTree = "<group>"; };
+		BF5A00342DA906430068992F /* KeyUtility.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyUtility.cpp; sourceTree = "<group>"; };
 		BF71B3E31D5AB5D800ABE831 /* README.jni.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.jni.txt; sourceTree = "<group>"; };
 		BF71B3E41D5AB95700ABE831 /* Android.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
 		BF79F0161D04BD32004653A1 /* ObjcHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjcHelper.h; sourceTree = "<group>"; };
@@ -314,16 +474,13 @@
 		BFB493E51CE8B29500F8D81B /* invalid-conf-05.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "invalid-conf-05.conf"; sourceTree = "<group>"; };
 		BFB493E61CE8B29500F8D81B /* run-tests.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "run-tests.sh"; sourceTree = "<group>"; };
 		BFB493E71CE8B29500F8D81B /* valid-conf-01.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "valid-conf-01.conf"; sourceTree = "<group>"; };
-		BFB493EB1CE8B97300F8D81B /* test-data.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "test-data.conf"; sourceTree = "<group>"; };
-		BFB493F11CE8BBE600F8D81B /* json-simple.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "json-simple.json"; sourceTree = "<group>"; };
-		BFB493F31CE8BBE600F8D81B /* EMPTY */ = {isa = PBXFileReference; lastKnownFileType = text; path = EMPTY; sourceTree = "<group>"; };
-		BFB493F51CE8BBE600F8D81B /* EMPTY */ = {isa = PBXFileReference; lastKnownFileType = text; path = EMPTY; sourceTree = "<group>"; };
+		BFB493EB1CE8B97300F8D81B /* cc7-test-data.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "cc7-test-data.conf"; sourceTree = "<group>"; };
 		BFB493F61CE8BEAF00F8D81B /* update-test-data.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "update-test-data.sh"; sourceTree = "<group>"; };
-		BFB493F71CE8D22300F8D81B /* json-complex.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "json-complex.json"; sourceTree = "<group>"; };
 		BFB493FE1CE8E74600F8D81B /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
 		BFB494001CE8E79400F8D81B /* TestDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestDirectory.cpp; sourceTree = "<group>"; };
 		BFB494021CE8E7C600F8D81B /* TestResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestResource.cpp; sourceTree = "<group>"; };
-		BFB494041CE900E500F8D81B /* g_baseFiles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = g_baseFiles.cpp; sourceTree = "<group>"; };
+		BFC372952DA02A7900BA292D /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		BFC372962DA02B2D00BA292D /* Constants.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Constants.cpp; sourceTree = "<group>"; };
 		BFC525481CDB9C13002E653C /* TestTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestTypes.h; sourceTree = "<group>"; };
 		BFC525491CDBC79F002E653C /* PerformanceTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerformanceTimer.h; sourceTree = "<group>"; };
 		BFC5254A1CDBC887002E653C /* PerformanceTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerformanceTimer.cpp; sourceTree = "<group>"; };
@@ -415,6 +572,94 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF0058CF2D94246200C0F3AF /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				BF0059322D9C4AC700C0F3AF /* Crypto.h */,
+				BFC372952DA02A7900BA292D /* Constants.h */,
+				BF5A00292DA67ECF0068992F /* BaseObject.h */,
+				BF0059152D9ABA6C00C0F3AF /* Algorithm.h */,
+				BF00593C2D9E7CC300C0F3AF /* Parameter.h */,
+				BF5A000C2DA540D50068992F /* Utility.h */,
+				BF0058D92D9548A500C0F3AF /* Key.h */,
+				BF0059592DA025CD00C0F3AF /* SymmetricKey.h */,
+				BF0058D72D942A6600C0F3AF /* KeyPair.h */,
+				BF0058D82D9547F600C0F3AF /* Cipher.h */,
+				BF0058DD2D9A933300C0F3AF /* MAC.h */,
+				BF0058DC2D9A91BA00C0F3AF /* MessageDigest.h */,
+				BF0058D02D94248A00C0F3AF /* Signature.h */,
+				BF5A00162DA654370068992F /* KeyAgreement.h */,
+				BF5A00152DA5D0DA0068992F /* KeyEncapsulation.h */,
+				BF5A00242DA675B50068992F /* KeyDerivation.h */,
+				BF0058DB2D996AA400C0F3AF /* AEAD.h */,
+			);
+			path = crypto;
+			sourceTree = "<group>";
+		};
+		BF0058D12D9424B900C0F3AF /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				BF0058FE2D9AA25200C0F3AF /* alg */,
+				BF0058F62D9AA01600C0F3AF /* detail */,
+				BF0058FD2D9AA16D00C0F3AF /* CryptoPrivate.h */,
+				BF0059212D9C093500C0F3AF /* CryptoPrivate.cpp */,
+				BFC372962DA02B2D00BA292D /* Constants.cpp */,
+				BF5A000D2DA541930068992F /* Utility.cpp */,
+				BF0058E22D9A9FF300C0F3AF /* Cipher.cpp */,
+				BF0058E32D9A9FF300C0F3AF /* Key.cpp */,
+				BF0058E42D9A9FF300C0F3AF /* KeyPair.cpp */,
+				BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */,
+				BF0058E52D9A9FF300C0F3AF /* MAC.cpp */,
+				BF0058E62D9A9FF300C0F3AF /* MessageDigest.cpp */,
+				BF0058D32D9424DC00C0F3AF /* Signature.cpp */,
+				BF5A00172DA654EC0068992F /* KeyAgreement.cpp */,
+				BF5A001B2DA65D1F0068992F /* KeyEncapsulation.cpp */,
+				BF5A00252DA6768E0068992F /* KeyDerivation.cpp */,
+				BF0058DE2D9A9F9B00C0F3AF /* AEAD.cpp */,
+				BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */,
+			);
+			path = crypto;
+			sourceTree = "<group>";
+		};
+		BF0058F62D9AA01600C0F3AF /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				BF0058F72D9AA0D500C0F3AF /* LLObject.h */,
+				BF0058F82D9AA0D500C0F3AF /* OSSLObjects.h */,
+				BF0058F92D9AA0D500C0F3AF /* OSSLObjects.cpp */,
+			);
+			path = detail;
+			sourceTree = "<group>";
+		};
+		BF0058FE2D9AA25200C0F3AF /* alg */ = {
+			isa = PBXGroup;
+			children = (
+				BF0058FF2D9AA27900C0F3AF /* AES.h */,
+				BF0059002D9AA27900C0F3AF /* AES.cpp */,
+				BF00591C2D9BFB8A00C0F3AF /* HMAC.h */,
+				BF00591D2D9BFB8A00C0F3AF /* HMAC.cpp */,
+				BF00591B2D9BFB5400C0F3AF /* KMAC.h */,
+				BF00590C2D9AB9E600C0F3AF /* KMAC.cpp */,
+				BF0059102D9AB9F700C0F3AF /* MACBase.h */,
+				BF0059112D9AB9F700C0F3AF /* MACBase.cpp */,
+				BF0059052D9AA68800C0F3AF /* SHA.h */,
+				BF0059062D9AA68800C0F3AF /* SHA.cpp */,
+				BF0059442D9E927200C0F3AF /* MLDSA.h */,
+				BF0059452D9E927200C0F3AF /* MLDSA.cpp */,
+				BF5A002E2DA69B450068992F /* MLKEM.h */,
+				BF5A002F2DA69B450068992F /* MLKEM.cpp */,
+				BF0059492D9E957400C0F3AF /* ECDSA.h */,
+				BF00594A2D9E957400C0F3AF /* ECDSA.cpp */,
+				BF5A001F2DA66AB50068992F /* ECDH.h */,
+				BF5A00202DA66AB50068992F /* ECDH.cpp */,
+				BF00594E2D9E982900C0F3AF /* ECKeyPair.h */,
+				BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */,
+				BF5A00332DA906430068992F /* KeyUtility.h */,
+				BF5A00342DA906430068992F /* KeyUtility.cpp */,
+			);
+			path = alg;
+			sourceTree = "<group>";
+		};
 		BF2723611D340E7900020395 /* jni */ = {
 			isa = PBXGroup;
 			children = (
@@ -456,7 +701,7 @@
 			children = (
 				BFB493EC1CE8B9A000F8D81B /* test-data */,
 				BFB493ED1CE8B9A000F8D81B /* test-data.generated */,
-				BFB493EB1CE8B97300F8D81B /* test-data.conf */,
+				BFB493EB1CE8B97300F8D81B /* cc7-test-data.conf */,
 				BFB493F61CE8BEAF00F8D81B /* update-test-data.sh */,
 				BF498AB11CDCC22500D7E904 /* cc7base */,
 				BF498AB31CDCC22500D7E904 /* cc7crypto */,
@@ -484,7 +729,10 @@
 		BF498AB31CDCC22500D7E904 /* cc7crypto */ = {
 			isa = PBXGroup;
 			children = (
-				BF498AB41CDCC22500D7E904 /* EMPTY */,
+				BF0059342D9E72F300C0F3AF /* cc7CryptoMACTests.cpp */,
+				BF0059352D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp */,
+				BF5A00082DA53F570068992F /* cc7CryptoSignature.cpp */,
+				BF5A002A2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp */,
 			);
 			path = cc7crypto;
 			sourceTree = "<group>";
@@ -512,6 +760,7 @@
 		BF4B4A841CB5977200BF2C9D /* cc7 */ = {
 			isa = PBXGroup;
 			children = (
+				BF0058D12D9424B900C0F3AF /* crypto */,
 				BFE173FE1CC9664500039466 /* platform */,
 				BFE174061CC96D3600039466 /* DebugFeatures.cpp */,
 				BF4B4A861CB93B8B00BF2C9D /* ByteRange.cpp */,
@@ -591,6 +840,7 @@
 		BFB1A6C21CB594BF00B2D172 /* cc7 */ = {
 			isa = PBXGroup;
 			children = (
+				BF0058CF2D94246200C0F3AF /* crypto */,
 				BF2723611D340E7900020395 /* jni */,
 				BF79F0111D04BBDC004653A1 /* objc */,
 				BF3068291CC8F607002FD3BC /* detail */,
@@ -664,9 +914,10 @@
 		BFB493EC1CE8B9A000F8D81B /* test-data */ = {
 			isa = PBXGroup;
 			children = (
-				BFB493F01CE8BBE600F8D81B /* cc7base */,
-				BFB493F21CE8BBE600F8D81B /* cc7crypto */,
-				BFB493F41CE8BBE600F8D81B /* openssl */,
+				BF0059272D9C49AF00C0F3AF /* json-complex.json */,
+				BF0059282D9C49AF00C0F3AF /* json-simple.json */,
+				BF0059292D9C49AF00C0F3AF /* mac-test-data.json */,
+				BF0059332D9E721400C0F3AF /* md-test-data.json */,
 			);
 			path = "test-data";
 			sourceTree = "<group>";
@@ -674,34 +925,9 @@
 		BFB493ED1CE8B9A000F8D81B /* test-data.generated */ = {
 			isa = PBXGroup;
 			children = (
-				BFB494041CE900E500F8D81B /* g_baseFiles.cpp */,
+				BF00592A2D9C49C400C0F3AF /* g_testFiles.cpp */,
 			);
 			path = "test-data.generated";
-			sourceTree = "<group>";
-		};
-		BFB493F01CE8BBE600F8D81B /* cc7base */ = {
-			isa = PBXGroup;
-			children = (
-				BFB493F71CE8D22300F8D81B /* json-complex.json */,
-				BFB493F11CE8BBE600F8D81B /* json-simple.json */,
-			);
-			path = cc7base;
-			sourceTree = "<group>";
-		};
-		BFB493F21CE8BBE600F8D81B /* cc7crypto */ = {
-			isa = PBXGroup;
-			children = (
-				BFB493F31CE8BBE600F8D81B /* EMPTY */,
-			);
-			path = cc7crypto;
-			sourceTree = "<group>";
-		};
-		BFB493F41CE8BBE600F8D81B /* openssl */ = {
-			isa = PBXGroup;
-			children = (
-				BFB493F51CE8BBE600F8D81B /* EMPTY */,
-			);
-			path = openssl;
 			sourceTree = "<group>";
 		};
 		BFC525471CDB9C03002E653C /* detail */ = {
@@ -1093,6 +1319,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF9FFBCA1CE3BF08006CAA74 /* cc7Base64Tests.cpp in Sources */,
+				BF0059382D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp in Sources */,
+				BF0059392D9E72F300C0F3AF /* cc7CryptoMACTests.cpp in Sources */,
 				BFC5254B1CDBC887002E653C /* PerformanceTimer.cpp in Sources */,
 				BF3068581CC95503002FD3BC /* TestLog.cpp in Sources */,
 				BF22BDFD2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */,
@@ -1105,15 +1333,18 @@
 				BF498A9A1CDBD4F600D7E904 /* StringUtils.cpp in Sources */,
 				BF498AB71CDCC24F00D7E904 /* EmbeddedTestsList.cpp in Sources */,
 				BF3068521CC91E56002FD3BC /* TestManager.cpp in Sources */,
-				BFB494071CE900E500F8D81B /* g_baseFiles.cpp in Sources */,
 				BFABCD742150036A00A9221F /* cc7Base32Tests.cpp in Sources */,
+				BF5A002B2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp in Sources */,
 				BF1C7BBF1CE0CE9300C4399E /* cc7PlatformTests.cpp in Sources */,
 				BF498ACA1CDDD7ED00D7E904 /* cc7ByteArrayTests.cpp in Sources */,
 				BFC5254E1CDBC985002E653C /* PerformanceTimerApple.cpp in Sources */,
 				BF3068551CC91EE4002FD3BC /* UnitTest.cpp in Sources */,
 				BF498ACD1CDDDABE00D7E904 /* cc7ByteRangeTests.cpp in Sources */,
+				BF5A000A2DA53F570068992F /* cc7CryptoSignature.cpp in Sources */,
+				BF0059412D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
 				BFB494011CE8E79400F8D81B /* TestDirectory.cpp in Sources */,
 				BFB493D41CE750EC00F8D81B /* JSONReader.cpp in Sources */,
+				BF00592C2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1137,13 +1368,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF5A001E2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */,
 				BF8EEC0126662A01009AC5FD /* Base64.cpp in Sources */,
+				BF0058D42D9424DC00C0F3AF /* Signature.cpp in Sources */,
+				BF5A000E2DA541930068992F /* Utility.cpp in Sources */,
+				BF5A00372DA906430068992F /* KeyUtility.cpp in Sources */,
 				BF8EEC0226662A01009AC5FD /* HexString.cpp in Sources */,
+				BFC372942DA0286D00BA292D /* SymmetricKey.cpp in Sources */,
+				BF00591F2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
 				BF8EEC0326662A01009AC5FD /* PlatformApple.mm in Sources */,
+				BF00594C2D9E957400C0F3AF /* ECDSA.cpp in Sources */,
+				BF0059032D9AA27900C0F3AF /* AES.cpp in Sources */,
+				BF00593F2D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
+				BF0058E02D9A9F9B00C0F3AF /* AEAD.cpp in Sources */,
 				BF8EEC0426662A01009AC5FD /* Base32.cpp in Sources */,
+				BF5A00212DA66AB50068992F /* ECDH.cpp in Sources */,
 				BF8EEC0526662A01009AC5FD /* ByteRange.cpp in Sources */,
 				BF8EEC0626662A01009AC5FD /* ObjcHelper.mm in Sources */,
+				BF0059122D9AB9F700C0F3AF /* MACBase.cpp in Sources */,
+				BF0059092D9AA68800C0F3AF /* SHA.cpp in Sources */,
+				BFC372982DA02B2D00BA292D /* Constants.cpp in Sources */,
+				BF0058F12D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
+				BF5A00192DA654EC0068992F /* KeyAgreement.cpp in Sources */,
+				BF00590E2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
+				BF0058F22D9A9FF300C0F3AF /* Cipher.cpp in Sources */,
+				BF0058F32D9A9FF300C0F3AF /* Key.cpp in Sources */,
+				BF0058FA2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */,
+				BF0058F42D9A9FF300C0F3AF /* MAC.cpp in Sources */,
+				BF0059482D9E927200C0F3AF /* MLDSA.cpp in Sources */,
+				BF0058F52D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */,
 				BF8EEC0726662A01009AC5FD /* DebugFeatures.cpp in Sources */,
+				BF0059522D9E982900C0F3AF /* ECKeyPair.cpp in Sources */,
+				BF5A00312DA69B450068992F /* MLKEM.cpp in Sources */,
+				BF5A00262DA6768E0068992F /* KeyDerivation.cpp in Sources */,
+				BF0059232D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */,
 				BF8EEC0826662A01009AC5FD /* ByteArray.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1153,6 +1411,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF8EEC1326662A0B009AC5FD /* cc7Base64Tests.cpp in Sources */,
+				BF00593A2D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp in Sources */,
+				BF00593B2D9E72F300C0F3AF /* cc7CryptoMACTests.cpp in Sources */,
 				BF8EEC1426662A0B009AC5FD /* PerformanceTimer.cpp in Sources */,
 				BF8EEC1526662A0B009AC5FD /* TestLog.cpp in Sources */,
 				BF8EEC1626662A0B009AC5FD /* cc7OpenSSLIntegration.cpp in Sources */,
@@ -1165,15 +1425,18 @@
 				BF8EEC1D26662A0B009AC5FD /* StringUtils.cpp in Sources */,
 				BF8EEC1E26662A0B009AC5FD /* EmbeddedTestsList.cpp in Sources */,
 				BF8EEC1F26662A0B009AC5FD /* TestManager.cpp in Sources */,
-				BF8EEC2026662A0B009AC5FD /* g_baseFiles.cpp in Sources */,
 				BF8EEC2126662A0B009AC5FD /* cc7Base32Tests.cpp in Sources */,
+				BF5A002D2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp in Sources */,
 				BF8EEC2226662A0B009AC5FD /* cc7PlatformTests.cpp in Sources */,
 				BF8EEC2326662A0B009AC5FD /* cc7ByteArrayTests.cpp in Sources */,
 				BF8EEC2426662A0B009AC5FD /* PerformanceTimerApple.cpp in Sources */,
 				BF8EEC2526662A0B009AC5FD /* UnitTest.cpp in Sources */,
 				BF8EEC2626662A0B009AC5FD /* cc7ByteRangeTests.cpp in Sources */,
+				BF5A00092DA53F570068992F /* cc7CryptoSignature.cpp in Sources */,
+				BF0059432D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
 				BF8EEC2726662A0B009AC5FD /* TestDirectory.cpp in Sources */,
 				BF8EEC2826662A0B009AC5FD /* JSONReader.cpp in Sources */,
+				BF00592B2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,13 +1444,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF5A001D2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */,
 				BF9FFBC51CE3AEFE006CAA74 /* Base64.cpp in Sources */,
+				BF0058D52D9424DC00C0F3AF /* Signature.cpp in Sources */,
+				BF5A00102DA541930068992F /* Utility.cpp in Sources */,
+				BF5A00362DA906430068992F /* KeyUtility.cpp in Sources */,
 				BF9FFBC71CE3B94D006CAA74 /* HexString.cpp in Sources */,
+				BFC372922DA0286D00BA292D /* SymmetricKey.cpp in Sources */,
+				BF00591E2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
 				BFE174041CC9664500039466 /* PlatformApple.mm in Sources */,
+				BF00594D2D9E957400C0F3AF /* ECDSA.cpp in Sources */,
+				BF0059012D9AA27900C0F3AF /* AES.cpp in Sources */,
+				BF0059402D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
+				BF0058E12D9A9F9B00C0F3AF /* AEAD.cpp in Sources */,
 				BFABCD70214C087700A9221F /* Base32.cpp in Sources */,
+				BF5A00232DA66AB50068992F /* ECDH.cpp in Sources */,
 				BF4B4A881CB93B8B00BF2C9D /* ByteRange.cpp in Sources */,
 				BF79F0181D04BFB7004653A1 /* ObjcHelper.mm in Sources */,
+				BF0059142D9AB9F700C0F3AF /* MACBase.cpp in Sources */,
+				BF0059082D9AA68800C0F3AF /* SHA.cpp in Sources */,
+				BFC372972DA02B2D00BA292D /* Constants.cpp in Sources */,
+				BF0058E72D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
+				BF5A00182DA654EC0068992F /* KeyAgreement.cpp in Sources */,
+				BF00590D2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
+				BF0058E82D9A9FF300C0F3AF /* Cipher.cpp in Sources */,
+				BF0058E92D9A9FF300C0F3AF /* Key.cpp in Sources */,
+				BF0058FC2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */,
+				BF0058EA2D9A9FF300C0F3AF /* MAC.cpp in Sources */,
+				BF0059472D9E927200C0F3AF /* MLDSA.cpp in Sources */,
+				BF0058EB2D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */,
 				BFE174071CC96D3600039466 /* DebugFeatures.cpp in Sources */,
+				BF0059512D9E982900C0F3AF /* ECKeyPair.cpp in Sources */,
+				BF5A00302DA69B450068992F /* MLKEM.cpp in Sources */,
+				BF5A00282DA6768E0068992F /* KeyDerivation.cpp in Sources */,
+				BF0059222D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */,
 				BF388B631CC62CF700DEC1AE /* ByteArray.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1196,13 +1486,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF5A001C2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */,
 				BFFE8AA12449B4F80032821F /* Base64.cpp in Sources */,
+				BF0058D62D9424DC00C0F3AF /* Signature.cpp in Sources */,
+				BF5A000F2DA541930068992F /* Utility.cpp in Sources */,
+				BF5A00352DA906430068992F /* KeyUtility.cpp in Sources */,
 				BFFE8AA22449B4F80032821F /* HexString.cpp in Sources */,
+				BFC372932DA0286D00BA292D /* SymmetricKey.cpp in Sources */,
+				BF0059202D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
 				BFFE8AA32449B4F80032821F /* PlatformApple.mm in Sources */,
+				BF00594B2D9E957400C0F3AF /* ECDSA.cpp in Sources */,
+				BF0059022D9AA27900C0F3AF /* AES.cpp in Sources */,
+				BF00593E2D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
+				BF0058DF2D9A9F9B00C0F3AF /* AEAD.cpp in Sources */,
 				BFFE8AA42449B4F80032821F /* Base32.cpp in Sources */,
+				BF5A00222DA66AB50068992F /* ECDH.cpp in Sources */,
 				BFFE8AA52449B4F80032821F /* ByteRange.cpp in Sources */,
 				BFFE8AA62449B4F80032821F /* ObjcHelper.mm in Sources */,
+				BF0059132D9AB9F700C0F3AF /* MACBase.cpp in Sources */,
+				BF0059072D9AA68800C0F3AF /* SHA.cpp in Sources */,
+				BFC372992DA02B2D00BA292D /* Constants.cpp in Sources */,
+				BF0058EC2D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
+				BF5A001A2DA654EC0068992F /* KeyAgreement.cpp in Sources */,
+				BF00590F2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
+				BF0058ED2D9A9FF300C0F3AF /* Cipher.cpp in Sources */,
+				BF0058EE2D9A9FF300C0F3AF /* Key.cpp in Sources */,
+				BF0058FB2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */,
+				BF0058EF2D9A9FF300C0F3AF /* MAC.cpp in Sources */,
+				BF0059462D9E927200C0F3AF /* MLDSA.cpp in Sources */,
+				BF0058F02D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */,
 				BFFE8AA72449B4F80032821F /* DebugFeatures.cpp in Sources */,
+				BF0059502D9E982900C0F3AF /* ECKeyPair.cpp in Sources */,
+				BF5A00322DA69B450068992F /* MLKEM.cpp in Sources */,
+				BF5A00272DA6768E0068992F /* KeyDerivation.cpp in Sources */,
+				BF0059242D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */,
 				BFFE8AA82449B4F80032821F /* ByteArray.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1212,6 +1529,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFFE8AB42449B53C0032821F /* cc7Base64Tests.cpp in Sources */,
+				BF0059362D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp in Sources */,
+				BF0059372D9E72F300C0F3AF /* cc7CryptoMACTests.cpp in Sources */,
 				BFFE8AB52449B53C0032821F /* PerformanceTimer.cpp in Sources */,
 				BFFE8AB62449B53C0032821F /* TestLog.cpp in Sources */,
 				BF22BDFE2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */,
@@ -1224,15 +1543,18 @@
 				BFFE8ABD2449B53C0032821F /* StringUtils.cpp in Sources */,
 				BFFE8ABE2449B53C0032821F /* EmbeddedTestsList.cpp in Sources */,
 				BFFE8ABF2449B53C0032821F /* TestManager.cpp in Sources */,
-				BFFE8AC02449B53C0032821F /* g_baseFiles.cpp in Sources */,
 				BFFE8AC12449B53C0032821F /* cc7Base32Tests.cpp in Sources */,
+				BF5A002C2DA68BC30068992F /* cc7CryptoKeyAgreement.cpp in Sources */,
 				BFFE8AC22449B53C0032821F /* cc7PlatformTests.cpp in Sources */,
 				BFFE8AC32449B53C0032821F /* cc7ByteArrayTests.cpp in Sources */,
 				BFFE8AC42449B53C0032821F /* PerformanceTimerApple.cpp in Sources */,
 				BFFE8AC52449B53C0032821F /* UnitTest.cpp in Sources */,
 				BFFE8AC62449B53C0032821F /* cc7ByteRangeTests.cpp in Sources */,
+				BF5A000B2DA53F570068992F /* cc7CryptoSignature.cpp in Sources */,
+				BF0059422D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
 				BFFE8AC72449B53C0032821F /* TestDirectory.cpp in Sources */,
 				BFFE8AC82449B53C0032821F /* JSONReader.cpp in Sources */,
+				BF00592D2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
