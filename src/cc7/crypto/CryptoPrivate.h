@@ -17,6 +17,7 @@
 #pragma once
 
 #include "detail/OSSLObjects.h"
+#include <cc7/crypto/Constants.h>
 
 namespace cc7
 {
@@ -27,13 +28,14 @@ void throwUnsupporterAlgorithm [[noreturn]] (const std::string & alg_name);
 
 void throwUnsupportedParam [[noreturn]] (int param_id);
 
-void throwUnsupportedKeyConversion [[noreturn]] (const std::string & key_type, const std::string & conv_format);
+void throwUnsupportedKeyFormat [[noreturn]] (const std::string & key_type, KeyFormat format);
 
 void throwInvalidKey [[noreturn]] (const std::string & key_type);
 
 bool stringHasPrefix(const std::string & str, const std::string & prefix);
+bool stringHasSuffix(const std::string & str, const std::string & suffix);
 
-cc7::ByteArray getByteArrayKeyParameter(const EVPKeyPair & key, const char * param_name);
+OSSL_LIB_CTX * ossl_ctx();
 
 } // cc7::crypto
 } // cc7

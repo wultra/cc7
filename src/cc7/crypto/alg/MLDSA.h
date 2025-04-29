@@ -44,10 +44,11 @@ class MLDSAPublicKey : public PublicKey
 public:
     // Key interface
     virtual const std::string & getKeyType() const;
-    virtual void importKey(const ByteRange & keyData, const std::string & format);
-    virtual ByteArray exportKey(const std::string & format) const;
+    virtual void importKey(const ByteRange & keyData, KeyFormat format);
+    virtual ByteArray exportKey(KeyFormat format) const;
     virtual std::shared_ptr<Key> duplicate() const;
     virtual Parameter getKeyParameter(int param_id) const;
+    virtual void setKeyParameter(int param_id, const Parameter & value);
     
     const MLDSASpec * algSpec() const { return _spec; }
     const char * algName() const { return _spec->name.c_str(); }
@@ -82,10 +83,11 @@ class MLDSAPrivateKey : public PrivateKey
 public:
     // Key interface
     virtual const std::string & getKeyType() const;
-    virtual void importKey(const ByteRange & keyData, const std::string & format);
-    virtual ByteArray exportKey(const std::string & format) const;
+    virtual void importKey(const ByteRange & keyData, KeyFormat format);
+    virtual ByteArray exportKey(KeyFormat format) const;
     virtual std::shared_ptr<Key> duplicate() const;
     virtual Parameter getKeyParameter(int param_id) const;
+    virtual void setKeyParameter(int param_id, const Parameter & value);
 
     const MLDSASpec * algSpec() const { return _spec; }
     const char * algName() const { return _spec->name.c_str(); }

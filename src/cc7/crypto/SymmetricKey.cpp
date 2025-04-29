@@ -29,15 +29,18 @@ const std::string & SymmetricKey::getKeyType() const
     return _spec->algorithm;
 }
         
-void SymmetricKey::importKey(const ByteRange & keyData, const std::string & format)
+void SymmetricKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
+    if (format != KEY_FORMAT_DEFAULT && format != KEY_FORMAT_RAW) {
+        throwUnsupportedKeyFormat(getKeyType(), format);
+    }
     setKeyData(keyData);
 }
 
-ByteArray SymmetricKey::exportKey(const std::string & format) const
+ByteArray SymmetricKey::exportKey(KeyFormat format) const
 {
-    if (format != KEY_FORMAT_DEFAULT) {
-        throwUnsupportedKeyConversion(getKeyType(), format);
+    if (format != KEY_FORMAT_DEFAULT && format != KEY_FORMAT_RAW) {
+        throwUnsupportedKeyFormat(getKeyType(), format);
     }
     return _key_data;
 }
@@ -45,7 +48,9 @@ ByteArray SymmetricKey::exportKey(const std::string & format) const
 std::shared_ptr<Key> SymmetricKey::duplicate() const
 {
     auto copied = new SymmetricKey(_spec);
-    copied->setKeyData(_key_data);
+    if (!_key_data.empty()) {
+        copied->setKeyData(_key_data);
+    }
     copied->setKeyContext(_context);
     return std::shared_ptr<Key>(copied);
 }
@@ -54,6 +59,12 @@ Parameter SymmetricKey::getKeyParameter(int param_id) const
 {
     throwUnsupportedParam(param_id);
 }
+
+void SymmetricKey::setKeyParameter(int param_id, const Parameter & value)
+{
+    throwUnsupportedParam(param_id);
+}
+
 
 std::shared_ptr<SymmetricKey> SymmetricKey::getInstance(const std::string & algorithm)
 {
@@ -64,7 +75,7 @@ std::shared_ptr<SymmetricKey> SymmetricKey::getInstance(const std::string & algo
     return std::shared_ptr<SymmetricKey>(new SymmetricKey(spec));
 }
 
-std::shared_ptr<SymmetricKey> SymmetricKey::getIntance(size_t key_size_in_bytes)
+std::shared_ptr<SymmetricKey> SymmetricKey::getInstance(size_t key_size_in_bytes)
 {
     auto spec = SymmetricKeySpec::specForSize(key_size_in_bytes);
     if (spec == nullptr) {
@@ -82,7 +93,7 @@ std::shared_ptr<SymmetricKey> SymmetricKey::getInstance(const std::string & algo
 
 std::shared_ptr<SymmetricKey> SymmetricKey::getInstance(const ByteRange & key_data)
 {
-    auto key = getIntance(key_data.size());
+    auto key = getInstance(key_data.size());
     key->setKeyData(key_data);
     return key;
 }

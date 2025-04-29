@@ -22,10 +22,10 @@ namespace cc7
 namespace tests
 {
 
-class cc7CryptoKeyAgreement : public UnitTest
+class cc7CryptoKeyAgreementTests : public UnitTest
 {
 public:
-    cc7CryptoKeyAgreement()
+    cc7CryptoKeyAgreementTests()
     {
         CC7_REGISTER_TEST_METHOD(testECDH);
         CC7_REGISTER_TEST_METHOD(testECDHWrongKeys);
@@ -68,11 +68,28 @@ public:
     
     void testECDHWrongKeys()
     {
-        // TODO: ...
+        const std::vector<std::string> key_types = {
+            "P-256", "P-384", "P-521", "ML-DSA-44", "ML-DSA-65", "ML-DSA-87"
+        };
+        auto count = key_types.size();
+        
+        auto key_agreement = crypto::KeyAgreement::getInstance("ECDH", crypto::KeyDerivation::nullDerivation());
+        for (size_t i = 0; i < count; i++) {
+            for (size_t j = i + 1; j < count; j++) {
+                auto kp1 = crypto::KeyPair::generateKeyPair(key_types[i]);
+                auto kp2 = crypto::KeyPair::generateKeyPair(key_types[j]);
+                try {
+                    key_agreement->phase(kp1->getPrivateKey(), kp2->getPublicKey());
+                    ccstFailure("Operation shold fail");
+                } catch (std::exception e) {
+                    // success
+                }
+            }
+        }
     }
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoKeyAgreement, "cc7")
+CC7_CREATE_UNIT_TEST(cc7CryptoKeyAgreementTests, "cc7")
     
 } // cc7::tests
 } // cc7

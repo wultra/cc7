@@ -35,6 +35,112 @@ struct MLKEMSpec
     static const MLKEMSpec ML_KEM_1024;
 };
 
+// PublicKey
+
+class MLKEMPublicKey : public PublicKey
+{
+public:
+    
+    // Key interface
+    virtual const std::string & getKeyType() const;
+    virtual void importKey(const ByteRange & keyData, KeyFormat format);
+    virtual ByteArray exportKey(KeyFormat format) const;
+    virtual std::shared_ptr<Key> duplicate() const;
+    virtual Parameter getKeyParameter(int param_id) const;
+    virtual void setKeyParameter(int param_id, const Parameter & value);
+    
+    const MLKEMSpec * algSpec() const { return _spec; }
+    const char * algName() const { return _spec->name.c_str(); }
+    
+    const EVPKeyPair & getEvpKey() const {
+        return _ll_key;
+    }
+    
+    EVPKeyPair & getEvpKey(){
+        return _ll_key;
+    }
+    
+    MLKEMPublicKey(const MLKEMSpec * spec) :
+        _spec(spec)
+    {}
+    
+    MLKEMPublicKey(EVPKeyPair & ll_key, const MLKEMSpec * spec) :
+        _spec(spec),
+        _ll_key(ll_key)
+    {}
+    
+private:
+    const MLKEMSpec * _spec;
+    EVPKeyPair  _ll_key;
+};
+
+// PrivateKey
+
+class MLKEMPrivateKey : public PrivateKey
+{
+public:
+    // Key interface
+    virtual const std::string & getKeyType() const;
+    virtual void importKey(const ByteRange & keyData, KeyFormat format);
+    virtual ByteArray exportKey(KeyFormat format) const;
+    virtual std::shared_ptr<Key> duplicate() const;
+    virtual Parameter getKeyParameter(int param_id) const;
+    virtual void setKeyParameter(int param_id, const Parameter & value);
+
+    const MLKEMSpec * algSpec() const { return _spec; }
+    const char * algName() const { return _spec->name.c_str(); }
+    
+    const EVPKeyPair & getEvpKey() const {
+        return _ll_key;
+    }
+    
+    EVPKeyPair & getEvpKey(){
+        return _ll_key;
+    }
+    
+    MLKEMPrivateKey(const MLKEMSpec * spec) :
+        _spec(spec)
+    {}
+    
+    MLKEMPrivateKey(EVPKeyPair & ll_key, const MLKEMSpec * spec) :
+        _spec(spec),
+        _ll_key(ll_key)
+    {}
+
+private:
+    const MLKEMSpec * _spec;
+    EVPKeyPair  _ll_key;
+};
+
+
+// KeyPairFactory
+
+class MLKEMKeyPairFactory : public KeyPairFactory
+{
+public:
+    // KeyPairFactory interface
+    virtual KeyPairPtr generateKeyPair() const;
+    virtual PublicKeyPtr newPublicKey() const;
+    virtual PrivateKeyPtr newPrivateKey() const;
+    // Algorithm interface
+    virtual const std::string & getAlgorithmName() const;
+    virtual void setParameter(int param_id, const Parameter & value);
+    virtual Parameter getParameter(int param_id) const;
+    
+    static KeyPairFactoryPtr getInstance(const std::string & key_type);
+    
+    MLKEMKeyPairFactory(const MLKEMSpec * spec) : _spec(spec) {}
+
+    const MLKEMSpec * algSpec() const { return _spec; }
+    const char * algName() const { return _spec->name.c_str(); }
+    
+private:
+    const MLKEMSpec * _spec;
+};
+
+
+// KeyEncapsulation
+
 class MLKEM : public KeyEncapsulation
 {
 public:
@@ -45,14 +151,26 @@ public:
     
     virtual KeyPairPtr generate() const;
     virtual std::pair<ByteArray, SymmetricKeyPtr> encapsulate(const PublicKey & encapsulation_key) const;
-    virtual SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key, const ByteArray & encapsulated_key) const;
-    
-private:
-    
+    virtual SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key, const ByteRange & wrapped_key) const;
+
+    // Algorithm interface
+    virtual const std::string & getAlgorithmName() const;
+    virtual void setParameter(int param_id, const Parameter & value);
+    virtual Parameter getParameter(int param_id) const;
+
     MLKEM(const MLKEMSpec * spec) : _spec(spec) {}
     
+private:
+        
     const MLKEMSpec * _spec;
+    
+    std::string _output_key_type;
+    
+    SymmetricKeyPtr buildSymmetricKey(const ByteRange & secret) const;
 };
+
+const MLKEMPublicKey & checkMLKEMPublicKey(const PublicKey & public_key, const MLKEMSpec * expected_spec);
+const MLKEMPrivateKey & checkMLKEMPrivateKey(const PrivateKey & private_key, const MLKEMSpec * expected_spec);
 
 } // cc7::crypto
 } // cc7

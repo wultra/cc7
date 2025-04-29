@@ -43,11 +43,24 @@ namespace crypto
 /// The `EVPKeyPair` is wrapper for `EVP_PKEY`.
 typedef TLLRefObject<EVP_PKEY, EVP_PKEY_new, EVP_PKEY_up_ref, EVP_PKEY_free> EVPKeyPair;
 
+void        EVPKeyPair_CheckValid(const EVPKeyPair & key, const std::string & key_type);
+ByteArray   EVPKeyPair_GetByteArrayParam(const EVPKeyPair & key, const char * param_name, bool allow_empty = true);
+ByteArray   EVPKeyPair_GetBigNumParam(const EVPKeyPair & key, const char * param_name);
+std::string EVPKeyPair_GetStringParam(const EVPKeyPair & key, const char * param_name);
+void        EVPKeyPair_SetStringParam(const EVPKeyPair & key, const char * param_name, const std::string & value);
+std::string EVPKeyPair_GetGroupName(const EVPKeyPair & key);
+std::string EVPKeyPair_GetTypeName(const EVPKeyPair & key);
+bool        EVPKeyPair_ContainsPublicKey(const EVPKeyPair & key);
+bool        EVPKeyPair_ContainsPrivateKey(const EVPKeyPair & key);
+
 /// The `EVPKeyPairCtx` is wrapper for `EVP_PKEY_CTX`.
 typedef TLLObject<EVP_PKEY_CTX, nullptr, EVP_PKEY_CTX_free> EVPKeyPairContext;
 
 /// The `EVPMDContext` is wrapper for `EVP_MD_CTX`.
 typedef TLLObject<EVP_MD_CTX, EVP_MD_CTX_new, EVP_MD_CTX_free> EVPMDContext;
+
+/// The `EVPCipher` is wrapper for `EVP_CIPHER`.
+typedef TLLRefObject<EVP_CIPHER, nullptr, EVP_CIPHER_up_ref, EVP_CIPHER_free> EVPCipher;
 
 /// The `EVPCipherContext` is wrapper for `EVP_CIPHER_CTX`.
 typedef TLLObject<EVP_CIPHER_CTX, EVP_CIPHER_CTX_new, EVP_CIPHER_CTX_free> EVPCipherContext;
@@ -69,16 +82,28 @@ typedef TLLObject<OSSL_DECODER_CTX, nullptr, OSSL_DECODER_CTX_free> OSSLDecoderC
 /// The `OSSLEncoderContext` is wrapper for `OSSL_ENCODER_CTX`.
 typedef TLLObject<OSSL_ENCODER_CTX, nullptr, OSSL_ENCODER_CTX_free> OSSLEncoderContext;
 
+/// The `OSSLCtx` is wrapper for `OSSL_LIB_CTX`.
+typedef TLLObject<OSSL_LIB_CTX, OSSL_LIB_CTX_new, OSSL_LIB_CTX_free> OSSLCtx;
+
+
 // Other
 
 /// The `BigNum` is wrapper for `BIGNUM`.
-typedef TLLObject<BIGNUM, BN_new, BN_free> BigNum;
-
-cc7::ByteArray BigNum_ToArray(const BigNum & bn);
-BigNum BigNum_FromArray(const cc7::ByteArray & array);
+typedef TLLObject<BIGNUM, BN_secure_new, BN_free> BigNum;
 
 /// The `BNContext` is wrapper for `BN_CTX`.
 typedef TLLObject<BN_CTX, BN_CTX_new, BN_CTX_free> BNContext;
+
+ByteArray BigNum_ToArray(const BigNum & bn);
+BigNum BigNum_FromArray(const cc7::ByteArray & array);
+
+/// The `ECPoint` is wrapper for `EC_POINT`.
+typedef TLLObject<EC_POINT, nullptr, EC_POINT_free> ECPoint;
+
+/// The `ECGroup` is wrapper for `EC_GROUP`.
+typedef TLLObject<EC_GROUP, nullptr, EC_GROUP_free> ECGroup;
+
+ByteArray ECPoint_ToArray(const ECGroup & g, const ECPoint & p, point_conversion_form_t conversion, BNContext & ctx);
 
 /// The `OSSLBIO` is wrapper for `BIO` structure.
 typedef TLLObject<BIO, nullptr, TWrapIntToVoid<BIO, BIO_free>> OSSLBIO;

@@ -33,6 +33,13 @@ namespace utilities
         return Align;
     }
 
+    template<size_t Align> size_t AlignValueUp(size_t value)
+    {
+        static_assert(Align > 0, "Align must be greater than 0");
+        static_assert((Align & (~Align + 1)) == Align, "Align must be power of 2");
+                      
+        return (value + Align + (Align - 1)) & ~(Align - 1);
+    }
 } // cc7::utilities
 } // cc7
 

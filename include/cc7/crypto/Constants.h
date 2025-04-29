@@ -23,19 +23,32 @@ namespace cc7
 namespace crypto
 {
 
-// Key import exrpot formats
+// Key import / export formats
 
-/// The default format, equal to `KEY_FORMAT_RAW`
-extern std::string KEY_FORMAT_DEFAULT;
-/// Format where no additional information, such as information about key type, is added.
-/// This is the default import-export key format.
-extern std::string KEY_FORMAT_RAW;
-/// DER format, including informatou about key type is included.
-extern std::string KEY_FORMAT_DER;
 /// Specifies compressed format for elliptic curve based public keys.
 extern std::string EC_PUBLIC_KEY_CONVERSION_COMPRESSED;
 /// Specifies uncompressed format for elliptic curve based public keys.
 extern std::string EC_PUBLIC_KEY_CONVERSION_UNCOMPRESSED;
+
+enum KeyFormat
+{
+    /// The default format (depends on key type)
+    KEY_FORMAT_DEFAULT,
+    /// PKCS#8 format for private keys (DER encoded)
+    KEY_FORMAT_PKCS8,
+    /// SPKI (X509) for public keys (DER encoded)
+    KEY_FORMAT_SPKI,
+    /// SEC1 format (for EC private keys)
+    KEY_FORMAT_SEC1,
+    /// X9.62 / X9.63 (for EC public keys)
+    KEY_FORMAT_X963,
+    /// Format where typically a raw key information is encoded, with no additional information about
+    /// key type.
+    KEY_FORMAT_RAW
+};
+
+extern KeyFormat   KeyFormat_FromString(const std::string & str);
+extern std::string KeyFormat_ToString(KeyFormat format, bool human_readable = false);
 
 // Algorithm parameters
 
@@ -46,10 +59,22 @@ enum AlgorithmParameterId
     /// Alter output key type. Parameter is string type.
     PARAM_OUT_KEY_TYPE          = 0x0001,
     
+    // Key specific parameters
+    
+    /// Get EC public key X component. Parameter is byte array type.
+    KEY_PARAM_EC_PUB_X          = 0x0020,
+    
+    /// Get EC public key Y component. Parameter is byte array type.
+    KEY_PARAM_EC_PUB_Y,
+    
+    /// Set or get EC public point conversion. Parameter is string, use `EC_PUBLIC_KEY_CONVERSION_COMPRESSED`
+    /// or `EC_PUBLIC_KEY_CONVERSION_UNCOMPRESSED` (default).
+    KEY_PARAM_EC_POINT_CONVERSION,
+    
     // MAC
     
     /// Alter length of output digest. Parameter is size type.
-    MAC_PARAM_DIGEST_LENGTH     = 0x0100,
+    MAC_PARAM_DIGEST_LENGTH     = 0x0040,
     
     /// Alter custom context string in MAC algorithm. Parameter is string type.
     ///
@@ -57,7 +82,7 @@ enum AlgorithmParameterId
     /// so don't mix such parameters in one instance of MAC algorithm.
     MAC_PARAM_CUSTOM_STRING,
     
-    /// Alter custom context data in MAC algorithm. Parameter is string type.
+    /// Alter custom context data in MAC algorithm. Parameter is byte array type.
     ///
     /// Be aware that underlying implementation may use a shared buffer for this parameter and `MAC_PARAM_CUSTOM_STRING`,
     /// so don't mix such parameters in one instance of MAC algorithm.
@@ -66,13 +91,15 @@ enum AlgorithmParameterId
     // KDF
     
     // Cipher
-    CIPHER_PARAM_IV             = 0x0300,
-    CIPHER_PARAM_IV_LENGTH,
+    CIPHER_PARAM_IV_LENGTH      = 0x0060,
+    
+    /// Enable or disable padding. Parameter is bool type.
+    CIPHER_PARAM_USE_PADDING,
     
     // KeyAgreement
     
     /// Alter KDF function in KeyAgreement algorithm. Parameter is KeyDerivation object.
-    KEY_AGREEMENT_PARAM_KDF     = 0x0400,
+    KEY_AGREEMENT_PARAM_KDF     = 0x0080,
 };
 
 } // cc7::crypto

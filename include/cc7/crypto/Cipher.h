@@ -27,22 +27,24 @@ namespace crypto
 class Cipher : public Algorithm
 {
 public:
-    virtual ByteArray encrypt(const ByteRange & secret_key, const ByteRange & plaintext) const = 0;
+    virtual ByteArray encrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & plaintext) const = 0;
         
-    virtual ByteArray decrypt(const ByteRange & secret_key, const ByteRange & ciphertext) const = 0;
+    virtual ByteArray decrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & ciphertext) const = 0;
     
-    ByteArray encrypt(const SymmetricKey & secret_key, const ByteRange & plaintext) const
+    ByteArray encrypt(const SymmetricKey & secret_key, const ByteRange & iv, const ByteRange & plaintext) const
     {
-        return encrypt(secret_key.getKeyData(), plaintext);
+        return encrypt(secret_key.getKeyData(), iv, plaintext);
     }
         
-    ByteArray decrypt(const SymmetricKey & secret_key, const ByteRange & ciphertext) const
+    ByteArray decrypt(const SymmetricKey & secret_key, const ByteRange & iv, const ByteRange & ciphertext) const
     {
-        return decrypt(secret_key.getKeyData(), ciphertext);
+        return decrypt(secret_key.getKeyData(), iv, ciphertext);
     }
         
     static std::shared_ptr<Cipher> getInstance(const std::string & algorithm);
 };
+
+typedef std::shared_ptr<Cipher> CipherPtr;
 
 } // cc7::crypto
 } // cc7

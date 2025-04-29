@@ -93,8 +93,15 @@ public:
     }
     
     // Return low level object captured in this object.
-    T * object() const {
+    T* object() const {
         return _ll_object;
+    }
+
+    // Return reference to internal low level object pointer. If object contains valid low level object,
+    // then this object is destroyed.
+    T** objectRef() {
+        destroy();
+        return &_ll_object;
     }
     
     // Cast TLLObject to T pointer to use in low-level functions automatically.
@@ -150,6 +157,9 @@ private:
 template <typename T, T* (*CreateFunc)(), void (*ReleaseFunc)(T*)> class TLLObject {
 public:
     
+    // Plain constructor creates an invalid object.
+    TLLObject() : _ll_object(nullptr) {}
+    
     // Move constructor - move ptr only.
     TLLObject(TLLObject && other) {
         _ll_object = other._ll_object;
@@ -189,6 +199,14 @@ public:
     T * object() const {
         return _ll_object;
     }
+    
+    // Return reference to internal low level object pointer. If object contains valid low level object,
+    // then this object is destroyed.
+    T** objectRef() {
+        destroy();
+        return &_ll_object;
+    }
+
     
     // Cast TLLObject to T pointer to use in low-level functions automatically.
     operator T * () const {

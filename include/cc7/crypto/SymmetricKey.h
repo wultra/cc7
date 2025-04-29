@@ -87,9 +87,9 @@ public:
     /// Get instance of symmetric key for specified algorithm.
     ///
     /// The following algorithms are supported:
-    /// - "AES128" or "AES-128" - for 128-bit AES keys.
-    /// - "AES192" or "AES-192" - for 192-bit AES keys.
-    /// - "AES256" or "AES-256" - for 256-bit AES keys.
+    /// - "AES-128" - for 128-bit AES keys.
+    /// - "AES-192" - for 192-bit AES keys.
+    /// - "AES-256" - for 256-bit AES keys.
     /// - "128" - for 128-bit key for unspecified algorithm.
     /// - "192" - for 192-bit key for unspecified algorithm.
     /// - "256" - for 256-bit key for unspecified algorithm.
@@ -102,18 +102,20 @@ public:
     /// Get instance of symmetric key with required length of bytes.
     ///
     /// - Parameter key_size_in_bytes: Size of key in bytes.
-    static std::shared_ptr<SymmetricKey> getIntance(size_t key_size_in_bytes);
+    static std::shared_ptr<SymmetricKey> getInstance(size_t key_size_in_bytes);
     
     
     // Key interface
     
     virtual const std::string & getKeyType() const;
             
-    virtual void importKey(const ByteRange & keyData, const std::string & format);
+    virtual void importKey(const ByteRange & keyData, KeyFormat format);
     
-    virtual ByteArray exportKey(const std::string & format) const;
+    virtual ByteArray exportKey(KeyFormat format) const;
     
     virtual Parameter getKeyParameter(int param_id) const;
+    
+    virtual void setKeyParameter(int param_id, const Parameter & value);
     
     virtual KeyPtr duplicate() const;
     

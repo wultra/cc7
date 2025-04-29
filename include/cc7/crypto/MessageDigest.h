@@ -32,5 +32,7 @@ public:
     static std::shared_ptr<MessageDigest> getInstance(const std::string & algorithm);
 };
 
+typedef std::shared_ptr<MessageDigest> MessageDigestPtr;
+
 } // cc7::crypto
 } // cc7

@@ -27,6 +27,7 @@ namespace crypto
 struct ECCurveSpec
 {
     std::string name;
+    std::string group_name;
     
     static const ECCurveSpec P_256;
     static const ECCurveSpec P_384;
@@ -40,9 +41,10 @@ struct ECCurveSpec
 class ECPublicKey : public PublicKey {
 public:
     virtual const std::string & getKeyType() const;
-    virtual void importKey(const ByteRange & keyData, const std::string & format);
-    virtual ByteArray exportKey(const std::string & format) const;
+    virtual void importKey(const ByteRange & keyData, KeyFormat format);
+    virtual ByteArray exportKey(KeyFormat format) const;
     virtual Parameter getKeyParameter(int param_id) const;
+    virtual void setKeyParameter(int param_id, const Parameter & value);
     virtual std::shared_ptr<Key> duplicate() const;
     
     const EVPKeyPair & getEvpKey() const {
@@ -70,13 +72,8 @@ public:
         _curve(curve_spec)
     {}
     
-    static ByteArray exportKeyImpl(const EVPKeyPair & ll_key, const std::string & key_format);
-    
 private:
-    
-    static bool validatePublicKey(EVPKeyPair & key);
-    const std::string & checkConversionFormat(const std::string & format) const;
-    
+        
     const ECCurveSpec * _curve;
     EVPKeyPair  _ll_key;
 };
@@ -86,9 +83,10 @@ private:
 class ECPrivateKey : public PrivateKey {
 public:
     virtual const std::string & getKeyType() const;
-    virtual void importKey(const ByteRange & keyData, const std::string & format);
-    virtual ByteArray exportKey(const std::string & format) const;
+    virtual void importKey(const ByteRange & keyData, KeyFormat format);
+    virtual ByteArray exportKey(KeyFormat format) const;
     virtual Parameter getKeyParameter(int param_id) const;
+    virtual void setKeyParameter(int param_id, const Parameter & value);
     virtual std::shared_ptr<Key> duplicate() const;
 
     const EVPKeyPair & getEvpKey() const {
@@ -115,8 +113,6 @@ public:
     ECPrivateKey(const ECCurveSpec * curve_spec) :
         _curve(curve_spec)
     {}
-    
-    static ByteArray exportKeyImpl(const EVPKeyPair & ll_key);
     
 private:
     const ECCurveSpec * _curve;

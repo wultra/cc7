@@ -26,11 +26,11 @@ namespace crypto
 std::shared_ptr<Cipher> Cipher::getInstance(const std::string & algorithm)
 {
     std::shared_ptr<Cipher> cipher;
-    if (stringHasPrefix(algorithm, "AES/")) {
+    if (stringHasPrefix(algorithm, "AES-")) {
         cipher = AES::getInstance(algorithm);
     }
     if (cipher == nullptr) {
-        throw std::invalid_argument("Unsupported cipher algorithm: " + algorithm);
+        throwUnsupporterAlgorithm(algorithm);
     }
     return cipher;
 }

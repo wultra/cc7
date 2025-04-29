@@ -15,6 +15,7 @@
  */
 
 #include "CryptoPrivate.h"
+#include <openssl/provider.h>
 
 namespace cc7
 {
@@ -31,9 +32,10 @@ void throwUnsupportedParam(int param_id)
     throw std::invalid_argument("Unsupported parameter ID=" + std::to_string(param_id));
 }
 
-void throwUnsupportedKeyConversion(const std::string & key_type, const std::string & conv_format)
+void throwUnsupportedKeyFormat(const std::string & key_type, KeyFormat format)
 {
-    throw std::invalid_argument(key_type + ": doesn't support import export conversion " + conv_format);
+    // TODO: distinguish between private / public / symmetric?
+    throw std::invalid_argument(key_type + " doesn't support " + KeyFormat_ToString(format, true) + " conversion");
 }
 
 void throwInvalidKey(const std::string & key_type)
@@ -47,20 +49,68 @@ bool stringHasPrefix(const std::string & str, const std::string & prefix)
            str.compare(0, prefix.size(), prefix) == 0;
 }
 
-cc7::ByteArray getByteArrayKeyParameter(const EVPKeyPair & key, const char * param_name)
+bool stringHasSuffix(const std::string & str, const std::string & suffix)
 {
-    cc7::ByteArray out;
-    size_t data_len = 0;
-    if (EVP_PKEY_get_octet_string_param(key, param_name, nullptr, 0, &data_len)) {
-        out.resize(data_len);
-        if (!EVP_PKEY_get_octet_string_param(key, param_name, out.data(), out.size(), &data_len)) {
-            throw std::domain_error("Failed to get EVP_PKEY parameter " + std::string(param_name));
-        }
-    } else {
-        throw std::domain_error("Failed to get EVP_PKEY parameter " + std::string(param_name));
-    }
-    return out;
+    return str.size() >= suffix.size() &&
+           str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
+
+#define NULLCTX 1
+
+class cc7CryptoInitializer {
+public:
     
+    OSSLCtx _ctx;
+    OSSL_PROVIDER * _default;
+    OSSL_PROVIDER * _base;
+    
+    static int callback(OSSL_PROVIDER *provider, void *cbdata)
+    {
+        auto name = OSSL_PROVIDER_get0_name(provider);
+        printf("Provider name: %s\n", name);
+        return 1;
+    }
+    
+    static void dumpProviders(OSSL_LIB_CTX * ctx)
+    {
+        OSSL_PROVIDER_do_all(ctx, callback, nullptr);
+    }
+    
+    cc7CryptoInitializer() {
+#if NULLCTX == 0
+        _ctx = OSSLCtx::empty();
+        
+        _default = OSSL_PROVIDER_load(_ctx, "default");
+        _base = OSSL_PROVIDER_load(_ctx, "base");
+        if (OSSL_PROVIDER_add_conf_parameter(_default, OSSL_PKEY_PARAM_ML_DSA_OUTPUT_FORMATS, "seed-only,priv-only,seed-priv") == 0) {
+            throw std::domain_error("Failed to alter OpenSSL configuration parameters");
+        }
+        if (OSSL_PROVIDER_add_conf_parameter(_base, OSSL_PKEY_PARAM_ML_DSA_OUTPUT_FORMATS, "seed-only,priv-only,seed-priv") == 0) {
+            throw std::domain_error("Failed to alter OpenSSL configuration parameters");
+        }
+        dumpProviders(_ctx);
+#endif
+    }
+    
+    ~cc7CryptoInitializer() {
+        OSSL_PROVIDER_unload(_base);
+        OSSL_PROVIDER_unload(_default);
+    }
+};
+
+static cc7CryptoInitializer s_initializer;
+
+OSSL_LIB_CTX * ossl_ctx()
+{
+#if NULLCTX == 1
+    return nullptr;
+#else
+    if (s_initializer._ctx.isValid()) {
+        return s_initializer._ctx.object();
+    }
+    throw std::domain_error("OSSL_LIB_CTX is not initialized yet");
+#endif
+}
+
 } // cc7::crypto
 } // cc7

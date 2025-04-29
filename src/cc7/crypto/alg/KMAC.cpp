@@ -36,7 +36,7 @@ std::shared_ptr<KMAC> KMAC::getInstance(const std::string & algorithm)
     } else {
         return nullptr;
     }
-    auto mac = LLMac::take(EVP_MAC_fetch(nullptr, algorithm.c_str(), nullptr));
+    auto mac = LLMac::take(EVP_MAC_fetch(ossl_ctx(), algorithm.c_str(), nullptr));
     if (!mac.isValid()) {
         throw std::domain_error("Failed to fetch KMAC algorithm " + algorithm);
     }

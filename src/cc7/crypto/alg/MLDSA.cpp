@@ -80,11 +80,11 @@ ByteArray MLDSA::sign(const PrivateKey & private_key, const ByteRange & data) co
     
     // TODO: Could we use EVP_PKEY_sign also for ECDSA and unify the algorithms?
     
-    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(nullptr, ll_key, nullptr));
+    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(ossl_ctx(), ll_key, nullptr));
     if (!ctx.isValid()) {
         throw std::domain_error("Failed to create context from private key");
     }
-    auto sig_alg = EVPSignature::take(EVP_SIGNATURE_fetch(NULL, algName(), NULL));
+    auto sig_alg = EVPSignature::take(EVP_SIGNATURE_fetch(ossl_ctx(), algName(), NULL));
     if (!sig_alg.isValid()) {
         throw std::domain_error("Failed to fetch signature algorithm");
     }
@@ -109,11 +109,11 @@ bool MLDSA::verify(const PublicKey & public_key, const ByteRange & signature, co
     const auto& ml_key = checkMLDSAPublicKey(public_key, algSpec());
     const auto& ll_key = ml_key.getEvpKey();
 
-    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(nullptr, ll_key, nullptr));
+    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(ossl_ctx(), ll_key, nullptr));
     if (!ctx.isValid()) {
         throw std::domain_error("Failed to create context from public key");
     }
-    auto sig_alg = EVPSignature::take(EVP_SIGNATURE_fetch(NULL, algName(), NULL));
+    auto sig_alg = EVPSignature::take(EVP_SIGNATURE_fetch(ossl_ctx(), algName(), NULL));
     if (!sig_alg.isValid()) {
         throw std::domain_error("Failed to fetch signature algorithm");
     }
@@ -140,25 +140,25 @@ KeyPairFactoryPtr MLDSAKeyPairFactory::getInstance(const std::string & key_type)
 
 KeyPairPtr MLDSAKeyPairFactory::generateKeyPair() const
 {
-    auto pkey = EVPKeyPair::take(EVP_PKEY_Q_keygen(nullptr, nullptr, algName()));
+    auto pkey = EVPKeyPair::take(EVP_PKEY_Q_keygen(ossl_ctx(), nullptr, algName()));
     if (!pkey.isValid()) {
         throw std::domain_error("Failed to generate ML-DSA key-pair");
     }
     auto pub_key = newPublicKey();
     auto priv_key = newPrivateKey();
-    pub_key->importKey(getByteArrayKeyParameter(pkey, OSSL_PKEY_PARAM_PUB_KEY));
-    priv_key->importKey(getByteArrayKeyParameter(pkey, OSSL_PKEY_PARAM_PRIV_KEY));
+    pub_key->importKey(exportPublicKey(pkey, algSpec()->name, KEY_FORMAT_RAW), KEY_FORMAT_RAW);
+    priv_key->importKey(exportPrivateKey(pkey, algSpec()->name, KEY_FORMAT_RAW), KEY_FORMAT_RAW);
     return std::make_shared<KeyPair>(pub_key, priv_key);
 }
 
 PublicKeyPtr MLDSAKeyPairFactory::newPublicKey() const
 {
-    return PublicKeyPtr(new MLDSAPublicKey(_spec));
+    return std::make_shared<MLDSAPublicKey>(_spec);
 }
 
 PrivateKeyPtr MLDSAKeyPairFactory::newPrivateKey() const
 {
-    return PrivateKeyPtr(new MLDSAPrivateKey(_spec));
+    return std::make_shared<MLDSAPrivateKey>(_spec);
 }
 
 // Algorithm interface
@@ -186,43 +186,31 @@ const std::string & MLDSAPublicKey::getKeyType() const
     return _spec->name;
 }
 
-void MLDSAPublicKey::importKey(const ByteRange & keyData, const std::string & format)
+void MLDSAPublicKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
-    EVPKeyPair new_key;
-    if (format == KEY_FORMAT_RAW) {
-        // RAW key format
-        new_key = importRawKey(_spec->name, true, keyData);
-    } else if (format == KEY_FORMAT_DER) {
-        // DER format
-        new_key = importKeyFromDER(_spec->name, true, keyData);
-    } else {
-        throwUnsupportedKeyConversion(algName(), format);
-    }
-    getEvpKey() = new_key;
+    getEvpKey() = importPublicKey(algSpec()->name, format, keyData);
 }
 
-ByteArray MLDSAPublicKey::exportKey(const std::string & format) const
+ByteArray MLDSAPublicKey::exportKey(KeyFormat format) const
 {
-    if (format == KEY_FORMAT_RAW) {
-        return exportKeyToRaw(_ll_key, _spec->name, true);
-    } else if (format == KEY_FORMAT_DER) {
-        return exportKeyToDER(_ll_key, _spec->name, true);
-    }
-    throwUnsupportedKeyConversion(algName(), format);
+    return exportPublicKey(_ll_key, algSpec()->name, format);
 }
 
 std::shared_ptr<Key> MLDSAPublicKey::duplicate() const
 {
-    if (!_ll_key.isValid()) {
-        throwInvalidKey(algName());
-    }
     auto duplicated = std::make_shared<MLDSAPublicKey>(algSpec());
-    duplicated->importKey(exportKey(KEY_FORMAT_RAW), KEY_FORMAT_RAW);
+    if (_ll_key.isValid()) {
+        duplicated->importKey(exportKey(KEY_FORMAT_RAW), KEY_FORMAT_RAW);
+    }
     return duplicated;
-
 }
 
 Parameter MLDSAPublicKey::getKeyParameter(int param_id) const
+{
+    throwUnsupportedParam(param_id);
+}
+
+void MLDSAPublicKey::setKeyParameter(int param_id, const Parameter & value)
 {
     throwUnsupportedParam(param_id);
 }
@@ -235,38 +223,22 @@ const std::string & MLDSAPrivateKey::getKeyType() const
     return _spec->name;
 }
 
-void MLDSAPrivateKey::importKey(const ByteRange & keyData, const std::string & format)
+void MLDSAPrivateKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
-    EVPKeyPair new_key;
-    if (format == KEY_FORMAT_RAW) {
-        // RAW key format
-        new_key = importRawKey(_spec->name, false, keyData);
-    } else if (format == KEY_FORMAT_DER) {
-        // DER format
-        new_key = importKeyFromDER(_spec->name, false, keyData);
-    } else {
-        throwUnsupportedKeyConversion(algName(), format);
-    }
-    getEvpKey() = new_key;
+    getEvpKey() = importPrivateKey(algSpec()->name, format, keyData);
 }
 
-ByteArray MLDSAPrivateKey::exportKey(const std::string & format) const
+ByteArray MLDSAPrivateKey::exportKey(KeyFormat format) const
 {
-    if (format == KEY_FORMAT_RAW) {
-        return exportKeyToRaw(_ll_key, _spec->name, false);
-    } else if (format == KEY_FORMAT_DER) {
-        return exportKeyToDER(_ll_key, _spec->name, false);
-    }
-    throwUnsupportedKeyConversion(algName(), format);
+    return exportPrivateKey(_ll_key, algSpec()->name, format);
 }
 
 std::shared_ptr<Key> MLDSAPrivateKey::duplicate() const
 {
-    if (!_ll_key.isValid()) {
-        throwInvalidKey(algName());
+    auto duplicated = std::make_shared<MLDSAPrivateKey>(algSpec());
+    if (_ll_key.isValid()) {
+        duplicated->importKey(exportKey(KEY_FORMAT_RAW), KEY_FORMAT_RAW);
     }
-    auto duplicated = std::make_shared<MLDSAPublicKey>(algSpec());
-    duplicated->importKey(exportKey(KEY_FORMAT_DEFAULT), KEY_FORMAT_DEFAULT);
     return duplicated;
 
 }
@@ -276,7 +248,10 @@ Parameter MLDSAPrivateKey::getKeyParameter(int param_id) const
     throwUnsupportedParam(param_id);
 }
 
-
+void MLDSAPrivateKey::setKeyParameter(int param_id, const Parameter & value)
+{
+    throwUnsupportedParam(param_id);
+}
 
 // MARK: - Utils
 
@@ -293,7 +268,6 @@ const MLDSAPublicKey & checkMLDSAPublicKey(const PublicKey & public_key, const M
         throw std::invalid_argument("Public key with different ML-DSA setup provided");
     }
     return *ml_key;
-
 }
 
 const MLDSAPrivateKey & checkMLDSAPrivateKey(const PrivateKey & private_key, const MLDSASpec * expected_spec)

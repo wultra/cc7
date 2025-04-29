@@ -51,7 +51,7 @@ std::shared_ptr<HMAC> HMAC::getInstance(const std::string & algorithm)
     if (!spec) {
         return nullptr;
     }
-    auto mac = LLMac::take(EVP_MAC_fetch(nullptr, "HMAC", nullptr));
+    auto mac = LLMac::take(EVP_MAC_fetch(ossl_ctx(), "HMAC", nullptr));
     if (!mac.isValid()) {
         throw std::domain_error("Failed to fetch HMAC algorithm");
     }

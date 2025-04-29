@@ -22,13 +22,32 @@ namespace cc7
 namespace crypto
 {
 
-std::string KEY_FORMAT_RAW("cc7-format-raw");
-std::string KEY_FORMAT_DER("cc7-format-der");
-std::string KEY_FORMAT_DEFAULT = KEY_FORMAT_RAW;
-
-
 std::string EC_PUBLIC_KEY_CONVERSION_COMPRESSED(OSSL_PKEY_EC_POINT_CONVERSION_FORMAT_COMPRESSED);
 std::string EC_PUBLIC_KEY_CONVERSION_UNCOMPRESSED(OSSL_PKEY_EC_POINT_CONVERSION_FORMAT_UNCOMPRESSED);
+
+KeyFormat KeyFormat_FromString(const std::string & str)
+{
+    if (str == "raw")     return KEY_FORMAT_RAW;
+    if (str == "sec1")    return KEY_FORMAT_SEC1;
+    if (str == "pkcs8")   return KEY_FORMAT_PKCS8;
+    if (str == "spki")    return KEY_FORMAT_SPKI;
+    if (str == "x963")    return KEY_FORMAT_X963;
+    if (str == "default") return KEY_FORMAT_DEFAULT;
+    throw std::invalid_argument("Unsupported key format");
+}
+
+std::string KeyFormat_ToString(KeyFormat format, bool human_readable)
+{
+    switch (format) {
+        case KEY_FORMAT_RAW:     return "raw";
+        case KEY_FORMAT_SEC1:    return human_readable ? "SEC.1" : "sec1";
+        case KEY_FORMAT_PKCS8:   return human_readable ? "PKCS#8" : "pkcs8";
+        case KEY_FORMAT_SPKI:    return "spki";
+        case KEY_FORMAT_X963:    return human_readable ? "X9.63" : "x963";
+        case KEY_FORMAT_DEFAULT: return "default";
+        default:                 throw std::invalid_argument("Unknown key format");
+    }
+}
 
 } // cc7::crypto
 } // cc7

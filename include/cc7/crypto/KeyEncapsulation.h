@@ -34,7 +34,7 @@ public:
     
     virtual std::pair<ByteArray, SymmetricKeyPtr> encapsulate(const PublicKey & encapsulation_key) const = 0;
     
-    virtual SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key, const ByteArray & encapsulated_key) const = 0;
+    virtual SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key, const ByteRange & wrapped_key) const = 0;
     
     static std::shared_ptr<KeyEncapsulation> getInstance(const std::string & algorithm);
 };

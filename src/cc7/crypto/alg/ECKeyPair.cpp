@@ -15,6 +15,7 @@
  */
 
 #include "ECKeyPair.h"
+#include "KeyUtility.h"
 
 namespace cc7
 {
@@ -23,9 +24,9 @@ namespace crypto
 
 // MARK: - ECCurveSpec structure
 
-const ECCurveSpec ECCurveSpec::P_256 = { "P-256" };
-const ECCurveSpec ECCurveSpec::P_384 = { "P-384" };
-const ECCurveSpec ECCurveSpec::P_521 = { "P-521" };
+const ECCurveSpec ECCurveSpec::P_256 = { "P-256", "prime256v1" };
+const ECCurveSpec ECCurveSpec::P_384 = { "P-384", "secp384r1" };
+const ECCurveSpec ECCurveSpec::P_521 = { "P-521", "secp521r1" };
 
 const ECCurveSpec * ECCurveSpec::nameToCurveSpec(const std::string & name)
 {
@@ -55,7 +56,7 @@ KeyPairFactoryPtr ECKeyPairFactory::getInstance(const std::string & algorithm)
 
 KeyPairPtr ECKeyPairFactory::generateKeyPair() const
 {
-    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_name(NULL, "EC", NULL));
+    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_name(ossl_ctx(), "EC", NULL));
     if (!ctx.isValid()) {
         throw std::domain_error("Failed to fetch EC key context");
     }
@@ -74,8 +75,8 @@ KeyPairPtr ECKeyPairFactory::generateKeyPair() const
     auto key_pair = EVPKeyPair::take(pkey);
     auto pub_key = newPublicKey();
     auto priv_key = newPrivateKey();
-    pub_key->importKey(ECPublicKey::exportKeyImpl(key_pair, EC_PUBLIC_KEY_CONVERSION_UNCOMPRESSED));
-    priv_key->importKey(ECPrivateKey::exportKeyImpl(key_pair));
+    pub_key->importKey(exportPublicKey(key_pair, _curve->name, KEY_FORMAT_RAW), KEY_FORMAT_RAW);
+    priv_key->importKey(exportPrivateKey(key_pair, _curve->name, KEY_FORMAT_RAW), KEY_FORMAT_RAW);
     return std::make_shared<KeyPair>(pub_key, priv_key);
 }
 
@@ -114,92 +115,53 @@ const std::string & ECPublicKey::getKeyType() const
     return curveSpec()->name;
 }
 
-void ECPublicKey::importKey(const ByteRange & keyData, const std::string & format)
+void ECPublicKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
-    checkConversionFormat(format);
-    
-    auto builder = OSSLParamBuilder::empty();
-    OSSL_PARAM_BLD_push_utf8_string(builder, OSSL_PKEY_PARAM_GROUP_NAME, curveName(), 0);
-    OSSL_PARAM_BLD_push_octet_string(builder, OSSL_PKEY_PARAM_PUB_KEY, keyData.data(), keyData.size());
-    
-    auto params = OSSLParam::take(OSSL_PARAM_BLD_to_param(builder));
-    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_name(NULL, "EC", NULL));
-    if (!ctx.isValid() || EVP_PKEY_fromdata_init(ctx) <= 0) {
-        throw std::domain_error("Failed to get and initialize EC public key context");
-    }
-    EVP_PKEY * pkey = nullptr;
-    if (EVP_PKEY_fromdata(ctx, &pkey, EVP_PKEY_PUBLIC_KEY, params) <= 0) {
-        throw std::domain_error("Failed to import EC public key");
-    }
-    auto result = EVPKeyPair::take(pkey);
-    if (!validatePublicKey(result)) {
-        throw std::domain_error("Invalid EC public key");
-    }
-    getEvpKey() = result;
+    getEvpKey() = importPublicKey(curveSpec()->name, format, keyData);
 }
 
-ByteArray ECPublicKey::exportKey(const std::string & format) const
+ByteArray ECPublicKey::exportKey(KeyFormat format) const
 {
-    const std::string & key_format = checkConversionFormat(format);
-    if (!_ll_key.isValid()) {
-        throwInvalidKey(curveSpec()->name);
-    }
-    return exportKeyImpl(_ll_key, key_format);
-}
-
-ByteArray ECPublicKey::exportKeyImpl(const EVPKeyPair & ll_key, const std::string & key_format)
-{
-    if (!EVP_PKEY_set_utf8_string_param(ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, key_format.c_str())) {
-        throw std::domain_error("Failed to set EC_POINT conversion format to " + key_format);
-    }
-    return getByteArrayKeyParameter(ll_key, OSSL_PKEY_PARAM_PUB_KEY);
+    return exportPublicKey(_ll_key, curveSpec()->name, format);
 }
 
 Parameter ECPublicKey::getKeyParameter(int param_id) const
 {
-    throwUnsupportedParam(param_id);
+    switch (param_id) {
+        case KEY_PARAM_EC_PUB_X:
+            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
+            return Parameter::copyFrom(EVPKeyPair_GetBigNumParam(_ll_key, OSSL_PKEY_PARAM_EC_PUB_X));
+        case KEY_PARAM_EC_PUB_Y:
+            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
+            return Parameter::copyFrom(EVPKeyPair_GetBigNumParam(_ll_key, OSSL_PKEY_PARAM_EC_PUB_Y));
+        case KEY_PARAM_EC_POINT_CONVERSION:
+            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
+            return Parameter::copyFrom(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
+        default:
+            throwUnsupportedParam(param_id);
+    }
+}
+
+void ECPublicKey::setKeyParameter(int param_id, const Parameter & value)
+{
+    switch (param_id) {
+        case KEY_PARAM_EC_POINT_CONVERSION:
+            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
+            EVPKeyPair_SetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, value.asString());
+            break;
+            
+        default:
+            throwUnsupportedParam(param_id);
+    }
 }
 
 std::shared_ptr<Key> ECPublicKey::duplicate() const
 {
-    if (!_ll_key.isValid()) {
-        throwInvalidKey(curveName());
-    }
     auto duplicated = std::make_shared<ECPublicKey>(curveSpec());
-    duplicated->importKey(exportKey(KEY_FORMAT_DEFAULT), KEY_FORMAT_DEFAULT);
+    if (_ll_key.isValid()) {
+        duplicated->importKey(exportKey(KEY_FORMAT_RAW), KEY_FORMAT_RAW);
+    }
     return duplicated;
-}
-
-bool ECPublicKey::validatePublicKey(EVPKeyPair & key)
-{
-    BIGNUM * coord_x = nullptr;
-    BIGNUM * coord_y = nullptr;
-    // Extract X
-    if (!EVP_PKEY_get_bn_param(key, OSSL_PKEY_PARAM_EC_PUB_X, &coord_x)) {
-        return false;
-    }
-    auto x = BigNum::take(coord_x);
-    // Extract Y
-    if (!EVP_PKEY_get_bn_param(key, OSSL_PKEY_PARAM_EC_PUB_Y, &coord_y)) {
-        return false;
-    }
-    auto y = BigNum::take(coord_y);
-    // Check infinity
-    if (BN_is_zero(x) || BN_is_zero(y)) {
-        return false;
-    }
-    return true;
-}
-
-const std::string & ECPublicKey::checkConversionFormat(const std::string & format) const
-{
-    if (format == KEY_FORMAT_DEFAULT) {
-        return EC_PUBLIC_KEY_CONVERSION_COMPRESSED;
-    }
-    if (format != EC_PUBLIC_KEY_CONVERSION_COMPRESSED && format != EC_PUBLIC_KEY_CONVERSION_UNCOMPRESSED) {
-        throwUnsupportedKeyConversion(getKeyType(), format);
-    }
-    return format;
 }
 
 
@@ -210,57 +172,49 @@ const std::string & ECPrivateKey::getKeyType() const
     return curveSpec()->name;
 }
 
-void ECPrivateKey::importKey(const ByteRange & keyData, const std::string & format)
+void ECPrivateKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
-    auto builder = OSSLParamBuilder::empty();
-    auto privateKeyBN = BigNum_FromArray(keyData);
-    OSSL_PARAM_BLD_push_utf8_string(builder, OSSL_PKEY_PARAM_GROUP_NAME, curveName(), 0);
-    OSSL_PARAM_BLD_push_BN(builder, OSSL_PKEY_PARAM_PRIV_KEY, privateKeyBN);
-    
-    auto params = OSSLParam::take(OSSL_PARAM_BLD_to_param(builder));
-    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_name(NULL, "EC", NULL));
-    if (!ctx.isValid() || EVP_PKEY_fromdata_init(ctx) <= 0) {
-        throw std::domain_error("Failed to get and initialize EC public key context");
-    }
-    EVP_PKEY * pkey = nullptr;
-    if (EVP_PKEY_fromdata(ctx, &pkey, EVP_PKEY_PRIVATE_KEY, params) <= 0) {
-        throw std::domain_error("Failed to import EC private key");
-    }
-    getEvpKey() = EVPKeyPair::take(pkey);
+    getEvpKey() = importPrivateKey(curveSpec()->name, format, keyData);
 }
 
-ByteArray ECPrivateKey::exportKey(const std::string & format) const
+ByteArray ECPrivateKey::exportKey(KeyFormat format) const
 {
-    if (format != KEY_FORMAT_DEFAULT) {
-        throwUnsupportedKeyConversion(getKeyType(), format);
-    }
-    if (!_ll_key.isValid()) {
-        throwInvalidKey(curveSpec()->name);
-    }
-    return exportKeyImpl(_ll_key);
-}
-
-ByteArray ECPrivateKey::exportKeyImpl(const EVPKeyPair &ll_key)
-{
-    BIGNUM * private_key = nullptr;
-    if (!EVP_PKEY_get_bn_param(ll_key, OSSL_PKEY_PARAM_PRIV_KEY, &private_key)) {
-        throw std::domain_error("Failed to export EC private key");
-    }
-    return BigNum_ToArray(BigNum::take(private_key));
+    return exportPrivateKey(_ll_key, curveSpec()->name, format);
 }
 
 Parameter ECPrivateKey::getKeyParameter(int param_id) const
 {
-    throwUnsupportedParam(param_id);
+    switch (param_id) {
+        case KEY_PARAM_EC_POINT_CONVERSION:
+            // Private key encodes also public key in some formats, so it makes sense to support this parameter.
+            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
+            return Parameter::copyFrom(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
+
+        default:
+            throwUnsupportedParam(param_id);
+    }
+}
+
+void ECPrivateKey::setKeyParameter(int param_id, const Parameter & value)
+{
+    switch (param_id) {
+        case KEY_PARAM_EC_POINT_CONVERSION:
+            // Private key encodes also public key, so it makes sense to support this parameter.
+            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
+            EVPKeyPair_SetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, value.asString());
+            break;
+            
+        default:
+            throwUnsupportedParam(param_id);
+    }
 }
 
 std::shared_ptr<Key> ECPrivateKey::duplicate() const
 {
-    if (!_ll_key.isValid()) {
-        throwInvalidKey(curveName());
+    auto duplicated = std::make_shared<ECPrivateKey>(curveSpec());
+    if (_ll_key.isValid()) {
+        duplicated->importKey(exportKey(KEY_FORMAT_RAW), KEY_FORMAT_RAW);
     }
-    auto duplicated = std::make_shared<ECPublicKey>(curveSpec());
-    duplicated->importKey(exportKey(KEY_FORMAT_DEFAULT), KEY_FORMAT_DEFAULT);
     return duplicated;
 }
 

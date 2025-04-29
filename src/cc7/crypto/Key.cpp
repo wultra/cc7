@@ -24,12 +24,12 @@ namespace crypto
 
 // MARK: - Key
 
-std::string Key::exportKeyToBase64(const std::string & format) const
+std::string Key::exportKeyToBase64(KeyFormat format) const
 {
     return exportKey(format).base64String();
 }
 
-void Key::importKeyFromBase64(const std::string & base64Key, const std::string & format)
+void Key::importKeyFromBase64(const std::string & base64Key, KeyFormat format)
 {
     ByteArray keyData;
     if (!keyData.readFromBase64String(base64Key)) {

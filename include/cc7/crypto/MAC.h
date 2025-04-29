@@ -62,5 +62,7 @@ public:
     static std::shared_ptr<MAC> getInstance(const std::string & algorithm);
 };
 
+typedef std::shared_ptr<MAC> MACPtr;
+
 } // cc7::crypto
 } // cc7

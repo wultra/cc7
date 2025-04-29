@@ -32,17 +32,19 @@ public:
     
     virtual const std::string & getKeyType() const = 0;
             
-    virtual void importKey(const ByteRange & key_data, const std::string & format = KEY_FORMAT_DEFAULT) = 0;
+    virtual void importKey(const ByteRange & key_data, KeyFormat format = KEY_FORMAT_DEFAULT) = 0;
     
-    virtual ByteArray exportKey(const std::string & format = KEY_FORMAT_DEFAULT) const = 0;
+    virtual ByteArray exportKey(KeyFormat format = KEY_FORMAT_DEFAULT) const = 0;
     
     virtual std::shared_ptr<Key> duplicate() const = 0;
     
     virtual Parameter getKeyParameter(int param_id) const = 0;
     
-    std::string exportKeyToBase64(const std::string & format = KEY_FORMAT_DEFAULT) const;
+    virtual void setKeyParameter(int param_id, const Parameter & value) = 0;
     
-    void importKeyFromBase64(const std::string & base64Key, const std::string & format = KEY_FORMAT_DEFAULT);
+    std::string exportKeyToBase64(KeyFormat format = KEY_FORMAT_DEFAULT) const;
+    
+    void importKeyFromBase64(const std::string & base64Key, KeyFormat format = KEY_FORMAT_DEFAULT);
 };
 
 typedef std::shared_ptr<Key> KeyPtr;

@@ -43,7 +43,7 @@ SymmetricKeyPtr ECDH::phase(const PrivateKey & private_key, const PublicKey & pe
     if (ec_private_key.curveSpec() != ec_peer_key.curveSpec()) {
         throw std::invalid_argument("Private and peer key type doesn't match");
     }
-    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(NULL, ec_private_key.getEvpKey(), NULL));
+    auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(ossl_ctx(), ec_private_key.getEvpKey(), NULL));
     if (!ctx.isValid() || EVP_PKEY_derive_init(ctx) <= 0) {
         throw std::domain_error("Failed to initialize ECDH context");
     }

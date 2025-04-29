@@ -23,11 +23,11 @@ namespace cc7
 namespace crypto
 {
 
-EVPKeyPair importKeyFromDER(const std::string & key_type, bool is_public, const ByteRange & key_data);
-EVPKeyPair importRawKey(const std::string & key_type, bool is_public, const ByteRange & key_data);
+ByteArray  exportPublicKey(const EVPKeyPair & pkey, const std::string & key_type, KeyFormat key_format);
+ByteArray  exportPrivateKey(const EVPKeyPair & pkey, const std::string & key_type, KeyFormat key_format);
 
-ByteArray exportKeyToDER(const EVPKeyPair & pkey, const std::string & key_type, bool is_public);
-ByteArray exportKeyToRaw(const EVPKeyPair & pkey, const std::string & key_type, bool is_public);
+EVPKeyPair importPublicKey(const std::string & key_type, KeyFormat key_format, const ByteRange & key_data);
+EVPKeyPair importPrivateKey(const std::string & key_type, KeyFormat key_format, const ByteRange & key_data);
 
 } // cc7::crypto
 } // cc7

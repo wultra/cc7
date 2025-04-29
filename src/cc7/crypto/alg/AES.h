@@ -24,15 +24,46 @@ namespace cc7
 namespace crypto
 {
 
+struct AESSpec
+{
+    std::string name;
+    
+    size_t key_size;
+    size_t iv_size;
+    
+    bool   need_padding;
+    
+    static bool specForAlgorithm(const std::string & algorithm, AESSpec & out_spec);
+};
+
 class AES : public Cipher
 {
 public:
     
-    virtual ByteArray encrypt(const SymmetricKey & secretKey, const ByteRange & plaintext);
-    
-    virtual ByteArray decrypt(const SymmetricKey & secretKey, const ByteRange & ciphertext);
+    // Cipher
+    virtual ByteArray encrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & plaintext) const;
+    virtual ByteArray decrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & ciphertext) const;
 
-    static std::shared_ptr<Cipher> getInstance(const std::string & algorithm);
+    // Algorithm
+    virtual const std::string & getAlgorithmName() const;
+    virtual void setParameter(int param_id, const Parameter & value);
+    virtual Parameter getParameter(int param_id) const;
+
+    static CipherPtr getInstance(const std::string & algorithm);
+    
+    
+private:
+    const AESSpec _spec;
+    EVPCipher _cipher;
+    bool _use_padding;
+    
+    AES(const AESSpec & spec, EVPCipher & cipher) :
+        _spec(spec),
+        _cipher(cipher),
+        _use_padding(spec.need_padding)
+    {}
+    
+    size_t validateInputParams(size_t key_size, size_t iv_size, size_t data_size, bool encrypt) const;
 };
 
 } // cc7::crypto
