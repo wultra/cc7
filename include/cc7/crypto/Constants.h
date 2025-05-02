@@ -58,6 +58,8 @@ enum AlgorithmParameterId
     
     /// Alter output key type. Parameter is string type.
     PARAM_OUT_KEY_TYPE          = 0x0001,
+    /// Alter output key size in bytes. Parameter is size type.
+    PARAM_OUT_KEY_SIZE,
     
     // Key specific parameters
     

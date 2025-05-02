@@ -27,10 +27,19 @@ namespace crypto
 class KeyDerivation : public Algorithm
 {
 public:
-    virtual ~KeyDerivation() = default;
     
-    virtual SymmetricKeyPtr derive(const ByteRange & key_material) const = 0;
+    virtual cc7::ByteArray deriveKey(const ByteRange & key_material, size_t out_key_size = 0) const = 0;
+    
+    SymmetricKeyPtr derive(const ByteRange & key_material, size_t out_key_size = 0) const
+    {
+        return SymmetricKey::getInstance(deriveKey(key_material, out_key_size));
+    }
 
+    SymmetricKeyPtr derive(const ByteRange & key_material, const std::string & out_key_type) const
+    {
+        return SymmetricKey::getInstance(out_key_type, deriveKey(key_material));
+    }
+    
     static std::shared_ptr<KeyDerivation> getInstance(const std::string & algorithm);
     
     static std::shared_ptr<KeyDerivation> nullDerivation();

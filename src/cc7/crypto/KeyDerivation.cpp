@@ -28,13 +28,26 @@ class NullKDF : public KeyDerivation
 {
 public:
     // KeyDerivation interface
-    virtual SymmetricKeyPtr derive(const ByteRange & key_material) const
+    virtual cc7::ByteArray deriveKey(const ByteRange & key_material, size_t out_key_size = 0) const
     {
-        if (_out_key_type.empty()) {
-            return SymmetricKey::getInstance(key_material);
+        size_t out_size;
+        if (out_key_size) {
+            out_size = out_key_size;
+        } else if (_out_key_size) {
+            out_size = out_key_size;
         } else {
-            return SymmetricKey::getInstance(_out_key_type, key_material);
+            // No size specified, use size from key material
+            return key_material;
         }
+        if (out_size > key_material.size()) {
+            // requested key size is greater than provided key
+            throw std::invalid_argument("Requested key size is greater than provided key.");
+        }
+        ByteArray out = key_material;
+        if (out_size != out.size()) {
+            out.resize(out_size);
+        }
+        return out;
     }
     
     // Algorithm interface
@@ -49,8 +62,11 @@ public:
         switch (param_id) {
             case PARAM_OUT_KEY_TYPE:
                 _out_key_type = value.asString();
+                _out_key_size = SymmetricKey::getInstance(_out_key_type)->getKeySize();
                 break;
-                
+            case PARAM_OUT_KEY_SIZE:
+                _out_key_type = value.asString();
+                break;
             default:
                 throwUnsupportedParam(param_id);
         }
@@ -62,6 +78,9 @@ public:
             case PARAM_OUT_KEY_TYPE:
                 return Parameter::from(_out_key_type);
                 
+            case PARAM_OUT_KEY_SIZE:
+                return Parameter::from(_out_key_size);
+                
             default:
                 throwUnsupportedParam(param_id);
         }
@@ -69,8 +88,11 @@ public:
     
     static const std::string NULL_KDF;
     
+    NullKDF() : _out_key_size(0) {}
+    
 private:
     std::string _out_key_type;
+    size_t      _out_key_size;
 };
 
 const std::string NullKDF::NULL_KDF = "NULL-KDF";

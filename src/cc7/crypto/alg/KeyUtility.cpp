@@ -506,20 +506,6 @@ static EVPKeyPair ec_raw_priv_import(const KeyFormatEntry & entry, const KeyForm
 
 // MARK: SEC1 format
 
-static ByteArray  sec1_pub_export(const KeyFormatEntry & entry, const KeyFormatSpec & spec, const EVPKeyPair & key)
-{
-    auto length = i2d_PublicKey(key, nullptr);
-    if (length <= 0) {
-        throw std::domain_error("Failed to get length of SEC1 key");
-    }
-    ByteArray out(length, 0);
-    unsigned char *p = out.data();
-    if (i2d_PublicKey(key, &p) < 0) {
-        throw std::domain_error("Failed to export SEC1 key");
-    }
-    return out;
-}
-
 static ByteArray  sec1_priv_export(const KeyFormatEntry & entry, const KeyFormatSpec & spec, const EVPKeyPair & key)
 {
     auto length = i2d_PrivateKey(key, nullptr);
@@ -532,14 +518,6 @@ static ByteArray  sec1_priv_export(const KeyFormatEntry & entry, const KeyFormat
         throw std::domain_error("Failed to export SEC1 key");
     }
     return out;
-}
-
-static EVPKeyPair sec1_pub_import(const KeyFormatEntry & entry, const KeyFormatSpec & spec, const ByteRange & key_data)
-{
-    EVPKeyPair key;
-    const unsigned char *p = key_data.data();
-    d2i_PUBKEY_ex(key.objectRef(), &p, key_data.size(), ossl_ctx(), nullptr);
-    return key;
 }
 
 static EVPKeyPair sec1_priv_import(const KeyFormatEntry & entry, const KeyFormatSpec & spec, const ByteRange & key_data)
