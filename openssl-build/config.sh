@@ -16,9 +16,9 @@
 
 source "${TOP}/version.sh"
 
-OPENSSL_VERSION='3.5.0-beta1'
+OPENSSL_VERSION='3.5.0'
 OPENSSL_API_VERSION='3.0.0'     # exclude deprecated functions
-OPENSSL_SHA256='8f0be61fae28c9f83dec382587b0d4103eddbdaa6c20f194da198e8f76d40fbc'
+OPENSSL_SHA256='344d0a79f1a9b08029b0744e2cc401a43f9c90acd1044d09a530b4885a8e9fc0'
 
 CC7_VERSION=${CC7_VERSION_EXT}
 CC7_BRANCH='feature/crypto4'
