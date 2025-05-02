@@ -46,7 +46,8 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../openssl-lib/android/include \
 	$(LOCAL_PATH)/cc7
 
-# Multiplatform sources
+# Multi-platform sources
+# cc7 core
 LOCAL_SRC_FILES := \
 	cc7/DebugFeatures.cpp \
 	cc7/ByteRange.cpp \
@@ -54,6 +55,40 @@ LOCAL_SRC_FILES := \
 	cc7/Base32.cpp \
 	cc7/Base64.cpp \
 	cc7/HexString.cpp
+
+# cc7/crypto
+LOCAL_SRC_FILES += \
+	cc7/crypto/detail/OSSLObjects.cpp
+	cc7/crypto/CryptoPrivate.cpp \
+	cc7/crypto/Constants.cpp \
+	cc7/crypto/Utility.cpp \
+	cc7/crypto/Cipher.cpp \
+	cc7/crypto/Key.cpp \
+	cc7/crypto/KeyPair.cpp \
+	cc7/crypto/SymmetricKey.cpp \
+	cc7/crypto/MAC.cpp \
+	cc7/crypto/MessageDigest.cpp \
+	cc7/crypto/Signature.cpp \
+	cc7/crypto/KeyAgreement.cpp \
+	cc7/crypto/KeyEncapsulation.cpp \
+	cc7/crypto/KeyDerivation.cpp \
+	cc7/crypto/AEAD.cpp \
+	cc7/crypto/Parameter.cpp \
+
+# cc7/crypto/alg
+LOCAL_SRC_FILES += \
+	cc7/crypto/alg/AES.cpp \
+	cc7/crypto/alg/HMAC.cpp \
+	cc7/crypto/alg/KMAC.cpp \
+	cc7/crypto/alg/MACBase.cpp \
+	cc7/crypto/alg/SHA.cpp \
+	cc7/crypto/alg/MLDSA.cpp \
+	cc7/crypto/alg/MLKEM.cpp \
+	cc7/crypto/alg/ECDSA.cpp \
+	cc7/crypto/alg/ECDH.cpp \
+	cc7/crypto/alg/ECKeyPair.cpp \
+	cc7/crypto/alg/KeyUtility.cpp
+	
 
 # Android specific sources
 LOCAL_SRC_FILES += \
@@ -104,7 +139,7 @@ LOCAL_SRC_FILES += \
 	cc7tests/tests/cc7base/tt7Testception.cpp \
 	cc7tests/tests/cc7base/tt7JSONReaderTests.cpp
 
-# Unit tests (CC7)
+# Unit tests (cc7)
 LOCAL_SRC_FILES += \
 	cc7tests/tests/EmbeddedTestsList.cpp \
 	cc7tests/tests/cc7base/cc7Base32Tests.cpp \
@@ -114,13 +149,23 @@ LOCAL_SRC_FILES += \
 	cc7tests/tests/cc7base/cc7HexStringTests.cpp \
 	cc7tests/tests/cc7base/cc7PlatformTests.cpp
 
+# Unit tests (cc7/crypto)
+LOCAL_SRC_FILES += \
+	cc7tests/tests/cc7crypto/cc7CryptoCipherTests.cpp \
+	cc7tests/tests/cc7crypto/cc7CryptoImportKeyTests.cpp \
+	cc7tests/tests/cc7crypto/cc7CryptoKeyAgreementTests.cpp \
+	cc7tests/tests/cc7crypto/cc7CryptoKeyEncapsulationTests.cpp \
+	cc7tests/tests/cc7crypto/cc7CryptoMACTests.cpp \
+	cc7tests/tests/cc7crypto/cc7CryptoMessageDigestTests.cpp \
+	cc7tests/tests/cc7crypto/cc7CryptoSignatureTests.cpp
+
 # Unit tests (OpenSSL)
 LOCAL_SRC_FILES += \
 	cc7tests/tests/openssl/cc7OpenSSLIntegration.cpp
 
 # Generated files
 LOCAL_SRC_FILES += \
-	cc7tests/tests/test-data.generated/g_baseFiles.cpp
+	cc7tests/tests/test-data.generated/g_testFiles.cpp
 
 
 include $(BUILD_STATIC_LIBRARY)
