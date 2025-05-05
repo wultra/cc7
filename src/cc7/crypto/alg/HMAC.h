@@ -32,11 +32,11 @@ public:
 protected:
     
     // MACBase interface
-    virtual bool prepareParams(OSSL_PARAM_BLD *builder, const ParameterList & parameters, ParameterListCtx & ctx) const;
+    virtual bool prepareParams(MACBase::MACBaseParams & params) const;
     
 private:
     
-    HMAC(LLMac & mac, const MACBaseSpec * spec) : MACBase(mac, spec) {}
+    HMAC(EVPMac & mac, const MACBaseSpec * spec) : MACBase(mac, spec) {}
 };
 
 } // cc7::crypto

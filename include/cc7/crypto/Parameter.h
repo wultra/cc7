@@ -130,6 +130,7 @@ public:
     void throwUnsupported() const;
     
     bool getString(int param_id, ParameterListCtx & ctx, std::string & out_value) const;
+    bool getStringAsBytes(int param_id, ParameterListCtx & ctx, ByteArray & out_value) const;
     bool getInt(int param_id, ParameterListCtx & ctx, int64_t & out_value) const;
     bool getSize(int param_id, ParameterListCtx & ctx, size_t & out_value) const;
     bool getBytes(int param_id, ParameterListCtx & ctx, ByteRange & out_value) const;

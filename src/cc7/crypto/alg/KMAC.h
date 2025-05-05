@@ -37,12 +37,12 @@ public:
 protected:
     
     // OSSLMAC interface
-    virtual bool prepareParams(OSSL_PARAM_BLD *builder, const ParameterList & parameters, ParameterListCtx & ctx) const;
+    virtual bool prepareParams(MACBase::MACBaseParams & params) const;
     
 private:
     ByteArray _custom;
     
-    KMAC(LLMac & mac, const MACBaseSpec * spec) : MACBase(mac, spec) {}
+    KMAC(EVPMac & mac, const MACBaseSpec * spec) : MACBase(mac, spec) {}
 };
 
 } // cc7::crypto

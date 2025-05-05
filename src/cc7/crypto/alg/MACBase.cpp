@@ -25,20 +25,23 @@ namespace crypto
 
 ByteArray MACBase::token(const ByteRange & key, const ByteRange & data, const ParameterList & parameters) const
 {
-    auto ctx = LLMacContext::take(EVP_MAC_CTX_new(_mac));
+    auto ctx = EVPMacContext::take(EVP_MAC_CTX_new(_mac));
 
     if (!ctx.isValid()) {
         throw std::domain_error("Failed to create MAC context");
     }
-
-    auto param_ctx = parameters.beginParameterProcessing();
-    auto builder = OSSLParamBuilder::empty();
-    if (!builder.isValid() || !prepareParams(builder, parameters, param_ctx)) {
+    MACBaseParams p {
+        &parameters,
+        parameters.beginParameterProcessing(),
+        OSSLParamBuilder::empty(),
+        _out_len
+    };
+    if (!p.builder.isValid() || !prepareParams(p)) {
         throw std::domain_error("Failed to prepare parameters for MAC");
     }
-    parameters.endParameterProcessing(param_ctx);
+    parameters.endParameterProcessing(p.ctx);
     
-    auto params = OSSLParam::take(OSSL_PARAM_BLD_to_param(builder));
+    auto params = OSSLParam::take(OSSL_PARAM_BLD_to_param(p.builder));
 
     if (!EVP_MAC_init(ctx, key.data(), key.size(), params)) {
         throw std::domain_error("Failed to init MAC context");
@@ -48,25 +51,39 @@ ByteArray MACBase::token(const ByteRange & key, const ByteRange & data, const Pa
     }
     // Allocate output buffer, depending on truncate mode. If truncate is enabled, then use the default size,
     // otherwise use the requested size.
-    cc7::ByteArray out(_spec->truncate_mode ? _spec->mac_size : _out_len);
+    cc7::ByteArray out(_spec->truncate_mode ? _spec->mac_size : p.out_len);
     size_t out_length;
     if (!EVP_MAC_final(ctx, out.data(), &out_length, out.size())) {
         throw std::domain_error("MAC final failed");
     }
-    if (_spec->truncate_mode && _out_len != _spec->mac_size) {
+    if (_spec->truncate_mode && p.out_len != _spec->mac_size) {
         // truncate output to requested size
-        out.resize(_out_len);
+        out.resize(p.out_len);
     }
     return out;
 }
 
-bool MACBase::prepareParams(OSSL_PARAM_BLD *builder, const ParameterList & parameters, ParameterListCtx & ctx) const
+bool MACBase::prepareParams(MACBaseParams & params) const
 {
+    if (params.input->getSize(MAC_PARAM_DIGEST_LENGTH, params.ctx, params.out_len)) {
+        params.out_len = validateMacSize(params.out_len);
+    }
     if (!_spec->truncate_mode) {
         // Truncate mode is off, so MAC supports custom size out of the box.
-        OSSL_PARAM_BLD_push_size_t(builder, OSSL_MAC_PARAM_SIZE, _out_len);
+        OSSL_PARAM_BLD_push_size_t(params.builder, OSSL_MAC_PARAM_SIZE, params.out_len);
     }
     return true;
+}
+
+size_t MACBase::validateMacSize(size_t in_size) const
+{
+    if (_spec->truncate_mode) {
+        // If truncate mode is ON, then size is limited by the default size.
+        if (in_size > _spec->mac_size) {
+            throw std::invalid_argument("Digest length is out of supported range");
+        }
+    }
+    return in_size ? in_size : _spec->mac_size;
 }
 
 // Algorithm interface
@@ -80,14 +97,7 @@ void MACBase::setParameter(int param_id, const Parameter & value)
 {
     switch (param_id) {
         case MAC_PARAM_DIGEST_LENGTH: {
-            auto len = value.asSize();
-            if (_spec->truncate_mode) {
-                // If truncate mode is ON, then size is limited by the default size.
-                if (len > _spec->mac_size) {
-                    throw std::invalid_argument("Digest length is out of supported range");
-                }
-            }
-            _out_len = len ? len : _spec->mac_size;
+            _out_len = validateMacSize(value.asSize());
             return;
         }
         default:

@@ -68,11 +68,18 @@ typedef TLLObject<EVP_CIPHER_CTX, EVP_CIPHER_CTX_new, EVP_CIPHER_CTX_free> EVPCi
 /// The `EVPSignature` is wrapper for `EVP_SIGNATURE`.
 typedef TLLRefObject<EVP_SIGNATURE, nullptr, EVP_SIGNATURE_up_ref, EVP_SIGNATURE_free> EVPSignature;
 
-/// The `EVPKDF` is wrapper for `EVP_KDF`.
-typedef TLLObject<EVP_KDF, nullptr, EVP_KDF_free> EVPKDF;
+/// The `EVPKdf` is wrapper for `EVP_KDF`.
+typedef TLLObject<EVP_KDF, nullptr, EVP_KDF_free> EVPKdf;
 
-/// The `EVPKDFContext` is wrapper for `EVP_KDF_CTX`.
-typedef TLLObject<EVP_KDF_CTX, nullptr, EVP_KDF_CTX_free> EVPKDFContext;
+/// The `EVPKdfContext` is wrapper for `EVP_KDF_CTX`.
+typedef TLLObject<EVP_KDF_CTX, nullptr, EVP_KDF_CTX_free> EVPKdfContext;
+
+/// The `EVPMac` is wrapper for `EVP_MAC`.
+typedef TLLRefObject<EVP_MAC, nullptr, EVP_MAC_up_ref, EVP_MAC_free> EVPMac;
+
+/// The `EVPMacContext` is wrapper for `EVP_MAC_CTX`.
+typedef TLLObject<EVP_MAC_CTX, nullptr, EVP_MAC_CTX_free> EVPMacContext;
+
 
 // OSSL
 

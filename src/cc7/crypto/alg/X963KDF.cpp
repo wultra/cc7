@@ -57,8 +57,8 @@ cc7::ByteArray X963KDF::deriveKeyBytes(const ByteRange & key_material, const Par
     OSSL_PARAM_BLD_push_octet_string(builder, OSSL_KDF_PARAM_INFO, in_info.data(), in_info.size());
     auto params = OSSLParam::take(OSSL_PARAM_BLD_to_param(builder));
     
-    auto kdf = EVPKDF::take(EVP_KDF_fetch(ossl_ctx(), _spec->ossl_alg.c_str(), nullptr));
-    auto ctx = EVPKDFContext::take(EVP_KDF_CTX_new(kdf));
+    auto kdf = EVPKdf::take(EVP_KDF_fetch(ossl_ctx(), _spec->ossl_alg.c_str(), nullptr));
+    auto ctx = EVPKdfContext::take(EVP_KDF_CTX_new(kdf));
     if (!ctx.isValid() || !kdf.isValid()) {
         throw std::domain_error("Failed to initialize KDF and context");
     }

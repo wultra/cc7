@@ -36,7 +36,7 @@ std::shared_ptr<KMAC> KMAC::getInstance(const std::string & algorithm)
     } else {
         return nullptr;
     }
-    auto mac = LLMac::take(EVP_MAC_fetch(ossl_ctx(), algorithm.c_str(), nullptr));
+    auto mac = EVPMac::take(EVP_MAC_fetch(ossl_ctx(), algorithm.c_str(), nullptr));
     if (!mac.isValid()) {
         throw std::domain_error("Failed to fetch KMAC algorithm " + algorithm);
     }
@@ -45,14 +45,15 @@ std::shared_ptr<KMAC> KMAC::getInstance(const std::string & algorithm)
 
 // MARK: OSSLMAC interface
 
-bool KMAC::prepareParams(OSSL_PARAM_BLD *builder, const ParameterList & parameters, ParameterListCtx & ctx) const
+bool KMAC::prepareParams(MACBase::MACBaseParams & params) const
 {
     auto custom = _custom;
-    parameters.getBytes(MAC_PARAM_CUSTOM_DATA, ctx, custom);
+    params.input->getStringAsBytes(MAC_PARAM_CUSTOM_STRING, params.ctx, custom);
+    params.input->getBytes(MAC_PARAM_CUSTOM_DATA, params.ctx, custom);
     if (!_custom.empty()) {
-        OSSL_PARAM_BLD_push_octet_string(builder, OSSL_MAC_PARAM_CUSTOM, _custom.data(), _custom.size());
+        OSSL_PARAM_BLD_push_octet_string(params.builder, OSSL_MAC_PARAM_CUSTOM, custom.data(), custom.size());
     }
-    return MACBase::prepareParams(builder, parameters, ctx);
+    return MACBase::prepareParams(params);
 }
 
 
@@ -81,7 +82,6 @@ Parameter KMAC::getParameter(int param_id) const
             return Parameter::copyFrom(CopyToString(_custom));
         case MAC_PARAM_CUSTOM_DATA:
             return Parameter::from(_custom);
-            
             
         default:
             break;

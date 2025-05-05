@@ -238,6 +238,16 @@ bool ParameterList::getString(int param_id, ParameterListCtx & ctx, std::string 
     return result;
 }
 
+bool ParameterList::getStringAsBytes(int param_id, ParameterListCtx & ctx, ByteArray & out_value) const
+{
+    parent_class::const_iterator it;
+    auto result = consume(param_id, ctx, it);
+    if (result) {
+        out_value.assign(MakeRange(it->second.asString()));
+    }
+    return result;
+}
+
 bool ParameterList::getInt(int param_id, ParameterListCtx & ctx, int64_t & out_value) const
 {
     parent_class::const_iterator it;

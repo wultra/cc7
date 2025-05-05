@@ -18,7 +18,6 @@
 
 #include <cc7/crypto/MAC.h>
 #include "../CryptoPrivate.h"
-#include <openssl/evp.h>
 
 namespace cc7
 {
@@ -49,19 +48,25 @@ public:
     virtual void setParameter(int param_id, const Parameter & value);
     virtual Parameter getParameter(int param_id) const;   
     
-public:
-    typedef TLLRefObject<EVP_MAC, nullptr, EVP_MAC_up_ref, EVP_MAC_free> LLMac;
-    typedef TLLObject<EVP_MAC_CTX, nullptr, EVP_MAC_CTX_free> LLMacContext;
-
 protected:
     
-    virtual bool prepareParams(OSSL_PARAM_BLD * builder, const ParameterList & parameters, ParameterListCtx & info) const;
+    struct MACBaseParams
+    {
+        const ParameterList * input;
+        ParameterListCtx ctx;
+        OSSLParamBuilder builder;
+        
+        size_t out_len;
+    };
     
-    LLMac   _mac;
+    virtual bool prepareParams(MACBaseParams & params) const;
+    size_t validateMacSize(size_t in_size) const;
+    
+    EVPMac   _mac;
     size_t  _out_len;
     const MACBaseSpec * _spec;
     
-    MACBase(LLMac & mac, const MACBaseSpec * spec) :
+    MACBase(EVPMac & mac, const MACBaseSpec * spec) :
         _mac(mac),
         _out_len(spec->mac_size),
         _spec(spec)
