@@ -110,7 +110,7 @@ Parameter MACBase::getParameter(int param_id) const
 {
     switch (param_id) {
         case MAC_PARAM_DIGEST_LENGTH:
-            return Parameter::from(_out_len);
+            return Parameter::take(_out_len);
             
         default:
             break;

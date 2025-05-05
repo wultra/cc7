@@ -90,7 +90,7 @@ public:
                     auto dup_key = key->duplicate();
                     try {
                         if (e_item.containsValueAtPath("fmt2")) {
-                            dup_key->setKeyParameter(crypto::KEY_PARAM_EC_POINT_CONVERSION, crypto::Parameter::from(e_item.stringAtPath("fmt2")));
+                            dup_key->setKeyParameter(crypto::KEY_PARAM_EC_POINT_CONVERSION, crypto::Parameter::ref(e_item.stringAtPath("fmt2")));
                         }
                         auto data = dup_key->exportKey(expFmt);
                         if (!should_success) {

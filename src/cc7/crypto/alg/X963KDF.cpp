@@ -26,7 +26,12 @@ namespace crypto
 const X963KDFSpec * X963KDFSpec::specForAlgorithm(const std::string & algorithm)
 {
     static const std::vector<X963KDFSpec> spec_list {
-        { "X963KDF-SHA-256", OSSL_KDF_NAME_X963KDF, "SHA-256", 32 }
+        { "X963KDF-SHA-256",  OSSL_KDF_NAME_X963KDF, "SHA-256",  32 },
+        { "X963KDF-SHA-384",  OSSL_KDF_NAME_X963KDF, "SHA-384",  48 },
+        { "X963KDF-SHA-512",  OSSL_KDF_NAME_X963KDF, "SHA-512",  64 },
+        { "X963KDF-SHA3-256", OSSL_KDF_NAME_X963KDF, "SHA3-256", 32 },
+        { "X963KDF-SHA3-384", OSSL_KDF_NAME_X963KDF, "SHA3-384", 48 },
+        { "X963KDF-SHA3-512", OSSL_KDF_NAME_X963KDF, "SHA3-512", 64 },
     };
     for (const auto & spec : spec_list) {
         if (spec.name == algorithm) {
@@ -41,7 +46,7 @@ const X963KDFSpec * X963KDFSpec::specForAlgorithm(const std::string & algorithm)
 cc7::ByteArray X963KDF::deriveKeyBytes(const ByteRange & key_material, const ParameterList & parameters) const
 {
     size_t out_size = _out_size;
-    ByteArray in_info;
+    ByteRange in_info;
     auto param_ctx = parameters.beginParameterProcessing();
     parameters.getSize(PARAM_OUT_KEY_SIZE, param_ctx, out_size);
     parameters.getBytes(KDF_PARAM_INFO, param_ctx, in_info);
@@ -90,7 +95,7 @@ Parameter X963KDF::getParameter(int param_id) const
 {
     switch (param_id) {
         case PARAM_OUT_KEY_SIZE:
-            return Parameter::from(_out_size);
+            return Parameter::take(_out_size);
             
         default:
             throwUnsupportedParam(param_id);

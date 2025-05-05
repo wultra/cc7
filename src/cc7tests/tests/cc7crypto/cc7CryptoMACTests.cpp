@@ -51,13 +51,18 @@ public:
                 auto key = test_data.dataFromHexStringAtPath("key");
                 auto input = test_data.dataFromHexStringAtPath("data");
                 auto expected_token = test_data.dataFromHexStringAtPath("mac");
+                
+                crypto::ParameterList params;
                 if (test_data.containsValueAtPath("mac_size", JSONValue::Integer)) {
-                    mac->setParameter(crypto::MAC_PARAM_DIGEST_LENGTH, crypto::Parameter::from((size_t)test_data.integerAtPath("mac_size")));
+                    params[crypto::MAC_PARAM_DIGEST_LENGTH] = crypto::Parameter::take((size_t)test_data.integerAtPath("mac_size"));
                 }
                 if (test_data.containsValueAtPath("custom")) {
-                    mac->setParameter(crypto::MAC_PARAM_CUSTOM_STRING, crypto::Parameter::from(test_data.stringAtPath("custom")));
+                    params[crypto::MAC_PARAM_CUSTOM_STRING] = crypto::Parameter::copy(test_data.stringAtPath("custom"));
                 }
-                auto token = mac->token(key, input);
+                if (test_data.containsValueAtPath("custom_data")) {
+                    params[crypto::MAC_PARAM_CUSTOM_DATA] = crypto::Parameter::copy(test_data.dataFromBase64StringAtPath("custom_data"));
+                }
+                auto token = mac->token(key, input, params);
                 ccstAssertEqual(expected_token, token);
                 if (expected_token != token) {
                     ccstMessage("%s: token: %s", algorithm.c_str(), token.hexString().c_str());

@@ -59,42 +59,42 @@ BaseObjectPtr Parameter::asObject() const
 
 // Param construction
 
-Parameter Parameter::from(bool value)
+Parameter Parameter::take(bool value)
 {
     return Parameter(new Value(value));
 }
 
-Parameter Parameter::from(size_t value)
+Parameter Parameter::take(size_t value)
 {
     return Parameter(new Value(value));
 }
 
-Parameter Parameter::from(int64_t value)
+Parameter Parameter::take(int64_t value)
 {
     return Parameter(new Value(value));
 }
 
-Parameter Parameter::from(const std::string & str)
-{
-    return Parameter(new Value(str, false));
-}
-
-Parameter Parameter::from(const BaseObjectPtr & object)
+Parameter Parameter::take(const BaseObjectPtr & object)
 {
     return Parameter(new Value(object));
 }
 
-Parameter Parameter::from(const ByteRange & range)
+Parameter Parameter::ref(const std::string & str)
+{
+    return Parameter(new Value(str, false));
+}
+
+Parameter Parameter::ref(const ByteRange & range)
 {
     return Parameter(new Value(range, false));
 }
 
-Parameter Parameter::copyFrom(const std::string & str)
+Parameter Parameter::copy(const std::string & str)
 {
     return Parameter(new Value(str, true));
 }
 
-Parameter Parameter::copyFrom(const ByteRange & range)
+Parameter Parameter::copy(const ByteRange & range)
 {
     return Parameter(new Value(range, true));
 }
@@ -238,7 +238,7 @@ bool ParameterList::getString(int param_id, ParameterListCtx & ctx, std::string 
     return result;
 }
 
-bool ParameterList::getStringAsBytes(int param_id, ParameterListCtx & ctx, ByteArray & out_value) const
+bool ParameterList::getStringAsBytes(int param_id, ParameterListCtx & ctx, ByteRange & out_value) const
 {
     parent_class::const_iterator it;
     auto result = consume(param_id, ctx, it);
@@ -269,16 +269,6 @@ bool ParameterList::getSize(int param_id, ParameterListCtx & ctx, size_t & out_v
 }
 
 bool ParameterList::getBytes(int param_id, ParameterListCtx & ctx, ByteRange & out_value) const
-{
-    parent_class::const_iterator it;
-    auto result = consume(param_id, ctx, it);
-    if (result) {
-        out_value = it->second.asByteRange();
-    }
-    return result;
-}
-
-bool ParameterList::getBytes(int param_id, ParameterListCtx & ctx, ByteArray & out_value) const
 {
     parent_class::const_iterator it;
     auto result = consume(param_id, ctx, it);

@@ -91,7 +91,7 @@ Parameter ECDH::getParameter(int param_id) const
 {
     switch (param_id) {
         case KEY_AGREEMENT_PARAM_KDF:
-            return Parameter::from(_key_derivation);
+            return Parameter::take(_key_derivation);
             
         default:
             throwUnsupportedParam(param_id);

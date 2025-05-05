@@ -99,7 +99,7 @@ public:
             }
             if (td.need_padding) {
                 encryptor = crypto::Cipher::getInstance(td.algorithm);
-                encryptor->setParameter(crypto::CIPHER_PARAM_USE_PADDING, crypto::Parameter::from(false));
+                encryptor->setParameter(crypto::CIPHER_PARAM_USE_PADDING, crypto::Parameter::take(false));
                 auto dec_key = crypto::GetRandomData(td.key_size);
                 auto enc_key = crypto::SymmetricKey::getInstance(td.key_type, dec_key);
                 auto key = crypto::GetRandomData(td.key_size);
@@ -124,7 +124,7 @@ public:
             auto alg = entry.stringAtPath("alg");
             auto encryptor = crypto::Cipher::getInstance(alg);
             if (entry.booleanAtPath("pad")) {
-                encryptor->setParameter(crypto::CIPHER_PARAM_USE_PADDING, crypto::Parameter::from(false));
+                encryptor->setParameter(crypto::CIPHER_PARAM_USE_PADDING, crypto::Parameter::take(false));
             }
             auto vectors = entry.arrayAtPath("vectors");
             for (const auto & td : vectors) {

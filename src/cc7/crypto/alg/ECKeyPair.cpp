@@ -130,13 +130,13 @@ Parameter ECPublicKey::getKeyParameter(int param_id) const
     switch (param_id) {
         case KEY_PARAM_EC_PUB_X:
             EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
-            return Parameter::copyFrom(EVPKeyPair_GetBigNumParam(_ll_key, OSSL_PKEY_PARAM_EC_PUB_X));
+            return Parameter::copy(EVPKeyPair_GetBigNumParam(_ll_key, OSSL_PKEY_PARAM_EC_PUB_X));
         case KEY_PARAM_EC_PUB_Y:
             EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
-            return Parameter::copyFrom(EVPKeyPair_GetBigNumParam(_ll_key, OSSL_PKEY_PARAM_EC_PUB_Y));
+            return Parameter::copy(EVPKeyPair_GetBigNumParam(_ll_key, OSSL_PKEY_PARAM_EC_PUB_Y));
         case KEY_PARAM_EC_POINT_CONVERSION:
             EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
-            return Parameter::copyFrom(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
+            return Parameter::copy(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
         default:
             throwUnsupportedParam(param_id);
     }
@@ -188,7 +188,7 @@ Parameter ECPrivateKey::getKeyParameter(int param_id) const
         case KEY_PARAM_EC_POINT_CONVERSION:
             // Private key encodes also public key in some formats, so it makes sense to support this parameter.
             EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
-            return Parameter::copyFrom(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
+            return Parameter::copy(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
 
         default:
             throwUnsupportedParam(param_id);

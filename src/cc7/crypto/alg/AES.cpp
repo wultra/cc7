@@ -103,12 +103,12 @@ Parameter AES::getParameter(int param_id) const
 {
     switch (param_id) {
         case CIPHER_PARAM_IV_LENGTH:
-            return Parameter::from(_spec.iv_size);
+            return Parameter::take(_spec.iv_size);
         case CIPHER_PARAM_USE_PADDING:
             if (!_spec.need_padding) {
                 throw std::invalid_argument("Padding is not supported");
             }
-            return Parameter::from(_use_padding);
+            return Parameter::take(_use_padding);
         default:
             throwUnsupportedParam(param_id);
     }

@@ -47,10 +47,10 @@ std::shared_ptr<KMAC> KMAC::getInstance(const std::string & algorithm)
 
 bool KMAC::prepareParams(MACBase::MACBaseParams & params) const
 {
-    auto custom = _custom;
+    ByteRange custom = _custom;
     params.input->getStringAsBytes(MAC_PARAM_CUSTOM_STRING, params.ctx, custom);
     params.input->getBytes(MAC_PARAM_CUSTOM_DATA, params.ctx, custom);
-    if (!_custom.empty()) {
+    if (!custom.empty()) {
         OSSL_PARAM_BLD_push_octet_string(params.builder, OSSL_MAC_PARAM_CUSTOM, custom.data(), custom.size());
     }
     return MACBase::prepareParams(params);
@@ -79,9 +79,9 @@ Parameter KMAC::getParameter(int param_id) const
 {
     switch (param_id) {
         case MAC_PARAM_CUSTOM_STRING:
-            return Parameter::copyFrom(CopyToString(_custom));
+            return Parameter::copy(CopyToString(_custom));
         case MAC_PARAM_CUSTOM_DATA:
-            return Parameter::from(_custom);
+            return Parameter::ref(_custom);
             
         default:
             break;

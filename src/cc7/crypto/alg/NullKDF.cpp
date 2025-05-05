@@ -72,10 +72,10 @@ Parameter NullKDF::getParameter(int param_id) const
 {
     switch (param_id) {
         case PARAM_OUT_KEY_TYPE:
-            return Parameter::from(_out_key_type);
+            return Parameter::ref(_out_key_type);
             
         case PARAM_OUT_KEY_SIZE:
-            return Parameter::from(_out_key_size);
+            return Parameter::take(_out_key_size);
             
         default:
             throwUnsupportedParam(param_id);

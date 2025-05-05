@@ -32,15 +32,22 @@ class Parameter
 {
 public:
     
-    static Parameter from(bool value);
-    static Parameter from(size_t value);
-    static Parameter from(int64_t value);
-    static Parameter from(const std::string & str);
-    static Parameter from(const ByteRange & range);
-    static Parameter from(const BaseObjectPtr & object);
+    Parameter() = default;
+    Parameter(const Parameter&) = default;
+    Parameter(Parameter&&) = default;
+    Parameter& operator=(const Parameter&) = default;
+    Parameter& operator=(Parameter&&) = default;
+    ~Parameter() = default;
     
-    static Parameter copyFrom(const std::string & str);
-    static Parameter copyFrom(const ByteRange & range);
+    static Parameter take(bool value);
+    static Parameter take(size_t value);
+    static Parameter take(int64_t value);
+    static Parameter take(const BaseObjectPtr & object);
+    static Parameter ref(const std::string & str);
+    static Parameter ref(const ByteRange & range);
+    
+    static Parameter copy(const std::string & str);
+    static Parameter copy(const ByteRange & range);
     
     bool asBool() const;
     size_t asSize() const;
@@ -109,7 +116,7 @@ private:
     
     Parameter(Value * v) : _value(v) {}
     
-    const std::shared_ptr<Value>_value;
+    std::shared_ptr<Value> _value;
 };
 
 
@@ -130,11 +137,10 @@ public:
     void throwUnsupported() const;
     
     bool getString(int param_id, ParameterListCtx & ctx, std::string & out_value) const;
-    bool getStringAsBytes(int param_id, ParameterListCtx & ctx, ByteArray & out_value) const;
+    bool getStringAsBytes(int param_id, ParameterListCtx & ctx, ByteRange & out_value) const;
     bool getInt(int param_id, ParameterListCtx & ctx, int64_t & out_value) const;
     bool getSize(int param_id, ParameterListCtx & ctx, size_t & out_value) const;
     bool getBytes(int param_id, ParameterListCtx & ctx, ByteRange & out_value) const;
-    bool getBytes(int param_id, ParameterListCtx & ctx, ByteArray & out_value) const;
     bool getObject(int param_id, ParameterListCtx & ctx, BaseObjectPtr & out_value) const;
     bool consumeParam(int param_id, ParameterListCtx & ctx) const;
     

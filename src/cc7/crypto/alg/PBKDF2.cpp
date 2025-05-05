@@ -27,8 +27,13 @@ const PBKDF2Spec * PBKDF2Spec::specForAlgorithm(const std::string & algorithm)
 {
     
     static const std::vector<PBKDF2Spec> spec_list {
-        { "PBKDF2-HMAC-SHA-256", OSSL_KDF_NAME_PBKDF2, "SHA-256", 32 },
-        { "PBKDF2-HMAC-SHA-1",   OSSL_KDF_NAME_PBKDF2, "SHA-1",   32 }
+        { "PBKDF2-HMAC-SHA-256",  OSSL_KDF_NAME_PBKDF2, "SHA-256",  32 },
+        { "PBKDF2-HMAC-SHA-384",  OSSL_KDF_NAME_PBKDF2, "SHA-384",  48 },
+        { "PBKDF2-HMAC-SHA-512",  OSSL_KDF_NAME_PBKDF2, "SHA-512",  64 },
+        { "PBKDF2-HMAC-SHA3-256", OSSL_KDF_NAME_PBKDF2, "SHA3-256", 32 },
+        { "PBKDF2-HMAC-SHA3-384", OSSL_KDF_NAME_PBKDF2, "SHA3-384", 48 },
+        { "PBKDF2-HMAC-SHA3-512", OSSL_KDF_NAME_PBKDF2, "SHA3-512", 64 },
+        { "PBKDF2-HMAC-SHA-1",    OSSL_KDF_NAME_PBKDF2, "SHA-1",    20 }
     };
     for (const auto & spec : spec_list) {
         if (spec.name == algorithm) {
@@ -44,7 +49,7 @@ cc7::ByteArray PBKDF2::deriveKeyBytes(const ByteRange & key_material, const Para
 {
     size_t out_size = _out_size;
     size_t in_iterations = _iterations;
-    ByteArray in_salt;
+    ByteRange in_salt;
     
     auto param_ctx = parameters.beginParameterProcessing();
     parameters.getSize(KDF_PARAM_ITERATIONS, param_ctx, in_iterations);
@@ -107,9 +112,9 @@ Parameter PBKDF2::getParameter(int param_id) const
 {
     switch (param_id) {
         case PARAM_OUT_KEY_SIZE:
-            return Parameter::from(_out_size);
+            return Parameter::take(_out_size);
         case KDF_PARAM_ITERATIONS:
-            return Parameter::from(_iterations);
+            return Parameter::take(_iterations);
             
         default:
             throwUnsupportedParam(param_id);

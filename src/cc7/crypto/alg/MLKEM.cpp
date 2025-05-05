@@ -192,7 +192,7 @@ Parameter MLKEM::getParameter(int param_id) const
 {
     switch (param_id) {
         case PARAM_OUT_KEY_TYPE:
-            return Parameter::from(_output_key_type);
+            return Parameter::ref(_output_key_type);
             
         default:
             throwUnsupportedParam(param_id);
