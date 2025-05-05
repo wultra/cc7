@@ -77,6 +77,34 @@ public:
     virtual PublicKeyPtr newPublicKey() const = 0;
     virtual PrivateKeyPtr newPrivateKey() const = 0;
     
+    PublicKeyPtr newPublicKey(const ByteRange & key_data, KeyFormat format = KEY_FORMAT_DEFAULT) const
+    {
+        auto key = newPublicKey();
+        key->importKey(key_data, format);
+        return key;
+    }
+    
+    PublicKeyPtr newPublicKey(const std::string & key_data, KeyFormat format = KEY_FORMAT_DEFAULT) const
+    {
+        auto key = newPublicKey();
+        key->importKeyFromBase64(key_data, format);
+        return key;
+    }
+
+    PrivateKeyPtr newPrivateKey(const ByteRange & key_data, KeyFormat format = KEY_FORMAT_DEFAULT) const
+    {
+        auto key = newPrivateKey();
+        key->importKey(key_data, format);
+        return key;
+    }
+    
+    PrivateKeyPtr newPrivateKey(const std::string & key_data, KeyFormat format = KEY_FORMAT_DEFAULT) const
+    {
+        auto key = newPrivateKey();
+        key->importKeyFromBase64(key_data, format);
+        return key;
+    }
+    
     static std::shared_ptr<KeyPairFactory> getInstance(const std::string & key_type);
 };
 
