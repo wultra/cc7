@@ -92,8 +92,15 @@ enum AlgorithmParameterId
     
     // KDF
     
+    /// Provide salt to KDF algorithm. Parameter is byte array type.
+    KDF_PARAM_SALT              = 0x0060,
+    /// Provide number of iterations to KDF algorithm. Parameter is size type.
+    KDF_PARAM_ITERATIONS,
+    /// Provide additional info bytes to KDF algorithm. Parameter is byte array type.
+    KDF_PARAM_INFO,
+    
     // Cipher
-    CIPHER_PARAM_IV_LENGTH      = 0x0060,
+    CIPHER_PARAM_IV_LENGTH      = 0x0080,
     
     /// Enable or disable padding. Parameter is bool type.
     CIPHER_PARAM_USE_PADDING,
@@ -101,7 +108,7 @@ enum AlgorithmParameterId
     // KeyAgreement
     
     /// Alter KDF function in KeyAgreement algorithm. Parameter is KeyDerivation object.
-    KEY_AGREEMENT_PARAM_KDF     = 0x0080,
+    KEY_AGREEMENT_PARAM_KDF     = 0x00A0,
 };
 
 } // cc7::crypto

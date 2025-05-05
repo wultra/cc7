@@ -30,11 +30,14 @@ class KeyEncapsulation : public Algorithm
 public:
     virtual ~KeyEncapsulation() = default;
     
-    virtual KeyPairPtr generate() const = 0;
+    virtual KeyPairPtr generate(const ParameterList & parameters = {}) const = 0;
     
-    virtual std::pair<ByteArray, SymmetricKeyPtr> encapsulate(const PublicKey & encapsulation_key) const = 0;
+    virtual std::pair<ByteArray, SymmetricKeyPtr> encapsulate(const PublicKey & encapsulation_key,
+                                                              const ParameterList & parameters = {}) const = 0;
     
-    virtual SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key, const ByteRange & wrapped_key) const = 0;
+    virtual SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key,
+                                        const ByteRange & wrapped_key,
+                                        const ParameterList & parameters = {}) const = 0;
     
     static std::shared_ptr<KeyEncapsulation> getInstance(const std::string & algorithm);
 };

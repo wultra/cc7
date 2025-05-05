@@ -73,8 +73,10 @@ Parameter MLDSA::getParameter(int param_id) const
 
 // Signature interface
 
-ByteArray MLDSA::sign(const PrivateKey & private_key, const ByteRange & data) const
+ByteArray MLDSA::sign(const PrivateKey & private_key, const ByteRange & data, const ParameterList & parameters) const
 {
+    parameters.throwUnsupported();
+    
     const auto& ml_key = checkMLDSAPrivateKey(private_key, algSpec());
     const auto& ll_key = ml_key.getEvpKey();
     
@@ -104,8 +106,10 @@ ByteArray MLDSA::sign(const PrivateKey & private_key, const ByteRange & data) co
     return signature;
 }
 
-bool MLDSA::verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data) const
+bool MLDSA::verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data, const ParameterList & parameters) const
 {
+    parameters.throwUnsupported();
+    
     const auto& ml_key = checkMLDSAPublicKey(public_key, algSpec());
     const auto& ll_key = ml_key.getEvpKey();
 

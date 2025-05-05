@@ -117,9 +117,10 @@ Parameter AES::getParameter(int param_id) const
 
 // MARK: Algorithm
 
-ByteArray AES::encrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & plaintext) const
+ByteArray AES::encrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & plaintext, const ParameterList & parameters) const
 {
     auto out_size = validateInputParams(secret_key.size(), iv.size(), plaintext.size(), true);
+    parameters.throwUnsupported();
     
     auto ctx = EVPCipherContext::empty();
     if (EVP_EncryptInit_ex2(ctx, _cipher, secret_key.data(), _spec.iv_size > 0 ? iv.data() : nullptr, nullptr) != 1) {
@@ -146,9 +147,10 @@ ByteArray AES::encrypt(const ByteRange & secret_key, const ByteRange & iv, const
     return out;
 }
     
-ByteArray AES::decrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & ciphertext) const
+ByteArray AES::decrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & ciphertext, const ParameterList & parameters) const
 {
     auto out_size = validateInputParams(secret_key.size(), iv.size(), ciphertext.size(), false);
+    parameters.throwUnsupported();
     
     auto ctx = EVPCipherContext::empty();
     if (EVP_DecryptInit_ex2(ctx, _cipher, secret_key.data(), _spec.iv_size > 0 ? iv.data() : nullptr, nullptr) != 1) {

@@ -23,7 +23,7 @@ namespace crypto
 
 // MARK: MAC interface
 
-ByteArray MACBase::token(const ByteRange & key, const ByteRange & data) const
+ByteArray MACBase::token(const ByteRange & key, const ByteRange & data, const ParameterList & parameters) const
 {
     auto ctx = LLMacContext::take(EVP_MAC_CTX_new(_mac));
 
@@ -31,10 +31,13 @@ ByteArray MACBase::token(const ByteRange & key, const ByteRange & data) const
         throw std::domain_error("Failed to create MAC context");
     }
 
+    auto param_ctx = parameters.beginParameterProcessing();
     auto builder = OSSLParamBuilder::empty();
-    if (!builder.isValid() || !prepareParams(builder)) {
+    if (!builder.isValid() || !prepareParams(builder, parameters, param_ctx)) {
         throw std::domain_error("Failed to prepare parameters for MAC");
     }
+    parameters.endParameterProcessing(param_ctx);
+    
     auto params = OSSLParam::take(OSSL_PARAM_BLD_to_param(builder));
 
     if (!EVP_MAC_init(ctx, key.data(), key.size(), params)) {
@@ -57,7 +60,7 @@ ByteArray MACBase::token(const ByteRange & key, const ByteRange & data) const
     return out;
 }
 
-bool MACBase::prepareParams(OSSL_PARAM_BLD *builder) const
+bool MACBase::prepareParams(OSSL_PARAM_BLD *builder, const ParameterList & parameters, ParameterListCtx & ctx) const
 {
     if (!_spec->truncate_mode) {
         // Truncate mode is off, so MAC supports custom size out of the box.

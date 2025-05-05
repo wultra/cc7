@@ -36,8 +36,10 @@ std::shared_ptr<ECDH> ECDH::getInstance(const std::string & algorithm, KeyDeriva
 
 // KeyAgreement interface
 
-SymmetricKeyPtr ECDH::phase(const PrivateKey & private_key, const PublicKey & peer_key) const
+SymmetricKeyPtr ECDH::phase(const PrivateKey & private_key, const PublicKey & peer_key, const ParameterList & parameters) const
 {
+    parameters.throwUnsupported();
+    
     const auto& ec_private_key = checkECPrivateKey(private_key, nullptr, false);
     const auto& ec_peer_key = checkECPublicKey(peer_key, nullptr);
     if (ec_private_key.curveSpec() != ec_peer_key.curveSpec()) {
@@ -59,7 +61,7 @@ SymmetricKeyPtr ECDH::phase(const PrivateKey & private_key, const PublicKey & pe
     if (EVP_PKEY_derive(ctx, raw_secret.data(), &secret_size) <= 0) {
         throw std::domain_error("Failed to compute ECDH shared secret");
     }
-    return _key_derivation->derive(raw_secret);
+    return _key_derivation->deriveKey(raw_secret);
 }
 
 // Algorithm interface

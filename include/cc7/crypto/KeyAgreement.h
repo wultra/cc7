@@ -30,7 +30,9 @@ class KeyAgreement : public Algorithm
 public:
     virtual ~KeyAgreement() = default;
     
-    virtual SymmetricKeyPtr phase(const PrivateKey & private_key, const PublicKey & peer_key) const = 0;
+    virtual SymmetricKeyPtr phase(const PrivateKey & private_key,
+                                  const PublicKey & peer_key,
+                                  const ParameterList & parameters = {}) const = 0;
     
     static std::shared_ptr<KeyAgreement> getInstance(const std::string & algorithm, const std::string & kdf_algorithm);
     

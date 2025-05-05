@@ -16,33 +16,50 @@
 
 #pragma once
 
-#include <cc7/crypto/KeyAgreement.h>
-#include "ECKeyPair.h"
+#include <cc7/crypto/KeyDerivation.h>
+#include "../CryptoPrivate.h"
 
 namespace cc7
 {
 namespace crypto
 {
 
-class ECDH : public KeyAgreement
+struct PBKDF2Spec
+{
+    std::string name;
+    
+    std::string ossl_alg;
+    std::string ossl_md;
+    
+    size_t out_size;
+    
+    static const PBKDF2Spec * specForAlgorithm(const std::string & algorithm);
+};
+
+
+class PBKDF2 : public KeyDerivation
 {
 public:
-    // KeyAgreement interface
-    virtual SymmetricKeyPtr phase(const PrivateKey & private_key, const PublicKey & peer_key, const ParameterList & parameters) const;
+    // KeyDerivation
     
-    // Algorithm interface
+    virtual cc7::ByteArray deriveKeyBytes(const ByteRange & key_material, const ParameterList & parameters) const;
+    
     virtual const std::string & getAlgorithmName() const;
     virtual void setParameter(int param_id, const Parameter & value);
     virtual Parameter getParameter(int param_id) const;
-    
-    static std::shared_ptr<ECDH> getInstance(const std::string & algorithm, KeyDerivationPtr kdf_function);
-    
+
+    static KeyDerivationPtr getInstance(const std::string & alg_name);
+
+    PBKDF2(const PBKDF2Spec * spec) : _spec(spec), _out_size(spec->out_size), _iterations(100000) {}
+
 private:
+
+    const PBKDF2Spec * _spec;
     
-    KeyDerivationPtr _key_derivation;
-    
-    ECDH(KeyDerivationPtr kdf) : _key_derivation(kdf) {}
+    size_t _out_size;
+    size_t _iterations;
 };
-    
+
 } // cc7::crypto
 } // cc7
+

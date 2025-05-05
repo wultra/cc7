@@ -44,8 +44,8 @@ class ECDSA : public Signature
 {
 public:
     // Signature interface
-    virtual ByteArray sign(const PrivateKey & private_key, const ByteRange & data) const;
-    virtual bool verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data) const;
+    virtual ByteArray sign(const PrivateKey & private_key, const ByteRange & data, const ParameterList & parameters) const;
+    virtual bool verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data, const ParameterList & parameters) const;
     
     // Algorithm interface
     virtual const std::string & getAlgorithmName() const;

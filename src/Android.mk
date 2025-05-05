@@ -87,8 +87,10 @@ LOCAL_SRC_FILES += \
 	cc7/crypto/alg/ECDSA.cpp \
 	cc7/crypto/alg/ECDH.cpp \
 	cc7/crypto/alg/ECKeyPair.cpp \
-	cc7/crypto/alg/KeyUtility.cpp
-	
+	cc7/crypto/alg/KeyUtility.cpp \
+	cc7/crypto/alg/X963KDF.cpp \
+	cc7/crypto/alg/NullKDF.cpp \
+	cc7/crypto/alg/PBKDF2.cpp
 
 # Android specific sources
 LOCAL_SRC_FILES += \

@@ -37,7 +37,7 @@ public:
 protected:
     
     // OSSLMAC interface
-    virtual bool prepareParams(OSSL_PARAM_BLD *builder) const;
+    virtual bool prepareParams(OSSL_PARAM_BLD *builder, const ParameterList & parameters, ParameterListCtx & ctx) const;
     
 private:
     ByteArray _custom;

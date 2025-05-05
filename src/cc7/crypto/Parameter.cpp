@@ -15,6 +15,7 @@
  */
 
 #include <cc7/crypto/Parameter.h>
+#include "CryptoPrivate.h"
 #include <stdexcept>
 
 namespace cc7
@@ -202,6 +203,105 @@ Parameter::Value::~Value()
             break;
     }
     _string_ptr = nullptr;
+}
+
+// MARK: - ParameterLlist
+
+ParameterListCtx ParameterList::beginParameterProcessing() const
+{
+    return ParameterListCtx();
+}
+
+void ParameterList::endParameterProcessing(const ParameterListCtx &ctx) const
+{
+    for (const auto & item : *this) {
+        if (ctx.find(item.first) == ctx.end()) {
+            throwUnsupportedParam(item.first);
+        }
+    }
+}
+
+void ParameterList::throwUnsupported() const
+{
+    if (begin() != end()) {
+        throwUnsupportedParam(begin()->first);
+    }
+}
+
+bool ParameterList::getString(int param_id, ParameterListCtx & ctx, std::string & out_value) const
+{
+    parent_class::const_iterator it;
+    auto result = consume(param_id, ctx, it);
+    if (result) {
+        out_value = it->second.asString();
+    }
+    return result;
+}
+
+bool ParameterList::getInt(int param_id, ParameterListCtx & ctx, int64_t & out_value) const
+{
+    parent_class::const_iterator it;
+    auto result = consume(param_id, ctx, it);
+    if (result) {
+        out_value = it->second.asInt();
+    }
+    return result;
+}
+
+bool ParameterList::getSize(int param_id, ParameterListCtx & ctx, size_t & out_value) const
+{
+    parent_class::const_iterator it;
+    auto result = consume(param_id, ctx, it);
+    if (result) {
+        out_value = it->second.asSize();
+    }
+    return result;
+}
+
+bool ParameterList::getBytes(int param_id, ParameterListCtx & ctx, ByteRange & out_value) const
+{
+    parent_class::const_iterator it;
+    auto result = consume(param_id, ctx, it);
+    if (result) {
+        out_value = it->second.asByteRange();
+    }
+    return result;
+}
+
+bool ParameterList::getBytes(int param_id, ParameterListCtx & ctx, ByteArray & out_value) const
+{
+    parent_class::const_iterator it;
+    auto result = consume(param_id, ctx, it);
+    if (result) {
+        out_value = it->second.asByteRange();
+    }
+    return result;
+}
+
+bool ParameterList::getObject(int param_id, ParameterListCtx & ctx, BaseObjectPtr & out_value) const
+{
+    parent_class::const_iterator it;
+    auto result = consume(param_id, ctx, it);
+    if (result) {
+        out_value = it->second.asObject();
+    }
+    return result;
+}
+
+bool ParameterList::consumeParam(int param_id, ParameterListCtx & ctx) const
+{
+    parent_class::const_iterator foo;
+    return consume(param_id, ctx, foo);
+}
+
+bool ParameterList::consume(int param_id, ParameterListCtx &ctx, parent_class::const_iterator &out) const
+{
+    out = find(param_id);
+    bool found = out != end();
+    if (found) {
+        ctx.insert(param_id);
+    }
+    return found;
 }
 
 } // cc7::crypto

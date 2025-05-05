@@ -60,10 +60,10 @@ std::shared_ptr<HMAC> HMAC::getInstance(const std::string & algorithm)
 
 // MARK: OSSLMAC interface
 
-bool HMAC::prepareParams(OSSL_PARAM_BLD *builder) const
+bool HMAC::prepareParams(OSSL_PARAM_BLD *builder, const ParameterList & parameters, ParameterListCtx & ctx) const
 {
     OSSL_PARAM_BLD_push_utf8_string(builder, OSSL_MAC_PARAM_DIGEST, _spec->md_name.c_str(), _spec->md_name.size());
-    return MACBase::prepareParams(builder);
+    return MACBase::prepareParams(builder, parameters, ctx);
 }
 
 } // cc7::crypto

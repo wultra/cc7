@@ -45,12 +45,14 @@ std::shared_ptr<KMAC> KMAC::getInstance(const std::string & algorithm)
 
 // MARK: OSSLMAC interface
 
-bool KMAC::prepareParams(OSSL_PARAM_BLD *builder) const
+bool KMAC::prepareParams(OSSL_PARAM_BLD *builder, const ParameterList & parameters, ParameterListCtx & ctx) const
 {
+    auto custom = _custom;
+    parameters.getBytes(MAC_PARAM_CUSTOM_DATA, ctx, custom);
     if (!_custom.empty()) {
         OSSL_PARAM_BLD_push_octet_string(builder, OSSL_MAC_PARAM_CUSTOM, _custom.data(), _custom.size());
     }
-    return MACBase::prepareParams(builder);
+    return MACBase::prepareParams(builder, parameters, ctx);
 }
 
 

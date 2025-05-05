@@ -55,8 +55,9 @@ std::shared_ptr<SHA> SHA::getInstance(const std::string & algorithm)
 
 // MessageDigest interface
 
-ByteArray SHA::digest(const ByteRange & input) const
+ByteArray SHA::digest(const ByteRange & input, const ParameterList & parameters) const
 {
+    parameters.throwUnsupported();
     cc7::ByteArray hash(_spec->digest_size, 0);
     auto ctx = EVPMDContext::empty();
     EVP_DigestInit(ctx, _spec->md);

@@ -35,7 +35,7 @@ class SHA : public MessageDigest
 {
 public:
 
-    virtual ByteArray digest(const ByteRange & input) const;
+    virtual ByteArray digest(const ByteRange & input, const ParameterList & parameters) const;
     
     static std::shared_ptr<SHA> getInstance(const std::string & algorithm);
     

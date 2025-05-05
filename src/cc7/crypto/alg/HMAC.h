@@ -31,8 +31,8 @@ public:
 
 protected:
     
-    // OSSLMAC interface
-    virtual bool prepareParams(OSSL_PARAM_BLD *builder) const;
+    // MACBase interface
+    virtual bool prepareParams(OSSL_PARAM_BLD *builder, const ParameterList & parameters, ParameterListCtx & ctx) const;
     
 private:
     

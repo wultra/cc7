@@ -41,8 +41,8 @@ class AES : public Cipher
 public:
     
     // Cipher
-    virtual ByteArray encrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & plaintext) const;
-    virtual ByteArray decrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & ciphertext) const;
+    virtual ByteArray encrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & plaintext, const ParameterList & parameters) const;
+    virtual ByteArray decrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & ciphertext, const ParameterList & parameters) const;
 
     // Algorithm
     virtual const std::string & getAlgorithmName() const;

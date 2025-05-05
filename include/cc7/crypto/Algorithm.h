@@ -33,5 +33,6 @@ public:
     virtual Parameter getParameter(int param_id) const = 0;
 };
 
+
 } // cc7::crypto
 } // cc7

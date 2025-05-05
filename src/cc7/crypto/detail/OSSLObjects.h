@@ -68,6 +68,12 @@ typedef TLLObject<EVP_CIPHER_CTX, EVP_CIPHER_CTX_new, EVP_CIPHER_CTX_free> EVPCi
 /// The `EVPSignature` is wrapper for `EVP_SIGNATURE`.
 typedef TLLRefObject<EVP_SIGNATURE, nullptr, EVP_SIGNATURE_up_ref, EVP_SIGNATURE_free> EVPSignature;
 
+/// The `EVPKDF` is wrapper for `EVP_KDF`.
+typedef TLLObject<EVP_KDF, nullptr, EVP_KDF_free> EVPKDF;
+
+/// The `EVPKDFContext` is wrapper for `EVP_KDF_CTX`.
+typedef TLLObject<EVP_KDF_CTX, nullptr, EVP_KDF_CTX_free> EVPKDFContext;
+
 // OSSL
 
 /// The `OSSLParamBuilder` is wrapper for `OSSL_PARAM_BLD`.

@@ -42,7 +42,7 @@ class MACBase : public MAC
 {
 public:
     // MAC interface
-    virtual ByteArray token(const ByteRange & key, const ByteRange & data) const;
+    virtual ByteArray token(const ByteRange & key, const ByteRange & data, const ParameterList & parameters) const;
     
     // Algorithm interface
     virtual const std::string & getAlgorithmName() const;
@@ -55,7 +55,7 @@ public:
 
 protected:
     
-    virtual bool prepareParams(OSSL_PARAM_BLD * builder) const;
+    virtual bool prepareParams(OSSL_PARAM_BLD * builder, const ParameterList & parameters, ParameterListCtx & info) const;
     
     LLMac   _mac;
     size_t  _out_len;

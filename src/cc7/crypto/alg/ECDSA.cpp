@@ -32,7 +32,7 @@ const ECDSASpec ECDSASpec::ECDSA_SHA3_512 = { "ECDSA-SHA3-512" , EVP_sha3_512(),
 
 const ECDSASpec * ECDSASpec::altorithmToSpec(const std::string &algorithm)
 {
-    static std::vector<const ECDSASpec*> spec_list = {
+    static std::vector<const ECDSASpec*> spec_list {
         &ECDSA_SHA3_256, &ECDSA_SHA3_384, &ECDSA_SHA3_512,
         &ECDSA_SHA_256,  &ECDSA_SHA_384,  &ECDSA_SHA_512,
     };
@@ -57,8 +57,10 @@ std::shared_ptr<ECDSA> ECDSA::getInstance(const std::string & algorithm)
 
 // Signature interface
 
-ByteArray ECDSA::sign(const PrivateKey & private_key, const ByteRange & data) const
+ByteArray ECDSA::sign(const PrivateKey & private_key, const ByteRange & data, const ParameterList & parameters) const
 {
+    parameters.throwUnsupported();
+    
     const auto& ec_key = checkECPrivateKey(private_key, _spec->curve, true);
     const auto& ll_key = ec_key.getEvpKey();
     
@@ -86,8 +88,10 @@ ByteArray ECDSA::sign(const PrivateKey & private_key, const ByteRange & data) co
     return signature;
 }
 
-bool ECDSA::verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data) const
+bool ECDSA::verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data, const ParameterList & parameters) const
 {
+    parameters.throwUnsupported();
+    
     const auto& ec_key = checkECPublicKey(public_key, _spec->curve);
     const auto& ll_key = ec_key.getEvpKey();
     

@@ -149,9 +149,9 @@ public:
     
     // KeyEncapsulation interface
     
-    virtual KeyPairPtr generate() const;
-    virtual std::pair<ByteArray, SymmetricKeyPtr> encapsulate(const PublicKey & encapsulation_key) const;
-    virtual SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key, const ByteRange & wrapped_key) const;
+    virtual KeyPairPtr generate(const ParameterList & parameters) const;
+    virtual std::pair<ByteArray, SymmetricKeyPtr> encapsulate(const PublicKey & encapsulation_key, const ParameterList & parameters) const;
+    virtual SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key, const ByteRange & wrapped_key, const ParameterList & parameters) const;
 
     // Algorithm interface
     virtual const std::string & getAlgorithmName() const;

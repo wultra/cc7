@@ -74,6 +74,12 @@ public:
         return _context;
     }
     
+    /// Automatic casting to ByteRange.
+    operator ByteRange () const
+    {
+        return _key_data.byteRange();
+    }
+    
     /// Get instance of symmetric key for specified algorithm and set the key to provided key data.
     /// - Parameters:
     ///   - algorithm: Symmetric key's algorithm.

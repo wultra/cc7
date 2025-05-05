@@ -104,8 +104,9 @@ std::shared_ptr<MLKEM> MLKEM::getInstance(const std::string & algorithm)
     return std::make_shared<MLKEM>(spec);
 }
 
-KeyPairPtr MLKEM::generate() const
+KeyPairPtr MLKEM::generate(const ParameterList & parameters) const
 {
+    parameters.throwUnsupported();
     return MLKEMKeyPairFactory(_spec).generateKeyPair();
 }
 
@@ -118,8 +119,10 @@ SymmetricKeyPtr MLKEM::buildSymmetricKey(const ByteRange & secret) const
     }
 }
 
-std::pair<ByteArray, SymmetricKeyPtr> MLKEM::encapsulate(const PublicKey & encapsulation_key) const
+std::pair<ByteArray, SymmetricKeyPtr> MLKEM::encapsulate(const PublicKey & encapsulation_key, const ParameterList & parameters) const
 {
+    parameters.throwUnsupported();
+    
     const auto & ml_key = checkMLKEMPublicKey(encapsulation_key, _spec);
     const auto & ll_key = ml_key.getEvpKey();
     
@@ -141,8 +144,10 @@ std::pair<ByteArray, SymmetricKeyPtr> MLKEM::encapsulate(const PublicKey & encap
     return std::make_pair(wrapped, buildSymmetricKey(secret));
 }
 
-SymmetricKeyPtr MLKEM::decapsulate(const PrivateKey & decapsulation_key, const ByteRange & wrapped_key) const
+SymmetricKeyPtr MLKEM::decapsulate(const PrivateKey & decapsulation_key, const ByteRange & wrapped_key, const ParameterList & parameters) const
 {
+    parameters.throwUnsupported();
+    
     const auto & ml_key = checkMLKEMPrivateKey(decapsulation_key, _spec);
     const auto & ll_key = ml_key.getEvpKey();
     

@@ -27,7 +27,8 @@ namespace crypto
 class MessageDigest : public Algorithm
 {
 public:
-    virtual ByteArray digest(const ByteRange & input) const = 0;
+    virtual ByteArray digest(const ByteRange & input,
+                             const ParameterList & parameters = {}) const = 0;
     
     static std::shared_ptr<MessageDigest> getInstance(const std::string & algorithm);
 };

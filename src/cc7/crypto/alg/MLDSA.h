@@ -152,8 +152,8 @@ public:
     virtual Parameter getParameter(int param_id) const;
     
     // Signature interface
-    virtual ByteArray sign(const PrivateKey & private_key, const ByteRange & data) const;
-    virtual bool verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data) const;
+    virtual ByteArray sign(const PrivateKey & private_key, const ByteRange & data, const ParameterList & parameters) const;
+    virtual bool verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data, const ParameterList & parameters) const;
     
     static std::shared_ptr<MLDSA> getInstance(const std::string & algorithm);
     

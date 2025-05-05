@@ -27,11 +27,15 @@ namespace crypto
 class Signature : public Algorithm
 {
 public:
-    virtual ~Signature() = default;
     
-    virtual ByteArray sign(const PrivateKey & private_key, const ByteRange & data) const = 0;
+    virtual ByteArray sign(const PrivateKey & private_key,
+                           const ByteRange & data,
+                           const ParameterList & parameters = {}) const = 0;
     
-    virtual bool verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data) const = 0;
+    virtual bool verify(const PublicKey & public_key,
+                        const ByteRange & signature,
+                        const ByteRange & data,
+                        const ParameterList & parameters = {}) const = 0;
     
     static std::shared_ptr<Signature> getInstance(const std::string & algorithm);
 };

@@ -28,24 +28,19 @@ class MAC : public Algorithm
 {
 public:
     
-    virtual ByteArray token(const ByteRange & key, const ByteRange & data) const = 0;
+    virtual ByteArray token(const ByteRange & key,
+                            const ByteRange & data,
+                            const ParameterList & parameters = {}) const = 0;
     
-    bool verifyToken(const ByteRange & key, const ByteRange & data, const ByteRange & token) const
+    bool verifyToken(const ByteRange & key,
+                     const ByteRange & data,
+                     const ByteRange & token,
+                     const ParameterList & parameters = {}) const
     {
-        auto our_token = this->token(key, data);
+        auto our_token = this->token(key, data, parameters);
         return ConstTimeEqual(token, our_token);
     }
-    
-    ByteArray token(const SymmetricKey & key, const ByteRange & data) const
-    {
-        return token(key.getKeyData(), data);
-    }
-    
-    bool verifyToken(const SymmetricKey & key, const ByteRange & data, const ByteRange & token) const
-    {
-        return verifyToken(key.getKeyData(), data, token);
-    }
-    
+        
     /// Get instnace of MAC algorithm.
     ///
     /// The following algorithms are supported:

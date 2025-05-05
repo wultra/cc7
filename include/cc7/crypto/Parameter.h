@@ -19,6 +19,8 @@
 #include <cc7/ByteArray.h>
 #include <cc7/crypto/Constants.h>
 #include <cc7/crypto/BaseObject.h>
+#include <map>
+#include <set>
 
 namespace cc7
 {
@@ -71,6 +73,8 @@ private:
         
     private:
         
+        friend class ParameterList;
+        
         enum Type {
             T_Bool,
             T_Size,
@@ -106,6 +110,36 @@ private:
     Parameter(Value * v) : _value(v) {}
     
     const std::shared_ptr<Value>_value;
+};
+
+
+typedef std::set<int> ParameterListCtx;
+
+class ParameterList : public std::map<int, Parameter>
+{
+public:
+    typedef std::map<int, Parameter> parent_class;
+    
+    using parent_class::parent_class;
+    using parent_class::insert;
+
+    ParameterList() {}
+    
+    ParameterListCtx beginParameterProcessing() const;
+    void endParameterProcessing(const ParameterListCtx & ctx) const;
+    void throwUnsupported() const;
+    
+    bool getString(int param_id, ParameterListCtx & ctx, std::string & out_value) const;
+    bool getInt(int param_id, ParameterListCtx & ctx, int64_t & out_value) const;
+    bool getSize(int param_id, ParameterListCtx & ctx, size_t & out_value) const;
+    bool getBytes(int param_id, ParameterListCtx & ctx, ByteRange & out_value) const;
+    bool getBytes(int param_id, ParameterListCtx & ctx, ByteArray & out_value) const;
+    bool getObject(int param_id, ParameterListCtx & ctx, BaseObjectPtr & out_value) const;
+    bool consumeParam(int param_id, ParameterListCtx & ctx) const;
+    
+private:
+    
+    bool consume(int param_id, ParameterListCtx & info, parent_class::const_iterator & out) const;
 };
 
 } // cc7::crypto
