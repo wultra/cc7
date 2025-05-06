@@ -55,7 +55,7 @@ build_data_converter() {
 		log "Building binary converter..."
 	fi
 	# compile
-	$CC $CONV_SRC -lc++ -std=c++11 -o $CONV_BIN
+	$CC $CONV_SRC -lc++ -std=c++17 -o $CONV_BIN
 	if [ $? -ne 0 ]; then
 		panic "Unable to compile binary converter!"
 	fi

@@ -1706,7 +1706,6 @@
 		BF498AAA1CDCBE8400D7E904 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
 				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
@@ -1730,7 +1729,6 @@
 		BF498AAB1CDCBE8400D7E904 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
 				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
@@ -1775,7 +1773,6 @@
 		BF8EEBF8266629ED009AC5FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
@@ -1800,7 +1797,6 @@
 		BF8EEBF9266629ED009AC5FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
@@ -2102,7 +2098,6 @@
 		BFFE8ADD2449B5820032821F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
 				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
@@ -2126,7 +2121,6 @@
 		BFFE8ADE2449B5820032821F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
 				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
