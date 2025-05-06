@@ -320,6 +320,15 @@ namespace tests
             ccstAssertEqual(a1[7], 8);
             ccstAssertEqual(a1[8], 9);
             ccstAssertEqual(a1[9], 0xff);
+            try {
+                if (a1.at(99) == 0) {
+                    ccstFailure("at() must raise exception.");
+                } else {
+                    ccstFailure("at() must raise exception.");
+                }
+            } catch (std::exception & exc) {
+                ccstMessage("Correct: %s", exc.what());
+            }
         }
         
         void testRelationalOperators()

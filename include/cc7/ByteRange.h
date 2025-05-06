@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <cc7/detail/ExceptionsWrapper.h>
+#include <cc7/Platform.h>
 
 namespace cc7
 {   
@@ -38,10 +38,7 @@ namespace cc7
         typedef std::reverse_iterator<iterator>         reverse_iterator;
         
         static const size_type  npos = static_cast<size_type>(-1);
-        
-        typedef cc7::detail::ExceptionsWrapper<value_type> _ValueTypeExceptions;
-        typedef cc7::detail::ExceptionsWrapper<ByteRange>  _ByteRangeExceptions;
-        
+                
     private:
         
         // Private members
@@ -209,21 +206,17 @@ namespace cc7
             
         const_reference operator[](size_type index) const noexcept
         {
-            if (index < size()) {
-                return _begin[index];
-            }
             // Accessing element which is out of range has undefined behavior in STL.
-            // We can return reference to some static buffer.
-            return _ValueTypeExceptions::forbidden_value();
+            assert(index < size());
+            return _begin[index];
         }
         
         const_reference at(size_type index) const
         {
             if (index < size()) {
                 return _begin[index];
-            } else {
-                return _ValueTypeExceptions::out_of_range();
             }
+            throw std::out_of_range("Index is out of range");
         }
         
         // STL iterators
@@ -277,20 +270,18 @@ namespace cc7
         // Prefix / Suffix remove, SubRange
         void removePrefix(size_t count)
         {
-            if (count <= length()) {
-                _begin += count;
-            } else {
-                _ValueTypeExceptions::out_of_range();
+            if (count > length()) {
+                throw std::out_of_range("count is out of range");
             }
+            _begin += count;
         }
             
         void removeSuffix(size_t count)
         {
-            if (count <= length()) {
-                _end -= count;
-            } else {
-                _ValueTypeExceptions::out_of_range();
+            if (count > length()) {
+                throw std::out_of_range("count is out of range");
             }
+            _end -= count;
         }
         
         ByteRange subRangeFrom(size_type from) const
@@ -298,7 +289,7 @@ namespace cc7
             if (from <= size()) {
                 return ByteRange(begin() + from, end());
             }
-            return _ByteRangeExceptions::out_of_range();
+            throw std::out_of_range("from is out of range");
         }
 
         ByteRange subRangeTo(size_type to) const
@@ -306,7 +297,7 @@ namespace cc7
             if (to <= size()) {
                 return ByteRange(begin(), begin() + to);
             }
-            return _ByteRangeExceptions::out_of_range();
+            throw std::out_of_range("to is out of range");
         }
         
         ByteRange subRange(size_type from, size_type count)
@@ -314,7 +305,7 @@ namespace cc7
             if ((from <= size()) && (from + count <= size())) {
                 return ByteRange(begin() + from, count);
             }
-            return _ByteRangeExceptions::out_of_range();
+            throw std::out_of_range("selectet region is out of range");
         }
             
         int compare(const ByteRange & other) const noexcept
@@ -337,7 +328,7 @@ namespace cc7
         void _validateBeginEnd(const_pointer begin, const_pointer end)
         {
             if ((begin > end) || (!begin && end)) {
-                _ValueTypeExceptions::invalid_argument();
+                throw std::invalid_argument("bad begin or end pointers provided");
             }
         }
             

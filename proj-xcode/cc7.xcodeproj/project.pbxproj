@@ -519,7 +519,6 @@
 		BFD7D6521CE258D8002382CB /* TestUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		BFE174001CC9664500039466 /* PlatformAndroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlatformAndroid.cpp; sourceTree = "<group>"; };
 		BFE174021CC9664500039466 /* PlatformApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlatformApple.mm; sourceTree = "<group>"; };
-		BFE174051CC968FF00039466 /* ExceptionsWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExceptionsWrapper.h; sourceTree = "<group>"; };
 		BFE174061CC96D3600039466 /* DebugFeatures.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugFeatures.cpp; sourceTree = "<group>"; };
 		BFE174091CCCE4C900039466 /* TestFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
 		BFE1740A1CCCE53E00039466 /* TestResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestResource.h; sourceTree = "<group>"; };
@@ -709,7 +708,6 @@
 		BF3068291CC8F607002FD3BC /* detail */ = {
 			isa = PBXGroup;
 			children = (
-				BFE174051CC968FF00039466 /* ExceptionsWrapper.h */,
 				BFB3124E1E4E203F00C6FE7E /* CleanupAllocator.h */,
 			);
 			path = detail;
