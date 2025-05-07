@@ -27,9 +27,7 @@ namespace crypto
 
 class KeyEncapsulation : public Algorithm
 {
-public:
-    virtual ~KeyEncapsulation() = default;
-    
+public:    
     virtual KeyPairPtr generate(const ParameterList & parameters = {}) const = 0;
     
     virtual std::pair<ByteArray, SymmetricKeyPtr> encapsulate(const PublicKey & encapsulation_key,

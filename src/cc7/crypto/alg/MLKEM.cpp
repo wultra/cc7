@@ -275,9 +275,17 @@ void MLKEMPrivateKey::setKeyParameter(int param_id, const Parameter & value)
 
 // MARK: - Utils
 
+static bool isMLKEMKey(const Key & key)
+{
+    const auto & name = key.getKeyType();
+    return  name == MLKEMSpec::ML_KEM_512.name ||
+            name == MLKEMSpec::ML_KEM_768.name ||
+            name == MLKEMSpec::ML_KEM_1024.name;
+}
+
 const MLKEMPublicKey & checkMLKEMPublicKey(const PublicKey & public_key, const MLKEMSpec * expected_spec)
 {
-    auto ml_key = dynamic_cast<const MLKEMPublicKey*>(&public_key);
+    auto ml_key = isMLKEMKey(public_key) ? static_cast<const MLKEMPublicKey*>(&public_key) : nullptr;
     if (!ml_key) {
         throw std::invalid_argument("Wrong public key type provided");
     }
@@ -292,7 +300,7 @@ const MLKEMPublicKey & checkMLKEMPublicKey(const PublicKey & public_key, const M
 
 const MLKEMPrivateKey & checkMLKEMPrivateKey(const PrivateKey & private_key, const MLKEMSpec * expected_spec)
 {
-    auto ml_key = dynamic_cast<const MLKEMPrivateKey*>(&private_key);
+    auto ml_key = isMLKEMKey(private_key) ? static_cast<const MLKEMPrivateKey*>(&private_key) : nullptr;
     if (!ml_key) {
         throw std::invalid_argument("Wrong private key type provided");
     }

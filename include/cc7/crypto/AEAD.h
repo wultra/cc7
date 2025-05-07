@@ -26,9 +26,7 @@ namespace crypto
 
 class AEAD : public Algorithm
 {
-public:
-    virtual ~AEAD() = default;
-    
+public:    
     virtual ByteArray seal(const SymmetricKey & secret_key,
                            const ByteRange & nonce,
                            const ByteRange & associated_data,

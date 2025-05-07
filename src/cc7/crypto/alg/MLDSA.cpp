@@ -259,9 +259,17 @@ void MLDSAPrivateKey::setKeyParameter(int param_id, const Parameter & value)
 
 // MARK: - Utils
 
+static bool isMLDSAKey(const Key & key)
+{
+    const auto & name = key.getKeyType();
+    return  name == MLDSASpec::ML_DSA_44.name ||
+            name == MLDSASpec::ML_DSA_65.name ||
+            name == MLDSASpec::ML_DSA_87.name;
+}
+
 const MLDSAPublicKey & checkMLDSAPublicKey(const PublicKey & public_key, const MLDSASpec * expected_spec)
 {
-    auto ml_key = dynamic_cast<const MLDSAPublicKey*>(&public_key);
+    auto ml_key = isMLDSAKey(public_key) ? static_cast<const MLDSAPublicKey*>(&public_key) : nullptr;
     if (!ml_key) {
         throw std::invalid_argument("Wrong public key type provided");
     }
@@ -276,7 +284,7 @@ const MLDSAPublicKey & checkMLDSAPublicKey(const PublicKey & public_key, const M
 
 const MLDSAPrivateKey & checkMLDSAPrivateKey(const PrivateKey & private_key, const MLDSASpec * expected_spec)
 {
-    auto ml_key = dynamic_cast<const MLDSAPrivateKey*>(&private_key);
+    auto ml_key = isMLDSAKey(private_key) ? static_cast<const MLDSAPrivateKey*>(&private_key) : nullptr;
     if (!ml_key) {
         throw std::invalid_argument("Wrong private key type provided");
     }

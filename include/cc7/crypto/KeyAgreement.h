@@ -27,9 +27,7 @@ namespace crypto
 
 class KeyAgreement : public Algorithm
 {
-public:
-    virtual ~KeyAgreement() = default;
-    
+public:    
     virtual SymmetricKeyPtr phase(const PrivateKey & private_key,
                                   const PublicKey & peer_key,
                                   const ParameterList & parameters = {}) const = 0;

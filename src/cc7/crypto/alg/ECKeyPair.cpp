@@ -221,9 +221,17 @@ std::shared_ptr<Key> ECPrivateKey::duplicate() const
 
 // MARK: - Support functions
 
+static bool isECKey(const Key & key)
+{
+    const auto & name = key.getKeyType();
+    return  name == ECCurveSpec::P_256.name ||
+            name == ECCurveSpec::P_384.name ||
+            name == ECCurveSpec::P_521.name;
+}
+
 const ECPublicKey & checkECPublicKey(const PublicKey & public_key, const ECCurveSpec * expected_curve)
 {
-    auto ec_key = dynamic_cast<const ECPublicKey*>(&public_key);
+    auto ec_key = isECKey(public_key) ? static_cast<const ECPublicKey*>(&public_key) : nullptr;
     if (!ec_key) {
         throw std::invalid_argument("Wrong public key type provided");
     }
@@ -238,7 +246,7 @@ const ECPublicKey & checkECPublicKey(const PublicKey & public_key, const ECCurve
 
 const ECPrivateKey & checkECPrivateKey(const PrivateKey & private_key, const ECCurveSpec * expected_curve, bool check_signing)
 {
-    auto ec_key = dynamic_cast<const ECPrivateKey*>(&private_key);
+    auto ec_key = isECKey(private_key) ? static_cast<const ECPrivateKey*>(&private_key) : nullptr;
     if (!ec_key) {
         throw std::invalid_argument("Wrong private key type provided");
     }
