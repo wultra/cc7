@@ -17,7 +17,7 @@
 #pragma once
 
 #include <cc7/ByteArray.h>
-#include <cc7/crypto/Constants.h>
+#include <cc7/crypto/CryptoConstants.h>
 #include <cc7/crypto/BaseObject.h>
 #include <map>
 #include <set>

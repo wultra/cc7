@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <cc7/crypto/Constants.h>
+#include <cc7/crypto/CryptoConstants.h>
 #include "CryptoPrivate.h"
 
 namespace cc7

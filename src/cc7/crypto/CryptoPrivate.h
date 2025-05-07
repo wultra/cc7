@@ -17,7 +17,7 @@
 #pragma once
 
 #include "detail/OSSLObjects.h"
-#include <cc7/crypto/Constants.h>
+#include <cc7/crypto/CryptoConstants.h>
 
 namespace cc7
 {

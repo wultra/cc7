@@ -196,9 +196,9 @@
 		BFC372922DA0286D00BA292D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
 		BFC372932DA0286D00BA292D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
 		BFC372942DA0286D00BA292D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
-		BFC372972DA02B2D00BA292D /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* Constants.cpp */; };
-		BFC372982DA02B2D00BA292D /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* Constants.cpp */; };
-		BFC372992DA02B2D00BA292D /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* Constants.cpp */; };
+		BFC372972DA02B2D00BA292D /* CryptoConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* CryptoConstants.cpp */; };
+		BFC372982DA02B2D00BA292D /* CryptoConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* CryptoConstants.cpp */; };
+		BFC372992DA02B2D00BA292D /* CryptoConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* CryptoConstants.cpp */; };
 		BFC5254B1CDBC887002E653C /* PerformanceTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC5254A1CDBC887002E653C /* PerformanceTimer.cpp */; };
 		BFC5254E1CDBC985002E653C /* PerformanceTimerApple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC5254D1CDBC985002E653C /* PerformanceTimerApple.cpp */; };
 		BFE174041CC9664500039466 /* PlatformApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFE174021CC9664500039466 /* PlatformApple.mm */; };
@@ -509,8 +509,8 @@
 		BFB493FE1CE8E74600F8D81B /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
 		BFB494001CE8E79400F8D81B /* TestDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestDirectory.cpp; sourceTree = "<group>"; };
 		BFB494021CE8E7C600F8D81B /* TestResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestResource.cpp; sourceTree = "<group>"; };
-		BFC372952DA02A7900BA292D /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		BFC372962DA02B2D00BA292D /* Constants.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Constants.cpp; sourceTree = "<group>"; };
+		BFC372952DA02A7900BA292D /* CryptoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptoConstants.h; sourceTree = "<group>"; };
+		BFC372962DA02B2D00BA292D /* CryptoConstants.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CryptoConstants.cpp; sourceTree = "<group>"; };
 		BFC525481CDB9C13002E653C /* TestTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestTypes.h; sourceTree = "<group>"; };
 		BFC525491CDBC79F002E653C /* PerformanceTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerformanceTimer.h; sourceTree = "<group>"; };
 		BFC5254A1CDBC887002E653C /* PerformanceTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerformanceTimer.cpp; sourceTree = "<group>"; };
@@ -605,7 +605,7 @@
 			isa = PBXGroup;
 			children = (
 				BF0059322D9C4AC700C0F3AF /* Crypto.h */,
-				BFC372952DA02A7900BA292D /* Constants.h */,
+				BFC372952DA02A7900BA292D /* CryptoConstants.h */,
 				BF5A00292DA67ECF0068992F /* BaseObject.h */,
 				BF0059152D9ABA6C00C0F3AF /* Algorithm.h */,
 				BF00593C2D9E7CC300C0F3AF /* Parameter.h */,
@@ -632,7 +632,7 @@
 				BF0058F62D9AA01600C0F3AF /* detail */,
 				BF0058FD2D9AA16D00C0F3AF /* CryptoPrivate.h */,
 				BF0059212D9C093500C0F3AF /* CryptoPrivate.cpp */,
-				BFC372962DA02B2D00BA292D /* Constants.cpp */,
+				BFC372962DA02B2D00BA292D /* CryptoConstants.cpp */,
 				BF5A000D2DA541930068992F /* Utility.cpp */,
 				BF0058E22D9A9FF300C0F3AF /* Cipher.cpp */,
 				BF0058E32D9A9FF300C0F3AF /* Key.cpp */,
@@ -1432,7 +1432,7 @@
 				BF8EEC0626662A01009AC5FD /* ObjcHelper.mm in Sources */,
 				BF0059122D9AB9F700C0F3AF /* MACBase.cpp in Sources */,
 				BF0059092D9AA68800C0F3AF /* SHA.cpp in Sources */,
-				BFC372982DA02B2D00BA292D /* Constants.cpp in Sources */,
+				BFC372982DA02B2D00BA292D /* CryptoConstants.cpp in Sources */,
 				BF0058F12D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
 				BF5A00192DA654EC0068992F /* KeyAgreement.cpp in Sources */,
 				BF00590E2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
@@ -1514,7 +1514,7 @@
 				BF79F0181D04BFB7004653A1 /* ObjcHelper.mm in Sources */,
 				BF0059142D9AB9F700C0F3AF /* MACBase.cpp in Sources */,
 				BF0059082D9AA68800C0F3AF /* SHA.cpp in Sources */,
-				BFC372972DA02B2D00BA292D /* Constants.cpp in Sources */,
+				BFC372972DA02B2D00BA292D /* CryptoConstants.cpp in Sources */,
 				BF0058E72D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
 				BF5A00182DA654EC0068992F /* KeyAgreement.cpp in Sources */,
 				BF00590D2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
@@ -1559,7 +1559,7 @@
 				BFFE8AA62449B4F80032821F /* ObjcHelper.mm in Sources */,
 				BF0059132D9AB9F700C0F3AF /* MACBase.cpp in Sources */,
 				BF0059072D9AA68800C0F3AF /* SHA.cpp in Sources */,
-				BFC372992DA02B2D00BA292D /* Constants.cpp in Sources */,
+				BFC372992DA02B2D00BA292D /* CryptoConstants.cpp in Sources */,
 				BF0058EC2D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
 				BF5A001A2DA654EC0068992F /* KeyAgreement.cpp in Sources */,
 				BF00590F2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
