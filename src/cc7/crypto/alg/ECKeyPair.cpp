@@ -238,7 +238,7 @@ const ECPublicKey & checkECPublicKey(const PublicKey & public_key, const ECCurve
     if (!ec_key->getEvpKey().isValid()) {
         throw std::invalid_argument("Empty public key type provided");
     }
-    if (expected_curve && ec_key->curveSpec() != expected_curve) {
+    if (expected_curve && ec_key->getKeyType() != expected_curve->name) {
         throw std::invalid_argument("Public key with unsupported elliptic curve provided");
     }
     return *ec_key;
@@ -253,13 +253,13 @@ const ECPrivateKey & checkECPrivateKey(const PrivateKey & private_key, const ECC
     if (!ec_key->getEvpKey().isValid()) {
         throw std::invalid_argument("Empty private key type provided");
     }
+    if (expected_curve && ec_key->getKeyType() != expected_curve->name) {
+        throw std::invalid_argument("Private key with unsupported elliptic curve provided");
+    }
     if (check_signing) {
         if (!EVP_PKEY_can_sign(ec_key->getEvpKey())) {
             throw std::invalid_argument("Provided private key cannot sign data");
         }
-    }
-    if (expected_curve && ec_key->curveSpec() != expected_curve) {
-        throw std::invalid_argument("Private key with unsupported elliptic curve provided");
     }
     return *ec_key;
 }

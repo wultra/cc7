@@ -42,7 +42,7 @@ SymmetricKeyPtr ECDH::phase(const PrivateKey & private_key, const PublicKey & pe
     
     const auto& ec_private_key = checkECPrivateKey(private_key, nullptr, false);
     const auto& ec_peer_key = checkECPublicKey(peer_key, nullptr);
-    if (ec_private_key.curveSpec() != ec_peer_key.curveSpec()) {
+    if (ec_private_key.getKeyType() != ec_peer_key.getKeyType()) {
         throw std::invalid_argument("Private and peer key type doesn't match");
     }
     auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(ossl_ctx(), ec_private_key.getEvpKey(), NULL));

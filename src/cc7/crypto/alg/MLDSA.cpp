@@ -276,7 +276,7 @@ const MLDSAPublicKey & checkMLDSAPublicKey(const PublicKey & public_key, const M
     if (!ml_key->getEvpKey().isValid()) {
         throw std::invalid_argument("Empty public key type provided");
     }
-    if (expected_spec && ml_key->algSpec() != expected_spec) {
+    if (expected_spec && ml_key->getKeyType() != expected_spec->name) {
         throw std::invalid_argument("Public key with different ML-DSA setup provided");
     }
     return *ml_key;
@@ -291,11 +291,11 @@ const MLDSAPrivateKey & checkMLDSAPrivateKey(const PrivateKey & private_key, con
     if (!ml_key->getEvpKey().isValid()) {
         throw std::invalid_argument("Empty private key type provided");
     }
+    if (expected_spec && ml_key->getKeyType() != expected_spec->name) {
+        throw std::invalid_argument("Private key with different ML-DSA setup provided");
+    }
     if (!EVP_PKEY_can_sign(ml_key->getEvpKey())) {
         throw std::invalid_argument("Provided private key cannot sign data");
-    }
-    if (expected_spec && ml_key->algSpec() != expected_spec) {
-        throw std::invalid_argument("Private key with different ML-DSA setup provided");
     }
     return *ml_key;
 }
