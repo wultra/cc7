@@ -47,11 +47,11 @@ typedef std::shared_ptr<PrivateKey> PrivateKeyPtr;
 class KeyPair : public BaseObject
 {
 public:
-    PublicKey & getPublicKey() { return *_public_key; }
     const PublicKey & getPublicKey() const { return *_public_key; }
-    
-    PrivateKey & getPrivateKey()  { return *_private_key; }
     const PrivateKey & getPrivateKey() const { return *_private_key; }
+    
+    const PublicKeyPtr & getPublicKeyPtr() const { return _public_key; }
+    const PrivateKeyPtr & getPrivateKeyPtr() const { return _private_key; }
     
     KeyPair(PublicKeyPtr public_key, PrivateKeyPtr private_key) :
         _public_key(public_key),
