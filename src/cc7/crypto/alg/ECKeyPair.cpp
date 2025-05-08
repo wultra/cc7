@@ -82,12 +82,20 @@ KeyPairPtr ECKeyPairFactory::generateKeyPair() const
 
 PublicKeyPtr ECKeyPairFactory::newPublicKey() const
 {
-    return PublicKeyPtr(new ECPublicKey(algSpec()));
+    auto key = PublicKeyPtr(new ECPublicKey(algSpec()));
+    if (!_public_key_conversion.empty()) {
+        key->setKeyParameter(KEY_PARAM_EC_POINT_CONVERSION, Parameter::ref(_public_key_conversion));
+    }
+    return key;
 }
 
 PrivateKeyPtr ECKeyPairFactory::newPrivateKey() const
 {
-    return PrivateKeyPtr(new ECPrivateKey(algSpec()));
+    auto key = PrivateKeyPtr(new ECPrivateKey(algSpec()));
+    if (!_public_key_conversion.empty()) {
+        key->setKeyParameter(KEY_PARAM_EC_POINT_CONVERSION, Parameter::ref(_public_key_conversion));
+    }
+    return key;
 }
 
 // Algorithm interface
@@ -99,12 +107,25 @@ const std::string & ECKeyPairFactory::getAlgorithmName() const
 
 void ECKeyPairFactory::setParameter(int param_id, const Parameter & value)
 {
-    throwUnsupportedParam(param_id);
+    switch (param_id) {
+        case KEY_PARAM_EC_POINT_CONVERSION:
+            _public_key_conversion = value.asString();
+            break;
+            
+        default:
+            throwUnsupportedParam(param_id);
+    }
 }
 
 Parameter ECKeyPairFactory::getParameter(int param_id) const
 {
-    throwUnsupportedParam(param_id);
+    switch (param_id) {
+        case KEY_PARAM_EC_POINT_CONVERSION:
+            return Parameter::ref(_public_key_conversion);
+            
+        default:
+            throwUnsupportedParam(param_id);
+    }
 }
 
 
@@ -118,6 +139,9 @@ const std::string & ECPublicKey::getKeyType() const
 void ECPublicKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
     getEvpKey() = importPublicKey(curveSpec()->name, format, keyData);
+    if (!_public_key_conversion.empty()) {
+        EVPKeyPair_SetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, _public_key_conversion);
+    }
 }
 
 ByteArray ECPublicKey::exportKey(KeyFormat format) const
@@ -135,8 +159,11 @@ Parameter ECPublicKey::getKeyParameter(int param_id) const
             EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
             return Parameter::copy(EVPKeyPair_GetBigNumParam(_ll_key, OSSL_PKEY_PARAM_EC_PUB_Y));
         case KEY_PARAM_EC_POINT_CONVERSION:
-            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
-            return Parameter::copy(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
+            if (_ll_key.isValid()) {
+                return Parameter::copy(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
+            } else {
+                return Parameter::ref(_public_key_conversion);
+            }
         default:
             throwUnsupportedParam(param_id);
     }
@@ -146,8 +173,10 @@ void ECPublicKey::setKeyParameter(int param_id, const Parameter & value)
 {
     switch (param_id) {
         case KEY_PARAM_EC_POINT_CONVERSION:
-            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
-            EVPKeyPair_SetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, value.asString());
+            _public_key_conversion = value.asString();
+            if (_ll_key.isValid()) {
+                EVPKeyPair_SetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, _public_key_conversion);
+            }
             break;
             
         default:
@@ -158,6 +187,7 @@ void ECPublicKey::setKeyParameter(int param_id, const Parameter & value)
 std::shared_ptr<Key> ECPublicKey::duplicate() const
 {
     auto duplicated = std::make_shared<ECPublicKey>(curveSpec());
+    duplicated->_public_key_conversion = _public_key_conversion;
     if (_ll_key.isValid()) {
         duplicated->importKey(exportKey(KEY_FORMAT_RAW), KEY_FORMAT_RAW);
     }
@@ -175,6 +205,9 @@ const std::string & ECPrivateKey::getKeyType() const
 void ECPrivateKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
     getEvpKey() = importPrivateKey(curveSpec()->name, format, keyData);
+    if (!_public_key_conversion.empty()) {
+        EVPKeyPair_SetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, _public_key_conversion);
+    }
 }
 
 ByteArray ECPrivateKey::exportKey(KeyFormat format) const
@@ -186,9 +219,12 @@ Parameter ECPrivateKey::getKeyParameter(int param_id) const
 {
     switch (param_id) {
         case KEY_PARAM_EC_POINT_CONVERSION:
-            // Private key encodes also public key in some formats, so it makes sense to support this parameter.
-            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
-            return Parameter::copy(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
+            if (_ll_key.isValid()) {
+                // Private key encodes also public key in some formats, so it makes sense to support this parameter.
+                return Parameter::copy(EVPKeyPair_GetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT));
+            } else {
+                return Parameter::ref(_public_key_conversion);
+            }
 
         default:
             throwUnsupportedParam(param_id);
@@ -200,8 +236,10 @@ void ECPrivateKey::setKeyParameter(int param_id, const Parameter & value)
     switch (param_id) {
         case KEY_PARAM_EC_POINT_CONVERSION:
             // Private key encodes also public key, so it makes sense to support this parameter.
-            EVPKeyPair_CheckValid(_ll_key, curveSpec()->name);
-            EVPKeyPair_SetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, value.asString());
+            _public_key_conversion = value.asString();
+            if (_ll_key.isValid()) {
+                EVPKeyPair_SetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, _public_key_conversion);
+            }
             break;
             
         default:

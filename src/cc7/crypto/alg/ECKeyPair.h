@@ -76,6 +76,7 @@ private:
         
     const ECCurveSpec * _curve;
     EVPKeyPair  _ll_key;
+    std::string _public_key_conversion;
 };
 
 // EC Private key
@@ -117,6 +118,7 @@ public:
 private:
     const ECCurveSpec * _curve;
     EVPKeyPair  _ll_key;
+    std::string _public_key_conversion;
 };
 
 class ECKeyPairFactory : public KeyPairFactory
@@ -141,6 +143,8 @@ public:
     
 private:
     const ECCurveSpec * _curve;
+    
+    std::string _public_key_conversion;
 };
 
 // Support functions
