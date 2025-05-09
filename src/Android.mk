@@ -37,7 +37,7 @@ NDK_TOOLCHAIN_VERSION := clang
 # Library name
 LOCAL_MODULE			:= libcc7
 LOCAL_CFLAGS			:= $(EXTERN_CFLAGS)
-LOCAL_CPPFLAGS			:= $(EXTERN_CFLAGS) -std=c++17
+LOCAL_CPPFLAGS			:= $(EXTERN_CFLAGS) -std=c++17 -frtti
 LOCAL_CPP_FEATURES		+= exceptions
 LOCAL_STATIC_LIBRARIES	:= openssl_crypto
 
@@ -58,9 +58,9 @@ LOCAL_SRC_FILES := \
 
 # cc7/crypto
 LOCAL_SRC_FILES += \
-	cc7/crypto/detail/OSSLObjects.cpp
+	cc7/crypto/detail/OSSLObjects.cpp \
 	cc7/crypto/CryptoPrivate.cpp \
-	cc7/crypto/Constants.cpp \
+	cc7/crypto/CryptoConstants.cpp \
 	cc7/crypto/Utility.cpp \
 	cc7/crypto/Cipher.cpp \
 	cc7/crypto/Key.cpp \
@@ -73,7 +73,7 @@ LOCAL_SRC_FILES += \
 	cc7/crypto/KeyEncapsulation.cpp \
 	cc7/crypto/KeyDerivation.cpp \
 	cc7/crypto/AEAD.cpp \
-	cc7/crypto/Parameter.cpp \
+	cc7/crypto/Parameter.cpp
 
 # cc7/crypto/alg
 LOCAL_SRC_FILES += \
@@ -110,7 +110,7 @@ NDK_TOOLCHAIN_VERSION := clang
 # Library name
 LOCAL_MODULE			:= libcc7tests
 LOCAL_CFLAGS			:= $(EXTERN_CFLAGS)
-LOCAL_CPPFLAGS			:= $(EXTERN_CFLAGS) -std=c++17
+LOCAL_CPPFLAGS			:= $(EXTERN_CFLAGS) -std=c++17 -frtti
 LOCAL_CPP_FEATURES		+= exceptions
 LOCAL_STATIC_LIBRARIES	:= cc7
 
