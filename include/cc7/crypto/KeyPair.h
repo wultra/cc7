@@ -49,6 +49,8 @@ class KeyPair : public BaseObject
 public:
     const PublicKey & getPublicKey() const { return *_public_key; }
     const PrivateKey & getPrivateKey() const { return *_private_key; }
+    PublicKey & getPublicKey() { return *_public_key; }
+    PrivateKey & getPrivateKey() { return *_private_key; }
     
     const PublicKeyPtr & getPublicKeyPtr() const { return _public_key; }
     const PrivateKeyPtr & getPrivateKeyPtr() const { return _private_key; }
