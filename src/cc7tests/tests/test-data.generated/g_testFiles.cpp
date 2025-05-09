@@ -18,6 +18,7 @@ namespace tests
      * test-data/signature-test-data.json
      * test-data/key-import-data.json
      * test-data/cipher-test-data.json
+     * test-data/kdf-test-data.json
 
   Usage:
 
@@ -1545,6 +1546,78 @@ static cc7::tests::TestResource cipher_test_data_json
 	);
 //
 // -----------------------------------------------------------------------------
+// File: test-data/kdf-test-data.json
+// -----------------------------------------------------------------------------
+static const char kdf_test_data_json_bytes[] = R"cc7resourcxx({
+    "description": "Test data for cc7/crypto/KeyDerivation algorithm",
+    "data": [{
+        "alg" : "PBKDF2-HMAC-SHA-1",
+        "tests": [{
+            "key"    : "70617373776f7264",
+            "salt"   : "73616c74",
+            "iter"   : 1,
+            "dk_len" : 20,
+            "dk"     : "0c60c80f961f0e71f3a9b524af6012062fe037a6"
+        },{
+            "key"    : "70617373776f7264",
+            "salt"   : "73616c74",
+            "iter"   : 2,
+            "dk_len" : 20,
+            "dk"     : "ea6c014dc72d6f8ccd1ed92ace1d41f0d8de8957"
+        },{
+            "key"    : "70617373776f7264",
+            "salt"   : "73616c74",
+            "iter"   : 4096,
+            "dk_len" : 20,
+            "dk"     : "4b007901b765489abead49d926f721d065a429c1"
+        },{
+            "key"    : "70617373776f726450415353574f524470617373776f7264",
+            "salt"   : "73616c7453414c5473616c7453414c5473616c7453414c5473616c7453414c5473616c74",
+            "iter"   : 4096,
+            "dk_len" : 25,
+            "dk"     : "3d2eec4fe41c849b80c8d83662c0e44a8b291a964cf2f07038"
+        }]
+    },{
+        "alg" : "PBKDF2-HMAC-SHA-256",
+        "tests" : [{
+            "key"    : "70617373776f7264",
+            "salt"   : "73616c74",
+            "iter"   : 1,
+            "dk_len" : 20,
+            "dk"     : "120fb6cffcf8b32c43e7225256c4f837a86548c9"
+        },{
+            "key"    : "70617373776f7264",
+            "salt"   : "73616c74",
+            "iter"   : 4096,
+            "dk_len" : 20,
+            "dk"     : "c5e478d59288c841aa530db6845c4c8d962893a0"
+        },{
+            "key"    : "70617373776f726450415353574f524470617373776f7264",
+            "salt"   : "73616c7453414c5473616c7453414c5473616c7453414c5473616c7453414c5473616c74",
+            "iter"   : 4096,
+            "dk_len" : 25,
+            "dk"     : "348c89dbcbd32b2f32d814b8116e84cf2b17347ebc1800181c"
+        },{
+            "key"    : "706173737764",
+            "salt"   : "73616c74",
+            "iter"   : 1,
+            "dk_len" : 128,
+            "dk"     : "55ac046e56e3089fec1691c22544b605f94185216dde0465e68b9d57c20dacbc49ca9cccf179b645991664b39d77ef317c71b845b1e30bd509112041d3a19783c294e850150390e1160c34d62e9665d659ae49d314510fc98274cc79681968104b8f89237e69b2d549111868658be62f59bd715cac44a1147ed5317c9bae6b2a"
+        }]
+    }]
+}
+)cc7resourcxx";
+static const size_t kdf_test_data_json_size = 2329;
+// -----------------------------------------------------------------------------
+//
+static cc7::tests::TestResource kdf_test_data_json
+	(
+		reinterpret_cast<const cc7::byte*>(kdf_test_data_json_bytes),
+		kdf_test_data_json_size,
+		"test-data/kdf-test-data.json"
+	);
+//
+// -----------------------------------------------------------------------------
 // Directory: test-data
 // -----------------------------------------------------------------------------
 //
@@ -1556,6 +1629,7 @@ cc7::tests::TestDirectory g_testFiles({
 	&signature_test_data_json,
 	&key_import_data_json,
 	&cipher_test_data_json,
+	&kdf_test_data_json,
 });
 
 } // tests

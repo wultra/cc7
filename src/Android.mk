@@ -157,6 +157,7 @@ LOCAL_SRC_FILES += \
 	cc7tests/tests/cc7crypto/cc7CryptoImportKeyTests.cpp \
 	cc7tests/tests/cc7crypto/cc7CryptoKeyAgreementTests.cpp \
 	cc7tests/tests/cc7crypto/cc7CryptoKeyEncapsulationTests.cpp \
+	cc7tests/tests/cc7crypto/cc7CryptoKeyDerivationTests.cpp \
 	cc7tests/tests/cc7crypto/cc7CryptoMACTests.cpp \
 	cc7tests/tests/cc7crypto/cc7CryptoMessageDigestTests.cpp \
 	cc7tests/tests/cc7crypto/cc7CryptoSignatureTests.cpp

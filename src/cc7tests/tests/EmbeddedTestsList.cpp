@@ -40,6 +40,7 @@ namespace tests
         CC7_ADD_UNIT_TEST(cc7CryptoImportKeyTests, list);
         CC7_ADD_UNIT_TEST(cc7CryptoMessageDigestTests, list);
         CC7_ADD_UNIT_TEST(cc7CryptoMACTests, list);
+        CC7_ADD_UNIT_TEST(cc7CryptoKeyDerivationTests, list);
         CC7_ADD_UNIT_TEST(cc7CryptoSignatureTests, list);
         CC7_ADD_UNIT_TEST(cc7CryptoKeyAgreementTests, list);
         CC7_ADD_UNIT_TEST(cc7CryptoKeyEncapsulationTests, list);

@@ -142,6 +142,9 @@
 		BF5A8C8E2DC5204400B3FB01 /* X963KDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8C8D2DC5204400B3FB01 /* X963KDF.cpp */; };
 		BF5A8C8F2DC5204400B3FB01 /* X963KDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8C8D2DC5204400B3FB01 /* X963KDF.cpp */; };
 		BF5A8C902DC5204400B3FB01 /* X963KDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8C8D2DC5204400B3FB01 /* X963KDF.cpp */; };
+		BF5A8CB02DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp */; };
+		BF5A8CB12DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp */; };
+		BF5A8CB22DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp */; };
 		BF79F0181D04BFB7004653A1 /* ObjcHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF79F0171D04BFB7004653A1 /* ObjcHelper.mm */; };
 		BF8B2B132DC7E46F00989AF3 /* NullKDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF8B2B122DC7E46F00989AF3 /* NullKDF.cpp */; };
 		BF8B2B142DC7E46F00989AF3 /* NullKDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF8B2B122DC7E46F00989AF3 /* NullKDF.cpp */; };
@@ -465,6 +468,8 @@
 		BF5A8C712DC16C5200B3FB01 /* cc7CryptoKeyEncapsulationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7CryptoKeyEncapsulationTests.cpp; sourceTree = "<group>"; };
 		BF5A8C8C2DC5204400B3FB01 /* X963KDF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = X963KDF.h; sourceTree = "<group>"; };
 		BF5A8C8D2DC5204400B3FB01 /* X963KDF.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = X963KDF.cpp; sourceTree = "<group>"; };
+		BF5A8CAF2DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7CryptoKeyDerivationTests.cpp; sourceTree = "<group>"; };
+		BF5A8CB32DCE1E0800B3FB01 /* kdf-test-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "kdf-test-data.json"; sourceTree = "<group>"; };
 		BF71B3E31D5AB5D800ABE831 /* README.jni.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.jni.txt; sourceTree = "<group>"; };
 		BF71B3E41D5AB95700ABE831 /* Android.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
 		BF79F0161D04BD32004653A1 /* ObjcHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjcHelper.h; sourceTree = "<group>"; };
@@ -768,6 +773,7 @@
 				BF5A00082DA53F570068992F /* cc7CryptoSignatureTests.cpp */,
 				BF5A002A2DA68BC30068992F /* cc7CryptoKeyAgreementTests.cpp */,
 				BF5A8C712DC16C5200B3FB01 /* cc7CryptoKeyEncapsulationTests.cpp */,
+				BF5A8CAF2DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp */,
 				BF5A8C6B2DBBFB1800B3FB01 /* cc7CryptoCipherTests.cpp */,
 				BF5A003C2DAE486D0068992F /* cc7CryptoImportKeyTests.cpp */,
 			);
@@ -957,6 +963,7 @@
 				BF0059332D9E721400C0F3AF /* md-test-data.json */,
 				BF5A00382DAD010A0068992F /* signature-test-data.json */,
 				BF5A003B2DAE459C0068992F /* key-import-data.json */,
+				BF5A8CB32DCE1E0800B3FB01 /* kdf-test-data.json */,
 				BF5A8C6F2DC0F23D00B3FB01 /* cipher-test-data.json */,
 			);
 			path = "test-data";
@@ -1378,6 +1385,7 @@
 				BFABCD742150036A00A9221F /* cc7Base32Tests.cpp in Sources */,
 				BF5A002B2DA68BC30068992F /* cc7CryptoKeyAgreementTests.cpp in Sources */,
 				BF1C7BBF1CE0CE9300C4399E /* cc7PlatformTests.cpp in Sources */,
+				BF5A8CB12DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp in Sources */,
 				BF498ACA1CDDD7ED00D7E904 /* cc7ByteArrayTests.cpp in Sources */,
 				BFC5254E1CDBC985002E653C /* PerformanceTimerApple.cpp in Sources */,
 				BF3068551CC91EE4002FD3BC /* UnitTest.cpp in Sources */,
@@ -1476,6 +1484,7 @@
 				BF8EEC2126662A0B009AC5FD /* cc7Base32Tests.cpp in Sources */,
 				BF5A002D2DA68BC30068992F /* cc7CryptoKeyAgreementTests.cpp in Sources */,
 				BF8EEC2226662A0B009AC5FD /* cc7PlatformTests.cpp in Sources */,
+				BF5A8CB22DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp in Sources */,
 				BF8EEC2326662A0B009AC5FD /* cc7ByteArrayTests.cpp in Sources */,
 				BF8EEC2426662A0B009AC5FD /* PerformanceTimerApple.cpp in Sources */,
 				BF8EEC2526662A0B009AC5FD /* UnitTest.cpp in Sources */,
@@ -1603,6 +1612,7 @@
 				BFFE8AC12449B53C0032821F /* cc7Base32Tests.cpp in Sources */,
 				BF5A002C2DA68BC30068992F /* cc7CryptoKeyAgreementTests.cpp in Sources */,
 				BFFE8AC22449B53C0032821F /* cc7PlatformTests.cpp in Sources */,
+				BF5A8CB02DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp in Sources */,
 				BFFE8AC32449B53C0032821F /* cc7ByteArrayTests.cpp in Sources */,
 				BFFE8AC42449B53C0032821F /* PerformanceTimerApple.cpp in Sources */,
 				BFFE8AC52449B53C0032821F /* UnitTest.cpp in Sources */,

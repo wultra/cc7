@@ -31,8 +31,6 @@ struct PBKDF2Spec
     std::string ossl_alg;
     std::string ossl_md;
     
-    size_t out_size;
-    
     static const PBKDF2Spec * specForAlgorithm(const std::string & algorithm);
 };
 
@@ -50,7 +48,7 @@ public:
 
     static KeyDerivationPtr getInstance(const std::string & alg_name);
 
-    PBKDF2(const PBKDF2Spec * spec) : _spec(spec), _out_size(spec->out_size), _iterations(100000) {}
+    PBKDF2(const PBKDF2Spec * spec) : _spec(spec), _out_size(0), _iterations(0) {}
 
 private:
 

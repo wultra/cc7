@@ -27,13 +27,13 @@ const PBKDF2Spec * PBKDF2Spec::specForAlgorithm(const std::string & algorithm)
 {
     
     static const std::vector<PBKDF2Spec> spec_list {
-        { "PBKDF2-HMAC-SHA-256",  OSSL_KDF_NAME_PBKDF2, "SHA-256",  32 },
-        { "PBKDF2-HMAC-SHA-384",  OSSL_KDF_NAME_PBKDF2, "SHA-384",  48 },
-        { "PBKDF2-HMAC-SHA-512",  OSSL_KDF_NAME_PBKDF2, "SHA-512",  64 },
-        { "PBKDF2-HMAC-SHA3-256", OSSL_KDF_NAME_PBKDF2, "SHA3-256", 32 },
-        { "PBKDF2-HMAC-SHA3-384", OSSL_KDF_NAME_PBKDF2, "SHA3-384", 48 },
-        { "PBKDF2-HMAC-SHA3-512", OSSL_KDF_NAME_PBKDF2, "SHA3-512", 64 },
-        { "PBKDF2-HMAC-SHA-1",    OSSL_KDF_NAME_PBKDF2, "SHA-1",    20 }
+        { "PBKDF2-HMAC-SHA-256",  OSSL_KDF_NAME_PBKDF2, "SHA-256"  },
+        { "PBKDF2-HMAC-SHA-384",  OSSL_KDF_NAME_PBKDF2, "SHA-384"  },
+        { "PBKDF2-HMAC-SHA-512",  OSSL_KDF_NAME_PBKDF2, "SHA-512"  },
+        { "PBKDF2-HMAC-SHA3-256", OSSL_KDF_NAME_PBKDF2, "SHA3-256" },
+        { "PBKDF2-HMAC-SHA3-384", OSSL_KDF_NAME_PBKDF2, "SHA3-384" },
+        { "PBKDF2-HMAC-SHA3-512", OSSL_KDF_NAME_PBKDF2, "SHA3-512" },
+        { "PBKDF2-HMAC-SHA-1",    OSSL_KDF_NAME_PBKDF2, "SHA-1"    }
     };
     for (const auto & spec : spec_list) {
         if (spec.name == algorithm) {
@@ -82,7 +82,7 @@ cc7::ByteArray PBKDF2::deriveKeyBytes(const ByteRange & key_material, const Para
         throw std::domain_error("Failed to initialize KDF and context");
     }
     ByteArray out(out_size, 0);
-    if (EVP_KDF_derive(ctx, out.data(), out.size(), params) != 1) {
+    if (EVP_KDF_derive(ctx, out.data(), out_size, params) != 1) {
         throw std::domain_error("Failed to derive secret key");
     }
     return out;
