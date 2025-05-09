@@ -179,7 +179,7 @@ const std::string & MLKEM::getAlgorithmName() const
 void MLKEM::setParameter(int param_id, const Parameter & value)
 {
     switch (param_id) {
-        case PARAM_OUT_KEY_TYPE:
+        case KDF_PARAM_KEY_TYPE:
             _output_key_type = value.asString();
             break;
             
@@ -191,7 +191,7 @@ void MLKEM::setParameter(int param_id, const Parameter & value)
 Parameter MLKEM::getParameter(int param_id) const
 {
     switch (param_id) {
-        case PARAM_OUT_KEY_TYPE:
+        case KDF_PARAM_KEY_TYPE:
             return Parameter::ref(_output_key_type);
             
         default:

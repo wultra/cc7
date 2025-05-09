@@ -54,8 +54,8 @@ cc7::ByteArray PBKDF2::deriveKeyBytes(const ByteRange & key_material, const Para
     auto param_ctx = parameters.beginParameterProcessing();
     parameters.getSize(KDF_PARAM_ITERATIONS, param_ctx, in_iterations);
     parameters.getBytes(KDF_PARAM_SALT, param_ctx, in_salt);
-    parameters.getSize(PARAM_OUT_KEY_SIZE, param_ctx, out_size);
-    parameters.consumeParam(PARAM_OUT_KEY_TYPE, param_ctx);
+    parameters.getSize(KDF_PARAM_KEY_SIZE, param_ctx, out_size);
+    parameters.consumeParam(KDF_PARAM_KEY_TYPE, param_ctx);
     parameters.endParameterProcessing(param_ctx);
     
     if (!out_size) {
@@ -96,7 +96,7 @@ const std::string & PBKDF2::getAlgorithmName() const
 void PBKDF2::setParameter(int param_id, const Parameter & value)
 {
     switch (param_id) {
-        case PARAM_OUT_KEY_SIZE:
+        case KDF_PARAM_KEY_SIZE:
             _out_size = value.asSize();
             break;
         case KDF_PARAM_ITERATIONS:
@@ -111,7 +111,7 @@ void PBKDF2::setParameter(int param_id, const Parameter & value)
 Parameter PBKDF2::getParameter(int param_id) const
 {
     switch (param_id) {
-        case PARAM_OUT_KEY_SIZE:
+        case KDF_PARAM_KEY_SIZE:
             return Parameter::take(_out_size);
         case KDF_PARAM_ITERATIONS:
             return Parameter::take(_iterations);

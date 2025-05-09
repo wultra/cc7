@@ -48,9 +48,9 @@ cc7::ByteArray X963KDF::deriveKeyBytes(const ByteRange & key_material, const Par
     size_t out_size = _out_size;
     ByteRange in_info;
     auto param_ctx = parameters.beginParameterProcessing();
-    parameters.getSize(PARAM_OUT_KEY_SIZE, param_ctx, out_size);
+    parameters.getSize(KDF_PARAM_KEY_SIZE, param_ctx, out_size);
     parameters.getBytes(KDF_PARAM_INFO, param_ctx, in_info);
-    parameters.consumeParam(PARAM_OUT_KEY_TYPE, param_ctx);
+    parameters.consumeParam(KDF_PARAM_KEY_TYPE, param_ctx);
     parameters.endParameterProcessing(param_ctx);
     if (!out_size) {
         throw std::invalid_argument("Output size for KDF not specified");
@@ -82,7 +82,7 @@ const std::string & X963KDF::getAlgorithmName() const
 void X963KDF::setParameter(int param_id, const Parameter & value)
 {
     switch (param_id) {
-        case PARAM_OUT_KEY_SIZE:
+        case KDF_PARAM_KEY_SIZE:
             _out_size = value.asSize();
             break;
             
@@ -94,7 +94,7 @@ void X963KDF::setParameter(int param_id, const Parameter & value)
 Parameter X963KDF::getParameter(int param_id) const
 {
     switch (param_id) {
-        case PARAM_OUT_KEY_SIZE:
+        case KDF_PARAM_KEY_SIZE:
             return Parameter::take(_out_size);
             
         default:

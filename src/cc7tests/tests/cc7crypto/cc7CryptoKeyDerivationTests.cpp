@@ -43,6 +43,8 @@ public:
             // Load algorithm
             auto algorithm = item.stringAtPath("alg");
             // Iterate over all test vectors
+            ccstMessage("%s", algorithm.c_str());
+            
             auto && test_vectors = item.arrayAtPath("tests");
             for (const auto & test_data : test_vectors) {
                 // create instance of MAC algorithm
@@ -51,10 +53,7 @@ public:
                 auto key = test_data.dataFromHexStringAtPath("key");
                 auto expected_dk = test_data.dataFromHexStringAtPath("dk");
                 
-                crypto::ParameterList params;
-                if (test_data.containsValueAtPath("dk_len", JSONValue::Integer)) {
-                    params[crypto::PARAM_OUT_KEY_SIZE] = crypto::Parameter::take((size_t)test_data.integerAtPath("dk_len"));
-                }
+                crypto::ParameterList params { { crypto::KDF_PARAM_KEY_SIZE, crypto::Parameter::take(expected_dk.size()) } };
                 if (test_data.containsValueAtPath("info")) {
                     params[crypto::KDF_PARAM_INFO] = crypto::Parameter::copy(test_data.dataFromHexStringAtPath("info"));
                 }

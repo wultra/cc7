@@ -28,8 +28,8 @@ cc7::ByteArray NullKDF::deriveKeyBytes(const ByteRange & key_material, const Par
     size_t out_size = _out_key_size;
     
     auto param_ctx = parameters.beginParameterProcessing();
-    parameters.getSize(PARAM_OUT_KEY_SIZE, param_ctx, out_size);
-    parameters.consumeParam(PARAM_OUT_KEY_TYPE, param_ctx);
+    parameters.getSize(KDF_PARAM_KEY_SIZE, param_ctx, out_size);
+    parameters.consumeParam(KDF_PARAM_KEY_TYPE, param_ctx);
     parameters.endParameterProcessing(param_ctx);
     
     if (!out_size) {
@@ -56,11 +56,11 @@ const std::string & NullKDF::getAlgorithmName() const
 void NullKDF::setParameter(int param_id, const Parameter & value)
 {
     switch (param_id) {
-        case PARAM_OUT_KEY_TYPE:
+        case KDF_PARAM_KEY_TYPE:
             _out_key_type = value.asString();
             _out_key_size = SymmetricKey::getInstance(_out_key_type)->getKeySize();
             break;
-        case PARAM_OUT_KEY_SIZE:
+        case KDF_PARAM_KEY_SIZE:
             _out_key_type = value.asString();
             break;
         default:
@@ -71,10 +71,10 @@ void NullKDF::setParameter(int param_id, const Parameter & value)
 Parameter NullKDF::getParameter(int param_id) const
 {
     switch (param_id) {
-        case PARAM_OUT_KEY_TYPE:
+        case KDF_PARAM_KEY_TYPE:
             return Parameter::ref(_out_key_type);
             
-        case PARAM_OUT_KEY_SIZE:
+        case KDF_PARAM_KEY_SIZE:
             return Parameter::take(_out_key_size);
             
         default:

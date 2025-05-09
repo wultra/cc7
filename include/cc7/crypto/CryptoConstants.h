@@ -55,12 +55,7 @@ extern std::string KeyFormat_ToString(KeyFormat format, bool human_readable = fa
 enum AlgorithmParameterId
 {
     // Common
-    
-    /// Alter output key type. Parameter is string type.
-    PARAM_OUT_KEY_TYPE          = 0x0001,
-    /// Alter output key size in bytes. Parameter is size type.
-    PARAM_OUT_KEY_SIZE,
-    
+        
     // Key specific parameters
     
     /// Get EC public key X component. Parameter is byte array type.
@@ -91,9 +86,13 @@ enum AlgorithmParameterId
     MAC_PARAM_CUSTOM_DATA,
     
     // KDF
-    
+
+    /// Alter output key type returned from KDF algorithm. Parameter is string type.
+    KDF_PARAM_KEY_TYPE          = 0x0060,
+    /// Alter output key size returned from KDF algorithm. Parameter is size type.
+    KDF_PARAM_KEY_SIZE,
     /// Provide salt to KDF algorithm. Parameter is byte array type.
-    KDF_PARAM_SALT              = 0x0060,
+    KDF_PARAM_SALT,
     /// Provide number of iterations to KDF algorithm. Parameter is size type.
     KDF_PARAM_ITERATIONS,
     /// Provide additional info bytes to KDF algorithm. Parameter is byte array type.
