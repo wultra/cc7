@@ -27,14 +27,44 @@ namespace crypto
 class AEAD : public Algorithm
 {
 public:    
-    virtual ByteArray seal(const SymmetricKey & secret_key,
+    virtual ByteArray seal(const ByteRange & key,
                            const ByteRange & nonce,
                            const ByteRange & associated_data,
-                           const ByteRange & plaintext) const = 0;
+                           const ByteRange & plaintext,
+                           const ParameterList & params = {}) const = 0;
     
-    virtual ByteArray open(const SymmetricKey & secret_key,
+    virtual ByteArray open(const ByteRange & key,
                            const ByteRange & associated_data,
-                           const ByteRange & ciphertext) const = 0;
+                           const ByteRange & ciphertext,
+                           const ParameterList & params = {}) const = 0;
+    
+    ByteArray seal(const SymmetricKey & key,
+                   const ByteRange & nonce,
+                   const ByteRange & associated_data,
+                   const ByteRange & plaintext,
+                   const ParameterList & params = {}) const
+    {
+        if (key.getKeyContext().empty()) {
+            return seal(key.getKeyData().byteRange(), nonce, associated_data, plaintext, params);
+        }
+        auto p = params;
+        p[AEAD_PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyData());
+        return seal(key.getKeyData().byteRange(), nonce, associated_data, plaintext, p);
+    }
+    
+    ByteArray open(const SymmetricKey & key,
+                   const ByteRange & associated_data,
+                   const ByteRange & ciphertext,
+                   const ParameterList & params = {}) const
+    {
+        if (key.getKeyContext().empty()) {
+            return open(key.getKeyData().byteRange(), associated_data, ciphertext, params);
+        }
+        auto p = params;
+        p[AEAD_PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyData());
+        return open(key.getKeyData().byteRange(), associated_data, ciphertext, p);
+    }
+
     
     static std::shared_ptr<AEAD> getInstance(const std::string & algorithm);
 };

@@ -87,6 +87,9 @@
 		BF0059502D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
 		BF0059512D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
 		BF0059522D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
+		BF14D45B2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF14D45A2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp */; };
+		BF14D45C2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF14D45A2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp */; };
+		BF14D45D2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF14D45A2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp */; };
 		BF1C7BBF1CE0CE9300C4399E /* cc7PlatformTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1C7BBE1CE0CE9300C4399E /* cc7PlatformTests.cpp */; };
 		BF22BDFD2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF22BDFC2476995A00029A38 /* cc7OpenSSLIntegration.cpp */; };
 		BF22BDFE2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF22BDFC2476995A00029A38 /* cc7OpenSSLIntegration.cpp */; };
@@ -106,9 +109,9 @@
 		BF5A00092DA53F570068992F /* cc7CryptoSignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* cc7CryptoSignatureTests.cpp */; };
 		BF5A000A2DA53F570068992F /* cc7CryptoSignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* cc7CryptoSignatureTests.cpp */; };
 		BF5A000B2DA53F570068992F /* cc7CryptoSignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* cc7CryptoSignatureTests.cpp */; };
-		BF5A000E2DA541930068992F /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Utility.cpp */; };
-		BF5A000F2DA541930068992F /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Utility.cpp */; };
-		BF5A00102DA541930068992F /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Utility.cpp */; };
+		BF5A000E2DA541930068992F /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Random.cpp */; };
+		BF5A000F2DA541930068992F /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Random.cpp */; };
+		BF5A00102DA541930068992F /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Random.cpp */; };
 		BF5A00182DA654EC0068992F /* KeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00172DA654EC0068992F /* KeyAgreement.cpp */; };
 		BF5A00192DA654EC0068992F /* KeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00172DA654EC0068992F /* KeyAgreement.cpp */; };
 		BF5A001A2DA654EC0068992F /* KeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00172DA654EC0068992F /* KeyAgreement.cpp */; };
@@ -413,6 +416,8 @@
 		BF0059592DA025CD00C0F3AF /* SymmetricKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SymmetricKey.h; sourceTree = "<group>"; };
 		BF0D67EF1CE63DF90070D853 /* PrefixCC7.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixCC7.pch; sourceTree = "<group>"; };
 		BF0D67F01CE63EDA0070D853 /* PrefixCC7Tests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixCC7Tests.pch; sourceTree = "<group>"; };
+		BF14D4592DD3233D00BA7F51 /* aead-test-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "aead-test-data.json"; sourceTree = "<group>"; };
+		BF14D45A2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7CryptoAEADTests.cpp; sourceTree = "<group>"; };
 		BF1C7BBE1CE0CE9300C4399E /* cc7PlatformTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cc7PlatformTests.cpp; sourceTree = "<group>"; };
 		BF22BDFC2476995A00029A38 /* cc7OpenSSLIntegration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7OpenSSLIntegration.cpp; sourceTree = "<group>"; };
 		BF2723621D340ED700020395 /* JniHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JniHelper.h; sourceTree = "<group>"; };
@@ -444,8 +449,8 @@
 		BF4B4A861CB93B8B00BF2C9D /* ByteRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ByteRange.cpp; sourceTree = "<group>"; };
 		BF4B4AB41CC6BF6100BF2C9D /* CC7.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CC7.h; sourceTree = "<group>"; };
 		BF5A00082DA53F570068992F /* cc7CryptoSignatureTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7CryptoSignatureTests.cpp; sourceTree = "<group>"; };
-		BF5A000C2DA540D50068992F /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
-		BF5A000D2DA541930068992F /* Utility.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Utility.cpp; sourceTree = "<group>"; };
+		BF5A000C2DA540D50068992F /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
+		BF5A000D2DA541930068992F /* Random.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
 		BF5A00152DA5D0DA0068992F /* KeyEncapsulation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyEncapsulation.h; sourceTree = "<group>"; };
 		BF5A00162DA654370068992F /* KeyAgreement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyAgreement.h; sourceTree = "<group>"; };
 		BF5A00172DA654EC0068992F /* KeyAgreement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyAgreement.cpp; sourceTree = "<group>"; };
@@ -614,7 +619,7 @@
 				BF5A00292DA67ECF0068992F /* BaseObject.h */,
 				BF0059152D9ABA6C00C0F3AF /* Algorithm.h */,
 				BF00593C2D9E7CC300C0F3AF /* Parameter.h */,
-				BF5A000C2DA540D50068992F /* Utility.h */,
+				BF5A000C2DA540D50068992F /* Random.h */,
 				BF0058D92D9548A500C0F3AF /* Key.h */,
 				BF0059592DA025CD00C0F3AF /* SymmetricKey.h */,
 				BF0058D72D942A6600C0F3AF /* KeyPair.h */,
@@ -638,7 +643,7 @@
 				BF0058FD2D9AA16D00C0F3AF /* CryptoPrivate.h */,
 				BF0059212D9C093500C0F3AF /* CryptoPrivate.cpp */,
 				BFC372962DA02B2D00BA292D /* CryptoConstants.cpp */,
-				BF5A000D2DA541930068992F /* Utility.cpp */,
+				BF5A000D2DA541930068992F /* Random.cpp */,
 				BF0058E22D9A9FF300C0F3AF /* Cipher.cpp */,
 				BF0058E32D9A9FF300C0F3AF /* Key.cpp */,
 				BF0058E42D9A9FF300C0F3AF /* KeyPair.cpp */,
@@ -775,6 +780,7 @@
 				BF5A8C712DC16C5200B3FB01 /* cc7CryptoKeyEncapsulationTests.cpp */,
 				BF5A8CAF2DCE1C7600B3FB01 /* cc7CryptoKeyDerivationTests.cpp */,
 				BF5A8C6B2DBBFB1800B3FB01 /* cc7CryptoCipherTests.cpp */,
+				BF14D45A2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp */,
 				BF5A003C2DAE486D0068992F /* cc7CryptoImportKeyTests.cpp */,
 			);
 			path = cc7crypto;
@@ -965,6 +971,7 @@
 				BF5A003B2DAE459C0068992F /* key-import-data.json */,
 				BF5A8CB32DCE1E0800B3FB01 /* kdf-test-data.json */,
 				BF5A8C6F2DC0F23D00B3FB01 /* cipher-test-data.json */,
+				BF14D4592DD3233D00BA7F51 /* aead-test-data.json */,
 			);
 			path = "test-data";
 			sourceTree = "<group>";
@@ -1368,6 +1375,7 @@
 				BF9FFBCA1CE3BF08006CAA74 /* cc7Base64Tests.cpp in Sources */,
 				BF0059382D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp in Sources */,
 				BF0059392D9E72F300C0F3AF /* cc7CryptoMACTests.cpp in Sources */,
+				BF14D45C2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp in Sources */,
 				BFC5254B1CDBC887002E653C /* PerformanceTimer.cpp in Sources */,
 				BF3068581CC95503002FD3BC /* TestLog.cpp in Sources */,
 				BF22BDFD2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */,
@@ -1423,7 +1431,7 @@
 				BF8EEC0126662A01009AC5FD /* Base64.cpp in Sources */,
 				BF0058D42D9424DC00C0F3AF /* Signature.cpp in Sources */,
 				BF8B2B142DC7E46F00989AF3 /* NullKDF.cpp in Sources */,
-				BF5A000E2DA541930068992F /* Utility.cpp in Sources */,
+				BF5A000E2DA541930068992F /* Random.cpp in Sources */,
 				BF5A00372DA906430068992F /* KeyUtility.cpp in Sources */,
 				BF8EEC0226662A01009AC5FD /* HexString.cpp in Sources */,
 				BFC372942DA0286D00BA292D /* SymmetricKey.cpp in Sources */,
@@ -1467,6 +1475,7 @@
 				BF8EEC1326662A0B009AC5FD /* cc7Base64Tests.cpp in Sources */,
 				BF00593A2D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp in Sources */,
 				BF00593B2D9E72F300C0F3AF /* cc7CryptoMACTests.cpp in Sources */,
+				BF14D45B2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp in Sources */,
 				BF8EEC1426662A0B009AC5FD /* PerformanceTimer.cpp in Sources */,
 				BF8EEC1526662A0B009AC5FD /* TestLog.cpp in Sources */,
 				BF8EEC1626662A0B009AC5FD /* cc7OpenSSLIntegration.cpp in Sources */,
@@ -1506,7 +1515,7 @@
 				BF9FFBC51CE3AEFE006CAA74 /* Base64.cpp in Sources */,
 				BF0058D52D9424DC00C0F3AF /* Signature.cpp in Sources */,
 				BF8B2B152DC7E46F00989AF3 /* NullKDF.cpp in Sources */,
-				BF5A00102DA541930068992F /* Utility.cpp in Sources */,
+				BF5A00102DA541930068992F /* Random.cpp in Sources */,
 				BF5A00362DA906430068992F /* KeyUtility.cpp in Sources */,
 				BF9FFBC71CE3B94D006CAA74 /* HexString.cpp in Sources */,
 				BFC372922DA0286D00BA292D /* SymmetricKey.cpp in Sources */,
@@ -1551,7 +1560,7 @@
 				BFFE8AA12449B4F80032821F /* Base64.cpp in Sources */,
 				BF0058D62D9424DC00C0F3AF /* Signature.cpp in Sources */,
 				BF8B2B132DC7E46F00989AF3 /* NullKDF.cpp in Sources */,
-				BF5A000F2DA541930068992F /* Utility.cpp in Sources */,
+				BF5A000F2DA541930068992F /* Random.cpp in Sources */,
 				BF5A00352DA906430068992F /* KeyUtility.cpp in Sources */,
 				BFFE8AA22449B4F80032821F /* HexString.cpp in Sources */,
 				BFC372932DA0286D00BA292D /* SymmetricKey.cpp in Sources */,
@@ -1595,6 +1604,7 @@
 				BFFE8AB42449B53C0032821F /* cc7Base64Tests.cpp in Sources */,
 				BF0059362D9E72F300C0F3AF /* cc7CryptoMessageDigestTests.cpp in Sources */,
 				BF0059372D9E72F300C0F3AF /* cc7CryptoMACTests.cpp in Sources */,
+				BF14D45D2DD324CD00BA7F51 /* cc7CryptoAEADTests.cpp in Sources */,
 				BFFE8AB52449B53C0032821F /* PerformanceTimer.cpp in Sources */,
 				BFFE8AB62449B53C0032821F /* TestLog.cpp in Sources */,
 				BF22BDFE2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */,

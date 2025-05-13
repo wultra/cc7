@@ -17,6 +17,7 @@
 #pragma once
 
 #include <cc7/crypto/Cipher.h>
+#include <cc7/crypto/AEAD.h>
 #include "../CryptoPrivate.h"
 
 namespace cc7
@@ -30,6 +31,7 @@ struct AESSpec
     
     size_t key_size;
     size_t iv_size;
+    size_t tag_size;
     
     bool   need_padding;
     
@@ -64,6 +66,46 @@ private:
     {}
     
     size_t validateInputParams(size_t key_size, size_t iv_size, size_t data_size, bool encrypt) const;
+};
+
+
+struct AES_AEAD_Spec
+{
+    std::string name;
+    std::string cipher;
+    ByteArray (*MakeCryptogram)(const ByteRange & iv, const ByteRange & tag, const ByteRange & ct);
+    void      (*ExtractFields)(const ByteRange & cryptogram, ByteRange & iv, ByteRange & tag, ByteRange & ct);
+    
+    static const AES_AEAD_Spec * specForAlgorithm(const std::string & algorithm);
+};
+
+class AES_GCM_AEAD : public AEAD
+{
+public:
+    // AEAD interface
+    ByteArray seal(const ByteRange & key,
+                   const ByteRange & nonce,
+                   const ByteRange & associated_data,
+                   const ByteRange & plaintext,
+                   const ParameterList & params) const override;
+    
+    ByteArray open(const ByteRange & key,
+                   const ByteRange & associated_data,
+                   const ByteRange & ciphertext,
+                   const ParameterList & params) const override;
+    
+    // Algorithm interface
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
+
+    AES_GCM_AEAD(const AES_AEAD_Spec * spec, CipherPtr cipher) : _spec(spec), _aes(cipher) {}
+    
+    static AEADPtr getInstance(const std::string & algorithm);
+
+private:
+    const AES_AEAD_Spec * _spec;
+    CipherPtr _aes;
 };
 
 } // cc7::crypto

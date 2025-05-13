@@ -19,6 +19,7 @@ namespace tests
      * test-data/key-import-data.json
      * test-data/cipher-test-data.json
      * test-data/kdf-test-data.json
+     * test-data/aead-test-data.json
 
   Usage:
 
@@ -1532,10 +1533,67 @@ static const char cipher_test_data_json_bytes[] = R"cc7resourcxx({
             "pt"  : "451f45663b44fd005f3c288ae57b383883f02d9ad3dc1715f9e3d6948564257b9b06d7dd51935fee580a96bbdfefb918b4e6b1daac809847465578cb8b5356ed38556f801ff7c11ecba9cdd263039c15d05900fc228e1caf302d261d7fb56cee663595b96f192a78ff4455393a5fe8162170a066fdaeac35019469f22b3470686bced2f007a1a2e43e01b4562caaa502ed541b8205874ec1ffb1c8b255766942",
             "ct"  : "01043053f832ef9b911ed387ba577451e30d51d4b6b11f319d4cd539d067b7f4f9b4f41f7f3d4e920c57cbe2b5e1885aa66203ae493e93a1df63793a9563c176bc6775dd09cc9161e278a01beb8fd8a19200326bd95abc5f716768e34f90b50523d30fdabb103a3bc020afbbb0cb3bd2ad512a6fea79f8d64cef347458dec48be89451cb0b807d73593f273d9fc521b789a77524404f43e00f20b3b77b938b1a",
         }],
+    },{
+        "alg": "AES-128-GCM",
+        "pad": false,
+        "vectors":[{
+            "key" : "11754cd72aec309bf52f7687212e8957",
+            "iv"  : "3c819d9a9bed087615030b65",
+            "pt"  : "",
+            "ct"  : "",
+            "aad" : "",
+            "tag" : "250327c674aaf477aef2675748cf6971"
+        },{
+            "key" : "952117048f77e276c2ef6580537c1403",
+            "iv"  : "070b8fb46a7ad52885be1b26",
+            "pt"  : "",
+            "ct"  : "",
+            "aad" : "34b088f982818b5f07dabe2b62f9547f4ed09912",
+            "tag" : "bedd4cf30fd7a4abc49bdcc3f3b248b1"
+        },{
+            "key" : "cbd3b8dbfcfb11ce345706e6cd73881a",
+            "iv"  : "dc62bb68d0ec9a5d759d6741",
+            "pt"  : "85f83bf598dfd55bc8bfde2a64",
+            "ct"  : "206f6b3bb032dfecd39f8340b1",
+            "aad" : "0944b661fe6294f3c92abb087ec1b259b032dc4e0c5f28681cbe6e63c2178f474326f35ad3ca80c28e3485e7e5b252c8",
+            "tag" : "425a21b2ea90580c889134032b914bb5"
+        }]
+    },{
+        "alg": "AES-256-GCM",
+        "pad": false,
+        "vectors":[{
+            "key" : "b52c505a37d78eda5dd34f20c22540ea1b58963cf8e5bf8ffa85f9f2492505b4",
+            "iv"  : "516c33929df5a3284ff463d7",
+            "pt"  : "",
+            "ct"  : "",
+            "aad" : "",
+            "tag" : "bdc1ac884d332457a1d2664f168c76f0"
+        },{
+            "key" : "78dc4e0aaf52d935c3c01eea57428f00ca1fd475f5da86a49c8dd73d68c8e223",
+            "iv"  : "d79cf22d504cc793c3fb6c8a",
+            "pt"  : "",
+            "ct"  : "",
+            "aad" : "b96baa8c1c75a671bfb2d08d06be5f36",
+            "tag" : "3e5d486aa2e30b22e040b85723a06e76"
+        },{
+            "key" : "82c4f12eeec3b2d3d157b0f992d292b237478d2cecc1d5f161389b97f999057a",
+            "iv"  : "7b40b20f5f397177990ef2d1",
+            "pt"  : "982a296ee1cd7086afad976945",
+            "ct"  : "ec8e05a0471d6b43a59ca5335f",
+            "aad" : "",
+            "tag" : "113ddeafc62373cac2f5951bb9165249"
+        },{
+            "key" : "5f671466378f470ba5f5160e2209f3d95a48b7e560625d5a08654414de23aee2",
+            "iv"  : "6b3c08a663d04132243dd96c",
+            "pt"  : "c428592d9f8a7f107ec4d0df05",
+            "ct"  : "1d8d7fe4357080c817303ce19c",
+            "aad" : "12965559c31d538f937bda6eee9c93b0387318dc5d9496fb1c3a0b9b978dbfebff2a5823974ee9d679834dbe59f7ec51",
+            "tag" : "e88d6b566fdc7b4fd62106bd2eb806ec"
+        }]
     }]
 }
 )cc7resourcxx";
-static const size_t cipher_test_data_json_size = 4020;
+static const size_t cipher_test_data_json_size = 6429;
 // -----------------------------------------------------------------------------
 //
 static cc7::tests::TestResource cipher_test_data_json
@@ -1627,6 +1685,74 @@ static cc7::tests::TestResource kdf_test_data_json
 	);
 //
 // -----------------------------------------------------------------------------
+// File: test-data/aead-test-data.json
+// -----------------------------------------------------------------------------
+static const char aead_test_data_json_bytes[] = R"cc7resourcxx({
+    "description": "Test data for cc7/crypto/Cipher algorithm",
+    "data": [{
+        "alg": "AES-128-GCM#I12T16D",
+        "pad": false,
+        "vectors":[{
+            "key" : "11754cd72aec309bf52f7687212e8957",
+            "aad" : "",
+            "pt"  : "",
+            "iv"  : "3c819d9a9bed087615030b65",
+            "ct"  : "3c819d9a9bed087615030b65250327c674aaf477aef2675748cf6971"
+        },{
+            "key" : "952117048f77e276c2ef6580537c1403",
+            "aad" : "34b088f982818b5f07dabe2b62f9547f4ed09912",
+            "iv"  : "070b8fb46a7ad52885be1b26",
+            "pt"  : "",
+            "ct"  : "070b8fb46a7ad52885be1b26bedd4cf30fd7a4abc49bdcc3f3b248b1",
+        },{
+            "key" : "cbd3b8dbfcfb11ce345706e6cd73881a",
+            "aad" : "0944b661fe6294f3c92abb087ec1b259b032dc4e0c5f28681cbe6e63c2178f474326f35ad3ca80c28e3485e7e5b252c8",
+            "iv"  : "dc62bb68d0ec9a5d759d6741",
+            "pt"  : "85f83bf598dfd55bc8bfde2a64",
+            "ct"  : "dc62bb68d0ec9a5d759d6741425a21b2ea90580c889134032b914bb5206f6b3bb032dfecd39f8340b1",
+        }]
+    },{
+        "alg": "AES-256-GCM#I12T16D",
+        "pad": false,
+        "vectors":[{
+            "key" : "b52c505a37d78eda5dd34f20c22540ea1b58963cf8e5bf8ffa85f9f2492505b4",
+            "aad" : "",
+            "iv"  : "516c33929df5a3284ff463d7",
+            "pt"  : "",
+            "ct"  : "516c33929df5a3284ff463d7bdc1ac884d332457a1d2664f168c76f0",
+        },{
+            "key" : "78dc4e0aaf52d935c3c01eea57428f00ca1fd475f5da86a49c8dd73d68c8e223",
+            "aad" : "b96baa8c1c75a671bfb2d08d06be5f36",
+            "iv"  : "d79cf22d504cc793c3fb6c8a",
+            "pt"  : "",
+            "ct"  : "d79cf22d504cc793c3fb6c8a3e5d486aa2e30b22e040b85723a06e76",
+        },{
+            "key" : "82c4f12eeec3b2d3d157b0f992d292b237478d2cecc1d5f161389b97f999057a",
+            "aad" : "",
+            "iv"  : "7b40b20f5f397177990ef2d1",
+            "pt"  : "982a296ee1cd7086afad976945",
+            "ct"  : "7b40b20f5f397177990ef2d1113ddeafc62373cac2f5951bb9165249ec8e05a0471d6b43a59ca5335f",
+        },{
+            "key" : "5f671466378f470ba5f5160e2209f3d95a48b7e560625d5a08654414de23aee2",
+            "aad" : "12965559c31d538f937bda6eee9c93b0387318dc5d9496fb1c3a0b9b978dbfebff2a5823974ee9d679834dbe59f7ec51",
+            "iv"  : "6b3c08a663d04132243dd96c",
+            "pt"  : "c428592d9f8a7f107ec4d0df05",
+            "ct"  : "6b3c08a663d04132243dd96ce88d6b566fdc7b4fd62106bd2eb806ec1d8d7fe4357080c817303ce19c",
+        }]
+    }]
+}
+)cc7resourcxx";
+static const size_t aead_test_data_json_size = 2513;
+// -----------------------------------------------------------------------------
+//
+static cc7::tests::TestResource aead_test_data_json
+	(
+		reinterpret_cast<const cc7::byte*>(aead_test_data_json_bytes),
+		aead_test_data_json_size,
+		"test-data/aead-test-data.json"
+	);
+//
+// -----------------------------------------------------------------------------
 // Directory: test-data
 // -----------------------------------------------------------------------------
 //
@@ -1639,6 +1765,7 @@ cc7::tests::TestDirectory g_testFiles({
 	&key_import_data_json,
 	&cipher_test_data_json,
 	&kdf_test_data_json,
+	&aead_test_data_json,
 });
 
 } // tests

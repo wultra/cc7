@@ -61,7 +61,7 @@ LOCAL_SRC_FILES += \
 	cc7/crypto/detail/OSSLObjects.cpp \
 	cc7/crypto/CryptoPrivate.cpp \
 	cc7/crypto/CryptoConstants.cpp \
-	cc7/crypto/Utility.cpp \
+	cc7/crypto/Random.cpp \
 	cc7/crypto/Cipher.cpp \
 	cc7/crypto/Key.cpp \
 	cc7/crypto/KeyPair.cpp \
@@ -154,6 +154,7 @@ LOCAL_SRC_FILES += \
 # Unit tests (cc7/crypto)
 LOCAL_SRC_FILES += \
 	cc7tests/tests/cc7crypto/cc7CryptoCipherTests.cpp \
+	cc7tests/tests/cc7crypto/cc7CryptoAEADTests.cpp \
 	cc7tests/tests/cc7crypto/cc7CryptoImportKeyTests.cpp \
 	cc7tests/tests/cc7crypto/cc7CryptoKeyAgreementTests.cpp \
 	cc7tests/tests/cc7crypto/cc7CryptoKeyEncapsulationTests.cpp \

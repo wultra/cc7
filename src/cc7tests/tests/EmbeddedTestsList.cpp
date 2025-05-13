@@ -45,6 +45,7 @@ namespace tests
         CC7_ADD_UNIT_TEST(cc7CryptoKeyAgreementTests, list);
         CC7_ADD_UNIT_TEST(cc7CryptoKeyEncapsulationTests, list);
         CC7_ADD_UNIT_TEST(cc7CryptoCipherTests, list);
+        CC7_ADD_UNIT_TEST(cc7CryptoAEADTests, list);
         
         // OpenSSL
         CC7_ADD_UNIT_TEST(cc7OpenSSLIntegration, list);

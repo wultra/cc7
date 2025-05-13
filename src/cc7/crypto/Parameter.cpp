@@ -37,6 +37,11 @@ const ByteRange & Parameter::asByteRange() const
     return _value->asByteRange();
 }
 
+ByteArray & Parameter::asOutArray() const
+{
+    return _value->asOutArray();
+}
+
 bool Parameter::asBool() const
 {
     return _value->asBool();
@@ -89,6 +94,11 @@ Parameter Parameter::ref(const ByteRange & range)
     return Parameter(new Value(range, false));
 }
 
+Parameter Parameter::outRef(ByteArray & array)
+{
+    return Parameter(new Value(array));
+}
+
 Parameter Parameter::copy(const std::string & str)
 {
     return Parameter(new Value(str, true));
@@ -115,7 +125,15 @@ const cc7::ByteRange & Parameter::Value::asByteRange() const
     if (_t == T_Range || _t == T_Array) {
         return _range;
     }
-    throw std::invalid_argument("Parameter must be type of byte array");
+    throw std::invalid_argument("Parameter must be type of byte range");
+}
+
+ByteArray & Parameter::Value::asOutArray() const
+{
+    if (_t == T_OutArray) {
+        return *_out_array_ptr;
+    }
+    throw std::invalid_argument("Parameter must be type of output array");
 }
 
 BaseObjectPtr Parameter::Value::asObject() const
@@ -178,6 +196,12 @@ Parameter::Value::Value(const ByteRange & range, bool copy)
         _t = T_Range;
         _range = range;
     }
+}
+
+Parameter::Value::Value(ByteArray & out_array)
+{
+    _t = T_OutArray;
+    _out_array_ptr = &out_array;
 }
 
 Parameter::Value::Value(const BaseObjectPtr & ptr)
@@ -274,6 +298,16 @@ bool ParameterList::getBytes(int param_id, ParameterListCtx & ctx, ByteRange & o
     auto result = consume(param_id, ctx, it);
     if (result) {
         out_value = it->second.asByteRange();
+    }
+    return result;
+}
+
+bool ParameterList::getOutArray(int param_id, ParameterListCtx & ctx, ByteArray*& out_value) const
+{
+    parent_class::const_iterator it;
+    auto result = consume(param_id, ctx, it);
+    if (result) {
+        out_value = &it->second.asOutArray();
     }
     return result;
 }

@@ -15,6 +15,7 @@
  */
 
 #include "AES.h"
+#include <cc7/crypto/Random.h>
 #include <cc7/Utilities.h>
 
 namespace cc7
@@ -28,13 +29,15 @@ struct AESModeSpec
 {
     std::string mode;
     size_t iv_size;
-    bool   need_padding;
+    size_t tag_size;
+    bool need_padding;
 };
 
 static const std::vector<AESModeSpec> s_modes = {
-    { "-CTR", 16, false },
-    { "-CBC", 16, true  },
-    { "-ECB", 0, true  },
+    { "-GCM", 12, 16, false },
+    { "-CTR", 16, 0, false },
+    { "-CBC", 16, 0, true  },
+    { "-ECB", 0, 0, true  },
 };
 
 bool AESSpec::specForAlgorithm(const std::string & algorithm, AESSpec & out_spec)
@@ -59,6 +62,7 @@ bool AESSpec::specForAlgorithm(const std::string & algorithm, AESSpec & out_spec
     // Success, fill output structure
     out_spec.name         = algorithm;
     out_spec.iv_size      = mode_entry->iv_size;
+    out_spec.tag_size     = mode_entry->tag_size;
     out_spec.need_padding = mode_entry->need_padding;
     return true;
 }
@@ -104,6 +108,8 @@ Parameter AES::getParameter(int param_id) const
     switch (param_id) {
         case CIPHER_PARAM_IV_LENGTH:
             return Parameter::take(_spec.iv_size);
+        case CIPHER_PARAM_TAG_LENGTH:
+            return Parameter::take(_spec.tag_size);
         case CIPHER_PARAM_USE_PADDING:
             if (!_spec.need_padding) {
                 throw std::invalid_argument("Padding is not supported");
@@ -120,18 +126,36 @@ Parameter AES::getParameter(int param_id) const
 ByteArray AES::encrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & plaintext, const ParameterList & parameters) const
 {
     auto out_size = validateInputParams(secret_key.size(), iv.size(), plaintext.size(), true);
-    parameters.throwUnsupported();
+    auto param_ctx = parameters.beginParameterProcessing();
+    ByteArray * out_tag = nullptr;
+    ByteRange in_aad;
+    if (_spec.tag_size) {
+        // Extract pointer to TAG array. This is required for ciphers supporting tag.
+        if (!parameters.getOutArray(CIPHER_PARAM_TAG, param_ctx, out_tag)) {
+            throw std::invalid_argument("CIPHER_PARAM_TAG is required parameter");
+        }
+        // AAD is optional
+        parameters.getBytes(CIPHER_PARAM_AAD, param_ctx, in_aad);
+    }
+    parameters.endParameterProcessing(param_ctx);
     
     auto ctx = EVPCipherContext::empty();
     if (EVP_EncryptInit_ex2(ctx, _cipher, secret_key.data(), _spec.iv_size > 0 ? iv.data() : nullptr, nullptr) != 1) {
         throw std::domain_error("Failed to initialize encryptor's context");
     }
-    if (!_use_padding && EVP_CIPHER_CTX_set_padding(ctx, 0) != 1) {
-        throw std::domain_error("Failed to disable padding");
+    if (_spec.need_padding && !_use_padding) {
+        if (EVP_CIPHER_CTX_set_padding(ctx, 0) != 1) {
+            throw std::domain_error("Failed to disable padding");
+        }
     }
-    
     int ciphertext_len, len = 0;
     ByteArray out(out_size, 0);
+    if (!in_aad.empty()) {
+        // Apply input AAD
+        if (EVP_EncryptUpdate(ctx, nullptr, &len, in_aad.data(), (int)in_aad.size()) != 1) {
+            throw std::domain_error("AAD phase failed");
+        }
+    }
     if (EVP_EncryptUpdate(ctx, out.data(), &len, plaintext.data(), (int)plaintext.size()) != 1) {
         throw std::domain_error("Data encryption failed");
     }
@@ -141,28 +165,74 @@ ByteArray AES::encrypt(const ByteRange & secret_key, const ByteRange & iv, const
     }
     ciphertext_len += len;
     if (out_size < ciphertext_len) {
-        throw std::domain_error("Fatal error");
+        throw std::domain_error("AES Fatal error");
     }
     out.resize(ciphertext_len);
+    
+    if (out_tag) {
+        // out tag is present, extract the result
+        out_tag->resize(_spec.tag_size);
+        OSSL_PARAM get_params[2] = {
+            OSSL_PARAM_construct_octet_string(OSSL_CIPHER_PARAM_AEAD_TAG, out_tag->data(), out_tag->size()),
+            OSSL_PARAM_END
+        };
+        
+        if (EVP_CIPHER_CTX_get_params(ctx, get_params) != 1) {
+            throw std::domain_error("Failed to get TAG");
+        }
+    }
     return out;
 }
     
 ByteArray AES::decrypt(const ByteRange & secret_key, const ByteRange & iv, const ByteRange & ciphertext, const ParameterList & parameters) const
 {
     auto out_size = validateInputParams(secret_key.size(), iv.size(), ciphertext.size(), false);
-    parameters.throwUnsupported();
+
+    ByteRange in_aad;
+    ByteRange in_tag;
+    auto param_ctx = parameters.beginParameterProcessing();
+    if (_spec.tag_size) {
+        // TAG parameter is required
+        if (!parameters.getBytes(CIPHER_PARAM_TAG, param_ctx, in_tag)) {
+            throw std::invalid_argument("CIPHER_PARAM_TAG is required parameter");
+        }
+        if (in_tag.size() != _spec.tag_size) {
+            throw std::invalid_argument("Invalid TAG size");
+        }
+        // AAD parameter is optional
+        parameters.getBytes(CIPHER_PARAM_AAD, param_ctx, in_aad);
+    }
+    parameters.endParameterProcessing(param_ctx);
     
     auto ctx = EVPCipherContext::empty();
     if (EVP_DecryptInit_ex2(ctx, _cipher, secret_key.data(), _spec.iv_size > 0 ? iv.data() : nullptr, nullptr) != 1) {
         throw std::domain_error("Failed to initialize decryptor's context");
     }
-    if (!_use_padding && EVP_CIPHER_CTX_set_padding(ctx, 0) != 1) {
-        throw std::domain_error("Failed to disable padding");
+    if (_spec.need_padding && !_use_padding) {
+        if (EVP_CIPHER_CTX_set_padding(ctx, 0) != 1) {
+            throw std::domain_error("Failed to disable padding");
+        }
     }
     int plaintext_len, len = 0;
     ByteArray out(out_size, 0);
+    if (!in_aad.empty()) {
+        // Apply input AAD
+        if (EVP_DecryptUpdate(ctx, nullptr, &len, in_aad.data(), (int)in_aad.size()) != 1) {
+            throw std::domain_error("AAD phase failed");
+        }
+    }
     if (EVP_DecryptUpdate(ctx, out.data(), &len, ciphertext.data(), (int)ciphertext.size()) != 1) {
         throw std::domain_error("Data decryption failed");
+    }
+    if (!in_tag.empty()) {
+        OSSL_PARAM params[2] = {
+            // Unfortunately, OpenSSL cannot create setter with const data pointer.
+            OSSL_PARAM_construct_octet_string(OSSL_CIPHER_PARAM_AEAD_TAG, const_cast<uint8_t*>(in_tag.data()), in_tag.size()),
+            OSSL_PARAM_END
+        };
+        if (EVP_CIPHER_CTX_set_params(ctx, params) != 1) {
+            throw std::domain_error("Failed to set TAG");
+        }
     }
     plaintext_len = len;
     if (EVP_DecryptFinal_ex(ctx, out.data() + len, &len) != 1) {
@@ -199,6 +269,107 @@ size_t AES::validateInputParams(size_t key_size, size_t iv_size, size_t data_siz
         }
     }
     return data_size;
+}
+
+
+
+
+// MARK: - AES_GCM_AEAD
+
+static ByteArray AEAD_I12T16D_Make(const ByteRange & iv, const ByteRange & tag, const ByteRange & ct)
+{
+    ByteArray out;
+    if (iv.size() != 12 || tag.size() != 16) {
+        throw std::logic_error("Invalid IV or TAG size in AEAD");
+    }
+    out.reserve(ct.size() + 12 + 16);
+    out.assign(iv);
+    out.append(tag);
+    out.append(ct);
+    return out;
+}
+
+static void AEAD_I12T16D_Extract(const ByteRange & cryptogram, ByteRange & iv, ByteRange & tag, ByteRange & ct)
+{
+    if (cryptogram.size() < 12 + 16) {
+        throw std::invalid_argument("AEAD crytogram is too short");
+    }
+    iv  = cryptogram.subRangeTo(12);
+    tag = cryptogram.subRange(12, 16);
+    ct  = cryptogram.subRangeFrom(12 + 16);
+}
+
+
+const AES_AEAD_Spec * AES_AEAD_Spec::specForAlgorithm(const std::string & algorithm)
+{
+    static const std::vector<AES_AEAD_Spec> spec_list {
+        { "AES-128-GCM#I12T16D", "AES-128-GCM", AEAD_I12T16D_Make, AEAD_I12T16D_Extract },
+        { "AES-192-GCM#I12T16D", "AES-192-GCM", AEAD_I12T16D_Make, AEAD_I12T16D_Extract },
+        { "AES-256-GCM#I12T16D", "AES-256-GCM", AEAD_I12T16D_Make, AEAD_I12T16D_Extract },
+    };
+    for (const auto & spec : spec_list) {
+        if (spec.name == algorithm) {
+            return &spec;
+        }
+    }
+    return nullptr;
+}
+
+AEADPtr AES_GCM_AEAD::getInstance(const std::string &algorithm)
+{
+    const auto spec = AES_AEAD_Spec::specForAlgorithm(algorithm);
+    if (!spec) {
+        return nullptr;
+    }
+    auto cipher = AES::getInstance(spec->cipher);
+    if (cipher == nullptr) {
+        throw std::logic_error("Broken AES_AEAD_Spec table");
+    }
+    return std::make_shared<AES_GCM_AEAD>(spec, cipher);
+}
+
+// AEAD interface
+ByteArray AES_GCM_AEAD::seal(const ByteRange & key, const ByteRange & nonce, const ByteRange & associated_data, const ByteRange & plaintext, const ParameterList & params) const
+{
+    params.throwUnsupported();
+    
+    ByteArray iv = nonce;
+    if (iv.empty()) {
+        iv = GetRandomData(12, true);
+    }
+    ByteArray tag;
+    auto ct = _aes->encrypt(key, iv, plaintext, {
+        { CIPHER_PARAM_TAG, Parameter::outRef(tag) },
+        { CIPHER_PARAM_AAD, Parameter::ref(associated_data) }
+    });
+    return _spec->MakeCryptogram(iv, tag, ct);
+}
+
+ByteArray AES_GCM_AEAD::open(const ByteRange & key, const ByteRange & associated_data, const ByteRange & ciphertext, const ParameterList & params) const
+{
+    params.throwUnsupported();
+    
+    ByteRange iv, tag, ct;
+    _spec->ExtractFields(ciphertext, iv, tag, ct);
+    return _aes->decrypt(key, iv, ct, {
+        { CIPHER_PARAM_TAG, Parameter::ref(tag) },
+        { CIPHER_PARAM_AAD, Parameter::ref(associated_data) }
+    });
+}
+
+// Algorithm interface
+const std::string & AES_GCM_AEAD::getAlgorithmName() const
+{
+    return _spec->name;
+}
+void AES_GCM_AEAD::setParameter(int param_id, const Parameter & value)
+{
+    throwUnsupportedParam(param_id);
+}
+
+Parameter AES_GCM_AEAD::getParameter(int param_id) const
+{
+    throwUnsupportedParam(param_id);
 }
 
 } // cc7::crypto

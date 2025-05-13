@@ -45,6 +45,7 @@ public:
     static Parameter take(const BaseObjectPtr & object);
     static Parameter ref(const std::string & str);
     static Parameter ref(const ByteRange & range);
+    static Parameter outRef(ByteArray & array);
     
     static Parameter copy(const std::string & str);
     static Parameter copy(const ByteRange & range);
@@ -54,6 +55,7 @@ public:
     int64_t asInt() const;
     const std::string & asString() const;
     const ByteRange & asByteRange() const;
+    ByteArray & asOutArray() const;
     BaseObjectPtr asObject() const;
 
 private:
@@ -64,6 +66,7 @@ private:
     public:
         const std::string & asString() const;
         const cc7::ByteRange & asByteRange() const;
+        ByteArray & asOutArray() const;
         BaseObjectPtr asObject() const;
         bool asBool() const;
         size_t asSize() const;
@@ -75,6 +78,7 @@ private:
         
         Value(const std::string & str, bool copy);
         Value(const ByteRange & range, bool copy);
+        Value(ByteArray & out_array);
         Value(const BaseObjectPtr & object);
         ~Value();
         
@@ -90,6 +94,7 @@ private:
             T_StringRef,
             T_Range,
             T_Array,
+            T_OutArray,
             T_Object
         };
 
@@ -109,6 +114,8 @@ private:
             const std::string * _string_ptr;
             /// Pointer to allocated byte array.
             const cc7::ByteArray * _array_ptr;
+            /// Pointer to output array.
+            cc7::ByteArray * _out_array_ptr;
             /// Pointer to allocated base object ptr.
             BaseObjectPtr * _object_ptr;
         };
@@ -142,6 +149,7 @@ public:
     bool getSize(int param_id, ParameterListCtx & ctx, size_t & out_value) const;
     bool getBytes(int param_id, ParameterListCtx & ctx, ByteRange & out_value) const;
     bool getObject(int param_id, ParameterListCtx & ctx, BaseObjectPtr & out_value) const;
+    bool getOutArray(int param_id, ParameterListCtx & ctx, ByteArray*& out_value) const;
     bool consumeParam(int param_id, ParameterListCtx & ctx) const;
     
 private:

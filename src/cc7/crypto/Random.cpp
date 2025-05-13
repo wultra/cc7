@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <cc7/crypto/Utility.h>
+#include <cc7/crypto/Random.h>
 #include <openssl/rand.h>
 
 #if defined(CC7_APPLE) || defined(CC7_ANDROID)

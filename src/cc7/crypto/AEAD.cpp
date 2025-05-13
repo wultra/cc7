@@ -15,11 +15,24 @@
  */
 
 #include <cc7/crypto/AEAD.h>
+#include "alg/AES.h"
 
 namespace cc7
 {
 namespace crypto
 {
+
+AEADPtr AEAD::getInstance(const std::string &algorithm)
+{
+    AEADPtr aead;
+    if (stringHasPrefix(algorithm, "AES-")) {
+        aead = AES_GCM_AEAD::getInstance(algorithm);
+    }
+    if (aead == nullptr) {
+        throwUnsupporterAlgorithm(algorithm);
+    }
+    return aead;
+}
 
 } // cc7::crypto
 } // cc7

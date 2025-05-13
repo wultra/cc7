@@ -300,7 +300,7 @@ namespace cc7
             throw std::out_of_range("to is out of range");
         }
         
-        ByteRange subRange(size_type from, size_type count)
+        ByteRange subRange(size_type from, size_type count) const
         {
             if ((from <= size()) && (from + count <= size())) {
                 return ByteRange(begin() + from, count);
