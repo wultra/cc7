@@ -59,6 +59,7 @@ enum AlgorithmParameterId
     /// Provide additional key context bytes to some algorithms (AEAD, KDF, etc...) Parameter is byte range type.
     PARAM_KEY_CONTEXT           = 0x0000,
 
+    
     // Key specific parameters
     
     /// Get EC public key X component. Parameter is byte range type.
@@ -70,6 +71,7 @@ enum AlgorithmParameterId
     /// Set or get EC public point conversion. Parameter is string, use `EC_PUBLIC_KEY_CONVERSION_COMPRESSED`
     /// or `EC_PUBLIC_KEY_CONVERSION_UNCOMPRESSED` (default).
     KEY_PARAM_EC_POINT_CONVERSION,
+        
     
     // MAC
     
@@ -87,6 +89,7 @@ enum AlgorithmParameterId
     /// Be aware that underlying implementation may use a shared buffer for this parameter and `MAC_PARAM_CUSTOM_STRING`,
     /// so don't mix such parameters in one instance of MAC algorithm.
     MAC_PARAM_CUSTOM_DATA,
+
     
     // KDF
 
@@ -100,6 +103,7 @@ enum AlgorithmParameterId
     KDF_PARAM_ITERATIONS,
     /// Provide additional info bytes to KDF algorithm. Parameter is byte range type.
     KDF_PARAM_INFO,
+    
     
     // Cipher
 
@@ -118,12 +122,27 @@ enum AlgorithmParameterId
     /// Enable or disable padding. Parameter is bool type.
     CIPHER_PARAM_USE_PADDING,
     
+    
     /// AEAD
     
     // KeyAgreement
     
     /// Alter KDF function in KeyAgreement algorithm. Parameter is KeyDerivation object.
-    KEY_AGREEMENT_PARAM_KDF     = 0x00C0,
+    KEY_AGREEMENT_PARAM_KDF     = 0x00A0,
+    
+    
+    // Application specific params, for custom algorithms.
+    
+    /// App specific parameter, not used by cc7/crypto library.
+    KEY_PARAM_APP_CUSTOM            = 0x1020,
+    /// App specific parameter, not used by cc7/crypto library.
+    MAC_PARAM_APP_CUSTOM            = 0x1040,
+    /// App specific parameter, not used by cc7/crypto library.
+    KDF_PARAM_APP_CUSTOM            = 0x1060,
+    /// App specific parameter, not used by cc7/crypto library.
+    CIPHER_PARAM_APP_CUSTOM         = 0x1080,
+    /// App specific parameter, not used by cc7/crypto library.
+    KEY_AGREEMENT_PARAM_APP_CUSTOM  = 0x10A0,
 };
 
 } // cc7::crypto
