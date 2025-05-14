@@ -47,5 +47,26 @@ std::shared_ptr<KeyDerivation> KeyDerivation::nullDerivation()
     return std::shared_ptr<KeyDerivation>(new NullKDF());
 }
 
+SymmetricKeyPtr KeyDerivation::deriveKey(const ByteRange & key_material,
+                                         const ParameterList & parameters) const
+{
+    return SymmetricKey::getInstance(deriveKeyBytes(key_material, parameters));
+}
+
+SymmetricKeyPtr KeyDerivation::deriveKey(const SymmetricKey & key,
+                                         const std::string & out_key_type,
+                                         const ParameterList & parameters) const
+{
+    ByteArray derived_key_material;
+    if (key.getKeyContext().empty()) {
+        derived_key_material = deriveKeyBytes(key.getKeyData(), parameters);
+    } else {
+        auto p = parameters;
+        p[PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyContext());
+        derived_key_material = deriveKeyBytes(key.getKeyData(), p);
+    }
+    return SymmetricKey::getInstance(out_key_type, derived_key_material);
+}
+
 } // cc7::crypto
 } // cc7

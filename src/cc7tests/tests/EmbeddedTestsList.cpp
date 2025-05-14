@@ -37,15 +37,16 @@ namespace tests
         CC7_ADD_UNIT_TEST(cc7HexStringTests, list);
         
         // cc7/crypto framework tests
-        CC7_ADD_UNIT_TEST(cc7CryptoImportKeyTests, list);
-        CC7_ADD_UNIT_TEST(cc7CryptoMessageDigestTests, list);
-        CC7_ADD_UNIT_TEST(cc7CryptoMACTests, list);
-        CC7_ADD_UNIT_TEST(cc7CryptoKeyDerivationTests, list);
-        CC7_ADD_UNIT_TEST(cc7CryptoSignatureTests, list);
-        CC7_ADD_UNIT_TEST(cc7CryptoKeyAgreementTests, list);
-        CC7_ADD_UNIT_TEST(cc7CryptoKeyEncapsulationTests, list);
-        CC7_ADD_UNIT_TEST(cc7CryptoCipherTests, list);
-        CC7_ADD_UNIT_TEST(cc7CryptoAEADTests, list);
+        CC7_ADD_UNIT_TEST(ImportKeyTests, list);
+        CC7_ADD_UNIT_TEST(MessageDigestTests, list);
+        CC7_ADD_UNIT_TEST(MACTests, list);
+        CC7_ADD_UNIT_TEST(KeyDerivationTests, list);
+        CC7_ADD_UNIT_TEST(SignatureTests, list);
+        CC7_ADD_UNIT_TEST(KeyAgreementTests, list);
+        CC7_ADD_UNIT_TEST(KeyEncapsulationTests, list);
+        CC7_ADD_UNIT_TEST(CipherTests, list);
+        CC7_ADD_UNIT_TEST(AEADTests, list);
+        CC7_ADD_UNIT_TEST(NonceGeneratorTests, list);
         
         // OpenSSL
         CC7_ADD_UNIT_TEST(cc7OpenSSLIntegration, list);

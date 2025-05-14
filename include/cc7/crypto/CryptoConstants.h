@@ -55,7 +55,10 @@ extern std::string KeyFormat_ToString(KeyFormat format, bool human_readable = fa
 enum AlgorithmParameterId
 {
     // Common
-        
+    
+    /// Provide additional key context bytes to some algorithms (AEAD, KDF, etc...) Parameter is byte range type.
+    PARAM_KEY_CONTEXT           = 0x0000,
+
     // Key specific parameters
     
     /// Get EC public key X component. Parameter is byte range type.
@@ -116,8 +119,6 @@ enum AlgorithmParameterId
     CIPHER_PARAM_USE_PADDING,
     
     /// AEAD
-    /// Provide additional key context bytes to AEAD algorithm. Parameter is byte range type.
-    AEAD_PARAM_KEY_CONTEXT      = 0x00A0,
     
     // KeyAgreement
     

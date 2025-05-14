@@ -26,10 +26,10 @@ namespace tests
 {
 extern TestDirectory g_testFiles;
 
-class cc7CryptoAEADTests : public UnitTest
+class AEADTests : public UnitTest
 {
 public:
-    cc7CryptoAEADTests()
+    AEADTests()
     {
         CC7_REGISTER_TEST_METHOD(testEncrypDecrypt);
         CC7_REGISTER_TEST_METHOD(testVectors);
@@ -71,7 +71,7 @@ public:
                 auto dec_key = crypto::SymmetricKey::getInstance(td.key_type, enc_key);
                 if (td.support_context) {
                     auto key_ctx = getRandomData();
-                    enc_params[crypto::AEAD_PARAM_KEY_CONTEXT] = crypto::Parameter::ref(key_ctx);
+                    enc_params[crypto::PARAM_KEY_CONTEXT] = crypto::Parameter::ref(key_ctx);
                     dec_key->setKeyContext(key_ctx);
                 }
                 auto iv = td.iv_size > 0 ? crypto::GetRandomData(td.iv_size) : ByteArray();
@@ -108,8 +108,8 @@ public:
                 if (td.containsValueAtPath("kct")) {
                     // key context
                     auto kct = td.dataFromHexStringAtPath("kct");
-                    encrypt_params[crypto::AEAD_PARAM_KEY_CONTEXT] = crypto::Parameter::copy(kct);
-                    decrypt_params[crypto::AEAD_PARAM_KEY_CONTEXT] = crypto::Parameter::copy(kct);
+                    encrypt_params[crypto::PARAM_KEY_CONTEXT] = crypto::Parameter::copy(kct);
+                    decrypt_params[crypto::PARAM_KEY_CONTEXT] = crypto::Parameter::copy(kct);
                 }
                 auto ciphertext = encryptor->seal(key, iv, aad, expected_plaintext, encrypt_params);
                 auto plaintext  = encryptor->open(key, aad, ciphertext, decrypt_params);
@@ -130,7 +130,7 @@ public:
     }
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoAEADTests, "cc7")
+CC7_CREATE_UNIT_TEST(AEADTests, "cc7")
     
 } // cc7::tests
 } // cc7

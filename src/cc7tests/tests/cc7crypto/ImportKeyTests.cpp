@@ -26,10 +26,10 @@ namespace tests
 {
 extern TestDirectory g_testFiles;
 
-class cc7CryptoImportKeyTests : public UnitTest
+class ImportKeyTests : public UnitTest
 {
 public:
-    cc7CryptoImportKeyTests()
+    ImportKeyTests()
     {
         CC7_REGISTER_TEST_METHOD(testKeyImport);
     }
@@ -143,7 +143,7 @@ public:
     }
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoImportKeyTests, "cc7")
+CC7_CREATE_UNIT_TEST(ImportKeyTests, "cc7")
     
 } // cc7::tests
 } // cc7

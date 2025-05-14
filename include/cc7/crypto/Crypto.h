@@ -25,3 +25,4 @@
 #include <cc7/crypto/KeyEncapsulation.h>
 #include <cc7/crypto/AEAD.h>
 #include <cc7/crypto/Random.h>
+#include <cc7/crypto/NonceGenerator.h>

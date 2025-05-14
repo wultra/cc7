@@ -26,10 +26,10 @@ namespace tests
 {
 extern TestDirectory g_testFiles;
 
-class cc7CryptoCipherTests : public UnitTest
+class CipherTests : public UnitTest
 {
 public:
-    cc7CryptoCipherTests()
+    CipherTests()
     {
         CC7_REGISTER_TEST_METHOD(testEncrypDecrypt);
         CC7_REGISTER_TEST_METHOD(testVectors);
@@ -201,7 +201,7 @@ public:
     }
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoCipherTests, "cc7")
+CC7_CREATE_UNIT_TEST(CipherTests, "cc7")
     
 } // cc7::tests
 } // cc7

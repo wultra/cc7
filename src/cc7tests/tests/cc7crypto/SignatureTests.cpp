@@ -26,10 +26,10 @@ namespace tests
 {
 extern TestDirectory g_testFiles;
 
-class cc7CryptoSignatureTests : public UnitTest
+class SignatureTests : public UnitTest
 {
 public:
-    cc7CryptoSignatureTests()
+    SignatureTests()
     {
         CC7_REGISTER_TEST_METHOD(testSignVerify);
         CC7_REGISTER_TEST_METHOD(testWrongKeys);
@@ -102,7 +102,7 @@ public:
 
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoSignatureTests, "cc7")
+CC7_CREATE_UNIT_TEST(SignatureTests, "cc7")
     
 } // cc7::tests
 } // cc7

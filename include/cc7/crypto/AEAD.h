@@ -42,29 +42,12 @@ public:
                    const ByteRange & nonce,
                    const ByteRange & associated_data,
                    const ByteRange & plaintext,
-                   const ParameterList & params = {}) const
-    {
-        if (key.getKeyContext().empty()) {
-            return seal(key.getKeyData().byteRange(), nonce, associated_data, plaintext, params);
-        }
-        auto p = params;
-        p[AEAD_PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyData());
-        return seal(key.getKeyData().byteRange(), nonce, associated_data, plaintext, p);
-    }
+                   const ParameterList & params = {}) const;
     
     ByteArray open(const SymmetricKey & key,
                    const ByteRange & associated_data,
                    const ByteRange & ciphertext,
-                   const ParameterList & params = {}) const
-    {
-        if (key.getKeyContext().empty()) {
-            return open(key.getKeyData().byteRange(), associated_data, ciphertext, params);
-        }
-        auto p = params;
-        p[AEAD_PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyData());
-        return open(key.getKeyData().byteRange(), associated_data, ciphertext, p);
-    }
-
+                   const ParameterList & params = {}) const;
     
     static std::shared_ptr<AEAD> getInstance(const std::string & algorithm);
 };

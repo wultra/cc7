@@ -34,5 +34,32 @@ AEADPtr AEAD::getInstance(const std::string &algorithm)
     return aead;
 }
 
+ByteArray AEAD::seal(const SymmetricKey & key,
+                     const ByteRange & nonce,
+                     const ByteRange & associated_data,
+                     const ByteRange & plaintext,
+                     const ParameterList & params) const
+{
+    if (key.getKeyContext().empty()) {
+        return seal(key.getKeyData().byteRange(), nonce, associated_data, plaintext, params);
+    }
+    auto p = params;
+    p[PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyData());
+    return seal(key.getKeyData().byteRange(), nonce, associated_data, plaintext, p);
+}
+
+ByteArray AEAD::open(const SymmetricKey & key,
+                     const ByteRange & associated_data,
+                     const ByteRange & ciphertext,
+                     const ParameterList & params) const
+{
+    if (key.getKeyContext().empty()) {
+        return open(key.getKeyData().byteRange(), associated_data, ciphertext, params);
+    }
+    auto p = params;
+    p[PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyData());
+    return open(key.getKeyData().byteRange(), associated_data, ciphertext, p);
+}
+
 } // cc7::crypto
 } // cc7

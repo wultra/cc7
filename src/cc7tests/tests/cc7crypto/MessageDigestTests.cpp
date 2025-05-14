@@ -25,10 +25,10 @@ namespace tests
 {
 extern TestDirectory g_testFiles;
 
-class cc7CryptoMessageDigestTests : public UnitTest
+class MessageDigestTests : public UnitTest
 {
 public:
-    cc7CryptoMessageDigestTests()
+    MessageDigestTests()
     {
         CC7_REGISTER_TEST_METHOD(testMessageDigest);
     }
@@ -58,7 +58,7 @@ public:
 
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoMessageDigestTests, "cc7")
+CC7_CREATE_UNIT_TEST(MessageDigestTests, "cc7")
     
 } // cc7::tests
 } // cc7

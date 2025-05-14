@@ -73,7 +73,8 @@ LOCAL_SRC_FILES += \
 	cc7/crypto/KeyEncapsulation.cpp \
 	cc7/crypto/KeyDerivation.cpp \
 	cc7/crypto/AEAD.cpp \
-	cc7/crypto/Parameter.cpp
+	cc7/crypto/Parameter.cpp \
+	cc7/crypto/NonceGenerator.cpp
 
 # cc7/crypto/alg
 LOCAL_SRC_FILES += \
@@ -153,15 +154,16 @@ LOCAL_SRC_FILES += \
 
 # Unit tests (cc7/crypto)
 LOCAL_SRC_FILES += \
-	cc7tests/tests/cc7crypto/cc7CryptoCipherTests.cpp \
-	cc7tests/tests/cc7crypto/cc7CryptoAEADTests.cpp \
-	cc7tests/tests/cc7crypto/cc7CryptoImportKeyTests.cpp \
-	cc7tests/tests/cc7crypto/cc7CryptoKeyAgreementTests.cpp \
-	cc7tests/tests/cc7crypto/cc7CryptoKeyEncapsulationTests.cpp \
-	cc7tests/tests/cc7crypto/cc7CryptoKeyDerivationTests.cpp \
-	cc7tests/tests/cc7crypto/cc7CryptoMACTests.cpp \
-	cc7tests/tests/cc7crypto/cc7CryptoMessageDigestTests.cpp \
-	cc7tests/tests/cc7crypto/cc7CryptoSignatureTests.cpp
+	cc7tests/tests/cc7crypto/CipherTests.cpp \
+	cc7tests/tests/cc7crypto/AEADTests.cpp \
+	cc7tests/tests/cc7crypto/ImportKeyTests.cpp \
+	cc7tests/tests/cc7crypto/KeyAgreementTests.cpp \
+	cc7tests/tests/cc7crypto/KeyEncapsulationTests.cpp \
+	cc7tests/tests/cc7crypto/KeyDerivationTests.cpp \
+	cc7tests/tests/cc7crypto/MACTests.cpp \
+	cc7tests/tests/cc7crypto/MessageDigestTests.cpp \
+	cc7tests/tests/cc7crypto/SignatureTests.cpp \
+	cc7tests/tests/cc7crypto/NonceGeneratorTests.cpp
 
 # Unit tests (OpenSSL)
 LOCAL_SRC_FILES += \

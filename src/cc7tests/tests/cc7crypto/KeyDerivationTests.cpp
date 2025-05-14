@@ -25,10 +25,10 @@ namespace tests
 {
 extern TestDirectory g_testFiles;
 
-class cc7CryptoKeyDerivationTests : public UnitTest
+class KeyDerivationTests : public UnitTest
 {
 public:
-    cc7CryptoKeyDerivationTests()
+    KeyDerivationTests()
     {
         CC7_REGISTER_TEST_METHOD(testKDF);
     }
@@ -75,7 +75,7 @@ public:
 
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoKeyDerivationTests, "cc7")
+CC7_CREATE_UNIT_TEST(KeyDerivationTests, "cc7")
     
 } // cc7::tests
 } // cc7

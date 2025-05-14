@@ -25,10 +25,10 @@ namespace tests
 {
 extern TestDirectory g_testFiles;
 
-class cc7CryptoMACTests : public UnitTest
+class MACTests : public UnitTest
 {
 public:
-    cc7CryptoMACTests()
+    MACTests()
     {
         CC7_REGISTER_TEST_METHOD(testMAC);
     }
@@ -74,7 +74,7 @@ public:
 
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoMACTests, "cc7")
+CC7_CREATE_UNIT_TEST(MACTests, "cc7")
     
 } // cc7::tests
 } // cc7

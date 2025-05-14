@@ -32,20 +32,12 @@ public:
                                           const ParameterList & parameters = {}) const = 0;
     
     SymmetricKeyPtr deriveKey(const ByteRange & key_material,
-                              const ParameterList & parameters = {}) const
-    {
-        return SymmetricKey::getInstance(deriveKeyBytes(key_material, parameters));
-    }
+                              const ParameterList & parameters = {}) const;
 
-    SymmetricKeyPtr deriveKey(const ByteRange & key_material,
+    SymmetricKeyPtr deriveKey(const SymmetricKey & key,
                               const std::string & out_key_type,
-                              const ParameterList & parameters = {}) const
-    {
-        auto out_key = SymmetricKey::getInstance(out_key_type);
-        out_key->setKeyData(deriveKeyBytes(key_material, parameters));
-        return out_key;
-    }
-    
+                              const ParameterList & parameters = {}) const;
+
     static std::shared_ptr<KeyDerivation> getInstance(const std::string & algorithm);
     
     static std::shared_ptr<KeyDerivation> nullDerivation();

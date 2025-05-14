@@ -22,10 +22,10 @@ namespace cc7
 namespace tests
 {
 
-class cc7CryptoKeyAgreementTests : public UnitTest
+class KeyAgreementTests : public UnitTest
 {
 public:
-    cc7CryptoKeyAgreementTests()
+    KeyAgreementTests()
     {
         CC7_REGISTER_TEST_METHOD(testECDH);
         CC7_REGISTER_TEST_METHOD(testECDHWrongKeys);
@@ -89,7 +89,7 @@ public:
     }
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoKeyAgreementTests, "cc7")
+CC7_CREATE_UNIT_TEST(KeyAgreementTests, "cc7")
     
 } // cc7::tests
 } // cc7

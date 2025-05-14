@@ -25,10 +25,10 @@ namespace tests
 {
 extern TestDirectory g_testFiles;
 
-class cc7CryptoKeyEncapsulationTests : public UnitTest
+class KeyEncapsulationTests : public UnitTest
 {
 public:
-    cc7CryptoKeyEncapsulationTests()
+    KeyEncapsulationTests()
     {
         CC7_REGISTER_TEST_METHOD(testEncapDecap);
     }
@@ -53,7 +53,7 @@ public:
 
 };
 
-CC7_CREATE_UNIT_TEST(cc7CryptoKeyEncapsulationTests, "cc7")
+CC7_CREATE_UNIT_TEST(KeyEncapsulationTests, "cc7")
     
 } // cc7::tests
 } // cc7
