@@ -43,12 +43,12 @@ class MLDSAPublicKey : public PublicKey
 {
 public:
     // Key interface
-    virtual const std::string & getKeyType() const;
-    virtual void importKey(const ByteRange & keyData, KeyFormat format);
-    virtual ByteArray exportKey(KeyFormat format) const;
-    virtual std::shared_ptr<Key> duplicate() const;
-    virtual Parameter getKeyParameter(int param_id) const;
-    virtual void setKeyParameter(int param_id, const Parameter & value);
+    const std::string & getKeyType() const override;
+    void importKey(const ByteRange & keyData, KeyFormat format) override;
+    ByteArray exportKey(KeyFormat format) const override;
+    std::shared_ptr<Key> duplicate() const override;
+    Parameter getKeyParameter(int param_id) const override;
+    void setKeyParameter(int param_id, const Parameter & value) override;
     
     const MLDSASpec * algSpec() const { return _spec; }
     const char * algName() const { return _spec->name.c_str(); }
@@ -82,12 +82,12 @@ class MLDSAPrivateKey : public PrivateKey
 {
 public:
     // Key interface
-    virtual const std::string & getKeyType() const;
-    virtual void importKey(const ByteRange & keyData, KeyFormat format);
-    virtual ByteArray exportKey(KeyFormat format) const;
-    virtual std::shared_ptr<Key> duplicate() const;
-    virtual Parameter getKeyParameter(int param_id) const;
-    virtual void setKeyParameter(int param_id, const Parameter & value);
+    const std::string & getKeyType() const override;
+    void importKey(const ByteRange & keyData, KeyFormat format) override;
+    ByteArray exportKey(KeyFormat format) const override;
+    std::shared_ptr<Key> duplicate() const override;
+    Parameter getKeyParameter(int param_id) const override;
+    void setKeyParameter(int param_id, const Parameter & value) override;
 
     const MLDSASpec * algSpec() const { return _spec; }
     const char * algName() const { return _spec->name.c_str(); }
@@ -121,13 +121,13 @@ class MLDSAKeyPairFactory : public KeyPairFactory
 {
 public:
     // KeyPairFactory interface
-    virtual KeyPairPtr generateKeyPair() const;
-    virtual PublicKeyPtr newPublicKey() const;
-    virtual PrivateKeyPtr newPrivateKey() const;
+    KeyPairPtr generateKeyPair() const override;
+    PublicKeyPtr newPublicKey() const override;
+    PrivateKeyPtr newPrivateKey() const override;
     // Algorithm interface
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
     
     static KeyPairFactoryPtr getInstance(const std::string & key_type);
     
@@ -147,13 +147,13 @@ class MLDSA : public Signature
 public:
     
     // Algorithm interface
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
     
     // Signature interface
-    virtual ByteArray sign(const PrivateKey & private_key, const ByteRange & data, const ParameterList & parameters) const;
-    virtual bool verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data, const ParameterList & parameters) const;
+    ByteArray sign(const PrivateKey & private_key, const ByteRange & data, const ParameterList & parameters) const override;
+    bool verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data, const ParameterList & parameters) const override;
     
     static std::shared_ptr<MLDSA> getInstance(const std::string & algorithm);
     

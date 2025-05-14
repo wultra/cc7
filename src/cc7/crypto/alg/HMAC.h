@@ -32,7 +32,7 @@ public:
 protected:
     
     // MACBase interface
-    virtual bool prepareParams(MACBase::MACBaseParams & params) const;
+    bool prepareParams(MACBase::MACBaseParams & params) const override;
     
 private:
     

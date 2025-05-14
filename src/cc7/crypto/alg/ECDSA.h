@@ -44,13 +44,13 @@ class ECDSA : public Signature
 {
 public:
     // Signature interface
-    virtual ByteArray sign(const PrivateKey & private_key, const ByteRange & data, const ParameterList & parameters) const;
-    virtual bool verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data, const ParameterList & parameters) const;
+    ByteArray sign(const PrivateKey & private_key, const ByteRange & data, const ParameterList & parameters) const override;
+    bool verify(const PublicKey & public_key, const ByteRange & signature, const ByteRange & data, const ParameterList & parameters) const override;
     
     // Algorithm interface
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
 
     
     static std::shared_ptr<ECDSA> getInstance(const std::string & algorithm);

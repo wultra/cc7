@@ -31,13 +31,13 @@ public:
     
 public:
     // Algorithm interface
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
 
 protected:
     
     // OSSLMAC interface
-    virtual bool prepareParams(MACBase::MACBaseParams & params) const;
+    bool prepareParams(MACBase::MACBaseParams & params) const override;
     
 private:
     ByteArray _custom;

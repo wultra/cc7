@@ -119,13 +119,13 @@ class MLKEMKeyPairFactory : public KeyPairFactory
 {
 public:
     // KeyPairFactory interface
-    virtual KeyPairPtr generateKeyPair() const;
-    virtual PublicKeyPtr newPublicKey() const;
-    virtual PrivateKeyPtr newPrivateKey() const;
+    KeyPairPtr generateKeyPair() const override;
+    PublicKeyPtr newPublicKey() const override;
+    PrivateKeyPtr newPrivateKey() const override;
     // Algorithm interface
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
     
     static KeyPairFactoryPtr getInstance(const std::string & key_type);
     
@@ -149,14 +149,14 @@ public:
     
     // KeyEncapsulation interface
     
-    virtual KeyPairPtr generate(const ParameterList & parameters) const;
-    virtual std::pair<ByteArray, SymmetricKeyPtr> encapsulate(const PublicKey & encapsulation_key, const ParameterList & parameters) const;
-    virtual SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key, const ByteRange & wrapped_key, const ParameterList & parameters) const;
+    KeyPairPtr generate(const ParameterList & parameters) const override;
+    std::pair<ByteArray, SymmetricKeyPtr> encapsulate(const PublicKey & encapsulation_key, const ParameterList & parameters) const override;
+    SymmetricKeyPtr decapsulate(const PrivateKey & decapsulation_key, const ByteRange & wrapped_key, const ParameterList & parameters) const override;
 
     // Algorithm interface
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
 
     MLKEM(const MLKEMSpec * spec) : _spec(spec) {}
     

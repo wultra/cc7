@@ -25,7 +25,6 @@ namespace crypto
 
 const PBKDF2Spec * PBKDF2Spec::specForAlgorithm(const std::string & algorithm)
 {
-    
     static const std::vector<PBKDF2Spec> spec_list {
         { "PBKDF2-HMAC-SHA-256",  OSSL_KDF_NAME_PBKDF2, "SHA-256"  },
         { "PBKDF2-HMAC-SHA-384",  OSSL_KDF_NAME_PBKDF2, "SHA-384"  },

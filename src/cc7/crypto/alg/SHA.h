@@ -35,14 +35,14 @@ class SHA : public MessageDigest
 {
 public:
 
-    virtual ByteArray digest(const ByteRange & input, const ParameterList & parameters) const;
+    ByteArray digest(const ByteRange & input, const ParameterList & parameters) const override;
     
     static std::shared_ptr<SHA> getInstance(const std::string & algorithm);
     
     // Algorithm interface
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
     
 private:
         

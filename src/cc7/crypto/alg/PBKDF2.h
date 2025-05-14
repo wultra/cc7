@@ -39,12 +39,12 @@ class PBKDF2 : public KeyDerivation
 {
 public:
     // KeyDerivation
+    cc7::ByteArray deriveKeyBytes(const ByteRange & key_material, const ParameterList & parameters) const override;
     
-    virtual cc7::ByteArray deriveKeyBytes(const ByteRange & key_material, const ParameterList & parameters) const;
-    
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    // Alforithm
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
 
     static KeyDerivationPtr getInstance(const std::string & alg_name);
 

@@ -28,12 +28,12 @@ class ECDH : public KeyAgreement
 {
 public:
     // KeyAgreement interface
-    virtual SymmetricKeyPtr phase(const PrivateKey & private_key, const PublicKey & peer_key, const ParameterList & parameters) const;
+    SymmetricKeyPtr phase(const PrivateKey & private_key, const PublicKey & peer_key, const ParameterList & parameters) const override;
     
     // Algorithm interface
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
     
     static std::shared_ptr<ECDH> getInstance(const std::string & algorithm, KeyDerivationPtr kdf_function);
     

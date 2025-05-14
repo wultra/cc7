@@ -40,12 +40,12 @@ struct ECCurveSpec
 
 class ECPublicKey : public PublicKey {
 public:
-    virtual const std::string & getKeyType() const;
-    virtual void importKey(const ByteRange & keyData, KeyFormat format);
-    virtual ByteArray exportKey(KeyFormat format) const;
-    virtual Parameter getKeyParameter(int param_id) const;
-    virtual void setKeyParameter(int param_id, const Parameter & value);
-    virtual std::shared_ptr<Key> duplicate() const;
+    const std::string & getKeyType() const override;
+    void importKey(const ByteRange & keyData, KeyFormat format) override;
+    ByteArray exportKey(KeyFormat format) const override;
+    Parameter getKeyParameter(int param_id) const override;
+    void setKeyParameter(int param_id, const Parameter & value) override;
+    std::shared_ptr<Key> duplicate() const override;
     
     const EVPKeyPair & getEvpKey() const {
         return _ll_key;
@@ -83,12 +83,12 @@ private:
 
 class ECPrivateKey : public PrivateKey {
 public:
-    virtual const std::string & getKeyType() const;
-    virtual void importKey(const ByteRange & keyData, KeyFormat format);
-    virtual ByteArray exportKey(KeyFormat format) const;
-    virtual Parameter getKeyParameter(int param_id) const;
-    virtual void setKeyParameter(int param_id, const Parameter & value);
-    virtual std::shared_ptr<Key> duplicate() const;
+    const std::string & getKeyType() const override;
+    void importKey(const ByteRange & keyData, KeyFormat format) override;
+    ByteArray exportKey(KeyFormat format) const override;
+    Parameter getKeyParameter(int param_id) const override;
+    void setKeyParameter(int param_id, const Parameter & value) override;
+    std::shared_ptr<Key> duplicate() const override;
 
     const EVPKeyPair & getEvpKey() const {
         return _ll_key;
@@ -125,14 +125,14 @@ class ECKeyPairFactory : public KeyPairFactory
 {
 public:
     // KeyPairFactory interface
-    virtual KeyPairPtr generateKeyPair() const;
-    virtual PublicKeyPtr newPublicKey() const;
-    virtual PrivateKeyPtr newPrivateKey() const;
+    KeyPairPtr generateKeyPair() const override;
+    PublicKeyPtr newPublicKey() const override;
+    PrivateKeyPtr newPrivateKey() const override;
     
     // Algorithm interface
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
     
     static KeyPairFactoryPtr getInstance(const std::string & algorithm);
     

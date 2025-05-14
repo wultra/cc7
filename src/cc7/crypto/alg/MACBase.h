@@ -41,12 +41,12 @@ class MACBase : public MAC
 {
 public:
     // MAC interface
-    virtual ByteArray token(const ByteRange & key, const ByteRange & data, const ParameterList & parameters) const;
+    ByteArray token(const ByteRange & key, const ByteRange & data, const ParameterList & parameters) const override;
     
     // Algorithm interface
-    virtual const std::string & getAlgorithmName() const;
-    virtual void setParameter(int param_id, const Parameter & value);
-    virtual Parameter getParameter(int param_id) const;   
+    const std::string & getAlgorithmName() const override;
+    void setParameter(int param_id, const Parameter & value) override;
+    Parameter getParameter(int param_id) const override;
     
 protected:
     
