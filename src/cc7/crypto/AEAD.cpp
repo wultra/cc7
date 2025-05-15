@@ -44,7 +44,7 @@ ByteArray AEAD::seal(const SymmetricKey & key,
         return seal(key.getKeyData().byteRange(), nonce, associated_data, plaintext, params);
     }
     auto p = params;
-    p[PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyData());
+    p[PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyContext());
     return seal(key.getKeyData().byteRange(), nonce, associated_data, plaintext, p);
 }
 
@@ -57,7 +57,7 @@ ByteArray AEAD::open(const SymmetricKey & key,
         return open(key.getKeyData().byteRange(), associated_data, ciphertext, params);
     }
     auto p = params;
-    p[PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyData());
+    p[PARAM_KEY_CONTEXT] = Parameter::ref(key.getKeyContext());
     return open(key.getKeyData().byteRange(), associated_data, ciphertext, p);
 }
 
