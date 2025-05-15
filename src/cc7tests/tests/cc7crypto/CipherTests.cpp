@@ -97,7 +97,7 @@ public:
                 auto plaintext = getRandomData(td.block_size);
                 auto encryptor_params = crypto::ParameterList();
                 auto decryptor_params = crypto::ParameterList();
-                auto tag = ByteArray(td.tag_size, 0);
+                auto tag = ByteArray::zero(td.tag_size);
                 if (is_aad) {
                     auto aad = crypto::GetRandomData(0);
                     encryptor_params[crypto::CIPHER_PARAM_TAG] = crypto::Parameter::outRef(tag);
@@ -124,7 +124,7 @@ public:
                 auto plaintext = getRandomData(td.block_size);
                 auto encryptor_params = crypto::ParameterList();
                 auto decryptor_params = crypto::ParameterList();
-                auto tag = ByteArray(td.tag_size, 0);
+                auto tag = ByteArray::zero(td.tag_size);
                 if (is_aad) {
                     auto aad = crypto::GetRandomData(0);
                     encryptor_params[crypto::CIPHER_PARAM_TAG] = crypto::Parameter::outRef(tag);
