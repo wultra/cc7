@@ -35,6 +35,7 @@ namespace tests
             CC7_REGISTER_TEST_METHOD(testRelationalOperators)
             CC7_REGISTER_TEST_METHOD(testOtherMethods)
             CC7_REGISTER_TEST_METHOD(testIterators)
+            CC7_REGISTER_TEST_METHOD(testZeroRanges)
         }
         
         // Helper methods
@@ -400,7 +401,7 @@ namespace tests
                 ccstAssertEqual(cc7::CopyToString(a2), "");
             }
         }
-        
+                
         void testIterators()
         {
             ByteArray a1 = { 1, 2, 3, 4, 5, 6, 7, 8 };
@@ -408,6 +409,20 @@ namespace tests
             ccstAssertEqual(a2, ByteArray({8, 7, 6, 5, 4, 3, 2, 1}));
         }
         
+        void testZeroRanges()
+        {
+            for (size_t s = 0; s < ByteRange::MAX_ZERO_BYTES_SIZE; s++) {
+                auto range = ByteRange::zero(s);
+                auto array = ByteArray::zero(s);
+                ccstAssertEqual(range, array);
+            }
+            for (size_t s = ByteRange::MAX_ZERO_BYTES_SIZE; s < 2*ByteRange::MAX_ZERO_BYTES_SIZE; s++) {
+                auto array = ByteArray::zero(s);
+                for (size_t i = 0; i < s; i++) {
+                    ccstAssertTrue(array[i] == 0);
+                }
+            }
+        }
     };
     
     CC7_CREATE_UNIT_TEST(cc7ByteArrayTests, "cc7")

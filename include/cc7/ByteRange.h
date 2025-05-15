@@ -323,6 +323,17 @@ namespace cc7
             return res;
         }
         
+        static const size_t MAX_ZERO_BYTES_SIZE = 256;
+        
+        static const ByteRange zero(size_t count)
+        {
+            static const value_type zeros[MAX_ZERO_BYTES_SIZE] = { 0 };
+            if (count > sizeof(zeros)) {
+                throw std::invalid_argument("Maximum size of zero bytes exceeded");
+            }
+            return ByteRange(&zeros[0], &zeros[count]);
+        }
+        
     protected:
             
         void _validateBeginEnd(const_pointer begin, const_pointer end)

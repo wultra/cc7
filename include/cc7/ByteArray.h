@@ -140,6 +140,11 @@ namespace cc7
         
         std::string base64String(size_t wrap_size = 0) const;
         std::string hexString(bool lower_case = false) const;
+        
+        static ByteArray zero(size_t count)
+        {
+            return ByteArray(count, 0);
+        }
     };
     
     /**
