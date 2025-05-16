@@ -415,6 +415,9 @@ namespace tests
                 auto range = ByteRange::zero(s);
                 auto array = ByteArray::zero(s);
                 ccstAssertEqual(range, array);
+                for (size_t i = 0; i < s; i++) {
+                    ccstAssertTrue(array[i] == 0);
+                }
             }
             for (size_t s = ByteRange::MAX_ZERO_BYTES_SIZE; s < 2*ByteRange::MAX_ZERO_BYTES_SIZE; s++) {
                 auto array = ByteArray::zero(s);
