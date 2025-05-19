@@ -160,27 +160,30 @@ static const std::vector<KeyFormatEntry> s_mapping {
     {
         "ML-KEM-512",
         "ML-KEM-512",
-        KEY_FORMAT_RAW, KEY_FORMAT_RAW,         // defaults
+        KEY_FORMAT_SPKI, KEY_FORMAT_PKCS8,       // defaults
         std::vector<KeyFormatSpec> {
             { KEY_FORMAT_PKCS8, nullptr,          nullptr,          pkcs8_export,      pkcs8_import      },
+            { KEY_FORMAT_SPKI,  spki_export,      spki_import,      nullptr,           nullptr           },
             { KEY_FORMAT_RAW,   raw_pub_export,   raw_pub_import,   raw_priv_export,   raw_priv_import   },
         }
     },
     {
         "ML-KEM-768",
         "ML-KEM-768",
-        KEY_FORMAT_RAW, KEY_FORMAT_RAW,         // defaults
+        KEY_FORMAT_SPKI, KEY_FORMAT_PKCS8,       // defaults
         std::vector<KeyFormatSpec> {
             { KEY_FORMAT_PKCS8, nullptr,          nullptr,          pkcs8_export,      pkcs8_import      },
+            { KEY_FORMAT_SPKI,  spki_export,      spki_import,      nullptr,           nullptr           },
             { KEY_FORMAT_RAW,   raw_pub_export,   raw_pub_import,   raw_priv_export,   raw_priv_import   },
         }
     },
     {
         "ML-KEM-1024",
         "ML-KEM-1024",
-        KEY_FORMAT_RAW, KEY_FORMAT_RAW,         // defaults
+        KEY_FORMAT_SPKI, KEY_FORMAT_PKCS8,       // defaults
         std::vector<KeyFormatSpec> {
             { KEY_FORMAT_PKCS8, nullptr,          nullptr,          pkcs8_export,      pkcs8_import      },
+            { KEY_FORMAT_SPKI,  spki_export,      spki_import,      nullptr,           nullptr           },
             { KEY_FORMAT_RAW,   raw_pub_export,   raw_pub_import,   raw_priv_export,   raw_priv_import   },
         }
     },
