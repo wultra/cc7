@@ -16,9 +16,8 @@
 
 #pragma once
 
-#include <cc7/crypto/Algorithm.h>
 #include <cc7/crypto/KeyPair.h>
-#include <cc7/crypto/SymmetricKey.h>
+#include <cc7/crypto/KeyDerivation.h>
 
 namespace cc7
 {
@@ -37,7 +36,9 @@ public:
                                         const ByteRange & wrapped_key,
                                         const ParameterList & parameters = {}) const = 0;
     
-    static std::shared_ptr<KeyEncapsulation> getInstance(const std::string & algorithm);
+    static std::shared_ptr<KeyEncapsulation> getInstance(const std::string & algorithm, const std::string & kdf_algorithm);
+    
+    static std::shared_ptr<KeyEncapsulation> getInstance(const std::string & algorithm, KeyDerivationPtr kdf = KeyDerivation::noDerivation());
 };
 
 typedef std::shared_ptr<KeyEncapsulation> KeyEncapsulationPtr;

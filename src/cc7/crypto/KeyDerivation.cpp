@@ -28,7 +28,7 @@ std::shared_ptr<KeyDerivation> KeyDerivation::getInstance(const std::string & al
 {
     KeyDerivationPtr kdf;
     if (algorithm == NullKDF::NULL_KDF) {
-        kdf = nullDerivation();
+        kdf = noDerivation();
     }
     if (kdf == nullptr) {
         kdf = X963KDF::getInstance(algorithm);
@@ -42,7 +42,7 @@ std::shared_ptr<KeyDerivation> KeyDerivation::getInstance(const std::string & al
     return kdf;
 }
 
-std::shared_ptr<KeyDerivation> KeyDerivation::nullDerivation()
+std::shared_ptr<KeyDerivation> KeyDerivation::noDerivation()
 {
     return std::shared_ptr<KeyDerivation>(new NullKDF());
 }

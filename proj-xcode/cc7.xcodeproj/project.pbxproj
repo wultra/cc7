@@ -495,6 +495,7 @@
 		BF8EEBFA266629ED009AC5FD /* CC7TestsWrapper-macos.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CC7TestsWrapper-macos.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF8EEC0E26662A01009AC5FD /* libcc7-macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcc7-macos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF8EEC2F26662A0B009AC5FD /* libcc7tests-macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcc7tests-macos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF9955122DDC692200C104AD /* mlkem-test-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mlkem-test-data.json"; sourceTree = "<group>"; };
 		BF9FFBC31CE3ADB3006CAA74 /* Base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		BF9FFBC41CE3AEFE006CAA74 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base64.cpp; sourceTree = "<group>"; };
 		BF9FFBC61CE3B94D006CAA74 /* HexString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HexString.cpp; sourceTree = "<group>"; };
@@ -984,6 +985,7 @@
 				BF5A8CB32DCE1E0800B3FB01 /* kdf-test-data.json */,
 				BF5A8C6F2DC0F23D00B3FB01 /* cipher-test-data.json */,
 				BF14D4592DD3233D00BA7F51 /* aead-test-data.json */,
+				BF9955122DDC692200C104AD /* mlkem-test-data.json */,
 			);
 			path = "test-data";
 			sourceTree = "<group>";

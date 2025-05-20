@@ -73,7 +73,7 @@ public:
         };
         auto count = key_types.size();
         
-        auto key_agreement = crypto::KeyAgreement::getInstance("ECDH", crypto::KeyDerivation::nullDerivation());
+        auto key_agreement = crypto::KeyAgreement::getInstance("ECDH", crypto::KeyDerivation::noDerivation());
         for (size_t i = 0; i < count; i++) {
             for (size_t j = i + 1; j < count; j++) {
                 auto kp1 = crypto::KeyPair::generateKeyPair(key_types[i]);

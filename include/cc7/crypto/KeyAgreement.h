@@ -34,7 +34,7 @@ public:
     
     static std::shared_ptr<KeyAgreement> getInstance(const std::string & algorithm, const std::string & kdf_algorithm);
     
-    static std::shared_ptr<KeyAgreement> getInstance(const std::string & algorithm, KeyDerivationPtr kdf = KeyDerivation::nullDerivation());
+    static std::shared_ptr<KeyAgreement> getInstance(const std::string & algorithm, KeyDerivationPtr kdf = KeyDerivation::noDerivation());
 };
 
 typedef std::shared_ptr<KeyAgreement> KeyAgreementPtr;

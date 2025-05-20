@@ -145,7 +145,7 @@ class MLKEM : public KeyEncapsulation
 {
 public:
     
-    static std::shared_ptr<MLKEM> getInstance(const std::string & algorithm);
+    static std::shared_ptr<MLKEM> getInstance(const std::string & algorithm, KeyDerivationPtr kdf);
     
     // KeyEncapsulation interface
     
@@ -158,13 +158,12 @@ public:
     void setParameter(int param_id, const Parameter & value) override;
     Parameter getParameter(int param_id) const override;
 
-    MLKEM(const MLKEMSpec * spec) : _spec(spec) {}
+    MLKEM(const MLKEMSpec * spec, KeyDerivationPtr kdf) : _spec(spec), _kdf(kdf) {}
     
 private:
         
     const MLKEMSpec * _spec;
-    
-    std::string _output_key_type;
+    KeyDerivationPtr _kdf;
     
     SymmetricKeyPtr buildSymmetricKey(const ByteRange & secret) const;
 };

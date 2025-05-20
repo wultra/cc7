@@ -95,13 +95,13 @@ Parameter MLKEMKeyPairFactory::getParameter(int param_id) const
 
 // MARK: - MLKEM implementation
 
-std::shared_ptr<MLKEM> MLKEM::getInstance(const std::string & algorithm)
+std::shared_ptr<MLKEM> MLKEM::getInstance(const std::string & algorithm, KeyDerivationPtr kdf)
 {
     auto spec = MLKEMSpec::specForAlgorithm(algorithm);
     if (spec == nullptr) {
         return nullptr;
     }
-    return std::make_shared<MLKEM>(spec);
+    return std::make_shared<MLKEM>(spec, kdf);
 }
 
 KeyPairPtr MLKEM::generate(const ParameterList & parameters) const
@@ -112,11 +112,10 @@ KeyPairPtr MLKEM::generate(const ParameterList & parameters) const
 
 SymmetricKeyPtr MLKEM::buildSymmetricKey(const ByteRange & secret) const
 {
-    if (_output_key_type.empty()) {
-        return SymmetricKey::getInstance(secret);
-    } else {
-        return SymmetricKey::getInstance(_output_key_type, secret);
+    if (_kdf != nullptr) {
+        return _kdf->deriveKey(secret);
     }
+    return SymmetricKey::getInstance(secret);
 }
 
 std::pair<ByteArray, SymmetricKeyPtr> MLKEM::encapsulate(const PublicKey & encapsulation_key, const ParameterList & parameters) const
@@ -179,10 +178,13 @@ const std::string & MLKEM::getAlgorithmName() const
 void MLKEM::setParameter(int param_id, const Parameter & value)
 {
     switch (param_id) {
-        case KDF_PARAM_KEY_TYPE:
-            _output_key_type = value.asString();
-            break;
-            
+        case KEY_ENCAPSULATION_PARAM_KDF: {
+            auto kdf_function = std::dynamic_pointer_cast<KeyDerivation>(value.asObject());
+            if (kdf_function == nullptr) {
+                throw std::invalid_argument("Object must be type of KeyDerivation");
+            }
+            _kdf = kdf_function;
+        }
         default:
             throwUnsupportedParam(param_id);
     }
@@ -191,9 +193,8 @@ void MLKEM::setParameter(int param_id, const Parameter & value)
 Parameter MLKEM::getParameter(int param_id) const
 {
     switch (param_id) {
-        case KDF_PARAM_KEY_TYPE:
-            return Parameter::ref(_output_key_type);
-            
+        case KEY_ENCAPSULATION_PARAM_KDF:
+            return Parameter::take(_kdf);
         default:
             throwUnsupportedParam(param_id);
     }

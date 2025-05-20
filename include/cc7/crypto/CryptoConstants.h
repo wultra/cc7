@@ -130,19 +130,23 @@ enum AlgorithmParameterId
     /// Alter KDF function in KeyAgreement algorithm. Parameter is KeyDerivation object.
     KEY_AGREEMENT_PARAM_KDF     = 0x00A0,
     
+    /// Alter KDF function in KeyEncapsulation algorithm. Parameter is KeyDerivation object.
+    KEY_ENCAPSULATION_PARAM_KDF = 0x00C0,
     
     // Application specific params, for custom algorithms.
     
     /// App specific parameter, not used by cc7/crypto library.
-    KEY_PARAM_APP_CUSTOM            = 0x1020,
+    KEY_PARAM_APP_CUSTOM                = 0x1020,
     /// App specific parameter, not used by cc7/crypto library.
-    MAC_PARAM_APP_CUSTOM            = 0x1040,
+    MAC_PARAM_APP_CUSTOM                = 0x1040,
     /// App specific parameter, not used by cc7/crypto library.
-    KDF_PARAM_APP_CUSTOM            = 0x1060,
+    KDF_PARAM_APP_CUSTOM                = 0x1060,
     /// App specific parameter, not used by cc7/crypto library.
-    CIPHER_PARAM_APP_CUSTOM         = 0x1080,
+    CIPHER_PARAM_APP_CUSTOM             = 0x1080,
     /// App specific parameter, not used by cc7/crypto library.
-    KEY_AGREEMENT_PARAM_APP_CUSTOM  = 0x10A0,
+    KEY_AGREEMENT_PARAM_APP_CUSTOM      = 0x10A0,
+    /// App specific parameter, not used by cc7/crypto library.
+    KEY_ENCAPSULATION_PARAM_APP_CUSTOM  = 0x10C0
 };
 
 } // cc7::crypto

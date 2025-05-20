@@ -40,7 +40,7 @@ public:
 
     static std::shared_ptr<KeyDerivation> getInstance(const std::string & algorithm);
     
-    static std::shared_ptr<KeyDerivation> nullDerivation();
+    static std::shared_ptr<KeyDerivation> noDerivation();
 };
 
 typedef std::shared_ptr<KeyDerivation> KeyDerivationPtr;

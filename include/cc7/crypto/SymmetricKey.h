@@ -113,17 +113,17 @@ public:
     
     // Key interface
     
-    virtual const std::string & getKeyType() const;
+    const std::string & getKeyType() const override;
             
-    virtual void importKey(const ByteRange & keyData, KeyFormat format);
+    void importKey(const ByteRange & keyData, KeyFormat format = KEY_FORMAT_DEFAULT) override;
     
-    virtual ByteArray exportKey(KeyFormat format) const;
+    ByteArray exportKey(KeyFormat format = KEY_FORMAT_DEFAULT) const override;
     
-    virtual Parameter getKeyParameter(int param_id) const;
+    Parameter getKeyParameter(int param_id) const override;
     
-    virtual void setKeyParameter(int param_id, const Parameter & value);
+    void setKeyParameter(int param_id, const Parameter & value) override;
     
-    virtual KeyPtr duplicate() const;
+    KeyPtr duplicate() const override;
     
 private:
 
