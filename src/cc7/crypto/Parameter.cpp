@@ -18,10 +18,8 @@
 #include "CryptoPrivate.h"
 #include <stdexcept>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - Parameter implementation
 

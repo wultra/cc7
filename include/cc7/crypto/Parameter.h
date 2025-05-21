@@ -22,10 +22,8 @@
 #include <map>
 #include <set>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 /// The `Parameter` class
 class Parameter

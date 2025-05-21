@@ -16,32 +16,33 @@
 
 #pragma once
 
-#include "MACBase.h"
+#include <cc7/Platform.h>
 
 namespace cc7 {
-namespace crypto {
 
-class KMAC : public MACBase
+class BaseException : public std::exception
 {
 public:
-
-    static std::shared_ptr<KMAC> getInstance(const std::string & algorithm);
+    BaseException(const char* message, std::exception_ptr cause = nullptr) noexcept;
+    BaseException(const std::string& message, std::exception_ptr cause = nullptr) noexcept;
     
-public:
-    // Algorithm interface
-    void setParameter(int param_id, const Parameter & value) override;
-    Parameter getParameter(int param_id) const override;
-
-protected:
+    const std::string & message() const noexcept
+    {
+        return _message;
+    }
     
-    // OSSLMAC interface
-    bool prepareParams(MACBase::MACBaseParams & params) const override;
+    const std::exception_ptr & cause() const noexcept
+    {
+        return _cause;
+    }
+    
+    virtual const std::string& exceptionClass() const noexcept;
+    
+    std::string debugDump() const noexcept;
     
 private:
-    ByteArray _custom;
-    
-    KMAC(EVPMac & mac, const MACBaseSpec * spec) : MACBase(mac, spec) {}
+    std::string _message;
+    std::exception_ptr _cause;
 };
 
-} // cc7::crypto
 } // cc7

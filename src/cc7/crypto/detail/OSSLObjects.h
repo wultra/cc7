@@ -33,10 +33,8 @@
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // EVP
 

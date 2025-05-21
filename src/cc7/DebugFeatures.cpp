@@ -16,84 +16,82 @@
 
 #include <cc7/DebugFeatures.h>
 
-namespace cc7
-{
-namespace debug
-{
+namespace cc7 {
+namespace debug {
     
 #if defined(DEBUG) || defined(ENABLE_CC7_LOG) || defined(ENABLE_CC7_ASSERT)
-    // Following string is useful for debug build detection during the library deployment.
-    // You can check whether final executable or library doesn't contain this string,
-    // to be sure that the release build was really produced.
-    const char * gFooDEBUG = "ThisIsDebugBuild_CC7";
+// Following string is useful for debug build detection during the library deployment.
+// You can check whether final executable or library doesn't contain this string,
+// to be sure that the release build was really produced.
+const char * gFooDEBUG = "ThisIsDebugBuild_CC7";
 #endif
 
-    //
-    // Must be always implemented. Doesn't depend on assert.
-    //
-    bool HasDebugFeaturesTurnedOn()
-    {
+//
+// Must be always implemented. Doesn't depend on assert.
+//
+bool HasDebugFeaturesTurnedOn()
+{
 #if defined(DEBUG) || defined(ENABLE_CC7_LOG) || defined(ENABLE_CC7_ASSERT)
-        return true;
+    return true;
 #else
-        return false;
+    return false;
 #endif
-    }
+}
     
     
 #if defined(ENABLE_CC7_ASSERT)
-    //
-    // Assertion handler
-    //
-    static AssertionHandlerSetup s_assert_setup = { nullptr, nullptr };
-    
-    void SetAssertionHandler(const AssertionHandlerSetup & new_setup)
-    {
-        AssertionHandlerSetup default_setup = Platform_GetDefaultAssertionHandler();
-        if (!new_setup.handler) {
-            s_assert_setup = default_setup;
-        } else {
-            s_assert_setup = new_setup;
-        }
+//
+// Assertion handler
+//
+static AssertionHandlerSetup s_assert_setup = { nullptr, nullptr };
+
+void SetAssertionHandler(const AssertionHandlerSetup & new_setup)
+{
+    AssertionHandlerSetup default_setup = Platform_GetDefaultAssertionHandler();
+    if (!new_setup.handler) {
+        s_assert_setup = default_setup;
+    } else {
+        s_assert_setup = new_setup;
     }
-    
-    AssertionHandlerSetup GetAssertionHandler()
-    {
-        return s_assert_setup;
-    }
+}
+
+AssertionHandlerSetup GetAssertionHandler()
+{
+    return s_assert_setup;
+}
 #endif //ENABLE_CC7_ASSERT
 
-    
-#if defined(ENABLE_CC7_LOG)
-    //
-    // Log handler
-    //
-    static LogHandlerSetup s_log_setup = { nullptr, nullptr };
-    static bool s_log_enabled = Platform_IsDefaultLogEnabled();
-    
-    void SetLogHandler(const LogHandlerSetup & new_setup)
-    {
-        if (!new_setup.handler) {
-            s_log_setup = Platform_GetDefaultLogHandler();
-        } else {
-            s_log_setup = new_setup;
-        }
-    }
-    
-    LogHandlerSetup GetLogHandler()
-    {
-        return s_log_setup;
-    }
 
-    void SetLogEnabled(bool enabled)
-    {
-        s_log_enabled = enabled;
+#if defined(ENABLE_CC7_LOG)
+//
+// Log handler
+//
+static LogHandlerSetup s_log_setup = { nullptr, nullptr };
+static bool s_log_enabled = Platform_IsDefaultLogEnabled();
+
+void SetLogHandler(const LogHandlerSetup & new_setup)
+{
+    if (!new_setup.handler) {
+        s_log_setup = Platform_GetDefaultLogHandler();
+    } else {
+        s_log_setup = new_setup;
     }
-    
-    bool IsLogEnabled()
-    {
-        return s_log_enabled;
-    }
+}
+
+LogHandlerSetup GetLogHandler()
+{
+    return s_log_setup;
+}
+
+void SetLogEnabled(bool enabled)
+{
+    s_log_enabled = enabled;
+}
+
+bool IsLogEnabled()
+{
+    return s_log_enabled;
+}
 #endif //ENABLE_CC7_LOG
 
 

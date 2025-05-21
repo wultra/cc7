@@ -16,10 +16,8 @@
 
 #include "ECDSA.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - ECDSASpec structure
 
@@ -66,22 +64,22 @@ ByteArray ECDSA::sign(const PrivateKey & private_key, const ByteRange & data, co
     
     auto ctx = EVPMDContext::empty();
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to create context for data signing");
+        throw CryptoException("Failed to create context for data signing");
     }
     if (EVP_DigestSignInit(ctx, nullptr, _spec->md, nullptr, ll_key) != 1) {
-        throw std::domain_error("Failed to initialize context for data signing");
+        throw CryptoException("Failed to initialize context for data signing");
     }
     if (EVP_DigestSignUpdate(ctx, data.data(), data.size()) != 1) {
-        throw std::domain_error("Failed to compute hash from data");
+        throw CryptoException("Failed to compute hash from data");
     }
     cc7::ByteArray signature;
     size_t sig_length = 0;
     if (EVP_DigestSignFinal(ctx, nullptr, &sig_length) != 1) {
-        throw std::domain_error("Failed to estimate length of the signature");
+        throw CryptoException("Failed to estimate length of the signature");
     }
     signature.resize(sig_length);
     if (EVP_DigestSignFinal(ctx, signature.data(), &sig_length) != 1) {
-        throw std::domain_error("Failed to compute signature");
+        throw CryptoException("Failed to compute signature");
     }
     // Final signature length may differ to estimated
     signature.resize(sig_length);
@@ -97,13 +95,13 @@ bool ECDSA::verify(const PublicKey & public_key, const ByteRange & signature, co
     
     auto ctx = EVPMDContext::empty();
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to create context for signature verification");
+        throw CryptoException("Failed to create context for signature verification");
     }
     if (EVP_DigestVerifyInit(ctx, nullptr, _spec->md, nullptr, ll_key) != 1) {
-        throw std::domain_error("Failed to initialize context for signature verification");
+        throw CryptoException("Failed to initialize context for signature verification");
     }
     if (EVP_DigestVerifyUpdate(ctx, data.data(), data.size()) != 1) {
-        throw std::domain_error("Failed to compute hash from data");
+        throw CryptoException("Failed to compute hash from data");
     }
     auto r = EVP_DigestVerifyFinal(ctx, signature.data(), signature.size());
     return r == 1;

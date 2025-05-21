@@ -19,10 +19,8 @@
 #include <cc7/crypto/Key.h>
 #include <cc7/crypto/Algorithm.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 class MessageDigest : public Algorithm
 {

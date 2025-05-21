@@ -18,11 +18,10 @@
 
 #include "detail/OSSLObjects.h"
 #include <cc7/crypto/CryptoConstants.h>
+#include <cc7/crypto/CryptoException.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 void throwUnsupporterAlgorithm [[noreturn]] (const std::string & alg_name);
 

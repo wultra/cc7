@@ -19,10 +19,8 @@
 #include <cc7/crypto/KeyDerivation.h>
 #include "../CryptoPrivate.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 class NullKDF : public KeyDerivation
 {

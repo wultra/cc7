@@ -16,10 +16,8 @@
 
 #include "ECDH.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 static const std::string ECDH_ALG("ECDH");
 
@@ -47,19 +45,19 @@ SymmetricKeyPtr ECDH::phase(const PrivateKey & private_key, const PublicKey & pe
     }
     auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(ossl_ctx(), ec_private_key.getEvpKey(), NULL));
     if (!ctx.isValid() || EVP_PKEY_derive_init(ctx) <= 0) {
-        throw std::domain_error("Failed to initialize ECDH context");
+        throw CryptoException("Failed to initialize ECDH context");
     }
     if (EVP_PKEY_derive_set_peer_ex(ctx, ec_peer_key.getEvpKey(), 1) <= 0) {
-        throw std::domain_error("Failed to set peer key to ECDH context");
+        throw CryptoException("Failed to set peer key to ECDH context");
     }
     ByteArray raw_secret;
     size_t secret_size = 0;
     if (EVP_PKEY_derive(ctx, NULL, &secret_size) <= 0) {
-        throw std::domain_error("Failed to determine size of ECDH shared secret");
+        throw CryptoException("Failed to determine size of ECDH shared secret");
     }
     raw_secret.resize(secret_size);
     if (EVP_PKEY_derive(ctx, raw_secret.data(), &secret_size) <= 0) {
-        throw std::domain_error("Failed to compute ECDH shared secret");
+        throw CryptoException("Failed to compute ECDH shared secret");
     }
     return _key_derivation->deriveKey(raw_secret);
 }

@@ -18,10 +18,8 @@
 #include <cc7/crypto/Random.h>
 #include <cc7/Utilities.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - AESSpec implementation
 
@@ -141,11 +139,11 @@ ByteArray AES::encrypt(const ByteRange & secret_key, const ByteRange & iv, const
     
     auto ctx = EVPCipherContext::empty();
     if (EVP_EncryptInit_ex2(ctx, _cipher, secret_key.data(), _spec.iv_size > 0 ? iv.data() : nullptr, nullptr) != 1) {
-        throw std::domain_error("Failed to initialize encryptor's context");
+        throw CryptoException("Failed to initialize encryptor's context");
     }
     if (_spec.need_padding && !_use_padding) {
         if (EVP_CIPHER_CTX_set_padding(ctx, 0) != 1) {
-            throw std::domain_error("Failed to disable padding");
+            throw CryptoException("Failed to disable padding");
         }
     }
     int ciphertext_len, len = 0;
@@ -153,19 +151,19 @@ ByteArray AES::encrypt(const ByteRange & secret_key, const ByteRange & iv, const
     if (!in_aad.empty()) {
         // Apply input AAD
         if (EVP_EncryptUpdate(ctx, nullptr, &len, in_aad.data(), (int)in_aad.size()) != 1) {
-            throw std::domain_error("AAD phase failed");
+            throw CryptoException("AAD phase failed");
         }
     }
     if (EVP_EncryptUpdate(ctx, out.data(), &len, plaintext.data(), (int)plaintext.size()) != 1) {
-        throw std::domain_error("Data encryption failed");
+        throw CryptoException("Data encryption failed");
     }
     ciphertext_len = len;
     if (EVP_EncryptFinal_ex(ctx, out.data() + len, &len) != 1) {
-        throw std::domain_error("Data encryption finalization failed");
+        throw CryptoException("Data encryption finalization failed");
     }
     ciphertext_len += len;
     if (out_size < ciphertext_len) {
-        throw std::domain_error("AES Fatal error");
+        throw CryptoException("AES Fatal error");
     }
     out.resize(ciphertext_len);
     
@@ -178,7 +176,7 @@ ByteArray AES::encrypt(const ByteRange & secret_key, const ByteRange & iv, const
         };
         
         if (EVP_CIPHER_CTX_get_params(ctx, get_params) != 1) {
-            throw std::domain_error("Failed to get TAG");
+            throw CryptoException("Failed to get TAG");
         }
     }
     return out;
@@ -206,11 +204,11 @@ ByteArray AES::decrypt(const ByteRange & secret_key, const ByteRange & iv, const
     
     auto ctx = EVPCipherContext::empty();
     if (EVP_DecryptInit_ex2(ctx, _cipher, secret_key.data(), _spec.iv_size > 0 ? iv.data() : nullptr, nullptr) != 1) {
-        throw std::domain_error("Failed to initialize decryptor's context");
+        throw CryptoException("Failed to initialize decryptor's context");
     }
     if (_spec.need_padding && !_use_padding) {
         if (EVP_CIPHER_CTX_set_padding(ctx, 0) != 1) {
-            throw std::domain_error("Failed to disable padding");
+            throw CryptoException("Failed to disable padding");
         }
     }
     int plaintext_len, len = 0;
@@ -218,11 +216,11 @@ ByteArray AES::decrypt(const ByteRange & secret_key, const ByteRange & iv, const
     if (!in_aad.empty()) {
         // Apply input AAD
         if (EVP_DecryptUpdate(ctx, nullptr, &len, in_aad.data(), (int)in_aad.size()) != 1) {
-            throw std::domain_error("AAD phase failed");
+            throw CryptoException("AAD phase failed");
         }
     }
     if (EVP_DecryptUpdate(ctx, out.data(), &len, ciphertext.data(), (int)ciphertext.size()) != 1) {
-        throw std::domain_error("Data decryption failed");
+        throw CryptoException("Data decryption failed");
     }
     if (!in_tag.empty()) {
         OSSL_PARAM params[2] = {
@@ -231,12 +229,12 @@ ByteArray AES::decrypt(const ByteRange & secret_key, const ByteRange & iv, const
             OSSL_PARAM_END
         };
         if (EVP_CIPHER_CTX_set_params(ctx, params) != 1) {
-            throw std::domain_error("Failed to set TAG");
+            throw CryptoException("Failed to set TAG");
         }
     }
     plaintext_len = len;
     if (EVP_DecryptFinal_ex(ctx, out.data() + len, &len) != 1) {
-        throw std::domain_error("Data decryption finalization failed");
+        throw CryptoException("Data decryption finalization failed");
     }
     plaintext_len += len;
     out.resize(plaintext_len);
@@ -280,7 +278,7 @@ static ByteArray AEAD_I12T16D_Make(const ByteRange & iv, const ByteRange & tag, 
 {
     ByteArray out;
     if (iv.size() != 12 || tag.size() != 16) {
-        throw std::logic_error("Invalid IV or TAG size in AEAD");
+        throw InternalError("Invalid IV or TAG size in AEAD");
     }
     out.reserve(ct.size() + 12 + 16);
     out.assign(iv);
@@ -323,7 +321,7 @@ AEADPtr AES_GCM_AEAD::getInstance(const std::string &algorithm)
     }
     auto cipher = AES::getInstance(spec->cipher);
     if (cipher == nullptr) {
-        throw std::logic_error("Broken AES_AEAD_Spec table");
+        throw InternalError("Broken AES_AEAD_Spec table");
     }
     return std::make_shared<AES_GCM_AEAD>(spec, cipher);
 }

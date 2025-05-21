@@ -18,10 +18,8 @@
 
 #include <cc7/Platform.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 /**
  The `TLLRefObject` template helper class is responsible for capturing and managing lifetime of

@@ -19,10 +19,8 @@
 #include "alg/MLKEM.h"
 #include "alg/ECKeyPair.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - KeyPairFactory implementation
 
@@ -37,7 +35,7 @@ KeyPairFactoryPtr KeyPairFactory::getInstance(const std::string & key_type)
         factory = MLKEMKeyPairFactory::getInstance(key_type);
     }
     if (factory == nullptr) {
-        throw std::invalid_argument("Unsupported key type " + key_type);
+        throw UnsupportedAlgorithm("Unsupported key type " + key_type);
     }
     return factory;
 }

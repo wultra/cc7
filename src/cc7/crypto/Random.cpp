@@ -15,6 +15,7 @@
  */
 
 #include <cc7/crypto/Random.h>
+#include <cc7/crypto/CryptoException.h>
 #include <openssl/rand.h>
 
 #if defined(CC7_APPLE) || defined(CC7_ANDROID)
@@ -22,10 +23,8 @@
 #include <unistd.h>
 #endif
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - Random generator
 
@@ -57,7 +56,7 @@ ByteArray GetRandomData(size_t size, bool reject_sequence_of_zeros)
     while (size > 0) {
         int rc = RAND_bytes(data.data(), (int)size);
         if (rc != 1 || attempts == 0) {
-            throw std::domain_error("Failed to generate random data");
+            throw CryptoException("Failed to generate random data");
         }
         if (!reject_sequence_of_zeros) {
             break;
@@ -80,7 +79,7 @@ ByteArray GetUniqueRandomData(size_t size, const std::vector<ByteRange> & reject
     while (size > 0) {
         int rc = RAND_bytes(data.data(), (int)size);
         if (rc != 1 || attempts == 0) {
-            throw std::domain_error("Failed to generate random data");
+            throw CryptoException("Failed to generate random data");
         }
         bool unique = true;
         for (auto && other_data : reject_byte_sequences) {
@@ -119,7 +118,7 @@ void ReseedRandomGenerator()
     
     cc7::ByteArray buffer(nbytes, 0);
     if (!GetBytesFromSystemGenerator(buffer)) {
-        throw std::domain_error("Failed to get random data from system generator");
+        throw CryptoException("Failed to get random data from system generator");
     }
     RAND_seed(buffer.data(), (int)buffer.size());
 }

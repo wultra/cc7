@@ -17,10 +17,8 @@
 #include <cc7/crypto/CryptoConstants.h>
 #include "CryptoPrivate.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 std::string EC_PUBLIC_KEY_CONVERSION_COMPRESSED(OSSL_PKEY_EC_POINT_CONVERSION_FORMAT_COMPRESSED);
 std::string EC_PUBLIC_KEY_CONVERSION_UNCOMPRESSED(OSSL_PKEY_EC_POINT_CONVERSION_FORMAT_UNCOMPRESSED);
@@ -33,7 +31,7 @@ KeyFormat KeyFormat_FromString(const std::string & str)
     if (str == "spki")    return KEY_FORMAT_SPKI;
     if (str == "x963")    return KEY_FORMAT_X963;
     if (str == "default") return KEY_FORMAT_DEFAULT;
-    throw std::invalid_argument("Unsupported key format");
+    throw std::invalid_argument("Unsupported key format: " + str);
 }
 
 std::string KeyFormat_ToString(KeyFormat format, bool human_readable)

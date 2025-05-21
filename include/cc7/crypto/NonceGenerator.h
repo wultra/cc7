@@ -19,10 +19,8 @@
 #include <cc7/crypto/Algorithm.h>
 #include <set>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 class NonceGenerator : public BaseObject
 {
@@ -85,4 +83,4 @@ private:
 };
 
 } // cc7::crypto
-} // cc74
+} // cc7

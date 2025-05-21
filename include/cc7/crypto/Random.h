@@ -18,10 +18,8 @@
 
 #include <cc7/ByteArray.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 /**
  Generates required amount of random bytes. if |reject_sequence_of_zeros|

@@ -18,11 +18,10 @@
 
 #include <cc7/crypto/BaseObject.h>
 #include <cc7/crypto/Parameter.h>
+#include <cc7/crypto/CryptoException.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // Abstract algorithm interface
 class Algorithm : public BaseObject

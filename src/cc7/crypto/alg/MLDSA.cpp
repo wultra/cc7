@@ -18,10 +18,8 @@
 #include "KeyUtility.h"
 #include <openssl/x509.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - MLDSASpec implementation
 
@@ -84,23 +82,23 @@ ByteArray MLDSA::sign(const PrivateKey & private_key, const ByteRange & data, co
     
     auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(ossl_ctx(), ll_key, nullptr));
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to create context from private key");
+        throw CryptoException("Failed to create context from private key");
     }
     auto sig_alg = EVPSignature::take(EVP_SIGNATURE_fetch(ossl_ctx(), algName(), NULL));
     if (!sig_alg.isValid()) {
-        throw std::domain_error("Failed to fetch signature algorithm");
+        throw CryptoException("Failed to fetch signature algorithm");
     }
     // TODO: use params -> https://docs.openssl.org/3.5/man7/EVP_SIGNATURE-ML-DSA/#examples
     if (EVP_PKEY_sign_message_init(ctx, sig_alg, nullptr) != 1) {
-        throw std::domain_error("Failed to initialize context for data signing");
+        throw CryptoException("Failed to initialize context for data signing");
     }
     size_t sig_length;
     if (EVP_PKEY_sign(ctx, nullptr, &sig_length, data.data(), data.size()) != 1) {
-        throw std::domain_error("Failed to estimate output signature length");
+        throw CryptoException("Failed to estimate output signature length");
     }
     ByteArray signature(sig_length, 0);
     if (EVP_PKEY_sign(ctx, signature.data(), &sig_length, data.data(), data.size()) != 1) {
-        throw std::domain_error("Signature calculation failed");
+        throw CryptoException("Signature calculation failed");
     }
     signature.resize(sig_length);
     return signature;
@@ -115,14 +113,14 @@ bool MLDSA::verify(const PublicKey & public_key, const ByteRange & signature, co
 
     auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(ossl_ctx(), ll_key, nullptr));
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to create context from public key");
+        throw CryptoException("Failed to create context from public key");
     }
     auto sig_alg = EVPSignature::take(EVP_SIGNATURE_fetch(ossl_ctx(), algName(), NULL));
     if (!sig_alg.isValid()) {
-        throw std::domain_error("Failed to fetch signature algorithm");
+        throw CryptoException("Failed to fetch signature algorithm");
     }
     if (EVP_PKEY_verify_message_init(ctx, sig_alg, nullptr) != 1) {
-        throw std::domain_error("Failed to initialize context for signature verification");
+        throw CryptoException("Failed to initialize context for signature verification");
     }
     auto result = EVP_PKEY_verify(ctx, signature.data(), signature.length(), data.data(), data.length());
     return result == 1;
@@ -146,7 +144,7 @@ KeyPairPtr MLDSAKeyPairFactory::generateKeyPair() const
 {
     auto pkey = EVPKeyPair::take(EVP_PKEY_Q_keygen(ossl_ctx(), nullptr, algName()));
     if (!pkey.isValid()) {
-        throw std::domain_error("Failed to generate ML-DSA key-pair");
+        throw CryptoException("Failed to generate ML-DSA key-pair");
     }
     auto pub_key = newPublicKey();
     auto priv_key = newPrivateKey();

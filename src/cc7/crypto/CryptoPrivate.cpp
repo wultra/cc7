@@ -17,14 +17,16 @@
 #include "CryptoPrivate.h"
 #include <openssl/provider.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
+
+const std::string CryptoException::CLASS_NAME = "cc7::crypto::CryptoException";
+const std::string UnsupportedAlgorithm::CLASS_NAME = "cc7::crypto::UnsupportedAlgorithm";
+const std::string InternalError::CLASS_NAME = "cc7::crypto::InternalError";
 
 void throwUnsupporterAlgorithm(const std::string & alg_name)
 {
-    throw std::invalid_argument("Unsupported algorithm " + alg_name);
+    throw UnsupportedAlgorithm("Unsupported algorithm " + alg_name);
 }
 
 void throwUnsupportedParam(int param_id)
@@ -83,10 +85,10 @@ public:
         _default = OSSL_PROVIDER_load(_ctx, "default");
         _base = OSSL_PROVIDER_load(_ctx, "base");
         if (OSSL_PROVIDER_add_conf_parameter(_default, OSSL_PKEY_PARAM_ML_DSA_OUTPUT_FORMATS, "seed-only,priv-only,seed-priv") == 0) {
-            throw std::domain_error("Failed to alter OpenSSL configuration parameters");
+            throw CryptoException("Failed to alter OpenSSL configuration parameters");
         }
         if (OSSL_PROVIDER_add_conf_parameter(_base, OSSL_PKEY_PARAM_ML_DSA_OUTPUT_FORMATS, "seed-only,priv-only,seed-priv") == 0) {
-            throw std::domain_error("Failed to alter OpenSSL configuration parameters");
+            throw CryptoException("Failed to alter OpenSSL configuration parameters");
         }
         dumpProviders(_ctx);
 #endif
@@ -108,7 +110,7 @@ OSSL_LIB_CTX * ossl_ctx()
     if (s_initializer._ctx.isValid()) {
         return s_initializer._ctx.object();
     }
-    throw std::domain_error("OSSL_LIB_CTX is not initialized yet");
+    throw CryptoException("OSSL_LIB_CTX is not initialized yet");
 #endif
 }
 

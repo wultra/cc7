@@ -18,10 +18,8 @@
 
 #include <cc7/crypto/Key.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 struct SymmetricKeySpec
 {

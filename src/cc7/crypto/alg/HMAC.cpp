@@ -16,10 +16,8 @@
 
 #include "HMAC.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 static const MACBaseSpec HMAC_SHA_256  = { "HMAC-SHA-256",  "SHA-256",  32, true };
 static const MACBaseSpec HMAC_SHA_384  = { "HMAC-SHA-384",  "SHA-384",  48, true };
@@ -53,7 +51,7 @@ std::shared_ptr<HMAC> HMAC::getInstance(const std::string & algorithm)
     }
     auto mac = EVPMac::take(EVP_MAC_fetch(ossl_ctx(), "HMAC", nullptr));
     if (!mac.isValid()) {
-        throw std::domain_error("Failed to fetch HMAC algorithm");
+        throw CryptoException("Failed to fetch HMAC algorithm");
     }
     return std::shared_ptr<HMAC>(new HMAC(mac, spec));
 }

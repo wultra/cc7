@@ -17,10 +17,8 @@
 #include <cc7/crypto/AEAD.h>
 #include "alg/AES.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 AEADPtr AEAD::getInstance(const std::string &algorithm)
 {

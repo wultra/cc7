@@ -16,10 +16,8 @@
 
 #include "X963KDF.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: X963KDFSpec implementation
 
@@ -65,11 +63,11 @@ cc7::ByteArray X963KDF::deriveKeyBytes(const ByteRange & key_material, const Par
     auto kdf = EVPKdf::take(EVP_KDF_fetch(ossl_ctx(), _spec->ossl_alg.c_str(), nullptr));
     auto ctx = EVPKdfContext::take(EVP_KDF_CTX_new(kdf));
     if (!ctx.isValid() || !kdf.isValid()) {
-        throw std::domain_error("Failed to initialize KDF and context");
+        throw CryptoException("Failed to initialize KDF and context");
     }
     ByteArray out(out_size, 0);
     if (EVP_KDF_derive(ctx, out.data(), out.size(), params) != 1) {
-        throw std::domain_error("Failed to derive secret key");
+        throw CryptoException("Failed to derive secret key");
     }
     return out;
 }

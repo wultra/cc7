@@ -20,10 +20,8 @@
 
 #include <openssl/x509.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - Forward declarations
 
@@ -92,7 +90,7 @@ struct KeyFormatParam
     }
     
     void checkType(Type t) const {
-        if (t != type) throw std::domain_error("Wrong param in key export/import mapping table");
+        if (t != type) throw CryptoException("Wrong param in key export/import mapping table");
     }
 };
 
@@ -242,7 +240,7 @@ static void throwImportExportFailure [[noreturn]] (const std::string & key_type,
     message += is_public ? " public key" : " private key";
     message += is_export ? " to " : " from ";
     message += KeyFormat_ToString(format, true);
-    throw std::domain_error(message);
+    throw CryptoException(message);
 }
 
 // Entry lookup
@@ -373,7 +371,7 @@ static ByteArray der_export(const KeyFormatEntry & entry, const KeyFormatSpec & 
 {
     auto ctx = OSSLEncoderContext::take(OSSL_ENCODER_CTX_new_for_pkey(key, selection, "DER", structure, nullptr));
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to init DER key encoder");
+        throw CryptoException("Failed to init DER key encoder");
     }
     unsigned char *pdata = nullptr;
     size_t pdata_len = 0;
@@ -390,7 +388,7 @@ static EVPKeyPair der_import(const KeyFormatEntry & entry, const KeyFormatSpec &
     auto key_type_str = entry.ossl_type_name.c_str();
     auto ctx = OSSLDecoderContext::take(OSSL_DECODER_CTX_new_for_pkey(result.objectRef(), "DER", nullptr, key_type_str, selection, ossl_ctx(), nullptr));
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to init DER key decoder");
+        throw CryptoException("Failed to init DER key decoder");
     }
     const unsigned char * data_ptr = key_data.data();
     size_t data_len = key_data.size();
@@ -464,12 +462,12 @@ static EVPKeyPair ec_raw_pub_import(const KeyFormatEntry & entry, const KeyForma
     auto params = OSSLParam::take(OSSL_PARAM_BLD_to_param(builder));
     auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_name(ossl_ctx(), "EC", nullptr));
     if (!ctx.isValid() || EVP_PKEY_fromdata_init(ctx) <= 0) {
-        throw std::domain_error("Failed to get and initialize EC public key context");
+        throw CryptoException("Failed to get and initialize EC public key context");
     }
     EVPKeyPair result;
     if (EVP_PKEY_fromdata(ctx, result.objectRef(), EVP_PKEY_PUBLIC_KEY, params) == 1) {
         if (!ec_pub_key_validate(result)) {
-            throw std::domain_error("Invalid EC public key");
+            throw CryptoException("Invalid EC public key");
         }
     } else {
         result.destroy();
@@ -485,12 +483,12 @@ static EVPKeyPair ec_raw_priv_import(const KeyFormatEntry & entry, const KeyForm
     auto group = ECGroup::take(EC_GROUP_new_by_curve_name(entry.entry_param2.asInt()));
     auto pub_point = ECPoint::take(EC_POINT_new(group));
     if (!group.isValid() || !pub_point.isValid()) {
-        throw std::domain_error("Failed to allocate EC group or EC point");
+        throw CryptoException("Failed to allocate EC group or EC point");
     }
     
     auto bn_ctx = BNContext::empty();
     if (!EC_POINT_mul(group, pub_point, priv_key_bn, nullptr, nullptr, bn_ctx)) {
-        throw std::domain_error("Failed to calculate EC public key from private key");
+        throw CryptoException("Failed to calculate EC public key from private key");
     }
     auto pub_key_bytes = ECPoint_ToArray(group, pub_point, POINT_CONVERSION_UNCOMPRESSED, bn_ctx);
 
@@ -501,7 +499,7 @@ static EVPKeyPair ec_raw_priv_import(const KeyFormatEntry & entry, const KeyForm
     auto params = OSSLParam::take(OSSL_PARAM_BLD_to_param(builder));
     auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_name(ossl_ctx(), "EC", nullptr));
     if (!ctx.isValid() || EVP_PKEY_fromdata_init(ctx) <= 0) {
-        throw std::domain_error("Failed to get and initialize EC public key context");
+        throw CryptoException("Failed to get and initialize EC public key context");
     }
     EVPKeyPair result;
     if (EVP_PKEY_fromdata(ctx, result.objectRef(), EVP_PKEY_KEYPAIR, params) != 1) {
@@ -516,12 +514,12 @@ static ByteArray  sec1_priv_export(const KeyFormatEntry & entry, const KeyFormat
 {
     auto length = i2d_PrivateKey(key, nullptr);
     if (length <= 0) {
-        throw std::domain_error("Failed to get length of SEC1 key");
+        throw CryptoException("Failed to get length of SEC1 key");
     }
     ByteArray out(length, 0);
     unsigned char *p = out.data();
     if (i2d_PrivateKey(key, &p) < 0) {
-        throw std::domain_error("Failed to export SEC1 key");
+        throw CryptoException("Failed to export SEC1 key");
     }
     return out;
 }

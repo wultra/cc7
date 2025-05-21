@@ -15,11 +15,10 @@
  */
 
 #include "OSSLObjects.h"
+#include <cc7/crypto/CryptoException.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 cc7::ByteArray BigNum_ToArray(const BigNum & bn)
 {
@@ -38,11 +37,11 @@ ByteArray ECPoint_ToArray(const ECGroup & g, const ECPoint & p, point_conversion
 {
     auto point_size = EC_POINT_point2oct(g, p, conversion, nullptr, 0, ctx);
     if (!point_size) {
-        throw std::domain_error("Failed to get length of EC_POINT in bytes");
+        throw CryptoException("Failed to get length of EC_POINT in bytes");
     }
     ByteArray out(point_size, 0);
     if (!EC_POINT_point2oct(g, p, conversion, out.data(), out.size(), ctx)) {
-        throw std::domain_error("Failed to convert EC_POINT to bytes");
+        throw CryptoException("Failed to convert EC_POINT to bytes");
     }
     return out;
 }
@@ -63,13 +62,13 @@ cc7::ByteArray EVPKeyPair_GetByteArrayParam(const EVPKeyPair & key, const char *
     if (EVP_PKEY_get_octet_string_param(key, param_name, nullptr, 0, &data_len)) {
         out.resize(data_len);
         if (data_len && !EVP_PKEY_get_octet_string_param(key, param_name, out.data(), out.size(), &data_len)) {
-            throw std::domain_error("Failed to get EVP_PKEY parameter " + std::string(param_name));
+            throw CryptoException("Failed to get EVP_PKEY parameter " + std::string(param_name));
         }
     } else {
-        throw std::domain_error("Failed to get EVP_PKEY parameter " + std::string(param_name));
+        throw CryptoException("Failed to get EVP_PKEY parameter " + std::string(param_name));
     }
     if (!allow_empty && out.empty()) {
-        throw std::domain_error("Empty data returned for EVP_PKEY parameter " + std::string(param_name));
+        throw CryptoException("Empty data returned for EVP_PKEY parameter " + std::string(param_name));
     }
     return out;
 }
@@ -80,7 +79,7 @@ cc7::ByteArray EVPKeyPair_GetBigNumParam(const EVPKeyPair & key, const char * pa
     if (EVP_PKEY_get_bn_param(key, param_name, &value)) {
         return BigNum_ToArray(BigNum::take(value));
     }
-    throw std::domain_error("Failed to get EVP_PKEY parameter " + std::string(param_name));
+    throw CryptoException("Failed to get EVP_PKEY parameter " + std::string(param_name));
 }
 
 std::string EVPKeyPair_GetStringParam(const EVPKeyPair & key, const char * param_name)
@@ -90,10 +89,10 @@ std::string EVPKeyPair_GetStringParam(const EVPKeyPair & key, const char * param
     if (EVP_PKEY_get_utf8_string_param(key, param_name, nullptr, 0, &data_len)) {
         out.resize(data_len, ' ');
         if (data_len && !EVP_PKEY_get_utf8_string_param(key, param_name, const_cast<char*>(out.data()), out.size(), &data_len)) {
-            throw std::domain_error("Failed to get EVP_PKEY parameter " + std::string(param_name));
+            throw CryptoException("Failed to get EVP_PKEY parameter " + std::string(param_name));
         }
     } else {
-        throw std::domain_error("Failed to get EVP_PKEY parameter " + std::string(param_name));
+        throw CryptoException("Failed to get EVP_PKEY parameter " + std::string(param_name));
     }
     return out;
 }
@@ -101,7 +100,7 @@ std::string EVPKeyPair_GetStringParam(const EVPKeyPair & key, const char * param
 void EVPKeyPair_SetStringParam(const EVPKeyPair & key, const char * param_name, const std::string & value)
 {
     if (!EVP_PKEY_set_utf8_string_param(key, param_name, value.c_str())) {
-        throw std::domain_error("Failed to set EVP_PKEY parameter " + std::string(param_name));
+        throw CryptoException("Failed to set EVP_PKEY parameter " + std::string(param_name));
     }
 }
 

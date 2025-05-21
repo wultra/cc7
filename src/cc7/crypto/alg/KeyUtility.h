@@ -18,10 +18,8 @@
 
 #include "../CryptoPrivate.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 ByteArray  exportPublicKey(const EVPKeyPair & pkey, const std::string & key_type, KeyFormat key_format);
 ByteArray  exportPrivateKey(const EVPKeyPair & pkey, const std::string & key_type, KeyFormat key_format);

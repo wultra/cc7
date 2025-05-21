@@ -19,27 +19,27 @@
 #include <cc7/HexString.h>
 #include <openssl/crypto.h>
 
-namespace cc7
-{
-    std::string ByteRange::base64String(size_t wrap_size) const
-    {
-        std::string result;
-        Base64_Encode(*this, wrap_size, result);
-        return result;
-    }
-    
-    std::string ByteRange::hexString(bool lower_case) const
-    {
-        std::string result;
-        HexString_Encode(*this, lower_case, result);
-        return result;
-    }
+namespace cc7 {
 
-    bool ConstTimeEqual(const ByteRange & a, const ByteRange & b)
-    {
-        auto size = std::min(a.size(), b.size());
-        return CRYPTO_memcmp(a.begin(), b.begin(), size) == 0 &&
-                a.size() == b.size();
-    }
+std::string ByteRange::base64String(size_t wrap_size) const
+{
+    std::string result;
+    Base64_Encode(*this, wrap_size, result);
+    return result;
+}
+
+std::string ByteRange::hexString(bool lower_case) const
+{
+    std::string result;
+    HexString_Encode(*this, lower_case, result);
+    return result;
+}
+
+bool ConstTimeEqual(const ByteRange & a, const ByteRange & b)
+{
+    auto size = std::min(a.size(), b.size());
+    return CRYPTO_memcmp(a.begin(), b.begin(), size) == 0 &&
+            a.size() == b.size();
+}
 
 } // cc7

@@ -17,10 +17,8 @@
 #include "ECKeyPair.h"
 #include "KeyUtility.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - ECCurveSpec structure
 
@@ -58,19 +56,19 @@ KeyPairPtr ECKeyPairFactory::generateKeyPair() const
 {
     auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_name(ossl_ctx(), "EC", NULL));
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to fetch EC key context");
+        throw CryptoException("Failed to fetch EC key context");
     }
     // Initialize keygen
     if (EVP_PKEY_keygen_init(ctx) <= 0) {
-        throw std::domain_error("Failed to initialize EC key generator");
+        throw CryptoException("Failed to initialize EC key generator");
     }
     // Set the curve
     if (EVP_PKEY_CTX_set_group_name(ctx, algName()) <= 0) {
-        throw std::domain_error("Failed to set EC group name");
+        throw CryptoException("Failed to set EC group name");
     }
     EVP_PKEY * pkey = nullptr;
     if (EVP_PKEY_generate(ctx, &pkey) <= 0) {
-        throw std::domain_error("Failed to generate new EC key pair");
+        throw CryptoException("Failed to generate new EC key pair");
     }
     auto key_pair = EVPKeyPair::take(pkey);
     auto pub_key = newPublicKey();
@@ -277,7 +275,7 @@ const ECPublicKey & checkECPublicKey(const PublicKey & public_key, const ECCurve
         throw std::invalid_argument("Empty public key type provided");
     }
     if (expected_curve && ec_key->getKeyType() != expected_curve->name) {
-        throw std::invalid_argument("Public key with unsupported elliptic curve provided");
+        throw std::invalid_argument("Public key with unexpected elliptic curve provided");
     }
     return *ec_key;
 }
@@ -292,7 +290,7 @@ const ECPrivateKey & checkECPrivateKey(const PrivateKey & private_key, const ECC
         throw std::invalid_argument("Empty private key type provided");
     }
     if (expected_curve && ec_key->getKeyType() != expected_curve->name) {
-        throw std::invalid_argument("Private key with unsupported elliptic curve provided");
+        throw std::invalid_argument("Private key with unexpected elliptic curve provided");
     }
     if (check_signing) {
         if (!EVP_PKEY_can_sign(ec_key->getEvpKey())) {

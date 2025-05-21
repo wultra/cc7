@@ -17,10 +17,8 @@
 #include <cc7/crypto/MessageDigest.h>
 #include "alg/SHA.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 std::shared_ptr<MessageDigest> MessageDigest::getInstance(const std::string & algorithm)
 {

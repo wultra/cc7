@@ -19,10 +19,8 @@
 #include <cc7/crypto/Signature.h>
 #include "ECKeyPair.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 struct ECDSASpec
 {

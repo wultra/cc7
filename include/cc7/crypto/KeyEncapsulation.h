@@ -19,10 +19,8 @@
 #include <cc7/crypto/KeyPair.h>
 #include <cc7/crypto/KeyDerivation.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 class KeyEncapsulation : public Algorithm
 {

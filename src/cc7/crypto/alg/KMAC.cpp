@@ -16,10 +16,8 @@
 
 #include "KMAC.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MAC interface
 
@@ -38,7 +36,7 @@ std::shared_ptr<KMAC> KMAC::getInstance(const std::string & algorithm)
     }
     auto mac = EVPMac::take(EVP_MAC_fetch(ossl_ctx(), algorithm.c_str(), nullptr));
     if (!mac.isValid()) {
-        throw std::domain_error("Failed to fetch KMAC algorithm " + algorithm);
+        throw CryptoException("Failed to fetch KMAC algorithm " + algorithm);
     }
     return std::shared_ptr<KMAC>(new KMAC(mac, spec));
 }

@@ -19,10 +19,8 @@
 #include <cc7/crypto/KeyPair.h>
 #include "../CryptoPrivate.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 struct ECCurveSpec
 {

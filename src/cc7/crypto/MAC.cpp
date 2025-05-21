@@ -18,10 +18,8 @@
 #include "alg/KMAC.h"
 #include "alg/HMAC.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 std::shared_ptr<MAC> MAC::getInstance(const std::string & algorithm)
 {

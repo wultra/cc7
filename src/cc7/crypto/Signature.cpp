@@ -18,10 +18,8 @@
 #include "alg/MLDSA.h"
 #include "alg/ECDSA.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 std::shared_ptr<Signature> Signature::getInstance(const std::string & algorithm)
 {

@@ -18,10 +18,8 @@
 #include <cc7/crypto/KeyDerivation.h>
 #include "alg/MLKEM.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 std::shared_ptr<KeyEncapsulation> KeyEncapsulation::getInstance(const std::string & algorithm, KeyDerivationPtr kdf)
 {

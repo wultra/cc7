@@ -16,10 +16,8 @@
 
 #include "NullKDF.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 const std::string NullKDF::NULL_KDF = "NULL-KDF";
 

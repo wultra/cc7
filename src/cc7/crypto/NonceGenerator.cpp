@@ -17,10 +17,8 @@
 #include <cc7/crypto/NonceGenerator.h>
 #include <cc7/crypto/Random.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - SimpleNonceGenerator
 
@@ -98,7 +96,7 @@ ByteArray DefaultNonceGenerator::getNonce()
             return nonce;
         }
     }
-    throw std::domain_error("Failed to generate unique nonce");
+    throw CryptoException("Failed to generate unique nonce");
 }
 
 bool DefaultNonceGenerator::checkUniqueness(const ByteRange & nonce, bool remember)
@@ -138,7 +136,7 @@ ByteArray DefaultNonceGenerator::saveState() const
         out.append(nonce);
     }
     if (out.size() != expected_size) {
-        throw std::logic_error("Unexpected output size");
+        throw InternalError("Unexpected output size");
     }
     return out;
 }

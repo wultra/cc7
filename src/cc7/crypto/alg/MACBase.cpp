@@ -16,10 +16,8 @@
 
 #include "MACBase.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: MAC interface
 
@@ -28,7 +26,7 @@ ByteArray MACBase::token(const ByteRange & key, const ByteRange & data, const Pa
     auto ctx = EVPMacContext::take(EVP_MAC_CTX_new(_mac));
 
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to create MAC context");
+        throw CryptoException("Failed to create MAC context");
     }
     MACBaseParams p {
         &parameters,
@@ -37,24 +35,24 @@ ByteArray MACBase::token(const ByteRange & key, const ByteRange & data, const Pa
         _out_len
     };
     if (!p.builder.isValid() || !prepareParams(p)) {
-        throw std::domain_error("Failed to prepare parameters for MAC");
+        throw CryptoException("Failed to prepare parameters for MAC");
     }
     parameters.endParameterProcessing(p.ctx);
     
     auto params = OSSLParam::take(OSSL_PARAM_BLD_to_param(p.builder));
 
     if (!EVP_MAC_init(ctx, key.data(), key.size(), params)) {
-        throw std::domain_error("Failed to init MAC context");
+        throw CryptoException("Failed to init MAC context");
     }
     if (!EVP_MAC_update(ctx, data.data(), data.size())) {
-        throw std::domain_error("MAC update failed");
+        throw CryptoException("MAC update failed");
     }
     // Allocate output buffer, depending on truncate mode. If truncate is enabled, then use the default size,
     // otherwise use the requested size.
     cc7::ByteArray out(_spec->truncate_mode ? _spec->mac_size : p.out_len);
     size_t out_length;
     if (!EVP_MAC_final(ctx, out.data(), &out_length, out.size())) {
-        throw std::domain_error("MAC final failed");
+        throw CryptoException("MAC final failed");
     }
     if (_spec->truncate_mode && p.out_len != _spec->mac_size) {
         // truncate output to requested size

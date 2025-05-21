@@ -19,10 +19,8 @@
 #include "alg/X963KDF.h"
 #include "alg/PBKDF2.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 std::shared_ptr<KeyDerivation> KeyDerivation::getInstance(const std::string & algorithm)
 {

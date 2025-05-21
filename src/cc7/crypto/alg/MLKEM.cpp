@@ -17,10 +17,8 @@
 #include "MLKEM.h"
 #include "KeyUtility.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - MLKEMSpec implementation
 
@@ -56,7 +54,7 @@ KeyPairPtr MLKEMKeyPairFactory::generateKeyPair() const
 {
     auto pkey = EVPKeyPair::take(EVP_PKEY_Q_keygen(ossl_ctx(), nullptr, algName()));
     if (!pkey.isValid()) {
-        throw std::domain_error("Failed to generate ML-KEM key-pair");
+        throw CryptoException("Failed to generate ML-KEM key-pair");
     }
     auto pub_key = newPublicKey();
     auto priv_key = newPrivateKey();
@@ -127,18 +125,18 @@ std::pair<ByteArray, SymmetricKeyPtr> MLKEM::encapsulate(const PublicKey & encap
     
     auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(ossl_ctx(), ll_key, nullptr));
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to create context from public key");
+        throw CryptoException("Failed to create context from public key");
     }
     if (EVP_PKEY_encapsulate_init(ctx, nullptr) != 1) {
-        throw std::domain_error("Failed to initialize encapsulation context");
+        throw CryptoException("Failed to initialize encapsulation context");
     }
     size_t wrapped_len = 0, secret_len = 0;
     if (EVP_PKEY_encapsulate(ctx, nullptr, &wrapped_len, nullptr, &secret_len) != 1) {
-        throw std::domain_error("Failed to determine length of wrapped key");
+        throw CryptoException("Failed to determine length of wrapped key");
     }
     ByteArray wrapped(wrapped_len, 0), secret(secret_len, 0);
     if (EVP_PKEY_encapsulate(ctx, wrapped.data(), &wrapped_len, secret.data(), &secret_len) != 1) {
-        throw std::domain_error("Failed to encapsulate secret key");
+        throw CryptoException("Failed to encapsulate secret key");
     }
     return std::make_pair(wrapped, buildSymmetricKey(secret));
 }
@@ -152,18 +150,18 @@ SymmetricKeyPtr MLKEM::decapsulate(const PrivateKey & decapsulation_key, const B
     
     auto ctx = EVPKeyPairContext::take(EVP_PKEY_CTX_new_from_pkey(ossl_ctx(), ll_key, nullptr));
     if (!ctx.isValid()) {
-        throw std::domain_error("Failed to create context from private key");
+        throw CryptoException("Failed to create context from private key");
     }
     if (EVP_PKEY_decapsulate_init(ctx, nullptr) != 1) {
-        throw std::domain_error("Failed to initialize decapsulation context");
+        throw CryptoException("Failed to initialize decapsulation context");
     }
     size_t secret_len = 0;
     if (EVP_PKEY_decapsulate(ctx, nullptr, &secret_len, wrapped_key.data(), wrapped_key.size()) != 1) {
-        throw std::domain_error("Failed to determine length of unwrapped secret");
+        throw CryptoException("Failed to determine length of unwrapped secret");
     }
     ByteArray secret(secret_len, 0);
     if (EVP_PKEY_decapsulate(ctx, secret.data(), &secret_len, wrapped_key.data(), wrapped_key.size()) != 1) {
-        throw std::domain_error("Failed to decapsulate secret key");
+        throw CryptoException("Failed to decapsulate secret key");
     }
     return buildSymmetricKey(secret);
 }

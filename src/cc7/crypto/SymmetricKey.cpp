@@ -17,10 +17,8 @@
 #include <cc7/crypto/SymmetricKey.h>
 #include "CryptoPrivate.h"
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 // MARK: - SymmetricKey
 
@@ -70,7 +68,7 @@ std::shared_ptr<SymmetricKey> SymmetricKey::getInstance(const std::string & algo
 {
     auto spec = SymmetricKeySpec::specForAlg(algorithm);
     if (spec == nullptr) {
-        throw std::invalid_argument("Unsupported symmetric key type: " + algorithm);
+        throw UnsupportedAlgorithm("Unsupported symmetric key type: " + algorithm);
     }
     return std::shared_ptr<SymmetricKey>(new SymmetricKey(spec));
 }
@@ -79,7 +77,7 @@ std::shared_ptr<SymmetricKey> SymmetricKey::getInstance(size_t key_size_in_bytes
 {
     auto spec = SymmetricKeySpec::specForSize(key_size_in_bytes);
     if (spec == nullptr) {
-        throw std::invalid_argument("Unsupported symmetric key size " + std::to_string(key_size_in_bytes));
+        throw UnsupportedAlgorithm("Unsupported symmetric key size " + std::to_string(key_size_in_bytes));
     }
     return std::shared_ptr<SymmetricKey>(new SymmetricKey(spec));
 }

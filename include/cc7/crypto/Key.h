@@ -21,10 +21,8 @@
 #include <cc7/crypto/Parameter.h>
 #include <cc7/crypto/BaseObject.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7 {
+namespace crypto {
 
 class Key : public BaseObject
 {

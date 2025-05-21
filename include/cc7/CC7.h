@@ -19,6 +19,7 @@
 // core headers
 #include <cc7/Platform.h>
 #include <cc7/DebugFeatures.h>
+#include <cc7/BaseException.h>
 #include <cc7/Endian.h>
 #include <cc7/ByteArray.h>
 #include <cc7/Utilities.h>
