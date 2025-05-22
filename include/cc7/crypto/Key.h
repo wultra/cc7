@@ -19,7 +19,7 @@
 #include <cc7/ByteArray.h>
 #include <cc7/crypto/CryptoConstants.h>
 #include <cc7/crypto/Parameter.h>
-#include <cc7/crypto/BaseObject.h>
+#include <cc7/BaseObject.h>
 
 namespace cc7 {
 namespace crypto {

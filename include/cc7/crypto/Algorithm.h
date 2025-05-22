@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <cc7/crypto/BaseObject.h>
+#include <cc7/BaseObject.h>
 #include <cc7/crypto/Parameter.h>
 #include <cc7/crypto/CryptoException.h>
 

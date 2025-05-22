@@ -19,7 +19,6 @@
 #include <cc7/Platform.h>
 
 namespace cc7 {
-namespace crypto {
 
 class BaseObject
 {
@@ -29,5 +28,4 @@ public:
 
 typedef std::shared_ptr<BaseObject> BaseObjectPtr;
 
-} // cc7::crypto
 } // cc7

@@ -18,7 +18,7 @@
 
 namespace cc7 {
 
-const std::string DEFAULT_MSG = "cc7::ChainedException";
+const std::string DEFAULT_MSG = "cc7::BaseException";
 
 BaseException::BaseException(const char* message, std::exception_ptr cause) noexcept :
     _message(message ? std::string(message) : DEFAULT_MSG),
