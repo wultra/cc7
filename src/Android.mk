@@ -54,7 +54,9 @@ LOCAL_SRC_FILES := \
 	cc7/ByteArray.cpp \
 	cc7/Base32.cpp \
 	cc7/Base64.cpp \
-	cc7/HexString.cpp
+	cc7/HexString.cpp \
+	cc7/BaseException.cpp \
+	cc7/Time.cpp
 
 # cc7/crypto
 LOCAL_SRC_FILES += \

@@ -115,6 +115,9 @@
 		BF4D85272DDDF52000D32F55 /* BaseException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85262DDDF52000D32F55 /* BaseException.cpp */; };
 		BF4D85282DDDF52000D32F55 /* BaseException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85262DDDF52000D32F55 /* BaseException.cpp */; };
 		BF4D85292DDDF52000D32F55 /* BaseException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85262DDDF52000D32F55 /* BaseException.cpp */; };
+		BF4D85312DDF0C8B00D32F55 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85302DDF0C8B00D32F55 /* Time.cpp */; };
+		BF4D85322DDF0C8B00D32F55 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85302DDF0C8B00D32F55 /* Time.cpp */; };
+		BF4D85332DDF0C8B00D32F55 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85302DDF0C8B00D32F55 /* Time.cpp */; };
 		BF5A00092DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000A2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000B2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
@@ -463,6 +466,8 @@
 		BF4D85252DDDF3D300D32F55 /* BaseException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseException.h; sourceTree = "<group>"; };
 		BF4D85262DDDF52000D32F55 /* BaseException.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BaseException.cpp; sourceTree = "<group>"; };
 		BF4D852A2DDDFB9B00D32F55 /* CryptoException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptoException.h; sourceTree = "<group>"; };
+		BF4D852F2DDF0C1500D32F55 /* Time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
+		BF4D85302DDF0C8B00D32F55 /* Time.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Time.cpp; sourceTree = "<group>"; };
 		BF5A00082DA53F570068992F /* SignatureTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignatureTests.cpp; sourceTree = "<group>"; };
 		BF5A000C2DA540D50068992F /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		BF5A000D2DA541930068992F /* Random.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
@@ -838,6 +843,7 @@
 				BF9FFBC41CE3AEFE006CAA74 /* Base64.cpp */,
 				BF9FFBC61CE3B94D006CAA74 /* HexString.cpp */,
 				BF4D85262DDDF52000D32F55 /* BaseException.cpp */,
+				BF4D85302DDF0C8B00D32F55 /* Time.cpp */,
 			);
 			path = cc7;
 			sourceTree = "<group>";
@@ -925,6 +931,7 @@
 				BFABCD6E214C07F400A9221F /* Base32.h */,
 				BF9FFBC31CE3ADB3006CAA74 /* Base64.h */,
 				BF9FFBC81CE3B962006CAA74 /* HexString.h */,
+				BF4D852F2DDF0C1500D32F55 /* Time.h */,
 			);
 			path = cc7;
 			sourceTree = "<group>";
@@ -1451,6 +1458,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4D85312DDF0C8B00D32F55 /* Time.cpp in Sources */,
 				BF4D85282DDDF52000D32F55 /* BaseException.cpp in Sources */,
 				BF5A001E2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */,
 				BF8EEC0126662A01009AC5FD /* Base64.cpp in Sources */,
@@ -1538,6 +1546,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4D85332DDF0C8B00D32F55 /* Time.cpp in Sources */,
 				BF4D85292DDDF52000D32F55 /* BaseException.cpp in Sources */,
 				BF5A001D2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */,
 				BF9FFBC51CE3AEFE006CAA74 /* Base64.cpp in Sources */,
@@ -1585,6 +1594,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4D85322DDF0C8B00D32F55 /* Time.cpp in Sources */,
 				BF4D85272DDDF52000D32F55 /* BaseException.cpp in Sources */,
 				BF5A001C2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */,
 				BFFE8AA12449B4F80032821F /* Base64.cpp in Sources */,
