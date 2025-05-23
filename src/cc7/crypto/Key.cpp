@@ -24,15 +24,13 @@ namespace crypto {
 
 std::string Key::exportKeyToBase64(KeyFormat format) const
 {
-    return exportKey(format).base64String();
+    return exportKey(format).base64();
 }
 
 void Key::importKeyFromBase64(const std::string & base64Key, KeyFormat format)
 {
     ByteArray keyData;
-    if (!keyData.readFromBase64String(base64Key)) {
-        throw std::invalid_argument("Failed to read key from Base64 string");
-    }
+    keyData.readFromBase64(base64Key);
     importKey(keyData, format);
 }
 

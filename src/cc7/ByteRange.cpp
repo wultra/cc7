@@ -21,14 +21,38 @@
 
 namespace cc7 {
 
-std::string ByteRange::base64String(size_t wrap_size) const
+std::string ByteRange::base64(size_t wrap_size) const
+{
+    return Base64::encode(*this, wrap_size);
+}
+
+std::string ByteRange::base64() const noexcept
+{
+    return Base64::encode(*this, 0);
+}
+
+std::string ByteRange::base64Url() const noexcept
+{
+    return Base64::urlEncode(*this);
+}
+
+std::string ByteRange::hexadecimal(bool lower_case) const noexcept
+{
+    std::string result;
+    HexString_Encode(*this, lower_case, result);
+    return result;
+}
+
+// Legacy
+
+std::string ByteRange::base64String(size_t wrap_size) const noexcept
 {
     std::string result;
     Base64_Encode(*this, wrap_size, result);
     return result;
 }
 
-std::string ByteRange::hexString(bool lower_case) const
+std::string ByteRange::hexString(bool lower_case) const noexcept
 {
     std::string result;
     HexString_Encode(*this, lower_case, result);

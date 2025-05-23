@@ -135,16 +135,28 @@ namespace cc7
             parent_class::clear();
         }
         
-        bool readFromBase64String(const std::string & base64_string, size_t wrap_size = 0);
-        bool readFromHexString(const std::string & hex_string);
-        
-        std::string base64String(size_t wrap_size = 0) const;
-        std::string hexString(bool lower_case = false) const;
-        
         static ByteArray zero(size_t count)
         {
             return ByteArray(count, 0);
         }
+        
+        // Legacy
+        bool readFromBase64String(const std::string & base64_string, size_t wrap_size = 0) noexcept;
+        bool readFromHexString(const std::string & hex_string) noexcept;
+        
+        std::string base64String(size_t wrap_size = 0) const noexcept;
+        std::string hexString(bool lower_case = false) const noexcept;
+        
+        // New methods
+        
+        void readFromBase64(const std::string & base64_string, size_t wrap_size = 0);
+        void readFromBase64Url(const std::string & base64url_string);
+        void readFromHexadecimal(const std::string & hex_string);
+        
+        std::string base64(size_t wrap_size) const;
+        std::string base64() const noexcept;
+        std::string base64Url() const noexcept;
+        std::string hexadecimal(bool lower_case = false) const noexcept;
     };
     
     /**

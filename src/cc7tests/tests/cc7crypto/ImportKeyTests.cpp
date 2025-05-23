@@ -100,7 +100,7 @@ public:
                         }
                         if (data != e_item.dataFromBase64StringAtPath("data")) {
                             export_fail = true;
-                            result = "unexpected exported data (" + expFmtStr + "): " + data.base64String() + " vs " + e_item.stringAtPath("data");
+                            result = "unexpected exported data (" + expFmtStr + "): " + data.base64() + " vs " + e_item.stringAtPath("data");
                             break;
                         }
                     } catch (std::exception & e) {
