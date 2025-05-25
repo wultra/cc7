@@ -18,6 +18,7 @@
 
 #include <cc7/crypto/Cipher.h>
 #include <cc7/crypto/AEAD.h>
+#include <cc7/crypto/NonceGenerator.h>
 #include "../CryptoPrivate.h"
 
 namespace cc7 {
@@ -92,6 +93,8 @@ public:
                    const ByteRange & ciphertext,
                    const ParameterList & params) const override;
     
+    ByteArray extractNonce(const ByteRange & ciphertext) const override;
+    
     // Algorithm interface
     const std::string & getAlgorithmName() const override;
     void setParameter(int param_id, const Parameter & value) override;
@@ -104,6 +107,8 @@ public:
 private:
     const AES_AEAD_Spec * _spec;
     CipherPtr _aes;
+    NonceGeneratorPtr _nonce_generator;
+    
 };
 
 } // cc7::crypto

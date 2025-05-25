@@ -39,7 +39,6 @@ namespace tests
             
             CC7_REGISTER_TEST_METHOD(testWrap);
             CC7_REGISTER_TEST_METHOD(testWrapBadData);
-            
         }
         
         // UNIT TESTS

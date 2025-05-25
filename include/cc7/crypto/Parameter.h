@@ -150,6 +150,19 @@ public:
     bool getOutArray(int param_id, ParameterListCtx & ctx, ByteArray*& out_value) const;
     bool consumeParam(int param_id, ParameterListCtx & ctx) const;
     
+    template<typename T> bool getTypedObject(int param_id, ParameterListCtx & ctx, std::shared_ptr<T>& out_value) const
+    {
+        BaseObjectPtr obj;
+        if (!getObject(param_id, ctx, obj)) {
+            return false;
+        }
+        out_value = std::dynamic_pointer_cast<T>(obj);
+        if (out_value == nullptr) {
+            throw std::invalid_argument("Wrong type of object provided");
+        }
+        return true;
+    }
+    
 private:
     
     bool consume(int param_id, ParameterListCtx & info, parent_class::const_iterator & out) const;

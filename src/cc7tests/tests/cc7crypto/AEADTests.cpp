@@ -112,6 +112,7 @@ public:
                     decrypt_params[crypto::PARAM_KEY_CONTEXT] = crypto::Parameter::copy(kct);
                 }
                 auto ciphertext = encryptor->seal(key, iv, aad, expected_plaintext, encrypt_params);
+                auto extract_iv = encryptor->extractNonce(ciphertext);
                 auto plaintext  = encryptor->open(key, aad, ciphertext, decrypt_params);
                 if (expected_ciphertext != ciphertext) {
                     ccstFailure("%s encrypt is broken", alg.c_str());
@@ -125,6 +126,13 @@ public:
                     ccstMessage("   actual  : %s", plaintext.hexString().c_str());
                     return;
                 }
+                if (iv != extract_iv) {
+                    ccstFailure("%s extract iv is broken", alg.c_str());
+                    ccstMessage("  expected : %s", iv.hexString().c_str());
+                    ccstMessage("   actual  : %s", extract_iv.hexString().c_str());
+                    return;
+                }
+
             }
         }
     }

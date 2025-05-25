@@ -36,6 +36,8 @@ public:
                            const ByteRange & ciphertext,
                            const ParameterList & params = {}) const = 0;
     
+    virtual ByteArray extractNonce(const ByteRange & ciphertext) const = 0;
+    
     ByteArray seal(const SymmetricKey & key,
                    const ByteRange & nonce,
                    const ByteRange & associated_data,

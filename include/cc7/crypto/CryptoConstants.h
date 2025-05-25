@@ -123,15 +123,18 @@ enum AlgorithmParameterId
     CIPHER_PARAM_USE_PADDING,
     
     
-    /// AEAD
+    // AEAD
+    
+    /// Alter NonceGenerator function in AEAD algorithm. Parameter is NonceGenerator object.
+    AEAD_NONCE_GENERATOR        = 0x00A0,
     
     // KeyAgreement
     
     /// Alter KDF function in KeyAgreement algorithm. Parameter is KeyDerivation object.
-    KEY_AGREEMENT_PARAM_KDF     = 0x00A0,
+    KEY_AGREEMENT_PARAM_KDF     = 0x00C0,
     
     /// Alter KDF function in KeyEncapsulation algorithm. Parameter is KeyDerivation object.
-    KEY_ENCAPSULATION_PARAM_KDF = 0x00C0,
+    KEY_ENCAPSULATION_PARAM_KDF = 0x00E0,
     
     // Application specific params, for custom algorithms.
     
@@ -144,9 +147,11 @@ enum AlgorithmParameterId
     /// App specific parameter, not used by cc7/crypto library.
     CIPHER_PARAM_APP_CUSTOM             = 0x1080,
     /// App specific parameter, not used by cc7/crypto library.
-    KEY_AGREEMENT_PARAM_APP_CUSTOM      = 0x10A0,
+    AEAD_PARAM_APP_CUSTOM               = 0x00A0,
     /// App specific parameter, not used by cc7/crypto library.
-    KEY_ENCAPSULATION_PARAM_APP_CUSTOM  = 0x10C0
+    KEY_AGREEMENT_PARAM_APP_CUSTOM      = 0x10C0,
+    /// App specific parameter, not used by cc7/crypto library.
+    KEY_ENCAPSULATION_PARAM_APP_CUSTOM  = 0x10E0
 };
 
 } // cc7::crypto

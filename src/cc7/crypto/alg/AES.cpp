@@ -329,11 +329,22 @@ AEADPtr AES_GCM_AEAD::getInstance(const std::string &algorithm)
 // AEAD interface
 ByteArray AES_GCM_AEAD::seal(const ByteRange & key, const ByteRange & nonce, const ByteRange & associated_data, const ByteRange & plaintext, const ParameterList & params) const
 {
-    params.throwUnsupported();
+    auto nonce_generator = _nonce_generator;
+    auto param_ctx = params.beginParameterProcessing();
+    if (params.getTypedObject<NonceGenerator>(AEAD_NONCE_GENERATOR, param_ctx, nonce_generator)) {
+        if (nonce_generator->getNonceSize() != 12) {
+            throw std::invalid_argument("Nonce generator generates nonce with wrong size");
+        }
+    }
+    params.endParameterProcessing(param_ctx);
     
     ByteArray iv = nonce;
     if (iv.empty()) {
-        iv = GetRandomData(12, true);
+        if (nonce_generator != nullptr) {
+            iv = nonce_generator->getNonce();
+        } else {
+            iv = GetRandomData(12, true);
+        }
     }
     ByteArray tag;
     auto ct = _aes->encrypt(key, iv, plaintext, {
@@ -355,19 +366,44 @@ ByteArray AES_GCM_AEAD::open(const ByteRange & key, const ByteRange & associated
     });
 }
 
+ByteArray AES_GCM_AEAD::extractNonce(const ByteRange & ciphertext) const
+{
+    ByteRange iv, tag, ct;
+    _spec->ExtractFields(ciphertext, iv, tag, ct);
+    return iv;
+}
+
 // Algorithm interface
 const std::string & AES_GCM_AEAD::getAlgorithmName() const
 {
     return _spec->name;
 }
+
 void AES_GCM_AEAD::setParameter(int param_id, const Parameter & value)
 {
-    throwUnsupportedParam(param_id);
+    switch (param_id) {
+        case AEAD_NONCE_GENERATOR: {
+            auto generator = std::dynamic_pointer_cast<NonceGenerator>(value.asObject());
+            if (generator && generator->getNonceSize() != 12) {
+                throw std::invalid_argument("Nonce generator generates nonce with wrong size");
+            }
+            _nonce_generator = generator;
+            break;
+        }
+        default:
+            throwUnsupportedParam(param_id);
+    }
 }
 
 Parameter AES_GCM_AEAD::getParameter(int param_id) const
 {
-    throwUnsupportedParam(param_id);
+    switch (param_id) {
+        case AEAD_NONCE_GENERATOR:
+            return Parameter::take(_nonce_generator);
+            
+        default:
+            throwUnsupportedParam(param_id);
+    }
 }
 
 } // cc7::crypto
