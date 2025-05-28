@@ -22,31 +22,39 @@ namespace cc7
 namespace tests
 {
 
-    TestDirectory::TestDirectory(std::initializer_list<TResource> il) :
-        _resources(il)
-    {
-    }
-    
-    TestDirectory::~TestDirectory()
-    {
-    }
-    
-    TestFile TestDirectory::findFile(const std::string &path) const
-    {
-        for (auto&& resource : _resources) {
-            if (path == resource->name()) {
-                return TestFile(resource);
-            }
+TestDirectory::TestDirectory(std::initializer_list<TResource> il) :
+    _resources(il)
+{
+}
+
+TestDirectory::~TestDirectory()
+{
+}
+
+TestFile TestDirectory::findFile(const std::string &path) const
+{
+    for (auto&& resource : _resources) {
+        if (path == resource->name()) {
+            return TestFile(resource);
         }
-        throw std::invalid_argument("File '" + path + "' not found.");
     }
+    throw std::invalid_argument("File '" + path + "' not found.");
+}
+
+const TestDirectory::TResourceList & TestDirectory::allResources() const
+{
+    return _resources;
+}
+
+// Process JSON file
+
+json::JsonValue JSON_ParseFile(const TestDirectory & dir, const std::string & file_name)
+{
+    TestFile f = dir.findFile(file_name);
+    // Read a whole file
     
-    const TestDirectory::TResourceList & TestDirectory::allResources() const
-    {
-        return _resources;
-    }
-    
-    
+    return json::JsonReader::fromJsonData(f.readMemory(f.size()));
+}
 
 } // cc7::tests
 } // cc7

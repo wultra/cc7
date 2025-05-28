@@ -15,8 +15,10 @@
  */
 
 #include <cc7tests/CC7Tests.h>
-#include <cc7tests/JSONReader.h>
 #include <cc7tests/TestDirectory.h>
+#include <cc7/json/JsonReader.h>
+
+using namespace cc7::json;
 
 namespace cc7
 {
@@ -24,12 +26,12 @@ namespace tests
 {
     extern TestDirectory g_testFiles;
     
-    class tt7JSONReaderTests : public UnitTest
+    class JsonReaderTests : public UnitTest
     {
     public:
         std::string _json1;
         
-        tt7JSONReaderTests()
+        JsonReaderTests()
         {
             CC7_REGISTER_TEST_METHOD(testSimpleJsonString)
             CC7_REGISTER_TEST_METHOD(testSimpleJsonFile)
@@ -70,30 +72,24 @@ namespace tests
         
         void testSimpleJsonString()
         {
-            JSONValue root;
-            std::string error;
-            bool result = JSON_ParseString(_json1, root, &error);
-            if (!result) {
-                ccstFailure("Parser failed with error: %s", error.c_str());
-                return;
-            }
+            auto root = JsonReader::fromJsonString(_json1);
             simpleJsonValidation(root);
         }
         
         void testSimpleJsonFile()
         {
-            JSONValue root = JSON_ParseFile(g_testFiles, "test-data/json-simple.json");
+            auto root = JSON_ParseFile(g_testFiles, "test-data/json-simple.json");
             simpleJsonValidation(root);
         }
         
-        void simpleJsonValidation(const JSONValue & root)
+        void simpleJsonValidation(const JsonValue & root)
         {
             ccstAssertEqual(root.valueAtPath("key1").asString(), "value1");
             ccstAssertEqual(root.booleanAtPath("true"), true);
             ccstAssertEqual(root.booleanAtPath("false"), false);
             ccstAssertEqual(root.valueAtPath("empty").isNull(), true);
-            ccstAssertEqual(root.valueAtPath("object").isType(JSONValue::Object), true);
-            ccstAssertEqual(root.valueAtPath("array").isType(JSONValue::Array), true);
+            ccstAssertEqual(root.valueAtPath("object").isType(JsonValue::Object), true);
+            ccstAssertEqual(root.valueAtPath("array").isType(JsonValue::Array), true);
             
             ccstAssertEqual(root.stringAtPath("object.xxx"), "this is xxx");
             ccstAssertEqual(root.booleanAtPath("object.yyy"), false);
@@ -107,9 +103,9 @@ namespace tests
             ccstAssertEqual(array[1].asString(), "b");
             ccstAssertEqual(array[2].asString(), "c");
             ccstAssertEqual(array[3].asBoolean(), true);
-            ccstAssertEqual(array[4].isType(JSONValue::Object), true);
-            ccstAssertEqual(array[5].isType(JSONValue::Object), true);
-            ccstAssertEqual(array[6].isType(JSONValue::Object), true);
+            ccstAssertEqual(array[4].isType(JsonValue::Object), true);
+            ccstAssertEqual(array[5].isType(JsonValue::Object), true);
+            ccstAssertEqual(array[6].isType(JsonValue::Object), true);
             
             auto&& array2 = array[4].arrayAtPath("sub-array");
             ccstAssertEqual(array2[0].asInteger(), 1);
@@ -133,8 +129,8 @@ namespace tests
             //
             // The complex test file was grabbed from http://json.org/example.html
             //
-            JSONValue root = JSON_ParseFile(g_testFiles, "test-data/json-complex.json");
-            ccstAssertTrue(root.isType(JSONValue::Object));
+            auto root = JSON_ParseFile(g_testFiles, "test-data/json-complex.json");
+            ccstAssertTrue(root.isType(JsonValue::Object));
             ccstAssertEqual(root.stringAtPath("web-app.servlet-mapping.cofaxEmail"), "/cofaxutil/aemail/*");
             ccstAssertEqual(root.stringAtPath("web-app.taglib.taglib-location"), "/WEB-INF/tlds/cofax.tld");
             
@@ -152,7 +148,7 @@ namespace tests
         }
     };
     
-    CC7_CREATE_UNIT_TEST(tt7JSONReaderTests, "cc7 test")
+    CC7_CREATE_UNIT_TEST(JsonReaderTests, "cc7 test")
     
 } // cc7::tests
 } // cc7

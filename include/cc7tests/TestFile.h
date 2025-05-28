@@ -23,7 +23,6 @@ namespace cc7
 namespace tests
 {
     class TestResource;
-    class JSONValue;
     
     class TestFile
     {
@@ -58,10 +57,7 @@ namespace tests
         // Returns one line from file. If there's no bytes left, then
         // returns empty string. You should check remaining bytes.
         std::string     readLine();
-        
-        // Reads 
-        void            readJsonValue(JSONValue & value);
-        
+                
         static const cc7::U16 EndOfFile = 0xFFFF;
         
         

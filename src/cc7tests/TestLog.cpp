@@ -15,7 +15,7 @@
  */
 
 #include <cc7tests/TestLog.h>
-#include <cc7tests/detail/StringUtils.h>
+#include <cc7/detail/StringUtils.h>
 #include <memory>
 #include <string>
 

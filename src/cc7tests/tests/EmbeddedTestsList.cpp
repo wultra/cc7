@@ -26,7 +26,6 @@ namespace tests
         
         // cc7::tests framework tests
         CC7_ADD_UNIT_TEST(tt7Testception, list);
-        CC7_ADD_UNIT_TEST(tt7JSONReaderTests, list);
         
         // cc7 framework tests
         CC7_ADD_UNIT_TEST(cc7PlatformTests, list);
@@ -47,6 +46,10 @@ namespace tests
         CC7_ADD_UNIT_TEST(CipherTests, list);
         CC7_ADD_UNIT_TEST(AEADTests, list);
         CC7_ADD_UNIT_TEST(NonceGeneratorTests, list);
+        
+        // cc7/json framework tests
+        CC7_ADD_UNIT_TEST(JsonReaderTests, list);
+        CC7_ADD_UNIT_TEST(JsonWriterTests, list);
         
         // OpenSSL
         CC7_ADD_UNIT_TEST(cc7OpenSSLIntegration, list);

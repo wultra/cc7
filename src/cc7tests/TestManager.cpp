@@ -16,10 +16,12 @@
 
 #include <cc7tests/TestManager.h>
 #include <cc7tests/PerformanceTimer.h>
-#include <cc7tests/detail/StringUtils.h>
+#include <cc7/detail/StringUtils.h>
 
 #include <cc7/DebugFeatures.h>
 #include <algorithm>
+
+using namespace cc7::detail;
 
 namespace cc7
 {
@@ -150,8 +152,8 @@ namespace tests
         setupLogCapturingHandler();
         
         // Prepare tags for filtering
-        auto included_tags = detail::SplitString(incl, ' ');
-        auto excluded_tags = detail::SplitString(excl, ' ');
+        auto included_tags = SplitString(incl, ' ');
+        auto excluded_tags = SplitString(excl, ' ');
         
         _test_log.clearLogData();
         
@@ -159,10 +161,10 @@ namespace tests
         
         if (included_tags.size() > 0 || excluded_tags.size() > 0) {
             if (included_tags.size()) {
-                logMessage(detail::FormattedString(" * included tags : %s", incl.c_str()));
+                logMessage(FormattedString(" * included tags : %s", incl.c_str()));
             }
             if (excluded_tags.size()) {
-                logMessage(detail::FormattedString(" * excluded tags : %s", excl.c_str()));
+                logMessage(FormattedString(" * excluded tags : %s", excl.c_str()));
             }
             logSeparator();
         }
@@ -185,11 +187,11 @@ namespace tests
         // Keep elapsed time & report results to log
         tl().setElapsedTime(elapsed_time);
         TestLogData::Counters log_data_counters = tl().logDataCounters();
-        logHeader(detail::FormattedString("== RESULTS:  %d passed,  %d failed,  %d skipped,  time %s",
-                                          log_data_counters.passed_tests,
-                                          log_data_counters.failed_tests,
-                                          log_data_counters.skipped_tests,
-                                          PerformanceTimer::humanReadableTime(elapsed_time).c_str()));
+        logHeader(FormattedString("== RESULTS:  %d passed,  %d failed,  %d skipped,  time %s",
+                                      log_data_counters.passed_tests,
+                                      log_data_counters.failed_tests,
+                                      log_data_counters.skipped_tests,
+                                      PerformanceTimer::humanReadableTime(elapsed_time).c_str()));
         
         // Set previous assertion handler back
         restoreLogCapturingHandler();
@@ -200,7 +202,7 @@ namespace tests
     
     static std::string BuildFullTestDescription(UnitTestCreationInfo ti, size_t index, size_t count)
     {
-        return detail::FormattedString("Test [ %d / %d ] ::: %s", (int)index + 1, (int)count, ti->name);
+        return FormattedString("Test [ %d / %d ] ::: %s", (int)index + 1, (int)count, ti->name);
     }
     
     bool TestManager::executeFilteredTests(const std::vector<std::string> & included_tags, const std::vector<std::string> & excluded_tags)
@@ -223,7 +225,7 @@ namespace tests
                 should_run = true;
             } else if (ti->tags) {
                 // has tags, split test tags by space
-                std::vector<std::string> test_tags = detail::SplitString(std::string(ti->tags), ' ');
+                std::vector<std::string> test_tags = SplitString(std::string(ti->tags), ' ');
                 if (test_tags.size() > 0) {
                     bool is_included = false;
                     if (!include_all) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Juraj Durech <durech.juraj@gmail.com>
+ * Copyright 2025 Wultra s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-#pragma once
+#include <cc7/json/JsonException.h>
 
-#include <cc7tests/TestManager.h>
-#include <cc7tests/TestAssertions.h>
-#include <cc7tests/TestRegistrationMacros.h>
-#include <cc7tests/TestDirectory.h>
-#include <cc7tests/TestUtils.h>
-#include <cc7tests/PerformanceTimer.h>
+namespace cc7 {
+namespace json {
+
+const std::string JsonException::CLASS_NAME("cc7::json::JsonException");
+
+}
+}

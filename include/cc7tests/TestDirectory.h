@@ -17,28 +17,31 @@
 #pragma once
 
 #include <cc7tests/TestFile.h>
+#include <cc7/json/JsonReader.h>
 
 namespace cc7
 {
 namespace tests
 {
-    class TestResource;
+class TestResource;
+
+class TestDirectory
+{
+public:
+    typedef const cc7::tests::TestResource* TResource;
+    typedef std::vector<TResource> TResourceList;
     
-    class TestDirectory
-    {
-    public:
-        typedef const cc7::tests::TestResource* TResource;
-        typedef std::vector<TResource> TResourceList;
-        
-        TestDirectory(std::initializer_list<TResource> il);
-        ~TestDirectory();
-        
-        TestFile findFile(const std::string & path) const;
-        const TResourceList & allResources() const;
-        
-    private:
-        TResourceList _resources;
-    };
+    TestDirectory(std::initializer_list<TResource> il);
+    ~TestDirectory();
     
+    TestFile findFile(const std::string & path) const;
+    const TResourceList & allResources() const;
+    
+private:
+    TResourceList _resources;
+};
+
+json::JsonValue JSON_ParseFile(const TestDirectory & dir, const std::string & file_name);
+
 } // cc7::tests
 } // cc7

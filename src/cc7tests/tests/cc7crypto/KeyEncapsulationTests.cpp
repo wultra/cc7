@@ -15,7 +15,6 @@
  */
 
 #include <cc7tests/CC7Tests.h>
-#include <cc7tests/JSONReader.h>
 #include <cc7tests/TestDirectory.h>
 #include <cc7/CC7.h>
 

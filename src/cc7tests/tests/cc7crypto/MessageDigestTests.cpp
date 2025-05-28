@@ -16,7 +16,6 @@
 
 #include <cc7tests/CC7Tests.h>
 #include <cc7/crypto/Crypto.h>
-#include <cc7tests/JSONReader.h>
 #include <cc7tests/TestDirectory.h>
 
 namespace cc7

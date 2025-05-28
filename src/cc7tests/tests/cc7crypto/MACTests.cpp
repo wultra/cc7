@@ -16,7 +16,6 @@
 
 #include <cc7tests/CC7Tests.h>
 #include <cc7/crypto/Crypto.h>
-#include <cc7tests/JSONReader.h>
 #include <cc7tests/TestDirectory.h>
 
 namespace cc7
@@ -53,7 +52,7 @@ public:
                 auto expected_token = test_data.dataFromHexStringAtPath("mac");
                 
                 crypto::ParameterList params;
-                if (test_data.containsValueAtPath("mac_size", JSONValue::Integer)) {
+                if (test_data.containsValueAtPath("mac_size", json::JsonValue::Integer)) {
                     params[crypto::MAC_PARAM_DIGEST_LENGTH] = crypto::Parameter::take((size_t)test_data.integerAtPath("mac_size"));
                 }
                 if (test_data.containsValueAtPath("custom")) {

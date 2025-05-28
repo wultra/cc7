@@ -15,7 +15,7 @@
  */
 
 #include <cc7tests/CC7Tests.h>
-#include <cc7tests/detail/StringUtils.h>
+#include <cc7/detail/StringUtils.h>
 
 namespace cc7
 {
@@ -234,28 +234,28 @@ namespace tests
         
         void splitStringTest()
         {
-            auto result = detail::SplitString("", ' ');
+            auto result = cc7::detail::SplitString("", ' ');
             ccstAssertTrue(result.size() == 0, "empty string must produce empty vector");
             
-            result = detail::SplitString("     ", ' ');
+            result = cc7::detail::SplitString("     ", ' ');
             ccstAssertTrue(result.size() == 0, "blank string must produce empty vector");
             
-            result = detail::SplitString("tag1", ' ');
+            result = cc7::detail::SplitString("tag1", ' ');
             ccstAssertTrue(result.size() == 1);
             ccstAssertEqual(result[0], "tag1");
             
-            result = detail::SplitString("tag1 tag2", ' ');
+            result = cc7::detail::SplitString("tag1 tag2", ' ');
             ccstAssertTrue(result.size() == 2);
             ccstAssertEqual(result[0], "tag1");
             ccstAssertEqual(result[1], "tag2");
             
-            result = detail::SplitString("tag1  tag2  tag3", ' ');
+            result = cc7::detail::SplitString("tag1  tag2  tag3", ' ');
             ccstAssertTrue(result.size() == 3);
             ccstAssertEqual(result[0], "tag1");
             ccstAssertEqual(result[1], "tag2");
             ccstAssertEqual(result[2], "tag3");
             
-            result = detail::SplitString("  tag1  tag2  tag3  ", ' ');
+            result = cc7::detail::SplitString("  tag1  tag2  tag3  ", ' ');
             ccstAssertTrue(result.size() == 3);
             ccstAssertEqual(result[0], "tag1");
             ccstAssertEqual(result[1], "tag2");

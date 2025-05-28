@@ -15,7 +15,7 @@
  */
 
 #include <cc7tests/PerformanceTimer.h>
-#include <cc7tests/detail/StringUtils.h>
+#include <cc7/detail/StringUtils.h>
 #include <math.h>
 
 namespace cc7
