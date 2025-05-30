@@ -16,6 +16,5 @@
 
 #pragma once
 
-#include <cc7/json/JsonException.h>
-#include <cc7/json/JsonReader.h>
-#include <cc7/json/JsonWriter.h>
+#include <cc7/jwt/JwtReader.h>
+#include <cc7/jwt/JwtWriter.h>

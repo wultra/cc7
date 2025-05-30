@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Juraj Durech <durech.juraj@gmail.com>
+ * Copyright 2025 Wultra s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,6 @@ namespace tests
     class JsonWriterTests : public UnitTest
     {
     public:
-        std::string _json1;
-        
         JsonWriterTests()
         {
             CC7_REGISTER_TEST_METHOD(testSimpleWrite)
@@ -181,7 +179,6 @@ namespace tests
             ccstAssertEqual(array4[2].asDouble(), 1e3);
             ccstAssertEqual(array4[3].asDouble(), 3.2e-1);
         }
-
     };
     
     CC7_CREATE_UNIT_TEST(JsonWriterTests, "cc7 test")

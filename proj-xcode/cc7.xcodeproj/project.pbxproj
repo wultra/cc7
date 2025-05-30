@@ -138,6 +138,45 @@
 		BF4D85872DE5D0B200D32F55 /* JsonWriterTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85862DE5D0B200D32F55 /* JsonWriterTests.cpp */; };
 		BF4D85882DE5D0B200D32F55 /* JsonWriterTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85862DE5D0B200D32F55 /* JsonWriterTests.cpp */; };
 		BF4D85892DE5D0B200D32F55 /* JsonWriterTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85862DE5D0B200D32F55 /* JsonWriterTests.cpp */; };
+		BF4D858D2DE727B900D32F55 /* JwtException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D858C2DE727B900D32F55 /* JwtException.cpp */; };
+		BF4D858E2DE727B900D32F55 /* JwtException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D858C2DE727B900D32F55 /* JwtException.cpp */; };
+		BF4D858F2DE727B900D32F55 /* JwtException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D858C2DE727B900D32F55 /* JwtException.cpp */; };
+		BF4D85942DE7296500D32F55 /* JwtReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85932DE7296500D32F55 /* JwtReader.cpp */; };
+		BF4D85952DE7296500D32F55 /* JwtReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85932DE7296500D32F55 /* JwtReader.cpp */; };
+		BF4D85962DE7296500D32F55 /* JwtReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85932DE7296500D32F55 /* JwtReader.cpp */; };
+		BF4D85AF2DE7838400D32F55 /* JwtKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */; };
+		BF4D85B02DE7838400D32F55 /* JwtKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */; };
+		BF4D85B12DE7838400D32F55 /* JwtKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */; };
+		BF4D85BE2DE7850700D32F55 /* JwsMacSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */; };
+		BF4D85BF2DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */; };
+		BF4D85C02DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */; };
+		BF4D85C12DE7850700D32F55 /* JwsMacSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */; };
+		BF4D85C22DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */; };
+		BF4D85C32DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */; };
+		BF4D85C42DE7850700D32F55 /* JwsMacSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */; };
+		BF4D85C52DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */; };
+		BF4D85C62DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */; };
+		BF4D85C92DE7869600D32F55 /* JwsSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85C82DE7869600D32F55 /* JwsSpec.cpp */; };
+		BF4D85CA2DE7869600D32F55 /* JwsSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85C82DE7869600D32F55 /* JwsSpec.cpp */; };
+		BF4D85CB2DE7869600D32F55 /* JwsSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85C82DE7869600D32F55 /* JwsSpec.cpp */; };
+		BF4D85D52DE84A8F00D32F55 /* DataWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D32DE84A8F00D32F55 /* DataWriter.cpp */; };
+		BF4D85D62DE84A8F00D32F55 /* DataReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D22DE84A8F00D32F55 /* DataReader.cpp */; };
+		BF4D85D72DE84A8F00D32F55 /* URLEncoding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D42DE84A8F00D32F55 /* URLEncoding.cpp */; };
+		BF4D85D82DE84A8F00D32F55 /* DataWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D32DE84A8F00D32F55 /* DataWriter.cpp */; };
+		BF4D85D92DE84A8F00D32F55 /* DataReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D22DE84A8F00D32F55 /* DataReader.cpp */; };
+		BF4D85DA2DE84A8F00D32F55 /* URLEncoding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D42DE84A8F00D32F55 /* URLEncoding.cpp */; };
+		BF4D85DB2DE84A8F00D32F55 /* DataWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D32DE84A8F00D32F55 /* DataWriter.cpp */; };
+		BF4D85DC2DE84A8F00D32F55 /* DataReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D22DE84A8F00D32F55 /* DataReader.cpp */; };
+		BF4D85DD2DE84A8F00D32F55 /* URLEncoding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D42DE84A8F00D32F55 /* URLEncoding.cpp */; };
+		BF4D85E12DE998B000D32F55 /* JwtHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85E02DE998B000D32F55 /* JwtHeader.cpp */; };
+		BF4D85E22DE998B000D32F55 /* JwtHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85E02DE998B000D32F55 /* JwtHeader.cpp */; };
+		BF4D85E32DE998B000D32F55 /* JwtHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85E02DE998B000D32F55 /* JwtHeader.cpp */; };
+		BF4D85E52DE999E100D32F55 /* JwtWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85E42DE999E100D32F55 /* JwtWriter.cpp */; };
+		BF4D85E62DE999E100D32F55 /* JwtWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85E42DE999E100D32F55 /* JwtWriter.cpp */; };
+		BF4D85E72DE999E100D32F55 /* JwtWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85E42DE999E100D32F55 /* JwtWriter.cpp */; };
+		BF4D85EC2DEA087D00D32F55 /* JwtTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */; };
+		BF4D85ED2DEA087D00D32F55 /* JwtTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */; };
+		BF4D85EE2DEA087D00D32F55 /* JwtTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */; };
 		BF5A00092DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000A2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000B2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
@@ -489,6 +528,32 @@
 		BF4D85792DE5BD2F00D32F55 /* JsonException.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JsonException.cpp; sourceTree = "<group>"; };
 		BF4D85822DE5D01F00D32F55 /* JsonReaderTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JsonReaderTests.cpp; sourceTree = "<group>"; };
 		BF4D85862DE5D0B200D32F55 /* JsonWriterTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JsonWriterTests.cpp; sourceTree = "<group>"; };
+		BF4D858C2DE727B900D32F55 /* JwtException.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwtException.cpp; sourceTree = "<group>"; };
+		BF4D85902DE727D100D32F55 /* JwtException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwtException.h; sourceTree = "<group>"; };
+		BF4D85912DE7284300D32F55 /* JwtWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwtWriter.h; sourceTree = "<group>"; };
+		BF4D85932DE7296500D32F55 /* JwtReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwtReader.cpp; sourceTree = "<group>"; };
+		BF4D85AD2DE7834700D32F55 /* JwtKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwtKey.h; sourceTree = "<group>"; };
+		BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwtKey.cpp; sourceTree = "<group>"; };
+		BF4D85B82DE7850700D32F55 /* JwsAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsAlgorithm.h; sourceTree = "<group>"; };
+		BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwsAlgorithm.cpp; sourceTree = "<group>"; };
+		BF4D85BA2DE7850700D32F55 /* JwsDsaSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsDsaSignature.h; sourceTree = "<group>"; };
+		BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwsDsaSignature.cpp; sourceTree = "<group>"; };
+		BF4D85BC2DE7850700D32F55 /* JwsMacSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsMacSignature.h; sourceTree = "<group>"; };
+		BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwsMacSignature.cpp; sourceTree = "<group>"; };
+		BF4D85C72DE7869600D32F55 /* JwsSpec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsSpec.h; sourceTree = "<group>"; };
+		BF4D85C82DE7869600D32F55 /* JwsSpec.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwsSpec.cpp; sourceTree = "<group>"; };
+		BF4D85CE2DE84A6700D32F55 /* DataReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataReader.h; sourceTree = "<group>"; };
+		BF4D85CF2DE84A6700D32F55 /* DataWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataWriter.h; sourceTree = "<group>"; };
+		BF4D85D02DE84A6700D32F55 /* URLEncoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
+		BF4D85D22DE84A8F00D32F55 /* DataReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataReader.cpp; sourceTree = "<group>"; };
+		BF4D85D32DE84A8F00D32F55 /* DataWriter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataWriter.cpp; sourceTree = "<group>"; };
+		BF4D85D42DE84A8F00D32F55 /* URLEncoding.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = URLEncoding.cpp; sourceTree = "<group>"; };
+		BF4D85DF2DE97EF200D32F55 /* JwtHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwtHeader.h; sourceTree = "<group>"; };
+		BF4D85E02DE998B000D32F55 /* JwtHeader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwtHeader.cpp; sourceTree = "<group>"; };
+		BF4D85E42DE999E100D32F55 /* JwtWriter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwtWriter.cpp; sourceTree = "<group>"; };
+		BF4D85E82DE9D22E00D32F55 /* JwtReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwtReader.h; sourceTree = "<group>"; };
+		BF4D85E92DE9EA8700D32F55 /* Jwt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Jwt.h; sourceTree = "<group>"; };
+		BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwtTests.cpp; sourceTree = "<group>"; };
 		BF5A00082DA53F570068992F /* SignatureTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignatureTests.cpp; sourceTree = "<group>"; };
 		BF5A000C2DA540D50068992F /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		BF5A000D2DA541930068992F /* Random.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
@@ -788,6 +853,7 @@
 				BF498AB11CDCC22500D7E904 /* cc7base */,
 				BF498AB31CDCC22500D7E904 /* cc7crypto */,
 				BF4D857D2DE5C14600D32F55 /* cc7json */,
+				BF4D85EA2DEA085200D32F55 /* cc7jwt */,
 				BF498AB51CDCC22500D7E904 /* openssl */,
 				BF498AB61CDCC24F00D7E904 /* EmbeddedTestsList.cpp */,
 			);
@@ -851,6 +917,8 @@
 				BF4D85722DE5AAC400D32F55 /* detail */,
 				BF0058D12D9424B900C0F3AF /* crypto */,
 				BF4D85652DE5A46300D32F55 /* json */,
+				BF4D858B2DE7275100D32F55 /* jws */,
+				BF4D85D12DE84A7100D32F55 /* utils */,
 				BFE173FE1CC9664500039466 /* platform */,
 				BFE174061CC96D3600039466 /* DebugFeatures.cpp */,
 				BF4B4A861CB93B8B00BF2C9D /* ByteRange.cpp */,
@@ -921,6 +989,67 @@
 			path = cc7json;
 			sourceTree = "<group>";
 		};
+		BF4D858A2DE7272500D32F55 /* jwt */ = {
+			isa = PBXGroup;
+			children = (
+				BF4D85E92DE9EA8700D32F55 /* Jwt.h */,
+				BF4D85912DE7284300D32F55 /* JwtWriter.h */,
+				BF4D85E82DE9D22E00D32F55 /* JwtReader.h */,
+				BF4D85DF2DE97EF200D32F55 /* JwtHeader.h */,
+				BF4D85902DE727D100D32F55 /* JwtException.h */,
+				BF4D85AD2DE7834700D32F55 /* JwtKey.h */,
+			);
+			path = jwt;
+			sourceTree = "<group>";
+		};
+		BF4D858B2DE7275100D32F55 /* jws */ = {
+			isa = PBXGroup;
+			children = (
+				BF4D85C72DE7869600D32F55 /* JwsSpec.h */,
+				BF4D85C82DE7869600D32F55 /* JwsSpec.cpp */,
+				BF4D85B82DE7850700D32F55 /* JwsAlgorithm.h */,
+				BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */,
+				BF4D85BA2DE7850700D32F55 /* JwsDsaSignature.h */,
+				BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */,
+				BF4D85BC2DE7850700D32F55 /* JwsMacSignature.h */,
+				BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */,
+				BF4D858C2DE727B900D32F55 /* JwtException.cpp */,
+				BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */,
+				BF4D85E02DE998B000D32F55 /* JwtHeader.cpp */,
+				BF4D85E42DE999E100D32F55 /* JwtWriter.cpp */,
+				BF4D85932DE7296500D32F55 /* JwtReader.cpp */,
+			);
+			path = jws;
+			sourceTree = "<group>";
+		};
+		BF4D85CD2DE849FC00D32F55 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				BF4D85CE2DE84A6700D32F55 /* DataReader.h */,
+				BF4D85CF2DE84A6700D32F55 /* DataWriter.h */,
+				BF4D85D02DE84A6700D32F55 /* URLEncoding.h */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		BF4D85D12DE84A7100D32F55 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				BF4D85D22DE84A8F00D32F55 /* DataReader.cpp */,
+				BF4D85D32DE84A8F00D32F55 /* DataWriter.cpp */,
+				BF4D85D42DE84A8F00D32F55 /* URLEncoding.cpp */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		BF4D85EA2DEA085200D32F55 /* cc7jwt */ = {
+			isa = PBXGroup;
+			children = (
+				BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */,
+			);
+			path = cc7jwt;
+			sourceTree = "<group>";
+		};
 		BF79F0111D04BBDC004653A1 /* objc */ = {
 			isa = PBXGroup;
 			children = (
@@ -972,6 +1101,8 @@
 			children = (
 				BF0058CF2D94246200C0F3AF /* crypto */,
 				BF4D855F2DE5A2FC00D32F55 /* json */,
+				BF4D858A2DE7272500D32F55 /* jwt */,
+				BF4D85CD2DE849FC00D32F55 /* utils */,
 				BF2723611D340E7900020395 /* jni */,
 				BF79F0111D04BBDC004653A1 /* objc */,
 				BF3068291CC8F607002FD3BC /* detail */,
@@ -1460,6 +1591,7 @@
 				BF0059382D9E72F300C0F3AF /* MessageDigestTests.cpp in Sources */,
 				BF0059392D9E72F300C0F3AF /* MACTests.cpp in Sources */,
 				BF14D45C2DD324CD00BA7F51 /* AEADTests.cpp in Sources */,
+				BF4D85ED2DEA087D00D32F55 /* JwtTests.cpp in Sources */,
 				BFC5254B1CDBC887002E653C /* PerformanceTimer.cpp in Sources */,
 				BF3068581CC95503002FD3BC /* TestLog.cpp in Sources */,
 				BF22BDFD2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */,
@@ -1513,14 +1645,17 @@
 				BF4D85282DDDF52000D32F55 /* BaseException.cpp in Sources */,
 				BF5A001E2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */,
 				BF8EEC0126662A01009AC5FD /* Base64.cpp in Sources */,
+				BF4D85CA2DE7869600D32F55 /* JwsSpec.cpp in Sources */,
 				BF0058D42D9424DC00C0F3AF /* Signature.cpp in Sources */,
 				BF8B2B142DC7E46F00989AF3 /* NullKDF.cpp in Sources */,
 				BF14D46A2DD347AF00BA7F51 /* NonceGenerator.cpp in Sources */,
 				BF4D857C2DE5BD2F00D32F55 /* JsonException.cpp in Sources */,
+				BF4D85962DE7296500D32F55 /* JwtReader.cpp in Sources */,
 				BF5A000E2DA541930068992F /* Random.cpp in Sources */,
 				BF5A00372DA906430068992F /* KeyUtility.cpp in Sources */,
 				BF8EEC0226662A01009AC5FD /* HexString.cpp in Sources */,
 				BFC372942DA0286D00BA292D /* SymmetricKey.cpp in Sources */,
+				BF4D858D2DE727B900D32F55 /* JwtException.cpp in Sources */,
 				BF8B2B192DC7EE5B00989AF3 /* PBKDF2.cpp in Sources */,
 				BF00591F2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
 				BF4D85672DE5A47B00D32F55 /* JsonValue.cpp in Sources */,
@@ -1541,20 +1676,29 @@
 				BF0058F12D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
 				BF5A00192DA654EC0068992F /* KeyAgreement.cpp in Sources */,
 				BF4D85752DE5AADF00D32F55 /* StringUtils.cpp in Sources */,
+				BF4D85E72DE999E100D32F55 /* JwtWriter.cpp in Sources */,
 				BF00590E2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
 				BF5A8C8E2DC5204400B3FB01 /* X963KDF.cpp in Sources */,
 				BF0058F22D9A9FF300C0F3AF /* Cipher.cpp in Sources */,
 				BF0058F32D9A9FF300C0F3AF /* Key.cpp in Sources */,
 				BF0058FA2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */,
+				BF4D85D52DE84A8F00D32F55 /* DataWriter.cpp in Sources */,
+				BF4D85D62DE84A8F00D32F55 /* DataReader.cpp in Sources */,
+				BF4D85D72DE84A8F00D32F55 /* URLEncoding.cpp in Sources */,
 				BF0058F42D9A9FF300C0F3AF /* MAC.cpp in Sources */,
 				BF0059482D9E927200C0F3AF /* MLDSA.cpp in Sources */,
 				BF0058F52D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */,
 				BF8EEC0726662A01009AC5FD /* DebugFeatures.cpp in Sources */,
+				BF4D85BE2DE7850700D32F55 /* JwsMacSignature.cpp in Sources */,
+				BF4D85BF2DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */,
+				BF4D85C02DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */,
 				BF0059522D9E982900C0F3AF /* ECKeyPair.cpp in Sources */,
 				BF5A00312DA69B450068992F /* MLKEM.cpp in Sources */,
 				BF5A00262DA6768E0068992F /* KeyDerivation.cpp in Sources */,
 				BF0059232D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */,
+				BF4D85E12DE998B000D32F55 /* JwtHeader.cpp in Sources */,
 				BF8EEC0826662A01009AC5FD /* ByteArray.cpp in Sources */,
+				BF4D85B02DE7838400D32F55 /* JwtKey.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1567,6 +1711,7 @@
 				BF00593A2D9E72F300C0F3AF /* MessageDigestTests.cpp in Sources */,
 				BF00593B2D9E72F300C0F3AF /* MACTests.cpp in Sources */,
 				BF14D45B2DD324CD00BA7F51 /* AEADTests.cpp in Sources */,
+				BF4D85EC2DEA087D00D32F55 /* JwtTests.cpp in Sources */,
 				BF8EEC1426662A0B009AC5FD /* PerformanceTimer.cpp in Sources */,
 				BF8EEC1526662A0B009AC5FD /* TestLog.cpp in Sources */,
 				BF8EEC1626662A0B009AC5FD /* cc7OpenSSLIntegration.cpp in Sources */,
@@ -1604,14 +1749,17 @@
 				BF4D85292DDDF52000D32F55 /* BaseException.cpp in Sources */,
 				BF5A001D2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */,
 				BF9FFBC51CE3AEFE006CAA74 /* Base64.cpp in Sources */,
+				BF4D85C92DE7869600D32F55 /* JwsSpec.cpp in Sources */,
 				BF0058D52D9424DC00C0F3AF /* Signature.cpp in Sources */,
 				BF8B2B152DC7E46F00989AF3 /* NullKDF.cpp in Sources */,
 				BF14D46B2DD347AF00BA7F51 /* NonceGenerator.cpp in Sources */,
 				BF4D857B2DE5BD2F00D32F55 /* JsonException.cpp in Sources */,
+				BF4D85942DE7296500D32F55 /* JwtReader.cpp in Sources */,
 				BF5A00102DA541930068992F /* Random.cpp in Sources */,
 				BF5A00362DA906430068992F /* KeyUtility.cpp in Sources */,
 				BF9FFBC71CE3B94D006CAA74 /* HexString.cpp in Sources */,
 				BFC372922DA0286D00BA292D /* SymmetricKey.cpp in Sources */,
+				BF4D858E2DE727B900D32F55 /* JwtException.cpp in Sources */,
 				BF8B2B1A2DC7EE5B00989AF3 /* PBKDF2.cpp in Sources */,
 				BF00591E2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
 				BF4D85682DE5A47B00D32F55 /* JsonValue.cpp in Sources */,
@@ -1632,20 +1780,29 @@
 				BF0058E72D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
 				BF5A00182DA654EC0068992F /* KeyAgreement.cpp in Sources */,
 				BF4D85762DE5AADF00D32F55 /* StringUtils.cpp in Sources */,
+				BF4D85E62DE999E100D32F55 /* JwtWriter.cpp in Sources */,
 				BF00590D2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
 				BF5A8C902DC5204400B3FB01 /* X963KDF.cpp in Sources */,
 				BF0058E82D9A9FF300C0F3AF /* Cipher.cpp in Sources */,
 				BF0058E92D9A9FF300C0F3AF /* Key.cpp in Sources */,
 				BF0058FC2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */,
+				BF4D85DB2DE84A8F00D32F55 /* DataWriter.cpp in Sources */,
+				BF4D85DC2DE84A8F00D32F55 /* DataReader.cpp in Sources */,
+				BF4D85DD2DE84A8F00D32F55 /* URLEncoding.cpp in Sources */,
 				BF0058EA2D9A9FF300C0F3AF /* MAC.cpp in Sources */,
 				BF0059472D9E927200C0F3AF /* MLDSA.cpp in Sources */,
 				BF0058EB2D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */,
 				BFE174071CC96D3600039466 /* DebugFeatures.cpp in Sources */,
+				BF4D85C42DE7850700D32F55 /* JwsMacSignature.cpp in Sources */,
+				BF4D85C52DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */,
+				BF4D85C62DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */,
 				BF0059512D9E982900C0F3AF /* ECKeyPair.cpp in Sources */,
 				BF5A00302DA69B450068992F /* MLKEM.cpp in Sources */,
 				BF5A00282DA6768E0068992F /* KeyDerivation.cpp in Sources */,
 				BF0059222D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */,
+				BF4D85E32DE998B000D32F55 /* JwtHeader.cpp in Sources */,
 				BF388B631CC62CF700DEC1AE /* ByteArray.cpp in Sources */,
+				BF4D85AF2DE7838400D32F55 /* JwtKey.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1657,14 +1814,17 @@
 				BF4D85272DDDF52000D32F55 /* BaseException.cpp in Sources */,
 				BF5A001C2DA65D1F0068992F /* KeyEncapsulation.cpp in Sources */,
 				BFFE8AA12449B4F80032821F /* Base64.cpp in Sources */,
+				BF4D85CB2DE7869600D32F55 /* JwsSpec.cpp in Sources */,
 				BF0058D62D9424DC00C0F3AF /* Signature.cpp in Sources */,
 				BF8B2B132DC7E46F00989AF3 /* NullKDF.cpp in Sources */,
 				BF14D4692DD347AF00BA7F51 /* NonceGenerator.cpp in Sources */,
 				BF4D857A2DE5BD2F00D32F55 /* JsonException.cpp in Sources */,
+				BF4D85952DE7296500D32F55 /* JwtReader.cpp in Sources */,
 				BF5A000F2DA541930068992F /* Random.cpp in Sources */,
 				BF5A00352DA906430068992F /* KeyUtility.cpp in Sources */,
 				BFFE8AA22449B4F80032821F /* HexString.cpp in Sources */,
 				BFC372932DA0286D00BA292D /* SymmetricKey.cpp in Sources */,
+				BF4D858F2DE727B900D32F55 /* JwtException.cpp in Sources */,
 				BF8B2B182DC7EE5B00989AF3 /* PBKDF2.cpp in Sources */,
 				BF0059202D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
 				BF4D85692DE5A47B00D32F55 /* JsonValue.cpp in Sources */,
@@ -1685,20 +1845,29 @@
 				BF0058EC2D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
 				BF5A001A2DA654EC0068992F /* KeyAgreement.cpp in Sources */,
 				BF4D85742DE5AADF00D32F55 /* StringUtils.cpp in Sources */,
+				BF4D85E52DE999E100D32F55 /* JwtWriter.cpp in Sources */,
 				BF00590F2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
 				BF5A8C8F2DC5204400B3FB01 /* X963KDF.cpp in Sources */,
 				BF0058ED2D9A9FF300C0F3AF /* Cipher.cpp in Sources */,
 				BF0058EE2D9A9FF300C0F3AF /* Key.cpp in Sources */,
 				BF0058FB2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */,
+				BF4D85D82DE84A8F00D32F55 /* DataWriter.cpp in Sources */,
+				BF4D85D92DE84A8F00D32F55 /* DataReader.cpp in Sources */,
+				BF4D85DA2DE84A8F00D32F55 /* URLEncoding.cpp in Sources */,
 				BF0058EF2D9A9FF300C0F3AF /* MAC.cpp in Sources */,
 				BF0059462D9E927200C0F3AF /* MLDSA.cpp in Sources */,
 				BF0058F02D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */,
 				BFFE8AA72449B4F80032821F /* DebugFeatures.cpp in Sources */,
+				BF4D85C12DE7850700D32F55 /* JwsMacSignature.cpp in Sources */,
+				BF4D85C22DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */,
+				BF4D85C32DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */,
 				BF0059502D9E982900C0F3AF /* ECKeyPair.cpp in Sources */,
 				BF5A00322DA69B450068992F /* MLKEM.cpp in Sources */,
 				BF5A00272DA6768E0068992F /* KeyDerivation.cpp in Sources */,
 				BF0059242D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */,
+				BF4D85E22DE998B000D32F55 /* JwtHeader.cpp in Sources */,
 				BFFE8AA82449B4F80032821F /* ByteArray.cpp in Sources */,
+				BF4D85B12DE7838400D32F55 /* JwtKey.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1711,6 +1880,7 @@
 				BF0059362D9E72F300C0F3AF /* MessageDigestTests.cpp in Sources */,
 				BF0059372D9E72F300C0F3AF /* MACTests.cpp in Sources */,
 				BF14D45D2DD324CD00BA7F51 /* AEADTests.cpp in Sources */,
+				BF4D85EE2DEA087D00D32F55 /* JwtTests.cpp in Sources */,
 				BFFE8AB52449B53C0032821F /* PerformanceTimer.cpp in Sources */,
 				BFFE8AB62449B53C0032821F /* TestLog.cpp in Sources */,
 				BF22BDFE2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */,

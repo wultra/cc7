@@ -14,8 +14,26 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "JwsMacSignature.h"
 
-#include <cc7/json/JsonException.h>
-#include <cc7/json/JsonReader.h>
-#include <cc7/json/JsonWriter.h>
+namespace cc7 {
+namespace jwt {
+
+JwsMacSignature::JwsMacSignature(const crypto::MACPtr& mac, const JwsSpec * spec) :
+    JwsAlgorithm(spec),
+    _mac(mac)
+{
+}
+
+ByteArray JwsMacSignature::sign(const JwtKey &key, const ByteRange &data) const
+{
+    return _mac->token(key.getSymmetricKey(), data);
+}
+
+bool JwsMacSignature::verify(const JwtKey &key, const ByteRange &data, const ByteRange &signature) const
+{
+    return _mac->verifyToken(key.getSymmetricKey(), data, signature);
+}
+
+} // namespace jwt
+} // namespace cc7

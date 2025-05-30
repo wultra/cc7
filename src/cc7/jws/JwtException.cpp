@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-#pragma once
+#include <cc7/jwt/JwtException.h>
 
-#include <cc7/json/JsonException.h>
-#include <cc7/json/JsonReader.h>
-#include <cc7/json/JsonWriter.h>
+namespace cc7 {
+namespace jwt {
+
+const std::string JwtException::CLASS_NAME("cc7::jws::JwtException");
+
+} // namespace jwt
+} // namespace cc7

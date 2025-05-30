@@ -80,13 +80,6 @@ namespace cc7
             _validateBeginEnd(_begin, _end);
         }
         
-        
-        ByteRange(const ByteRange & r) noexcept :
-            _begin (r.begin()),
-            _end   (r.end())
-        {
-        }
-        
         explicit ByteRange(const void * ptr, size_type size) noexcept :
             _begin (reinterpret_cast<const_pointer>(ptr)),
             _end   (_begin ? _begin + size : nullptr)
@@ -104,6 +97,11 @@ namespace cc7
             _end   (_begin ? _begin + strlen(c_str) : nullptr)
         {
         }
+        
+        ByteRange(const ByteRange & r) = default;
+        ByteRange(ByteRange && r) = default;
+        ByteRange& operator=(const ByteRange&) = default;
+        ByteRange& operator=(ByteRange&&) = default;
         
         // assign methods
     

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Wultra s.r.o.
+ * Copyright 2021 Wultra s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,15 @@
 
 #pragma once
 
-#include <cc7/json/JsonException.h>
-#include <cc7/json/JsonReader.h>
-#include <cc7/json/JsonWriter.h>
+#include <cc7/ByteArray.h>
+
+namespace cc7 {
+namespace utils {
+
+/**
+ Converts UTF8 string into URL encoded data.
+ */
+cc7::ByteArray ConvertStringToUrlEncodedData(const std::string & str);
+    
+} // cc7::utils
+} // cc7

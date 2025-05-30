@@ -17,6 +17,7 @@
 #pragma once
 
 #include <cc7/json/JsonValue.h>
+#include <cc7/json/JsonException.h>
 
 namespace cc7 {
 namespace json {

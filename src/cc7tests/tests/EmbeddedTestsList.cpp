@@ -47,9 +47,11 @@ namespace tests
         CC7_ADD_UNIT_TEST(AEADTests, list);
         CC7_ADD_UNIT_TEST(NonceGeneratorTests, list);
         
-        // cc7/json framework tests
+        // cc7/json-jwt frameworks tests
         CC7_ADD_UNIT_TEST(JsonReaderTests, list);
         CC7_ADD_UNIT_TEST(JsonWriterTests, list);
+        CC7_ADD_UNIT_TEST(JwtTests, list);
+        
         
         // OpenSSL
         CC7_ADD_UNIT_TEST(cc7OpenSSLIntegration, list);

@@ -16,6 +16,23 @@
 
 #pragma once
 
-#include <cc7/json/JsonException.h>
-#include <cc7/json/JsonReader.h>
-#include <cc7/json/JsonWriter.h>
+#include "JwsAlgorithm.h"
+#include <cc7/crypto/Signature.h>
+
+namespace cc7 {
+namespace jwt {
+
+class JwsDsaSignature : public JwsAlgorithm
+{
+public:
+    JwsDsaSignature(const crypto::SignaturePtr& signature, const JwsSpec* spec);
+    
+    ByteArray sign(const JwtKey &key, const ByteRange &data) const override;
+    bool verify(const JwtKey &key, const ByteRange &data, const ByteRange &signature) const override;
+    
+private:
+    const crypto::SignaturePtr _signature;
+};
+
+} // namespace jwt
+} // namespace cc7
