@@ -20,6 +20,7 @@
 #include <cc7/jwt/Jwt.h>
 #include <cc7/crypto/Crypto.h>
 #include <cc7/Base64.h>
+#include "../src/cc7/jwt/JwsSpec.h"
 
 using namespace cc7::json;
 using namespace cc7::jwt;
@@ -152,13 +153,19 @@ namespace tests
             JwtKeyList verify_keys;
         };
         
+        bool isMacAlg(const std::string& algorithm)
+        {
+            auto spec = JwsSpec::specForJwsAlgorithm(algorithm);
+            return spec ? spec->type == JwsSpec::Type::MAC : false;
+        }
+        
         MultiSignVerifyData testDataForAlgs(const std::vector<std::string>& algs)
         {
             std::string title;
             JwtKeyList sign, verify;
             for (auto alg : algs) {
                 SignVerifyData td;
-                if (alg == "HS256" || alg == "HS384" || alg == "HS512") {
+                if (isMacAlg(alg)) {
                     td = testDataForMac(alg, 64);
                 } else {
                     td = testDataForDsa(alg);
@@ -188,6 +195,8 @@ namespace tests
             tests.push_back(testDataForMac("HS256", 32));
             tests.push_back(testDataForMac("HS384", 48));
             tests.push_back(testDataForMac("HS512", 64));
+            tests.push_back(testDataForMac("xKMAC128", 32));
+            tests.push_back(testDataForMac("xKMAC256", 64));
             
             for (auto& td : tests) {
                 ccstMessage("%s", td.sign_key->getJwtAlgorithm().c_str());
@@ -217,6 +226,7 @@ namespace tests
             tests.push_back(testDataForAlgs({ "HS384", "P-384" }));
             tests.push_back(testDataForAlgs({ "P-256", "ML-DSA-44" }));
             tests.push_back(testDataForAlgs({ "ML-DSA-65", "P-384" }));
+            tests.push_back(testDataForAlgs({ "ML-DSA-65", "xKMAC256" }));
             tests.push_back(testDataForAlgs({ "HS512", "P-521", "ML-DSA-87" }));
             
             for (auto& td : tests) {

@@ -19,20 +19,34 @@
 namespace cc7 {
 namespace jwt {
 
+crypto::ParameterList JwsMacSignature::buildParamsForSpec(const JwsSpec* spec)
+{
+    crypto::ParameterList params;
+    if (spec->sizeParam) {
+        params[crypto::MAC_PARAM_DIGEST_LENGTH] = crypto::Parameter::take(spec->sizeParam);
+    };
+    if (!spec->stringParam.empty()) {
+        params[crypto::MAC_PARAM_CUSTOM_STRING] = crypto::Parameter::ref(spec->stringParam);
+    }
+    return params;
+}
+
+
 JwsMacSignature::JwsMacSignature(const crypto::MACPtr& mac, const JwsSpec * spec) :
     JwsAlgorithm(spec),
-    _mac(mac)
+    _mac(mac),
+    _mac_params(buildParamsForSpec(spec))
 {
 }
 
 ByteArray JwsMacSignature::sign(const JwtKey &key, const ByteRange &data) const
 {
-    return _mac->token(key.getSymmetricKey(), data);
+    return _mac->token(key.getSymmetricKey(), data, _mac_params);
 }
 
 bool JwsMacSignature::verify(const JwtKey &key, const ByteRange &data, const ByteRange &signature) const
 {
-    return _mac->verifyToken(key.getSymmetricKey(), data, signature);
+    return _mac->verifyToken(key.getSymmetricKey(), data, signature, _mac_params);
 }
 
 } // namespace jwt

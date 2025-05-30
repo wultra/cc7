@@ -16,22 +16,28 @@
 
 #pragma once
 
-#include "JwsAlgorithm.h"
-#include <cc7/crypto/MAC.h>
+#include <cc7/ByteArray.h>
 
 namespace cc7 {
 namespace jwt {
 
-class JwsMacSignature : public JwsAlgorithm
+struct JwsSpec
 {
-public:
-    JwsMacSignature(const crypto::MACPtr& mac, const JwsSpec * spec);
+    enum class Type { DSA, MAC };
     
-    ByteArray sign(const JwtKey &key, const ByteRange &data) const override;
-    bool verify(const JwtKey &key, const ByteRange &data, const ByteRange &signature) const override;
-
-private:
-    const crypto::MACPtr _mac;
+    Type type;
+    std::string jwsName;
+    std::string algorithm;
+    std::string keyType;
+    
+    size_t sizeParam;
+    std::string stringParam;
+    
+    ByteArray (*inputConversion)(const JwsSpec* spec, const ByteRange& signature);
+    ByteArray (*outputConversion)(const JwsSpec* spec, const ByteRange& signature);
+    
+    static const JwsSpec* specForJwsAlgorithm(const std::string& jwt_algorithm);
+    static const JwsSpec* specForKeyAlgorithm(const std::string& key_algorithm);
 };
 
 } // namespace jwt

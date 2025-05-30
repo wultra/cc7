@@ -917,7 +917,7 @@
 				BF4D85722DE5AAC400D32F55 /* detail */,
 				BF0058D12D9424B900C0F3AF /* crypto */,
 				BF4D85652DE5A46300D32F55 /* json */,
-				BF4D858B2DE7275100D32F55 /* jws */,
+				BF4D858B2DE7275100D32F55 /* jwt */,
 				BF4D85D12DE84A7100D32F55 /* utils */,
 				BFE173FE1CC9664500039466 /* platform */,
 				BFE174061CC96D3600039466 /* DebugFeatures.cpp */,
@@ -1002,7 +1002,7 @@
 			path = jwt;
 			sourceTree = "<group>";
 		};
-		BF4D858B2DE7275100D32F55 /* jws */ = {
+		BF4D858B2DE7275100D32F55 /* jwt */ = {
 			isa = PBXGroup;
 			children = (
 				BF4D85C72DE7869600D32F55 /* JwsSpec.h */,
@@ -1019,7 +1019,7 @@
 				BF4D85E42DE999E100D32F55 /* JwtWriter.cpp */,
 				BF4D85932DE7296500D32F55 /* JwtReader.cpp */,
 			);
-			path = jws;
+			path = jwt;
 			sourceTree = "<group>";
 		};
 		BF4D85CD2DE849FC00D32F55 /* utils */ = {

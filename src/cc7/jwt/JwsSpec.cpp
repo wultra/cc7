@@ -26,19 +26,29 @@ namespace jwt {
 static ByteArray EC_JoseToAsn1(const JwsSpec* spec, const ByteRange& signature);
 static ByteArray EC_Asn1ToJose(const JwsSpec* spec, const ByteRange& signature);
 
+static const std::string NIL;
+
 static const std::vector<JwsSpec> spec_list {
+    // RFC-7515
+    
     // HMAC-SHA based
-    { JwsSpec::Type::MAC, "HS256", "HMAC-SHA-256", "", 32, nullptr, nullptr },
-    { JwsSpec::Type::MAC, "HS384", "HMAC-SHA-384", "", 48, nullptr, nullptr },
-    { JwsSpec::Type::MAC, "HS512", "HMAC-SHA-512", "", 64, nullptr, nullptr },
+    { JwsSpec::Type::MAC, "HS256", "HMAC-SHA-256", NIL, 0, "", nullptr, nullptr },
+    { JwsSpec::Type::MAC, "HS384", "HMAC-SHA-384", NIL, 0, "", nullptr, nullptr },
+    { JwsSpec::Type::MAC, "HS512", "HMAC-SHA-512", NIL, 0, "", nullptr, nullptr },
     // ECDSA based
-    { JwsSpec::Type::DSA, "ES256", "ECDSA-SHA-256", "P-256", 32, EC_JoseToAsn1, EC_Asn1ToJose },
-    { JwsSpec::Type::DSA, "ES384", "ECDSA-SHA-384", "P-384", 48, EC_JoseToAsn1, EC_Asn1ToJose },
-    { JwsSpec::Type::DSA, "ES512", "ECDSA-SHA-512", "P-521", 66, EC_JoseToAsn1, EC_Asn1ToJose },
+    { JwsSpec::Type::DSA, "ES256", "ECDSA-SHA-256", "P-256", 32, "", EC_JoseToAsn1, EC_Asn1ToJose },
+    { JwsSpec::Type::DSA, "ES384", "ECDSA-SHA-384", "P-384", 48, "", EC_JoseToAsn1, EC_Asn1ToJose },
+    { JwsSpec::Type::DSA, "ES512", "ECDSA-SHA-512", "P-521", 66, "", EC_JoseToAsn1, EC_Asn1ToJose },
+    
+    // Draft algorithms
+    
     // ML-DSA
-    { JwsSpec::Type::DSA, "ML-DSA-44", "ML-DSA-44", "ML-DSA-44", 0, nullptr, nullptr },
-    { JwsSpec::Type::DSA, "ML-DSA-65", "ML-DSA-65", "ML-DSA-65", 0, nullptr, nullptr },
-    { JwsSpec::Type::DSA, "ML-DSA-87", "ML-DSA-87", "ML-DSA-87", 0, nullptr, nullptr }
+    { JwsSpec::Type::DSA, "ML-DSA-44", "ML-DSA-44", "ML-DSA-44", 0, "", nullptr, nullptr },
+    { JwsSpec::Type::DSA, "ML-DSA-65", "ML-DSA-65", "ML-DSA-65", 0, "", nullptr, nullptr },
+    { JwsSpec::Type::DSA, "ML-DSA-87", "ML-DSA-87", "ML-DSA-87", 0, "", nullptr, nullptr },
+    // KMAC based
+    { JwsSpec::Type::MAC, "xKMAC128", "KMAC-128", NIL, 32, "JWS", nullptr, nullptr },
+    { JwsSpec::Type::MAC, "xKMAC256", "KMAC-256", NIL, 64, "JWS", nullptr, nullptr },
 };
 
 const JwsSpec* JwsSpec::specForJwsAlgorithm(const std::string& jws_algorithm)
@@ -102,7 +112,7 @@ static ByteArray EC_JoseToAsn1(const JwsSpec* spec, const ByteRange& signature)
     const auto param_size = spec->sizeParam;
     
     if (signature.size() != param_size * 2) {
-        return cc7::ByteArray();
+        throw JwtException("Wrong JWS signature size");
     }
     // Split input data into half and skip zero leading bytes for each parameter.
     auto R = _SkipPaddingBytes(signature.subRangeTo(param_size));
@@ -138,6 +148,11 @@ static bool _DecodeAsn1ByteSequence(utils::DataReader & reader, cc7::ByteRange &
     return reader.readMemoryRange(out_data, out_size);
 }
 
+static void _ThrowWrongAsn1 [[noreturn]]()
+{
+    throw std::logic_error("Wrong ASN.1 sequence");
+}
+
 static ByteArray EC_Asn1ToJose(const JwsSpec* spec, const ByteRange& signature)
 {
     const auto param_size = spec->sizeParam;
@@ -148,24 +163,24 @@ static ByteArray EC_Asn1ToJose(const JwsSpec* spec, const ByteRange& signature)
     cc7::byte tmp;
     // Read first byte (sequence)
     if (!reader.readByte(tmp) || tmp != 0x30) {
-        return out;
+        _ThrowWrongAsn1();
     }
     size_t sign_length, r_length, s_length;
     cc7::ByteRange R, S;
     if (!reader.readAsn1Count(sign_length)) {
-        return out;
+        _ThrowWrongAsn1();
     }
     // Overall length should match DER length - offset
     if (sign_length != signature.size() - reader.currentOffset()) {
-        return out;
+        _ThrowWrongAsn1();
     }
     // Read R.
     if (!_DecodeAsn1ByteSequence(reader, R, param_size, r_length)) {
-        return out;
+        _ThrowWrongAsn1();
     }
     // Read S.
     if (!_DecodeAsn1ByteSequence(reader, S, param_size, s_length)) {
-        return out;
+        _ThrowWrongAsn1();
     }
     
     // Everything looks fine. Now construct JOSE signature.
