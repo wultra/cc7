@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <cc7/Platform.h>
+
 namespace cc7 {
 namespace detail {
 

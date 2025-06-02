@@ -177,6 +177,12 @@
 		BF4D85EC2DEA087D00D32F55 /* JwtTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */; };
 		BF4D85ED2DEA087D00D32F55 /* JwtTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */; };
 		BF4D85EE2DEA087D00D32F55 /* JwtTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */; };
+		BF4D85FA2DEDAB6500D32F55 /* DataWriterReaderTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F82DEDAB6500D32F55 /* DataWriterReaderTests.cpp */; };
+		BF4D85FB2DEDAB6500D32F55 /* URLEncodingTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F92DEDAB6500D32F55 /* URLEncodingTests.cpp */; };
+		BF4D85FC2DEDAB6500D32F55 /* DataWriterReaderTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F82DEDAB6500D32F55 /* DataWriterReaderTests.cpp */; };
+		BF4D85FD2DEDAB6500D32F55 /* URLEncodingTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F92DEDAB6500D32F55 /* URLEncodingTests.cpp */; };
+		BF4D85FE2DEDAB6500D32F55 /* DataWriterReaderTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F82DEDAB6500D32F55 /* DataWriterReaderTests.cpp */; };
+		BF4D85FF2DEDAB6500D32F55 /* URLEncodingTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F92DEDAB6500D32F55 /* URLEncodingTests.cpp */; };
 		BF5A00092DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000A2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000B2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
@@ -554,6 +560,8 @@
 		BF4D85E82DE9D22E00D32F55 /* JwtReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwtReader.h; sourceTree = "<group>"; };
 		BF4D85E92DE9EA8700D32F55 /* Jwt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Jwt.h; sourceTree = "<group>"; };
 		BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwtTests.cpp; sourceTree = "<group>"; };
+		BF4D85F82DEDAB6500D32F55 /* DataWriterReaderTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataWriterReaderTests.cpp; sourceTree = "<group>"; };
+		BF4D85F92DEDAB6500D32F55 /* URLEncodingTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = URLEncodingTests.cpp; sourceTree = "<group>"; };
 		BF5A00082DA53F570068992F /* SignatureTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignatureTests.cpp; sourceTree = "<group>"; };
 		BF5A000C2DA540D50068992F /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		BF5A000D2DA541930068992F /* Random.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
@@ -854,6 +862,7 @@
 				BF498AB31CDCC22500D7E904 /* cc7crypto */,
 				BF4D857D2DE5C14600D32F55 /* cc7json */,
 				BF4D85EA2DEA085200D32F55 /* cc7jwt */,
+				BF4D85F72DEDAAFC00D32F55 /* cc7utils */,
 				BF498AB51CDCC22500D7E904 /* openssl */,
 				BF498AB61CDCC24F00D7E904 /* EmbeddedTestsList.cpp */,
 			);
@@ -1048,6 +1057,15 @@
 				BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */,
 			);
 			path = cc7jwt;
+			sourceTree = "<group>";
+		};
+		BF4D85F72DEDAAFC00D32F55 /* cc7utils */ = {
+			isa = PBXGroup;
+			children = (
+				BF4D85F82DEDAB6500D32F55 /* DataWriterReaderTests.cpp */,
+				BF4D85F92DEDAB6500D32F55 /* URLEncodingTests.cpp */,
+			);
+			path = cc7utils;
 			sourceTree = "<group>";
 		};
 		BF79F0111D04BBDC004653A1 /* objc */ = {
@@ -1609,6 +1627,8 @@
 				BF1C7BBF1CE0CE9300C4399E /* cc7PlatformTests.cpp in Sources */,
 				BF14D46F2DD48CB400BA7F51 /* NonceGeneratorTests.cpp in Sources */,
 				BF5A8CB12DCE1C7600B3FB01 /* KeyDerivationTests.cpp in Sources */,
+				BF4D85FC2DEDAB6500D32F55 /* DataWriterReaderTests.cpp in Sources */,
+				BF4D85FD2DEDAB6500D32F55 /* URLEncodingTests.cpp in Sources */,
 				BF498ACA1CDDD7ED00D7E904 /* cc7ByteArrayTests.cpp in Sources */,
 				BFC5254E1CDBC985002E653C /* PerformanceTimerApple.cpp in Sources */,
 				BF3068551CC91EE4002FD3BC /* UnitTest.cpp in Sources */,
@@ -1729,6 +1749,8 @@
 				BF8EEC2226662A0B009AC5FD /* cc7PlatformTests.cpp in Sources */,
 				BF14D46D2DD48CB400BA7F51 /* NonceGeneratorTests.cpp in Sources */,
 				BF5A8CB22DCE1C7600B3FB01 /* KeyDerivationTests.cpp in Sources */,
+				BF4D85FE2DEDAB6500D32F55 /* DataWriterReaderTests.cpp in Sources */,
+				BF4D85FF2DEDAB6500D32F55 /* URLEncodingTests.cpp in Sources */,
 				BF8EEC2326662A0B009AC5FD /* cc7ByteArrayTests.cpp in Sources */,
 				BF8EEC2426662A0B009AC5FD /* PerformanceTimerApple.cpp in Sources */,
 				BF8EEC2526662A0B009AC5FD /* UnitTest.cpp in Sources */,
@@ -1898,6 +1920,8 @@
 				BFFE8AC22449B53C0032821F /* cc7PlatformTests.cpp in Sources */,
 				BF14D46E2DD48CB400BA7F51 /* NonceGeneratorTests.cpp in Sources */,
 				BF5A8CB02DCE1C7600B3FB01 /* KeyDerivationTests.cpp in Sources */,
+				BF4D85FA2DEDAB6500D32F55 /* DataWriterReaderTests.cpp in Sources */,
+				BF4D85FB2DEDAB6500D32F55 /* URLEncodingTests.cpp in Sources */,
 				BFFE8AC32449B53C0032821F /* cc7ByteArrayTests.cpp in Sources */,
 				BFFE8AC42449B53C0032821F /* PerformanceTimerApple.cpp in Sources */,
 				BFFE8AC52449B53C0032821F /* UnitTest.cpp in Sources */,

@@ -83,6 +83,15 @@ bool DataReader::skipBytes(size_t size)
     return true;
 }
 
+bool DataReader::skipDataOrString()
+{
+    size_t count;
+    if (!readCount(count)) {
+        return false;
+    }
+    return skipBytes(count);
+}
+
 bool DataReader::readData(ByteArray & out_data, size_t expected_size)
 {
     size_t size;

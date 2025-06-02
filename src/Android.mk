@@ -49,6 +49,7 @@ LOCAL_C_INCLUDES := \
 # Multi-platform sources
 # cc7 core
 LOCAL_SRC_FILES := \
+	cc7/detail/StringUtils.cpp \
 	cc7/DebugFeatures.cpp \
 	cc7/ByteRange.cpp \
 	cc7/ByteArray.cpp \
@@ -57,6 +58,12 @@ LOCAL_SRC_FILES := \
 	cc7/HexString.cpp \
 	cc7/BaseException.cpp \
 	cc7/Time.cpp
+
+# cc7/utils
+LOCAL_SRC_FILES += \
+	cc7/utils/DataReader.cpp \
+	cc7/utils/DataWriter.cpp \
+	cc7/utils/URLEncoding.cpp
 
 # cc7/crypto
 LOCAL_SRC_FILES += \
@@ -95,6 +102,25 @@ LOCAL_SRC_FILES += \
 	cc7/crypto/alg/NullKDF.cpp \
 	cc7/crypto/alg/PBKDF2.cpp
 
+# cc7/json
+LOCAL_SRC_FILES += \
+	cc7/json/JsonValue.cpp \
+	cc7/json/JsonReader.cpp \
+	cc7/json/JsonWriter.cpp \
+	cc7/json/JsonException.cpp
+
+# cc7/jwt
+LOCAL_SRC_FILES += \
+	cc7/jwt/JwsSpec.cpp \
+	cc7/jwt/JwsAlgorithm.cpp \
+	cc7/jwt/JwsDsaSignature.cpp \
+	cc7/jwt/JwsMacSignature.cpp \
+	cc7/jwt/JwtException.cpp \
+	cc7/jwt/JwtKey.cpp \
+	cc7/jwt/JwtHeader.cpp \
+	cc7/jwt/JwtWriter.cpp \
+	cc7/jwt/JwtReader.cpp
+	
 # Android specific sources
 LOCAL_SRC_FILES += \
 	cc7/platform/android/PlatformAndroid.cpp \
@@ -130,10 +156,7 @@ LOCAL_SRC_FILES := \
 	cc7tests/TestFile.cpp \
 	cc7tests/TestDirectory.cpp \
 	cc7tests/TestResource.cpp \
-	cc7tests/PerformanceTimer.cpp \
-	cc7tests/JSONReader.cpp \
-	cc7tests/JSONValue.cpp \
-	cc7tests/detail/StringUtils.cpp
+	cc7tests/PerformanceTimer.cpp
 
 # Testing core (Android)
 LOCAL_SRC_FILES += \
@@ -141,8 +164,7 @@ LOCAL_SRC_FILES += \
 
 # Unit tests (TestCore)
 LOCAL_SRC_FILES += \
-	cc7tests/tests/cc7base/tt7Testception.cpp \
-	cc7tests/tests/cc7base/tt7JSONReaderTests.cpp
+	cc7tests/tests/cc7base/tt7Testception.cpp
 
 # Unit tests (cc7)
 LOCAL_SRC_FILES += \
@@ -153,6 +175,20 @@ LOCAL_SRC_FILES += \
 	cc7tests/tests/cc7base/cc7ByteRangeTests.cpp \
 	cc7tests/tests/cc7base/cc7HexStringTests.cpp \
 	cc7tests/tests/cc7base/cc7PlatformTests.cpp
+
+# Unit tests (cc7/json)
+LOCAL_SRC_FILES += \
+	cc7tests/tests/cc7json/JsonReaderTests.cpp \
+	cc7tests/tests/cc7json/JsonWriterTests.cpp
+
+# Unit tests (cc7/jwt)
+LOCAL_SRC_FILES += \
+	cc7tests/tests/cc7jwt/JwtTests.cpp
+
+# Unit tests (cc7/utils)
+LOCAL_SRC_FILES += \
+	cc7tests/tests/cc7utils/DataWriterReaderTests.cpp \
+	cc7tests/tests/cc7utils/URLEncodingTests.cpp
 
 # Unit tests (cc7/crypto)
 LOCAL_SRC_FILES += \
