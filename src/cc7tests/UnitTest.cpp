@@ -91,7 +91,7 @@ namespace tests
         }
         
         size_t indent_before = tl().indentationLevel();
-        
+        bool test_case_exception = false;
         for (auto&& desc : _methods) {
             std::function<void()>   method_ptr;
             std::string             method_name;
@@ -101,14 +101,25 @@ namespace tests
             
             tl().setIndentationLevel(indent_before + 2);
             setUp();
-            method_ptr();
+            try {
+                method_ptr();
+            } catch (std::exception & exc) {
+                std::string message("FAILED: Exception: ");
+                message.append(exc.what());
+                tl().logMessage(message);
+                test_case_exception = true;
+            } catch (...) {
+                tl().logMessage(std::string("FAILED: An unknown exception occurred."));
+                test_case_exception = true;
+            }
             tearDown();
             tl().setIndentationLevel(indent_before);
         }
         
         instanceTearDown();
         
-        bool result = tl().logDataCounters().current_test_incidents_count == 0;
+        bool result = test_case_exception == false &&
+                      tl().logDataCounters().current_test_incidents_count == 0;
         
         _log        = nullptr;
         _manager    = nullptr;

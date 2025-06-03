@@ -298,7 +298,7 @@ namespace tests
                 logMessage(message);
                 test_result = false;
             } catch (...) {
-                logMessage(std::string("FAILED: An unknown exception occured."));
+                logMessage(std::string("FAILED: An unknown exception occurred."));
                 test_result = false;
             }
             
