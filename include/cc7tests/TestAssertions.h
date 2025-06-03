@@ -115,32 +115,6 @@
     }
 
 /**
- Triggers failure when different than expected exception is throws, or no exception is reported. The second
- parameter(s) is code block to execute and evaluate.
- */
-#define ccstMustThrow(exception, ...)                                                                   \
-    try {                                                                                               \
-        __VA_ARGS__;                                                                                    \
-        this->tl().logIncident(__FILE__, __LINE__, "Failure with exception (" #exception ") is expected", "");\
-    } catch (exception & e) {                                                                           \
-    } catch (...) {                                                                                     \
-        this->tl().logIncident(__FILE__, __LINE__, "Failed with different exception than (" #exception ")", "");\
-    }
-
-/**
- Catch and log any exception, but do not report this as failure. This macro is useful in situations, when
- failure may occur, but it's OK to ignore it. The parameter(s) is code block to execute and evaluate.
- */
-#define ccstCatch(...)                                                                                  \
-    try {                                                                                               \
-        __VA_ARGS__;                                                                                    \
-    } catch (exception & e) {                                                                           \
-        this->tl().logFormattedMessage("Exception catched: %s", e.what());                              \
-    } catch (...) {                                                                                     \
-        this->tl().logMessage("Unknown exception catched");                                             \
-    }
-
-/**
  Always triggers failure
  */
 #define ccstFailure(...)                                                                                \
@@ -153,3 +127,29 @@
 #define ccstMessage(...)                                                                                \
     this->tl().logFormattedMessage("" __VA_ARGS__);
 
+
+/**
+ Triggers failure when different than expected exception is throws, or no exception is reported. The second
+ parameter(s) is code block to execute and evaluate.
+ */
+#define ccstMustThrow(exception, ...)                                                                   \
+    try {                                                                                               \
+        __VA_ARGS__;                                                                                    \
+        ccstFailure("Failure with exception (" #exception ") is expected");                             \
+    } catch (exception & e) {                                                                           \
+    } catch (...) {                                                                                     \
+        ccstFailure("Failed with different exception than (" #exception ")");                           \
+    }
+
+/**
+ Catch and log any exception, but do not report this as failure. This macro is useful in situations, when
+ failure may occur, but it's OK to ignore it. The parameter(s) is code block to execute and evaluate.
+ */
+#define ccstCatch(...)                                                                                  \
+    try {                                                                                               \
+        __VA_ARGS__;                                                                                    \
+    } catch (exception & e) {                                                                           \
+        ccstMessage("Exception ignored: %s", e.what());                                                 \
+    } catch (...) {                                                                                     \
+        ccstMessage("Unknown exception ignored");                                                       \
+    }
