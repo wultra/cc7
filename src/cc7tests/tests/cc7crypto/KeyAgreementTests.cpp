@@ -78,12 +78,7 @@ public:
             for (size_t j = i + 1; j < count; j++) {
                 auto kp1 = crypto::KeyPair::generateKeyPair(key_types[i]);
                 auto kp2 = crypto::KeyPair::generateKeyPair(key_types[j]);
-                try {
-                    key_agreement->phase(kp1->getPrivateKey(), kp2->getPublicKey());
-                    ccstFailure("Operation shold fail");
-                } catch (std::exception e) {
-                    // success
-                }
+                ccstMustThrow(std::exception, key_agreement->phase(kp1->getPrivateKey(), kp2->getPublicKey()));
             }
         }
     }

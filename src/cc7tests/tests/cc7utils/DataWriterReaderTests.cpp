@@ -337,12 +337,7 @@ public:
         ccstAssertTrue(writer.currentVersion() == 1);
         
         writer.closeVersion();
-        try {
-            writer.closeVersion();
-            ccstFailure("Must fail");
-        } catch(...) {
-            // success
-        }
+        ccstMustThrow(std::exception, writer.closeVersion());
         
         writer.openVersion('X', 3);
         ccstAssertTrue(writer.currentTag() == 'X');
