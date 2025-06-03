@@ -25,6 +25,11 @@ class BaseException : public std::exception
 public:
     BaseException(const char* message, std::exception_ptr cause = nullptr) noexcept;
     BaseException(const std::string& message, std::exception_ptr cause = nullptr) noexcept;
+
+    const char * what() const noexcept override
+    {
+        return _message.c_str();
+    }
     
     const std::string & message() const noexcept
     {

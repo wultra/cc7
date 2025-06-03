@@ -18,23 +18,23 @@
 
 namespace cc7 {
 
-const std::string DEFAULT_MSG = "cc7::BaseException";
+const std::string CLASS_NAME = "cc7::BaseException";
 
 BaseException::BaseException(const char* message, std::exception_ptr cause) noexcept :
-    _message(message ? std::string(message) : DEFAULT_MSG),
+    _message(message ? std::string(message) : CLASS_NAME),
     _cause(std::move(cause))
 {
 }
 
 BaseException::BaseException(const std::string& message, std::exception_ptr cause) noexcept :
-    _message(message.empty() ? DEFAULT_MSG : message),
+    _message(message.empty() ? CLASS_NAME : message),
     _cause(std::move(cause))
 {
 }
 
 const std::string & BaseException::exceptionClass() const noexcept
 {
-    return DEFAULT_MSG;
+    return CLASS_NAME;
 }
 
 #ifdef DEBUG
