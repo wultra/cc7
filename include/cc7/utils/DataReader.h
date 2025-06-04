@@ -156,7 +156,7 @@ public:
      Opens versioned data section. You have to provide expected data tag and minimum
      supported data version.
      */
-    bool openVersion(cc7::byte expected_tag, cc7::byte min_supported_version);
+    bool openVersion(cc7::byte expected_tag, cc7::byte min_supported_version, cc7::byte max_supported_version = 0xFF);
     /**
      Closes versioned data section. This operation simply pops current version from the
      stack of versions. Returns false if stack is already empty.

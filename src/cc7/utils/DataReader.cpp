@@ -278,13 +278,15 @@ bool DataReader::readAsn1Count(size_t &out_value)
 
 // Data versioning
 
-bool DataReader::openVersion(cc7::byte expected_tag, cc7::byte min_supported_version)
+bool DataReader::openVersion(cc7::byte expected_tag, cc7::byte min_supported_version, cc7::byte max_supported_version)
 {
     cc7::byte tag = 0;
     cc7::byte version = 0;
     bool result = readByte(tag) && readByte(version);
     if (result) {
-        result = tag == expected_tag && version >= min_supported_version;
+        result = (tag == expected_tag) &&
+                 (version >= min_supported_version) &&
+                 (version <= max_supported_version);
         if (result) {
             _version_stack.push_back((cc7::U16(tag) << 8) | version);
         }
