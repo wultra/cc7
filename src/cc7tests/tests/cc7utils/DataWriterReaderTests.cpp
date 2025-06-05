@@ -51,7 +51,7 @@ public:
             
             DataWriter writer;
             bool write_result = writer.writeCount(test_value);
-            DataReader reader(writer.serializedData());
+            DataReader reader(writer.serializedData(), true);
             bool read_result = reader.readCount(restored_value);
             
             if (test_value <= DataWriter::maxCount()) {
@@ -89,7 +89,7 @@ public:
             
             DataWriter writer;
             bool write_result = writer.writeAsn1Count(test_value);
-            DataReader reader(writer.serializedData());
+            DataReader reader(writer.serializedData(), true);
             bool read_result = reader.readAsn1Count(restored_value);
             
             if (test_value <= DataWriter::maxCount()) {
@@ -121,7 +121,7 @@ public:
             writer.writeByte(0x10);
             writer.writeByte(0x3E);
             writer.writeByte(0x8F);
-            DataReader reader(writer.serializedData());
+            DataReader reader(writer.serializedData(), true);
             size_t size;
             ccstAssertTrue(reader.readAsn1Count(size));
             ccstAssertEqual(0x103E8F, size);
@@ -163,7 +163,7 @@ public:
             
         }
         
-        DataReader reader(writer.serializedData());
+        DataReader reader(writer.serializedData(), true);
         {
             ByteArray receivedData_32;
             ByteArray receivedData_177;
@@ -348,7 +348,7 @@ public:
         ccstAssertTrue(writer.currentTag() == 0);
 
         
-        DataReader reader(writer.serializedData().byteRange());
+        DataReader reader(writer.serializedData().byteRange(), false);
         
         result = reader.openVersion('T', 1);
         ccstAssertTrue(result);

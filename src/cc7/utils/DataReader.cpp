@@ -27,17 +27,15 @@ DataReader::DataReader() :
 {
 }
 
-DataReader::DataReader(const ByteRange & data) :
-    _data(data),
+DataReader::DataReader(const ByteRange & data, bool copy) :
     _offset(0)
 {
-}
-
-DataReader::DataReader(const ByteArray & data) :
-    _data_copy(data),
-    _offset(0)
-{
-    _data.assign(_data_copy.byteRange());
+    if (copy) {
+        _data_copy.assign(data);
+        _data.assign(_data_copy.byteRange());
+    } else {
+        _data.assign(data);
+    }
 }
 
 void DataReader::reset()

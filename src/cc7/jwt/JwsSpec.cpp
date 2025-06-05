@@ -158,7 +158,7 @@ static ByteArray EC_Asn1ToJose(const JwsSpec* spec, const ByteRange& signature)
     const auto param_size = spec->sizeParam;
     
     cc7::ByteArray out;
-    auto reader = utils::DataReader(signature);
+    auto reader = utils::DataReader(signature, false);
     
     cc7::byte tmp;
     // Read first byte (sequence)

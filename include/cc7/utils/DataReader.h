@@ -38,17 +38,10 @@ public:
     DataReader();
     
     /**
-     Initializes DataReader object with a ByteRange object. The ByteRange
-     must point to a valid sequence of bytes and must be valid for a whole
-     lifetime of the DataReader class.
+     Initializes DataReader object with a ByteRange object. The |copy|
+     parameter determines whether the reader makes internal copy of data.
      */
-    explicit DataReader(const ByteRange & range);
-    
-    /**
-     Initializes DataReader object with a ByteArray object. Unlike initialization
-     with ByteRange, this constructor makes an internal copy of provided data.
-     */
-    explicit DataReader(const ByteArray & data);
+    DataReader(const ByteRange & range, bool copy);
     
     /**
      Resets data reader to its initial state.
@@ -63,7 +56,7 @@ public:
     void resetWithNewByteRange(const ByteRange & range);
     
     /**
-     Resets data reader and assigns a new data. The metod makes copy
+     Resets data reader and assigns a new data. The method makes copy
      of provided data internally.
      */
     void resetWithNewByteArray(const ByteArray & data);
@@ -161,8 +154,7 @@ public:
      Closes versioned data section. This operation simply pops current version from the
      stack of versions. Returns false if stack is already empty.
      */
-    bool closeVersion();
-
+    bool closeVersion();    
     /**
      Returns top version tag from the version stack.
      If the tag is empty, then returns 0;
