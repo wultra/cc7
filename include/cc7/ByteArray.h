@@ -181,5 +181,14 @@ namespace cc7
         return array.byteRange();
     }
 
-    
+    /**
+     Concat multiple ByteRange components into continuous ByteArray.
+     */
+    extern ByteArray ConcatByteRanges(std::initializer_list<ByteRange> components);
+
+    /**
+     Concat multiple ByteRange components into continuous ByteArray.
+     */
+    extern ByteArray ConcatByteRanges(const std::vector<ByteRange>& components);
+
 } // cc7

@@ -87,5 +87,43 @@ std::string ByteArray::hexString(bool lower_case) const noexcept
     HexString_Encode(this->byteRange(), lower_case, result);
     return result;
 }
-    
+
+// Concat
+
+cc7::ByteArray ConcatByteRanges(std::initializer_list<cc7::ByteRange> components)
+{
+    auto it = components.begin();
+    size_t reserved_bytes = 0;
+    while (it != components.end()) {
+        reserved_bytes += it->size();
+        ++it;
+    }
+    cc7::ByteArray result;
+    result.reserve(reserved_bytes);
+    it = components.begin();
+    while (it != components.end()) {
+        result.append(*it);
+        ++it;
+    }
+    return result;
+}
+
+cc7::ByteArray ConcatByteRanges(const std::vector<ByteRange>& components)
+{
+    auto it = components.begin();
+    size_t reserved_bytes = 0;
+    while (it != components.end()) {
+        reserved_bytes += it->size();
+        ++it;
+    }
+    cc7::ByteArray result;
+    result.reserve(reserved_bytes);
+    it = components.begin();
+    while (it != components.end()) {
+        result.append(*it);
+        ++it;
+    }
+    return result;
+}
+
 } // cc7

@@ -36,6 +36,8 @@ namespace tests
             CC7_REGISTER_TEST_METHOD(testOtherMethods)
             CC7_REGISTER_TEST_METHOD(testIterators)
             CC7_REGISTER_TEST_METHOD(testZeroRanges)
+            CC7_REGISTER_TEST_METHOD(testConcatVector)
+            CC7_REGISTER_TEST_METHOD(testConcatInitializer)
         }
         
         // Helper methods
@@ -426,6 +428,47 @@ namespace tests
                 }
             }
         }
+        
+        void testConcatInitializer()
+        {
+            auto data = ConcatByteRanges({});
+            ccstAssertTrue(data.empty());
+            data = ConcatByteRanges({
+                MakeRange("hello"),
+                MakeRange(cc7::byte(32)),
+                MakeRange("world!")
+            });
+            auto expected = "hello world!";
+            ccstAssertEqual(cc7::MakeRange(expected), data);
+            data = ConcatByteRanges({
+                ByteRange(),
+                ByteRange(),
+                ByteRange(),
+                ByteRange()
+            });
+            ccstAssertTrue(data.empty());
+        }
+        
+        void testConcatVector()
+        {
+            auto data = ConcatByteRanges(std::vector<ByteRange>{});
+            ccstAssertTrue(data.empty());
+            data = ConcatByteRanges(std::vector<ByteRange> {
+                MakeRange("hello"),
+                MakeRange(cc7::byte(32)),
+                MakeRange("world!")
+            });
+            auto expected = "hello world!";
+            ccstAssertEqual(MakeRange(expected), data);
+            data = ConcatByteRanges(std::vector<ByteRange> {
+                ByteRange(),
+                ByteRange(),
+                ByteRange(),
+                ByteRange()
+            });
+            ccstAssertTrue(data.empty());
+        }
+
     };
     
     CC7_CREATE_UNIT_TEST(cc7ByteArrayTests, "cc7")
