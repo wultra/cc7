@@ -50,8 +50,8 @@ public:
     
     const ByteArray& getOutputData() const;
     
-    static std::string toJsonString(const JsonValue& root, Options options = Default);
-    static ByteArray toJsonData(const JsonValue & root, Options options = Default);
+    static std::string toJsonString(const JsonValue& root, int options = Default);
+    static ByteArray toJsonData(const JsonValue & root, int options = Default);
     
 private:
     struct Config

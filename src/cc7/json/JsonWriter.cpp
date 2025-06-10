@@ -79,12 +79,12 @@ const ByteArray& JsonWriter::getOutputData() const
     return _out;
 }
 
-std::string JsonWriter::toJsonString(const JsonValue &root, Options options)
+std::string JsonWriter::toJsonString(const JsonValue &root, int options)
 {
     return JsonWriter(options).toString(root);
 }
 
-ByteArray JsonWriter::toJsonData(const JsonValue &root, Options options)
+ByteArray JsonWriter::toJsonData(const JsonValue &root, int options)
 {
     return JsonWriter(options).toData(root);
 }
