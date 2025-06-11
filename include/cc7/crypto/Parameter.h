@@ -41,10 +41,12 @@ public:
     static Parameter take(size_t value);
     static Parameter take(int64_t value);
     static Parameter take(const BaseObjectPtr & object);
+    static Parameter ref(const char * str);
     static Parameter ref(const std::string & str);
     static Parameter ref(const ByteRange & range);
     static Parameter outRef(ByteArray & array);
-    
+
+    static Parameter copy(const char * str);
     static Parameter copy(const std::string & str);
     static Parameter copy(const ByteRange & range);
     
@@ -73,7 +75,8 @@ private:
         Value(bool value);
         Value(size_t value);
         Value(int64_t value);
-        
+
+        Value(const char* str);
         Value(const std::string & str, bool copy);
         Value(const ByteRange & range, bool copy);
         Value(ByteArray & out_array);

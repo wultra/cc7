@@ -82,6 +82,11 @@ Parameter Parameter::take(const BaseObjectPtr & object)
     return Parameter(new Value(object));
 }
 
+Parameter Parameter::ref(const char* str)
+{
+    return Parameter(new Value(str));
+}
+
 Parameter Parameter::ref(const std::string & str)
 {
     return Parameter(new Value(str, false));
@@ -95,6 +100,11 @@ Parameter Parameter::ref(const ByteRange & range)
 Parameter Parameter::outRef(ByteArray & array)
 {
     return Parameter(new Value(array));
+}
+
+Parameter Parameter::copy(const char* str)
+{
+    return Parameter(new Value(str));
 }
 
 Parameter Parameter::copy(const std::string & str)
@@ -171,6 +181,13 @@ int64_t Parameter::Value::asInt() const
 Parameter::Value::Value(bool value)    : _t(T_Bool), _bool_value(value) {}
 Parameter::Value::Value(size_t value)  : _t(T_Size), _size_value(value) {}
 Parameter::Value::Value(int64_t value) : _t(T_Int),  _int_value(value) {}
+
+Parameter::Value::Value(const char* str)
+{
+    _t = T_String;
+    _string_ptr = new std::string(str);
+    _range = MakeRange(*_string_ptr);
+}
 
 Parameter::Value::Value(const std::string & str, bool copy)
 {
