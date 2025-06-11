@@ -30,9 +30,12 @@ std::shared_ptr<SimpleNonceGenerator> SimpleNonceGenerator::getInstance(size_t n
 SimpleNonceGenerator::SimpleNonceGenerator(size_t nonce_size) :
     _nonce_size(nonce_size)
 {
+    if (_nonce_size == 0) {
+        throw std::invalid_argument("Invalid nonce_size parameter");
+    }
 }
 
-size_t SimpleNonceGenerator::getNonceSize() const
+size_t SimpleNonceGenerator::getNonceSize() const noexcept
 {
     return _nonce_size;
 }
@@ -44,6 +47,9 @@ ByteArray SimpleNonceGenerator::getNonce()
 
 bool SimpleNonceGenerator::checkUniqueness(const ByteRange & nonce, bool remember)
 {
+    if (nonce.size() != _nonce_size) {
+        throw std::invalid_argument("Wrong size of nonce");
+    }
     return true;
 }
 
@@ -65,23 +71,35 @@ void SimpleNonceGenerator::resetSavedState()
 
 // MARK: - DefaultNonceGenerator
 
-std::shared_ptr<DefaultNonceGenerator> DefaultNonceGenerator::getInstance(size_t nonce_size, size_t bucket_capacity)
+const DefaultNonceGenerator::Configuration DefaultNonceGenerator::DEFAULT_CONFIG = { 64, 16 };
+
+std::shared_ptr<DefaultNonceGenerator> DefaultNonceGenerator::getInstance(size_t nonce_size,
+                                                                          const Configuration& configuration)
 {
-    return std::make_shared<DefaultNonceGenerator>(nonce_size, bucket_capacity);
+    return std::make_shared<DefaultNonceGenerator>(nonce_size, configuration);
 }
 
-DefaultNonceGenerator::DefaultNonceGenerator(size_t nonce_size, size_t bucket_capacity) :
+DefaultNonceGenerator::DefaultNonceGenerator(size_t nonce_size, const Configuration& configuration) :
     _nonce_size(nonce_size),
-    _bucket_capacity(bucket_capacity)
+    _config(configuration)
 {
+    if (_nonce_size == 0) {
+        throw std::invalid_argument("Invalid nonce_size parameter");
+    }
+    if (_config.bucketCapacity == 0) {
+        throw std::invalid_argument("Invalid configuration.bucketCapacity parameter");
+    }
+    if (_config.attempts == 0) {
+        throw std::invalid_argument("Invalid configuration.attempts parameter");
+    }
 }
 
-DefaultNonceGenerator::~DefaultNonceGenerator()
+const DefaultNonceGenerator::Configuration& DefaultNonceGenerator::getConfiguration() const noexcept
 {
-    clearBuckets();
+    return _config;
 }
 
-size_t DefaultNonceGenerator::getNonceSize() const
+size_t DefaultNonceGenerator::getNonceSize() const noexcept
 {
     return _nonce_size;
 }
@@ -89,18 +107,22 @@ size_t DefaultNonceGenerator::getNonceSize() const
 ByteArray DefaultNonceGenerator::getNonce()
 {
     ByteArray nonce(_nonce_size, 0);
-    int attempts = 16;
-    while (attempts-- > 0) {
+    auto attempts = _config.attempts;
+    do {
         nonce = GetRandomData(_nonce_size);
         if (checkUniqueness(nonce, true)) {
             return nonce;
         }
-    }
+        --attempts;
+    } while (attempts != 0);
     throw CryptoException("Failed to generate unique nonce");
 }
 
 bool DefaultNonceGenerator::checkUniqueness(const ByteRange & nonce, bool remember)
 {
+    if (nonce.size() != _nonce_size) {
+        throw std::invalid_argument("Wrong size of nonce");
+    }
     if (_nonce_set.find(nonce) != _nonce_set.end()) {
         return false;  // Not unique
     }
@@ -178,23 +200,115 @@ void DefaultNonceGenerator::resetSavedState()
 
 ByteArray& DefaultNonceGenerator::getBucket()
 {
-    auto bucket_size = _nonce_size * _bucket_capacity;
+    auto bucket_size = _nonce_size * _config.bucketCapacity;
     if (_buckets.empty() || _buckets.back()->size() == bucket_size) {
         // No buckets allocated, or top bucket is full
-        auto bucket = new ByteArray();
+        auto bucket = std::make_unique<ByteArray>();
         bucket->reserve(bucket_size);
-        _buckets.push_back(bucket);
+        _buckets.push_back(std::move(bucket));
     }
     return *_buckets.back();
 }
 
 void DefaultNonceGenerator::clearBuckets()
 {
-    for (auto ptr : _buckets) {
-        delete ptr;
-    }
     _buckets.clear();
     _nonce_set.clear();
+}
+
+
+// MARK: - CollisionResistantNonceGenerator
+
+CollisionResistantNonceGenerator::CollisionResistantNonceGenerator(size_t nonce_size,
+                                                                   size_t derived_key_size,
+                                                                   const KeyDerivationPtr& kdf,
+                                                                   const Configuration& configuration) :
+    _nonce_size(nonce_size),
+    _derived_key_size(derived_key_size),
+    _kdf(kdf),
+    _key_validator(derived_key_size, configuration)
+{
+    if (!_kdf) {
+        throw std::invalid_argument("KDF function is required");
+    }
+    _kdf->setParameter(KDF_PARAM_KEY_SIZE, Parameter::take(derived_key_size));
+}
+
+std::shared_ptr<CollisionResistantNonceGenerator> CollisionResistantNonceGenerator::getInstance(size_t nonce_size,
+                                                                                                size_t derived_key_size,
+                                                                                                const KeyDerivationPtr& kdf,
+                                                                                                const Configuration& configuration)
+{
+    return std::make_shared<CollisionResistantNonceGenerator>(nonce_size, derived_key_size, kdf, configuration);
+}
+
+const KeyDerivation& CollisionResistantNonceGenerator::getKeyDerivation() const noexcept
+{
+    return *_kdf;
+}
+
+KeyDerivation& CollisionResistantNonceGenerator::getKeyDerivation() noexcept
+{
+    return *_kdf;
+}
+
+size_t CollisionResistantNonceGenerator::getNonceSize() const noexcept
+{
+    return _nonce_size;
+}
+
+const CollisionResistantNonceGenerator::Configuration& CollisionResistantNonceGenerator::getConfiguration() const noexcept
+{
+    return _key_validator.getConfiguration();
+}
+
+ByteArray CollisionResistantNonceGenerator::getNonce()
+{
+    ByteArray nonce(_nonce_size, 0);
+    ByteArray key(_derived_key_size, 0);
+    auto attempts = getConfiguration().attempts;
+    do {
+        nonce = GetRandomData(_nonce_size);
+        key = deriveKeyFromNonce(nonce);
+        if (_key_validator.checkUniqueness(key, true)) {
+            return nonce;
+        }
+        attempts--;
+    } while (attempts != 0);
+    throw CryptoException("Failed to generate unique nonce");
+}
+
+bool CollisionResistantNonceGenerator::checkUniqueness(const ByteRange & nonce, bool remember)
+{
+    if (nonce.size() != _nonce_size) {
+        throw std::invalid_argument("Wrong size of nonce");
+    }
+    auto key = deriveKeyFromNonce(nonce);
+    return _key_validator.checkUniqueness(key, remember);
+}
+
+ByteArray CollisionResistantNonceGenerator::saveState() const
+{
+    return _key_validator.saveState();
+}
+
+void CollisionResistantNonceGenerator::restoreState(const ByteRange & saved_state)
+{
+    _key_validator.restoreState(saved_state);
+}
+
+void CollisionResistantNonceGenerator::resetSavedState()
+{
+    _key_validator.resetSavedState();
+}
+
+ByteArray CollisionResistantNonceGenerator::deriveKeyFromNonce(const ByteRange& nonce) const
+{
+    auto key = _kdf->deriveKeyBytes(nonce);
+    if (key.size() != _derived_key_size) {
+        throw CryptoException("KDF function returned unexpected key size");
+    }
+    return key;
 }
 
 } // cc7::crypto
