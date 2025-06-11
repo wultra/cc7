@@ -77,7 +77,7 @@ public:
     
     void testDefaultNonceGeneratorUniqueness()
     {
-        auto generator = crypto::DefaultNonceGenerator::getInstance(2, { 64, 256*65536 });
+        auto generator = crypto::DefaultNonceGenerator::getInstance(2, { 64, 8*65536 });
         for (size_t attempt = 0; attempt <= 65535; attempt++) {
             generator->getNonce();
         }
@@ -86,6 +86,7 @@ public:
             cc7::U16 attempt_u16 = attempt & 0xFFFF;
             ccstAssertFalse(generator->checkUniqueness(MakeRange(attempt_u16), true));
         }
+        ccstMustThrow(crypto::CryptoException, generator->getNonce());
     }
     
     void testCollisionResistantNonceGenerator()
