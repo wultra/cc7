@@ -44,7 +44,7 @@ JwtHeader::JwtHeader(const std::string& algorithm, const std::string& type, cons
 
 bool JwtHeader::isValid() const
 {
-    return !_type.empty();
+    return !_algorithm.empty();
 }
 
 const std::string& JwtHeader::getEncoded()
