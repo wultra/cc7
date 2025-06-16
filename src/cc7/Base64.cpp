@@ -468,7 +468,7 @@ std::string ToBase64String(const ByteRange & data, size_t wrap_size) noexcept
     return result;
 }
 
-ByteArray FromBase64String(const std::string & string, size_t wrap_size) noexcept
+ByteArray FromBase64String(const std::string_view & string, size_t wrap_size) noexcept
 {
     ByteArray result;
     Base64Impl_Decode(spec_BASE64, string, wrap_size, result);
