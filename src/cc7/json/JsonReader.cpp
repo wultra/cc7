@@ -16,7 +16,6 @@
 
 #include <cc7/json/JsonReader.h>
 #include <cc7/json/JsonException.h>
-#include <cc7/detail/StringUtils.h>
 
 namespace cc7 {
 namespace json {
@@ -67,6 +66,11 @@ const cc7::byte * JsonReader::dataPtr()
     return _ptr + _offset;
 }
 
+const cc7::byte * JsonReader::dataOffset(size_t offset)
+{
+    return _ptr + offset;
+}
+
 const char * JsonReader::charPtr(size_t offset)
 {
     return reinterpret_cast<const char*>(_ptr) + offset;
@@ -86,9 +90,8 @@ const cc7::byte * JsonReader::shouldReadPtr(size_t requiredSize)
     if ((_length - _offset) >= requiredSize) {
         // If following check fails then there's a problem in some upper loop.
         // The loop doesn't validate length & offset properly
-        if (CC7_CHECK(_length > _offset, "Offset is out of range")) {
-            return dataPtr();
-        }
+        JSON_ASSERT(_length > _offset, "Offset is out of range");
+        return dataPtr();
     }
     _unexpectedEndOfStream = true;
     return nullptr;
@@ -390,9 +393,7 @@ JsonValue JsonReader::parseString()
     }
     
     bool error = false;
-    JsonValue result(JsonValue::String);
-    auto & result_str = result.asMutableString();
-    
+    ByteArray result;
     cc7::byte uc;
     size_t range_location = _offset;
     size_t range_length   = 0;
@@ -406,7 +407,7 @@ JsonValue JsonReader::parseString()
             //
             if (range_length > 0) {
                 // flush previously captured string fragment
-                result_str.append(charPtr(range_location), range_length);
+                result.append(dataOffset(range_location), range_length);
                 range_length = 0;
             }
             break;
@@ -417,10 +418,10 @@ JsonValue JsonReader::parseString()
             //
             if (range_length > 0) {
                 // flush previously captured string fragment
-                result_str.append(charPtr(range_location), range_length);
+                result.append(dataOffset(range_location), range_length);
                 range_length = 0;
             }
-            error = parseEscapedCharacter(result_str);
+            error = parseEscapedCharacter(result);
             if (error) {
                 break;
             }
@@ -446,7 +447,7 @@ JsonValue JsonReader::parseString()
         error = true;
     }
     if (!error) {
-        return result;
+        return JsonValue(result.stringView());
     }
     return JsonValue();
 }
@@ -476,21 +477,21 @@ static bool _Hex2Char(const cc7::byte * p, cc7::byte & out)
     return true;
 }
 
-static bool _UTF8Encode(cc7::U32 codepoint, std::string & out)
+static bool _UTF8Encode(cc7::U32 codepoint, ByteArray & out)
 {
     cc7::byte buffer[4];
     if(codepoint < 0x80) {
         buffer[0] = (char)codepoint;
-        out.append(reinterpret_cast<const char*>(buffer), 1);
+        out.append(buffer, 1);
     } else if(codepoint < 0x800) {
         buffer[0] = 0xC0 + ((codepoint & 0x7C0) >> 6);
         buffer[1] = 0x80 + ((codepoint & 0x03F));
-        out.append(reinterpret_cast<const char*>(buffer), 2);
+        out.append(buffer, 2);
     } else if(codepoint < 0x10000) {
         buffer[0] = 0xE0 + ((codepoint & 0xF000) >> 12);
         buffer[1] = 0x80 + ((codepoint & 0x0FC0) >> 6);
         buffer[2] = 0x80 + ((codepoint & 0x003F));
-        out.append(reinterpret_cast<const char*>(buffer), 3);
+        out.append(buffer, 3);
 // TODO: codepoints greater than 0xFFFF are not possible in this impl.
 //      } else if(codepoint <= 0x10FFFF) {
 //          buffer[0] = 0xF0 + ((codepoint & 0x1C0000) >> 18);
@@ -504,8 +505,13 @@ static bool _UTF8Encode(cc7::U32 codepoint, std::string & out)
     return true;
 }
 
-bool JsonReader::parseEscapedCharacter(std::string & result)
+bool JsonReader::parseEscapedCharacter(ByteArray & result)
 {
+    static const cc7::byte escaped[5] =
+    {
+        '\n', '\r', '\t', '\b', '\f'
+    };
+
     //
     // offset points after backslash
     //
@@ -514,11 +520,6 @@ bool JsonReader::parseEscapedCharacter(std::string & result)
         setParserError("Unexpected end of string");
         return true;
     }
-    
-     const char escaped[5] =
-    {
-        '\n', '\r', '\t', '\b', '\f'
-    };
     
     cc7::byte uc_bytes[2];
     
@@ -529,7 +530,7 @@ bool JsonReader::parseEscapedCharacter(std::string & result)
         case '/':
         case '\\':
             // quote, slash or backslash
-            result.append(reinterpret_cast<const char*>(ucptr), 1);
+            result.append(ucptr, 1);
             break;
         case 'n':
             // newline
@@ -669,7 +670,7 @@ JsonValue JsonReader::parse(const ByteRange &data)
     throw JsonException(_error);
 }
 
-JsonValue JsonReader::parse(const std::string& string)
+JsonValue JsonReader::parse(const std::string_view& string)
 {
     return parse(MakeRange(string));
 }
@@ -679,7 +680,7 @@ JsonValue JsonReader::fromJsonData(const ByteRange& data)
     return JsonReader().parse(data);
 }
 
-JsonValue JsonReader::fromJsonString(const std::string& string)
+JsonValue JsonReader::fromJsonString(const std::string_view& string)
 {
     return JsonReader().parse(string);
 }

@@ -46,6 +46,15 @@ public:
     ///   - `std::invalid_argument` if `wrap_size` is not divisible by 4.
     static std::string encode(const ByteRange& data, size_t wrap_size = NONE);
     
+    /// Encode data into standard Base64 encoding. The string is securely stored into ByteArray.
+    /// - Parameters:
+    ///   - data: Range of bytes to encode.
+    ///   - wrap_size: If not 0, then output is split into the multiple lines with required maximum number of characters per line.
+    /// - Returns: Input range represented as Base64 encoded string.
+    /// - Throws:
+    ///   - `std::invalid_argument` if `wrap_size` is not divisible by 4.
+    static ByteArray secureEncode(const ByteRange& data, size_t wrap_size = NONE);
+    
     /// Decode Base64 encoded string into array of bytes.
     /// - Parameters:
     ///   - data: Base64 encoded string.
@@ -53,13 +62,19 @@ public:
     /// - Throws:
     ///   - `std::invalid_argument` if `wrap_size` is not divisible by 4.
     ///   - `std::domain_error` if input is not Base64 string.
-    static ByteArray decode(const std::string& data, size_t wrap_size = NONE);
+    static ByteArray decode(const std::string_view& data, size_t wrap_size = NONE);
     
     /// Encode data into Base64Url encoding.
     /// - Parameters:
     ///   - data: Range of bytes to encode.
     /// - Returns: Input range represented as Base64Url encoded string.
     static std::string urlEncode(const ByteRange& data) noexcept;
+    
+    /// Encode data into Base64Url encoding. The string is securely stored into ByteArray.
+    /// - Parameters:
+    ///   - data: Range of bytes to encode.
+    /// - Returns: Input range represented as Base64Url encoded string.
+    static ByteArray secureUrlEncode(const ByteRange& data) noexcept;
     
     /// Decode Base64Url encoded string into array of bytes.
     /// - Parameters:
@@ -68,7 +83,7 @@ public:
     /// - Throws:
     ///   - `std::invalid_argument` if `wrap_size` is not divisible by 4.
     ///   - `std::domain_error` if input is not Base64Url string.
-    static ByteArray urlDecode(const std::string& data);
+    static ByteArray urlDecode(const std::string_view& data);
 };
 
 // Legacy functions
@@ -89,7 +104,7 @@ bool Base64_Encode(const ByteRange & in_data, size_t wrap_size, std::string & ou
  Note that unlike the other Base64 implementations, this decoder treats invalid characters in the string
  as an error. Other implementations usually stops processing at first invalid character.
  */
-bool Base64_Decode(const std::string & in_string, size_t wrap_size, ByteArray & out_data) noexcept;
+bool Base64_Decode(const std::string_view & in_string, size_t wrap_size, ByteArray & out_data) noexcept;
 
 /**
  Converts input byte range into Base64 encoded string. This variant of encoding function may be
@@ -103,6 +118,6 @@ std::string ToBase64String(const ByteRange & data, size_t wrap_size = 0) noexcep
  easier to use, but unlike the Base64_Decode(), you are not able to determine whether
  the error occured or not.
  */
-ByteArray FromBase64String(const std::string & string, size_t wrap_size = 0) noexcept;
+ByteArray FromBase64String(const std::string_view & string, size_t wrap_size = 0) noexcept;
     
 } // cc7

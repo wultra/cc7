@@ -129,38 +129,56 @@ const JsonValue * JsonValue::lookForValueAtPath(const std::string & path, Type e
 
 // ByteRange binding
 
-void JsonValue::assignBase64(const cc7::ByteRange &data)
+void JsonValue::assignBase64(const ByteRange &data)
 {
     assign(data.base64());
 }
 
-void JsonValue::assignBase64Url(const cc7::ByteRange &data)
+void JsonValue::assignBase64Url(const ByteRange &data)
 {
     assign(data.base64Url());
 }
 
-void JsonValue::assignHexString(const cc7::ByteRange &data)
+void JsonValue::assignHexString(const ByteRange &data)
 {
     assign(data.hexadecimal());
 }
 
-cc7::ByteArray JsonValue::dataFromBase64StringAtPath(const std::string & path) const
+ByteArray JsonValue::dataFromBase64StringAtPath(const std::string & path) const
 {
     return Base64::decode(stringAtPath(path));
 }
 
-cc7::ByteArray JsonValue::dataFromBase64UrlStringAtPath(const std::string & path) const
+ByteArray JsonValue::dataFromBase64UrlStringAtPath(const std::string & path) const
 {
     return Base64::urlDecode(stringAtPath(path));
 }
 
-cc7::ByteArray JsonValue::dataFromHexStringAtPath(const std::string & path) const
+ByteArray JsonValue::dataFromHexStringAtPath(const std::string & path) const
 {
     ByteArray result;
     if (!HexString_Decode(stringAtPath(path), result)) {
         throw std::invalid_argument("The selected string is not a hexadecimal string.");
     }
     return result;
+}
+
+ByteArray JsonValue::asBase64() const
+{
+    castToType(String);
+    return Base64::decode(*_string);
+}
+
+ByteArray JsonValue::asBase64Url() const
+{
+    castToType(String);
+    return Base64::urlDecode(*_string);
+}
+
+ByteArray JsonValue::asHexString() const
+{
+    castToType(String);
+    return FromHexString(*_string);
 }
 
 // Utility
@@ -177,6 +195,68 @@ std::string JsonValue::typeToName(Type t)
         case Boolean: return "Boolean";
         default: return "NaT";
     }
+}
+
+// Static constructors
+
+JsonValue JsonValue::object()
+{
+    return JsonValue(Object);
+}
+
+JsonValue JsonValue::array()
+{
+    return JsonValue(Array);
+}
+
+JsonValue JsonValue::null()
+{
+    return JsonValue(Null);
+}
+
+JsonValue JsonValue::yes()
+{
+    return JsonValue(true);
+}
+
+JsonValue JsonValue::no()
+{
+    return JsonValue(false);
+}
+
+JsonValue JsonValue::count(size_t c)
+{
+    return JsonValue((int64_t)c);
+}
+
+JsonValue JsonValue::integer(int64_t value)
+{
+    return JsonValue(value);
+}
+
+JsonValue JsonValue::number(double value)
+{
+    return JsonValue(value);
+}
+
+JsonValue JsonValue::string(const std::string_view& str)
+{
+    return JsonValue(str);
+}
+
+JsonValue JsonValue::base64(const ByteRange& data)
+{
+    return JsonValue(data.base64());
+}
+
+JsonValue JsonValue::base64Url(const ByteRange& data)
+{
+    return JsonValue(data.base64Url());
+}
+
+JsonValue JsonValue::hexString(const ByteRange& data)
+{
+    return JsonValue(data.hexadecimal());
 }
 
 } // namespace json

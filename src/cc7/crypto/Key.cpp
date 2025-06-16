@@ -15,6 +15,7 @@
  */
 
 #include <cc7/crypto/Key.h>
+#include <cc7/Base64.h>
 #include "CryptoPrivate.h"
 
 namespace cc7 {
@@ -27,11 +28,14 @@ std::string Key::exportKeyToBase64(KeyFormat format) const
     return exportKey(format).base64();
 }
 
-void Key::importKeyFromBase64(const std::string & base64Key, KeyFormat format)
+ByteArray Key::secureExportKeyToBase64(KeyFormat format) const
 {
-    ByteArray keyData;
-    keyData.readFromBase64(base64Key);
-    importKey(keyData, format);
+    return Base64::secureEncode(exportKey(format));
+}
+
+void Key::importKeyFromBase64(const std::string_view & base64Key, KeyFormat format)
+{
+    importKey(Base64::decode(base64Key), format);
 }
 
 } // cc7::crypto

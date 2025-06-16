@@ -42,5 +42,9 @@ std::vector<std::string> & SplitString(const std::string & str, char delim, std:
 /// - Returns: Vector of strings with each element found in the array.
 std::vector<std::string> SplitString(const std::string & str, char delimiter, bool skip_empty = true);
 
+/// Clears the memory allocated in the string with zeros before set length to zero.
+/// - Parameter str: String to cleanup
+void StringCleanup(std::string& str);
+
 } // namespace detail
 } // namespace cc7

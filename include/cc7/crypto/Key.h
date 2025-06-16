@@ -42,7 +42,9 @@ public:
     
     std::string exportKeyToBase64(KeyFormat format = KEY_FORMAT_DEFAULT) const;
     
-    void importKeyFromBase64(const std::string & base64Key, KeyFormat format = KEY_FORMAT_DEFAULT);
+    ByteArray secureExportKeyToBase64(KeyFormat format = KEY_FORMAT_DEFAULT) const;
+    
+    void importKeyFromBase64(const std::string_view & base64Key, KeyFormat format = KEY_FORMAT_DEFAULT);
 };
 
 typedef std::shared_ptr<Key> KeyPtr;

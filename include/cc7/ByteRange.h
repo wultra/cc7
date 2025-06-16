@@ -19,7 +19,7 @@
 #include <cc7/Platform.h>
 
 namespace cc7
-{   
+{
     class ByteRange
     {
     public:
@@ -269,6 +269,7 @@ namespace cc7
         std::string base64(size_t wrap_size) const;
         std::string base64() const noexcept;
         std::string base64Url() const noexcept;
+        
         std::string hexadecimal(bool lower_case = false) const noexcept;
         
             
@@ -339,6 +340,11 @@ namespace cc7
             return ByteRange(&zeros[0], &zeros[count]);
         }
         
+        std::string_view stringView() const
+        {
+            return std::string_view(reinterpret_cast<const char*>(data()), size());
+        }
+        
     protected:
             
         void _validateBeginEnd(const_pointer begin, const_pointer end)
@@ -404,7 +410,17 @@ namespace cc7
     {
         return ByteRange(str);
     }
-        
+
+    /**
+     Creates a new ByteRange object from given string view. All characters
+     from the string object excepts the NUL terminator, are captured
+     in the returned range.
+     */
+    inline ByteRange MakeRange(const std::string_view & str)
+    {
+        return ByteRange(str.data(), str.size());
+    }
+
     /**
      The template function captures any fundamental data type, or POD 
      structure in the returned ByteRange object.

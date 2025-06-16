@@ -22,17 +22,17 @@ namespace cc7 {
 
 // New methods
 
-void ByteArray::readFromBase64(const std::string & base64_string, size_t wrap_size)
+void ByteArray::readFromBase64(const std::string_view & base64_string, size_t wrap_size)
 {
     *this = Base64::decode(base64_string, wrap_size);
 }
 
-void ByteArray::readFromBase64Url(const std::string & base64url_string)
+void ByteArray::readFromBase64Url(const std::string_view & base64url_string)
 {
     *this = Base64::urlDecode(base64url_string);
 }
 
-void ByteArray::readFromHexadecimal(const std::string & hex_string)
+void ByteArray::readFromHexadecimal(const std::string_view & hex_string)
 {
     if (!HexString_Decode(hex_string, *this)) {
         throw std::domain_error("Input is not hexadecimal string");
@@ -54,6 +54,22 @@ std::string ByteArray::base64Url() const noexcept
     return Base64::urlEncode(*this);
 }
 
+ByteArray ByteArray::secureBase64(size_t wrap_size) const
+{
+    return Base64::secureEncode(*this, wrap_size);
+}
+
+ByteArray ByteArray::secureBase64() const noexcept
+{
+    return Base64::secureEncode(*this);
+}
+
+ByteArray ByteArray::secureBase64Url() const noexcept
+{
+    return Base64::secureUrlEncode(*this);
+}
+
+
 std::string ByteArray::hexadecimal(bool lower_case) const noexcept
 {
     std::string result;
@@ -64,12 +80,12 @@ std::string ByteArray::hexadecimal(bool lower_case) const noexcept
 
 // Legacy
 
-bool ByteArray::readFromBase64String(const std::string & base64_string, size_t wrap_size) noexcept
+bool ByteArray::readFromBase64String(const std::string_view & base64_string, size_t wrap_size) noexcept
 {
     return Base64_Decode(base64_string, wrap_size, *this);
 }
 
-bool ByteArray::readFromHexString(const std::string & hex_string) noexcept
+bool ByteArray::readFromHexString(const std::string_view & hex_string) noexcept
 {
     return HexString_Decode(hex_string, *this);
 }

@@ -65,5 +65,14 @@ std::vector<std::string> SplitString(const std::string & str, char delimiter, bo
 }
 
 
+void StringCleanup(std::string& str)
+{
+    if (!str.empty()) {
+        CC7_SecureClean(str.data(), str.size());
+        str.clear();
+    }
+}
+
+
 } // namespace detail
 } // namespace cc7

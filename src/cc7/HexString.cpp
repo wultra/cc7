@@ -43,7 +43,7 @@ bool HexString_Encode(const ByteRange & in_data, bool use_lowercase, std::string
 
 // MARK: Decoder -
 
-bool HexString_Decode(const std::string & in_string, ByteArray & out_data)
+bool HexString_Decode(const std::string_view & in_string, ByteArray & out_data)
 {
     size_t str_len = in_string.length();
     
@@ -51,7 +51,7 @@ bool HexString_Decode(const std::string & in_string, ByteArray & out_data)
     out_data.clear();
     out_data.reserve((str_len >> 1) + (str_len & 1));
     
-    const char * str_p = in_string.c_str();
+    const char * str_p = in_string.data();
     char lc, uc;
     byte lv, uv;
     if (str_len & 1) {

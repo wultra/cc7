@@ -140,22 +140,32 @@ namespace cc7
             return ByteArray(count, 0);
         }
         
+        std::string_view stringView() const
+        {
+            return std::string_view(reinterpret_cast<const char*>(data()), size());
+        }
+
+        
         // Legacy
-        bool readFromBase64String(const std::string & base64_string, size_t wrap_size = 0) noexcept;
-        bool readFromHexString(const std::string & hex_string) noexcept;
+        bool readFromBase64String(const std::string_view & base64_string, size_t wrap_size = 0) noexcept;
+        bool readFromHexString(const std::string_view & hex_string) noexcept;
         
         std::string base64String(size_t wrap_size = 0) const noexcept;
         std::string hexString(bool lower_case = false) const noexcept;
         
         // New methods
         
-        void readFromBase64(const std::string & base64_string, size_t wrap_size = 0);
-        void readFromBase64Url(const std::string & base64url_string);
-        void readFromHexadecimal(const std::string & hex_string);
+        void readFromBase64(const std::string_view & base64_string, size_t wrap_size = 0);
+        void readFromBase64Url(const std::string_view & base64url_string);
+        void readFromHexadecimal(const std::string_view & hex_string);
         
         std::string base64(size_t wrap_size) const;
         std::string base64() const noexcept;
         std::string base64Url() const noexcept;
+        ByteArray secureBase64(size_t wrap_size) const;
+        ByteArray secureBase64() const noexcept;
+        ByteArray secureBase64Url() const noexcept;
+
         std::string hexadecimal(bool lower_case = false) const noexcept;
     };
     

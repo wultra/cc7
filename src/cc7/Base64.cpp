@@ -113,7 +113,7 @@ static size_t _EstimateEncodedLength(size_t len, size_t wrap_output)
     return n;
 }
 
-static Result Base64Impl_Encode(const Spec & s, const ByteRange & range, size_t wrap_size, std::string & out_string) noexcept
+static Result Base64Impl_Encode(const Spec & s, const ByteRange & range, size_t wrap_size, ByteArray & out_string) noexcept
 {
     out_string.clear();
     
@@ -125,7 +125,7 @@ static Result Base64Impl_Encode(const Spec & s, const ByteRange & range, size_t 
     
     out_string.reserve(_EstimateEncodedLength(range.size(), wrap_size));
     
-    char block_4[4];
+    byte block_4[4];
     const byte * in_p   = range.data();
     size_t in_len       = range.size();
     size_t wrap_pos     = 0;
@@ -142,7 +142,7 @@ static Result Base64Impl_Encode(const Spec & s, const ByteRange & range, size_t 
         if (wrap_size) {
             wrap_pos += 4;
             if (wrap_pos >= wrap_size) {
-                out_string.append("\n");
+                out_string.append('\n');
                 wrap_pos = 0;
             }
         }
@@ -166,7 +166,7 @@ static Result Base64Impl_Encode(const Spec & s, const ByteRange & range, size_t 
 // MARK: - Decoder
 
 static Result Base64Impl_DecodeNoWrap(const Spec & s,
-                                      const std::string & str, size_t sequence_start, size_t sequence_length,
+                                      const std::string_view & str, size_t sequence_start, size_t sequence_length,
                                       ByteArray & out_data,
                                       bool & end_marker) noexcept
 {
@@ -205,7 +205,7 @@ static Result Base64Impl_DecodeNoWrap(const Spec & s,
     out_data.reserve(out_data.size() + block_size);
     
     // Input pointer
-    const byte * block_4 = reinterpret_cast<const byte*>(str.c_str()) + sequence_start;
+    const byte * block_4 = reinterpret_cast<const byte*>(str.data()) + sequence_start;
     
     if (s.padding) {
         // If padding character is specified, then check if last block contains padding and thus requires
@@ -309,7 +309,7 @@ static Result Base64Impl_DecodeNoWrap(const Spec & s,
     return RESULT_OK;
 }
 
-static Result Base64Impl_Decode(const Spec& s, const std::string & string, size_t wrap_size, ByteArray & out_data) noexcept
+static Result Base64Impl_Decode(const Spec& s, const std::string_view & string, size_t wrap_size, ByteArray & out_data) noexcept
 {
     Result result = RESULT_WRONG_DATA;
     out_data.clear();
@@ -336,8 +336,8 @@ static Result Base64Impl_Decode(const Spec& s, const std::string & string, size_
         out_data.reserve(byte_size);
         
         // Current & End pointer
-        const char * str_p   = string.c_str();
-        const char * str_end = string.c_str() + string.length();
+        const char * str_p   = string.data();
+        const char * str_end = string.data()+ string.length();
         result = RESULT_OK;
         
         bool end_marker = false;
@@ -369,7 +369,7 @@ static Result Base64Impl_Decode(const Spec& s, const std::string & string, size_
                     return RESULT_WRONG_DATA;
                 }
                 // The rest of the decoding is handled in the "NoWrap" routine.
-                result = Base64Impl_DecodeNoWrap(s, string, line_begin - string.c_str(), line_length, out_data, end_marker);
+                result = Base64Impl_DecodeNoWrap(s, string, line_begin - string.data(), line_length, out_data, end_marker);
             }
         }
         //
@@ -401,12 +401,19 @@ static void throwIfNOK(Result r, const Spec& s)
 
 std::string Base64::encode(const ByteRange &data, size_t wrap_size)
 {
-    std::string out;
+    ByteArray out;
+    throwIfNOK(Base64Impl_Encode(spec_BASE64, data, wrap_size, out), spec_BASE64);
+    return std::string(reinterpret_cast<const char*>(out.data()), out.size());
+}
+
+ByteArray Base64::secureEncode(const ByteRange &data, size_t wrap_size)
+{
+    ByteArray out;
     throwIfNOK(Base64Impl_Encode(spec_BASE64, data, wrap_size, out), spec_BASE64);
     return out;
 }
 
-ByteArray Base64::decode(const std::string& data, size_t wrap_size)
+ByteArray Base64::decode(const std::string_view& data, size_t wrap_size)
 {
     ByteArray out;
     throwIfNOK(Base64Impl_Decode(spec_BASE64, data, wrap_size, out), spec_BASE64);
@@ -415,12 +422,19 @@ ByteArray Base64::decode(const std::string& data, size_t wrap_size)
 
 std::string Base64::urlEncode(const ByteRange& data) noexcept
 {
-    std::string out;
+    ByteArray out;
+    Base64Impl_Encode(spec_BASE64_URL, data, 0, out);
+    return std::string(reinterpret_cast<const char*>(out.data()), out.size());
+}
+
+ByteArray Base64::secureUrlEncode(const ByteRange& data) noexcept
+{
+    ByteArray out;
     Base64Impl_Encode(spec_BASE64_URL, data, 0, out);
     return out;
 }
 
-ByteArray Base64::urlDecode(const std::string& data)
+ByteArray Base64::urlDecode(const std::string_view& data)
 {
     ByteArray out;
     throwIfNOK(Base64Impl_Decode(spec_BASE64_URL, data, 0, out), spec_BASE64_URL);
@@ -433,10 +447,16 @@ ByteArray Base64::urlDecode(const std::string& data)
 
 bool Base64_Encode(const ByteRange & in_data, size_t wrap_size, std::string & out_string) noexcept
 {
-    return Base64Impl_Encode(spec_BASE64, in_data, wrap_size, out_string) == RESULT_OK;
+    ByteArray out;
+    if (Base64Impl_Encode(spec_BASE64, in_data, wrap_size, out) == RESULT_OK) {
+        out_string.assign(reinterpret_cast<const char*>(out.data()), out.size());
+        return true;
+    }
+    out_string.clear();
+    return false;
 }
 
-bool Base64_Decode(const std::string & in_string, size_t wrap_size, ByteArray & out_data) noexcept
+bool Base64_Decode(const std::string_view & in_string, size_t wrap_size, ByteArray & out_data) noexcept
 {
     return Base64Impl_Decode(spec_BASE64, in_string, wrap_size, out_data) == RESULT_OK;
 }
@@ -444,7 +464,7 @@ bool Base64_Decode(const std::string & in_string, size_t wrap_size, ByteArray & 
 std::string ToBase64String(const ByteRange & data, size_t wrap_size) noexcept
 {
     std::string result;
-    Base64Impl_Encode(spec_BASE64, data, wrap_size, result);
+    Base64_Encode(data, wrap_size, result);
     return result;
 }
 

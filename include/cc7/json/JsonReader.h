@@ -29,12 +29,12 @@ public:
     JsonReader();
     
     JsonValue parse(const ByteRange& data);
-    JsonValue parse(const std::string& string);
+    JsonValue parse(const std::string_view& string);
     
     const std::string& getErrorMessage() const;
     
     static JsonValue fromJsonData(const ByteRange& data);
-    static JsonValue fromJsonString(const std::string& string);
+    static JsonValue fromJsonString(const std::string_view& string);
         
 private:
     
@@ -45,6 +45,7 @@ private:
     
     bool isEnd();
     const cc7::byte * dataPtr();
+    const cc7::byte * dataOffset(size_t offset);
     const char * charPtr(size_t offset);
     cc7::byte getChar();
     const cc7::byte * shouldReadPtr(size_t requiredSize);
@@ -61,7 +62,7 @@ private:
     JsonValue parseArray();
     JsonValue parseObject();
     JsonValue parseString();
-    bool parseEscapedCharacter(std::string & result);
+    bool parseEscapedCharacter(ByteArray & result);
     JsonValue parseNumber();
     
     // Private Members

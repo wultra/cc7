@@ -17,6 +17,8 @@
 #pragma once
 
 #include <cc7/ByteArray.h>
+#include <cc7/Base64.h>
+#include <cc7/detail/StringUtils.h>
 #include <map>
 #include <vector>
 
@@ -65,6 +67,10 @@ public:
         _string = new TString(v);
     }
     explicit JsonValue(const TString& v) : _t(String)
+    {
+        _string = new TString(v);
+    }
+    explicit JsonValue(const std::string_view& v) : _t(String)
     {
         _string = new TString(v);
     }
@@ -245,6 +251,10 @@ public:
         return _boolean;
     }
     
+    ByteArray asBase64() const;
+    ByteArray asBase64Url() const;
+    ByteArray asHexString() const;
+        
     bool isNull() const
     {
         return _t == Null;
@@ -317,11 +327,20 @@ public:
     
     // Static constructs
     
-    static JsonValue object() { return JsonValue(Object); }
-    static JsonValue array() { return JsonValue(Array); }
-    static JsonValue null() { return JsonValue(Null); }
-    static JsonValue yes() { return JsonValue(true); }
-    static JsonValue no() { return JsonValue(false); }
+    static JsonValue object();
+    static JsonValue array();
+    static JsonValue null();
+    static JsonValue yes();
+    static JsonValue no();
+    static JsonValue count(size_t c);
+    static JsonValue integer(int64_t value);
+    static JsonValue number(double value);
+    static JsonValue string(const std::string_view& str);
+
+    static JsonValue base64(const ByteRange& data);
+    static JsonValue base64Url(const ByteRange& data);
+    static JsonValue hexString(const ByteRange& data);
+    
     
     // Debug
     
@@ -350,9 +369,16 @@ private:
     void destroy()
     {
         switch (_t) {
-            case Object: delete _object; break;
-            case Array:  delete _array; break;
-            case String: delete _string; break;
+            case Object:
+                delete _object;
+                break;
+            case Array:
+                delete _array;
+                break;
+            case String:
+                detail::StringCleanup(*_string);
+                delete _string;
+                break;
             default:
                 break;
         }

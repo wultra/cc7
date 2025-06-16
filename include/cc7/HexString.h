@@ -30,7 +30,7 @@ namespace cc7
      Converts hexadecimal encoded string into ByteArray. Returns false if the
      input string is not a valid hexadecimal string.
      */
-    bool HexString_Decode(const std::string & in_string, ByteArray & out_data);
+    bool HexString_Decode(const std::string_view & in_string, ByteArray & out_data);
     
     /**
      Converts input byte range into hexadecimal upper, or lowercase string. 
@@ -50,7 +50,7 @@ namespace cc7
      function may be easier to use, but unlike the HexString_Decode(), you are not
      able to determine whether the error occured or not.
      */
-    inline ByteArray FromHexString(const std::string & string)
+    inline ByteArray FromHexString(const std::string_view & string)
     {
         ByteArray result;
         HexString_Decode(string, result);
