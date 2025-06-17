@@ -99,7 +99,6 @@
 		BF1C7BBF1CE0CE9300C4399E /* cc7PlatformTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1C7BBE1CE0CE9300C4399E /* cc7PlatformTests.cpp */; };
 		BF22BDFD2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF22BDFC2476995A00029A38 /* cc7OpenSSLIntegration.cpp */; };
 		BF22BDFE2476995A00029A38 /* cc7OpenSSLIntegration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF22BDFC2476995A00029A38 /* cc7OpenSSLIntegration.cpp */; };
-		BF30683A1CC91BA6002FD3BC /* libcc7-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB1A6B41CB5937800B2D172 /* libcc7-ios.a */; };
 		BF3068521CC91E56002FD3BC /* TestManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068511CC91E56002FD3BC /* TestManager.cpp */; };
 		BF3068551CC91EE4002FD3BC /* UnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068541CC91EE4002FD3BC /* UnitTest.cpp */; };
 		BF3068581CC95503002FD3BC /* TestLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068571CC95503002FD3BC /* TestLog.cpp */; };
@@ -183,6 +182,9 @@
 		BF4D85FD2DEDAB6500D32F55 /* URLEncodingTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F92DEDAB6500D32F55 /* URLEncodingTests.cpp */; };
 		BF4D85FE2DEDAB6500D32F55 /* DataWriterReaderTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F82DEDAB6500D32F55 /* DataWriterReaderTests.cpp */; };
 		BF4D85FF2DEDAB6500D32F55 /* URLEncodingTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F92DEDAB6500D32F55 /* URLEncodingTests.cpp */; };
+		BF4D869D2E0156EB00D32F55 /* libcc7-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB1A6B41CB5937800B2D172 /* libcc7-ios.a */; };
+		BF4D869E2E01570600D32F55 /* libcc7-tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFFE8AAF2449B4F80032821F /* libcc7-tvos.a */; };
+		BF4D869F2E01570D00D32F55 /* libcc7-tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFFE8AAF2449B4F80032821F /* libcc7-tvos.a */; };
 		BF5A00092DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000A2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000B2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
@@ -258,7 +260,6 @@
 		BF8EEC2526662A0B009AC5FD /* UnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068541CC91EE4002FD3BC /* UnitTest.cpp */; };
 		BF8EEC2626662A0B009AC5FD /* cc7ByteRangeTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498ACB1CDDD80700D7E904 /* cc7ByteRangeTests.cpp */; };
 		BF8EEC2726662A0B009AC5FD /* TestDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494001CE8E79400F8D81B /* TestDirectory.cpp */; };
-		BF8EEC3426662A7B009AC5FD /* libcc7-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8EEC0E26662A01009AC5FD /* libcc7-macos.a */; };
 		BF8EEC3526662A8F009AC5FD /* libcc7tests-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8EEC2F26662A0B009AC5FD /* libcc7tests-macos.a */; };
 		BF9FFBC51CE3AEFE006CAA74 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC41CE3AEFE006CAA74 /* Base64.cpp */; };
 		BF9FFBC71CE3B94D006CAA74 /* HexString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC61CE3B94D006CAA74 /* HexString.cpp */; };
@@ -303,7 +304,6 @@
 		BFFE8AC52449B53C0032821F /* UnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068541CC91EE4002FD3BC /* UnitTest.cpp */; };
 		BFFE8AC62449B53C0032821F /* cc7ByteRangeTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498ACB1CDDD80700D7E904 /* cc7ByteRangeTests.cpp */; };
 		BFFE8AC72449B53C0032821F /* TestDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494001CE8E79400F8D81B /* TestDirectory.cpp */; };
-		BFFE8AD32449B5520032821F /* libcc7-tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFFE8AAF2449B4F80032821F /* libcc7-tvos.a */; };
 		BFFE8AD82449B5820032821F /* CC7TestWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */; };
 		BFFE8AE12449B59D0032821F /* libcc7tests-tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFFE8ACF2449B53C0032821F /* libcc7tests-tvos.a */; };
 /* End PBXBuildFile section */
@@ -652,7 +652,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF30683A1CC91BA6002FD3BC /* libcc7-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,6 +659,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4D869D2E0156EB00D32F55 /* libcc7-ios.a in Frameworks */,
 				BF498AA71CDCBE8400D7E904 /* libcc7tests-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -668,6 +668,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4D869F2E01570D00D32F55 /* libcc7-tvos.a in Frameworks */,
 				BF8EEC3526662A8F009AC5FD /* libcc7tests-macos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -683,7 +684,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF8EEC3426662A7B009AC5FD /* libcc7-macos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,7 +705,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFFE8AD32449B5520032821F /* libcc7-tvos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,6 +712,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4D869E2E01570600D32F55 /* libcc7-tvos.a in Frameworks */,
 				BFFE8AE12449B59D0032821F /* libcc7tests-tvos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
