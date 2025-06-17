@@ -55,6 +55,7 @@ namespace tests
         // cc7/json-jwt frameworks tests
         CC7_ADD_UNIT_TEST(JsonReaderTests, list);
         CC7_ADD_UNIT_TEST(JsonWriterTests, list);
+        CC7_ADD_UNIT_TEST(JsonValueTests, list);
         CC7_ADD_UNIT_TEST(JwtTests, list);
         
         

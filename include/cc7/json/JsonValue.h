@@ -59,6 +59,9 @@ public:
         }
     }
     
+    explicit JsonValue(std::initializer_list<TObject::value_type> list) : _t(Object), _object(new TObject(list)) {}
+    explicit JsonValue(std::initializer_list<TArray::value_type> list)  : _t(Array),  _array(new TArray(list)) {}
+    
     explicit JsonValue(bool v)      : _t(Boolean), _boolean(v) {}
     explicit JsonValue(int64_t v)   : _t(Integer), _integer(v) {}
     explicit JsonValue(double v)    : _t(Double),  _double(v) {}
@@ -186,6 +189,13 @@ public:
         _t = Null;
     }
     
+    // Append
+    
+    void pushBack(const JsonValue& value)
+    {
+        asMutableArray().push_back(value);
+    }
+    
     // casting
     
     Type type() const
@@ -255,17 +265,17 @@ public:
     ByteArray asBase64Url() const;
     ByteArray asHexString() const;
         
-    bool isNull() const
+    bool isNull() const noexcept
     {
         return _t == Null;
     }
     
-    bool isValid() const
+    bool isValid() const noexcept
     {
         return _t != NaT;
     }
     
-    bool isType(Type t) const
+    bool isType(Type t) const noexcept
     {
         return _t == t;
     }
@@ -326,16 +336,20 @@ public:
     void assignHexString(const cc7::ByteRange & data);
     
     // Static constructs
-    
-    static JsonValue object();
-    static JsonValue array();
+
     static JsonValue null();
     static JsonValue yes();
     static JsonValue no();
+    static JsonValue object();
+    static JsonValue array();
+    static JsonValue string();
+    static JsonValue object(std::initializer_list<TObject::value_type> list);
+    static JsonValue array(std::initializer_list<TArray::value_type> list);
+    static JsonValue string(const std::string_view& str);
+    
     static JsonValue count(size_t c);
     static JsonValue integer(int64_t value);
     static JsonValue number(double value);
-    static JsonValue string(const std::string_view& str);
 
     static JsonValue base64(const ByteRange& data);
     static JsonValue base64Url(const ByteRange& data);

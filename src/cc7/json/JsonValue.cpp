@@ -209,6 +209,26 @@ JsonValue JsonValue::array()
     return JsonValue(Array);
 }
 
+JsonValue JsonValue::string()
+{
+    return JsonValue(String);
+}
+
+JsonValue JsonValue::object(std::initializer_list<TObject::value_type> list)
+{
+    return JsonValue(list);
+}
+
+JsonValue JsonValue::array(std::initializer_list<TArray::value_type> list)
+{
+    return JsonValue(list);
+}
+
+JsonValue JsonValue::string(const std::string_view& str)
+{
+    return JsonValue(str);
+}
+
 JsonValue JsonValue::null()
 {
     return JsonValue(Null);
@@ -237,11 +257,6 @@ JsonValue JsonValue::integer(int64_t value)
 JsonValue JsonValue::number(double value)
 {
     return JsonValue(value);
-}
-
-JsonValue JsonValue::string(const std::string_view& str)
-{
-    return JsonValue(str);
 }
 
 JsonValue JsonValue::base64(const ByteRange& data)

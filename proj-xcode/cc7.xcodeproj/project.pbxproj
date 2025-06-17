@@ -84,6 +84,9 @@
 		BF0059502D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
 		BF0059512D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
 		BF0059522D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
+		BF0825D92E0167B400B89A68 /* JsonValueTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */; };
+		BF0825DA2E0167B400B89A68 /* JsonValueTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */; };
+		BF0825DB2E0167B400B89A68 /* JsonValueTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */; };
 		BF14D45B2DD324CD00BA7F51 /* AEADTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF14D45A2DD324CD00BA7F51 /* AEADTests.cpp */; };
 		BF14D45C2DD324CD00BA7F51 /* AEADTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF14D45A2DD324CD00BA7F51 /* AEADTests.cpp */; };
 		BF14D45D2DD324CD00BA7F51 /* AEADTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF14D45A2DD324CD00BA7F51 /* AEADTests.cpp */; };
@@ -477,6 +480,7 @@
 		BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ECKeyPair.cpp; sourceTree = "<group>"; };
 		BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SymmetricKey.cpp; sourceTree = "<group>"; };
 		BF0059592DA025CD00C0F3AF /* SymmetricKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SymmetricKey.h; sourceTree = "<group>"; };
+		BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JsonValueTests.cpp; sourceTree = "<group>"; };
 		BF0D67EF1CE63DF90070D853 /* PrefixCC7.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixCC7.pch; sourceTree = "<group>"; };
 		BF0D67F01CE63EDA0070D853 /* PrefixCC7Tests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixCC7Tests.pch; sourceTree = "<group>"; };
 		BF14D4592DD3233D00BA7F51 /* aead-test-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "aead-test-data.json"; sourceTree = "<group>"; };
@@ -991,6 +995,7 @@
 			children = (
 				BF4D85822DE5D01F00D32F55 /* JsonReaderTests.cpp */,
 				BF4D85862DE5D0B200D32F55 /* JsonWriterTests.cpp */,
+				BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */,
 			);
 			path = cc7json;
 			sourceTree = "<group>";
@@ -1604,6 +1609,7 @@
 				BF9FFBCA1CE3BF08006CAA74 /* cc7Base64Tests.cpp in Sources */,
 				BF4D85832DE5D01F00D32F55 /* JsonReaderTests.cpp in Sources */,
 				BF0059382D9E72F300C0F3AF /* MessageDigestTests.cpp in Sources */,
+				BF0825D92E0167B400B89A68 /* JsonValueTests.cpp in Sources */,
 				BF0059392D9E72F300C0F3AF /* MACTests.cpp in Sources */,
 				BF14D45C2DD324CD00BA7F51 /* AEADTests.cpp in Sources */,
 				BF4D85ED2DEA087D00D32F55 /* JwtTests.cpp in Sources */,
@@ -1725,6 +1731,7 @@
 				BF8EEC1326662A0B009AC5FD /* cc7Base64Tests.cpp in Sources */,
 				BF4D85842DE5D01F00D32F55 /* JsonReaderTests.cpp in Sources */,
 				BF00593A2D9E72F300C0F3AF /* MessageDigestTests.cpp in Sources */,
+				BF0825DA2E0167B400B89A68 /* JsonValueTests.cpp in Sources */,
 				BF00593B2D9E72F300C0F3AF /* MACTests.cpp in Sources */,
 				BF14D45B2DD324CD00BA7F51 /* AEADTests.cpp in Sources */,
 				BF4D85EC2DEA087D00D32F55 /* JwtTests.cpp in Sources */,
@@ -1895,6 +1902,7 @@
 				BFFE8AB42449B53C0032821F /* cc7Base64Tests.cpp in Sources */,
 				BF4D85852DE5D01F00D32F55 /* JsonReaderTests.cpp in Sources */,
 				BF0059362D9E72F300C0F3AF /* MessageDigestTests.cpp in Sources */,
+				BF0825DB2E0167B400B89A68 /* JsonValueTests.cpp in Sources */,
 				BF0059372D9E72F300C0F3AF /* MACTests.cpp in Sources */,
 				BF14D45D2DD324CD00BA7F51 /* AEADTests.cpp in Sources */,
 				BF4D85EE2DEA087D00D32F55 /* JwtTests.cpp in Sources */,

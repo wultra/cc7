@@ -24,131 +24,131 @@ namespace cc7
 {
 namespace tests
 {
-    extern TestDirectory g_testFiles;
+extern TestDirectory g_testFiles;
+
+class JsonReaderTests : public UnitTest
+{
+public:
+    std::string _json1;
     
-    class JsonReaderTests : public UnitTest
+    JsonReaderTests()
     {
-    public:
-        std::string _json1;
+        CC7_REGISTER_TEST_METHOD(testSimpleJsonString)
+        CC7_REGISTER_TEST_METHOD(testSimpleJsonFile)
+        CC7_REGISTER_TEST_METHOD(testComplexJson)
         
-        JsonReaderTests()
-        {
-            CC7_REGISTER_TEST_METHOD(testSimpleJsonString)
-            CC7_REGISTER_TEST_METHOD(testSimpleJsonFile)
-            CC7_REGISTER_TEST_METHOD(testComplexJson)
-            
-            loadJsonData();
-        }
-        
-        void loadJsonData()
-        {
-            _json1 =  u8"{"
-                        " \"key1\" : \"value1\","
-                        " \"true\" : true,"
-                        " \"false\" : false,"
-                        " \"empty\" : null,"
-                        " \"object\" :"
-                        " { "
-                        "   \"xxx\" : \"this is xxx\","
-                        "   \"yyy\" : false,"
-                        "    \"zzz\":{ "
-                        "     \"integer\" : 64,"
-                        "     \"double\"  : 6.4,"
-                        "     \"unicode1\":\"Ľalie poľné\","
-                        "     \"unicode2\":\"\\u013dalie po\\u013En\\u00E9\""
-                        "   }"
-                        " },"
-                        " \"array\" :"
-                        " ["
-                        "       \"a\", \"b\", \"c\", true,"
-                        "       {\"sub-array\":[1,2,3,4]},"
-                        "       {\"sub-array\":[1.1,2.2,3.3,4.4]},"
-                        "       {\"sub-array\":[-1,-1.1,1e3,3.2e-1]}"
-                        " ]"
-                        "}";
-        }
-        
-        // UNIT TESTS
-        
-        void testSimpleJsonString()
-        {
-            auto root = JsonReader::fromJsonString(_json1);
-            simpleJsonValidation(root);
-        }
-        
-        void testSimpleJsonFile()
-        {
-            auto root = JSON_ParseFile(g_testFiles, "test-data/json-simple.json");
-            simpleJsonValidation(root);
-        }
-        
-        void simpleJsonValidation(const JsonValue & root)
-        {
-            ccstAssertEqual(root.valueAtPath("key1").asString(), "value1");
-            ccstAssertEqual(root.booleanAtPath("true"), true);
-            ccstAssertEqual(root.booleanAtPath("false"), false);
-            ccstAssertEqual(root.valueAtPath("empty").isNull(), true);
-            ccstAssertEqual(root.valueAtPath("object").isType(JsonValue::Object), true);
-            ccstAssertEqual(root.valueAtPath("array").isType(JsonValue::Array), true);
-            
-            ccstAssertEqual(root.stringAtPath("object.xxx"), "this is xxx");
-            ccstAssertEqual(root.booleanAtPath("object.yyy"), false);
-            ccstAssertEqual(root.integerAtPath("object.zzz.integer"), 64);
-            ccstAssertEqual(root.doubleAtPath("object.zzz.double"), 6.4);
-            ccstAssertEqual(root.stringAtPath("object.zzz.unicode1"), u8"Ľalie poľné");
-            ccstAssertEqual(root.stringAtPath("object.zzz.unicode2"), u8"Ľalie poľné");
-            
-            auto&& array = root.arrayAtPath("array");
-            ccstAssertEqual(array[0].asString(), "a");
-            ccstAssertEqual(array[1].asString(), "b");
-            ccstAssertEqual(array[2].asString(), "c");
-            ccstAssertEqual(array[3].asBoolean(), true);
-            ccstAssertEqual(array[4].isType(JsonValue::Object), true);
-            ccstAssertEqual(array[5].isType(JsonValue::Object), true);
-            ccstAssertEqual(array[6].isType(JsonValue::Object), true);
-            
-            auto&& array2 = array[4].arrayAtPath("sub-array");
-            ccstAssertEqual(array2[0].asInteger(), 1);
-            ccstAssertEqual(array2[1].asInteger(), 2);
-            ccstAssertEqual(array2[2].asInteger(), 3);
-            ccstAssertEqual(array2[3].asInteger(), 4);
-            auto&& array3 = array[5].arrayAtPath("sub-array");
-            ccstAssertEqual(array3[0].asDouble(), 1.1);
-            ccstAssertEqual(array3[1].asDouble(), 2.2);
-            ccstAssertEqual(array3[2].asDouble(), 3.3);
-            ccstAssertEqual(array3[3].asDouble(), 4.4);
-            auto&& array4 = array[6].arrayAtPath("sub-array");
-            ccstAssertEqual(array4[0].asInteger(), -1);
-            ccstAssertEqual(array4[1].asDouble(), -1.1);
-            ccstAssertEqual(array4[2].asDouble(), 1e3);
-            ccstAssertEqual(array4[3].asDouble(), 3.2e-1);
-        }
-        
-        void testComplexJson()
-        {
-            //
-            // The complex test file was grabbed from http://json.org/example.html
-            //
-            auto root = JSON_ParseFile(g_testFiles, "test-data/json-complex.json");
-            ccstAssertTrue(root.isType(JsonValue::Object));
-            ccstAssertEqual(root.stringAtPath("web-app.servlet-mapping.cofaxEmail"), "/cofaxutil/aemail/*");
-            ccstAssertEqual(root.stringAtPath("web-app.taglib.taglib-location"), "/WEB-INF/tlds/cofax.tld");
-            
-            std::vector<std::string> servlet_names({
-                "cofaxCDS", "cofaxEmail", "cofaxAdmin", "fileServlet", "cofaxTools"
-            });
-            
-            auto&& servlets = root.arrayAtPath("web-app.servlet");
-            ccstAssertEqual(servlets.size(), servlet_names.size());
-            for (auto i = 0; i < servlets.size(); i++) {
-                auto&& our_name = servlets.at(i).stringAtPath("servlet-name");
-                auto&& exp_name = servlet_names.at(i);
-                ccstAssertEqual(our_name, exp_name);
-            }
-        }
-    };
+        loadJsonData();
+    }
     
-    CC7_CREATE_UNIT_TEST(JsonReaderTests, "cc7 test")
+    void loadJsonData()
+    {
+        _json1 =  u8"{"
+                    " \"key1\" : \"value1\","
+                    " \"true\" : true,"
+                    " \"false\" : false,"
+                    " \"empty\" : null,"
+                    " \"object\" :"
+                    " { "
+                    "   \"xxx\" : \"this is xxx\","
+                    "   \"yyy\" : false,"
+                    "    \"zzz\":{ "
+                    "     \"integer\" : 64,"
+                    "     \"double\"  : 6.4,"
+                    "     \"unicode1\":\"Ľalie poľné\","
+                    "     \"unicode2\":\"\\u013dalie po\\u013En\\u00E9\""
+                    "   }"
+                    " },"
+                    " \"array\" :"
+                    " ["
+                    "       \"a\", \"b\", \"c\", true,"
+                    "       {\"sub-array\":[1,2,3,4]},"
+                    "       {\"sub-array\":[1.1,2.2,3.3,4.4]},"
+                    "       {\"sub-array\":[-1,-1.1,1e3,3.2e-1]}"
+                    " ]"
+                    "}";
+    }
+    
+    // UNIT TESTS
+    
+    void testSimpleJsonString()
+    {
+        auto root = JsonReader::fromJsonString(_json1);
+        simpleJsonValidation(root);
+    }
+    
+    void testSimpleJsonFile()
+    {
+        auto root = JSON_ParseFile(g_testFiles, "test-data/json-simple.json");
+        simpleJsonValidation(root);
+    }
+    
+    void simpleJsonValidation(const JsonValue & root)
+    {
+        ccstAssertEqual(root.valueAtPath("key1").asString(), "value1");
+        ccstAssertEqual(root.booleanAtPath("true"), true);
+        ccstAssertEqual(root.booleanAtPath("false"), false);
+        ccstAssertEqual(root.valueAtPath("empty").isNull(), true);
+        ccstAssertEqual(root.valueAtPath("object").isType(JsonValue::Object), true);
+        ccstAssertEqual(root.valueAtPath("array").isType(JsonValue::Array), true);
+        
+        ccstAssertEqual(root.stringAtPath("object.xxx"), "this is xxx");
+        ccstAssertEqual(root.booleanAtPath("object.yyy"), false);
+        ccstAssertEqual(root.integerAtPath("object.zzz.integer"), 64);
+        ccstAssertEqual(root.doubleAtPath("object.zzz.double"), 6.4);
+        ccstAssertEqual(root.stringAtPath("object.zzz.unicode1"), u8"Ľalie poľné");
+        ccstAssertEqual(root.stringAtPath("object.zzz.unicode2"), u8"Ľalie poľné");
+        
+        auto&& array = root.arrayAtPath("array");
+        ccstAssertEqual(array[0].asString(), "a");
+        ccstAssertEqual(array[1].asString(), "b");
+        ccstAssertEqual(array[2].asString(), "c");
+        ccstAssertEqual(array[3].asBoolean(), true);
+        ccstAssertEqual(array[4].isType(JsonValue::Object), true);
+        ccstAssertEqual(array[5].isType(JsonValue::Object), true);
+        ccstAssertEqual(array[6].isType(JsonValue::Object), true);
+        
+        auto&& array2 = array[4].arrayAtPath("sub-array");
+        ccstAssertEqual(array2[0].asInteger(), 1);
+        ccstAssertEqual(array2[1].asInteger(), 2);
+        ccstAssertEqual(array2[2].asInteger(), 3);
+        ccstAssertEqual(array2[3].asInteger(), 4);
+        auto&& array3 = array[5].arrayAtPath("sub-array");
+        ccstAssertEqual(array3[0].asDouble(), 1.1);
+        ccstAssertEqual(array3[1].asDouble(), 2.2);
+        ccstAssertEqual(array3[2].asDouble(), 3.3);
+        ccstAssertEqual(array3[3].asDouble(), 4.4);
+        auto&& array4 = array[6].arrayAtPath("sub-array");
+        ccstAssertEqual(array4[0].asInteger(), -1);
+        ccstAssertEqual(array4[1].asDouble(), -1.1);
+        ccstAssertEqual(array4[2].asDouble(), 1e3);
+        ccstAssertEqual(array4[3].asDouble(), 3.2e-1);
+    }
+    
+    void testComplexJson()
+    {
+        //
+        // The complex test file was grabbed from http://json.org/example.html
+        //
+        auto root = JSON_ParseFile(g_testFiles, "test-data/json-complex.json");
+        ccstAssertTrue(root.isType(JsonValue::Object));
+        ccstAssertEqual(root.stringAtPath("web-app.servlet-mapping.cofaxEmail"), "/cofaxutil/aemail/*");
+        ccstAssertEqual(root.stringAtPath("web-app.taglib.taglib-location"), "/WEB-INF/tlds/cofax.tld");
+        
+        std::vector<std::string> servlet_names({
+            "cofaxCDS", "cofaxEmail", "cofaxAdmin", "fileServlet", "cofaxTools"
+        });
+        
+        auto&& servlets = root.arrayAtPath("web-app.servlet");
+        ccstAssertEqual(servlets.size(), servlet_names.size());
+        for (auto i = 0; i < servlets.size(); i++) {
+            auto&& our_name = servlets.at(i).stringAtPath("servlet-name");
+            auto&& exp_name = servlet_names.at(i);
+            ccstAssertEqual(our_name, exp_name);
+        }
+    }
+};
+
+CC7_CREATE_UNIT_TEST(JsonReaderTests, "cc7 test")
     
 } // cc7::tests
 } // cc7
