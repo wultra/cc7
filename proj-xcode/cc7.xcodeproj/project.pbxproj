@@ -75,9 +75,6 @@
 		BF00593E2D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
 		BF00593F2D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
 		BF0059402D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
-		BF0059412D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
-		BF0059422D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
-		BF0059432D9E7E0300C0F3AF /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
 		BF0059462D9E927200C0F3AF /* MLDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059452D9E927200C0F3AF /* MLDSA.cpp */; };
 		BF0059472D9E927200C0F3AF /* MLDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059452D9E927200C0F3AF /* MLDSA.cpp */; };
 		BF0059482D9E927200C0F3AF /* MLDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059452D9E927200C0F3AF /* MLDSA.cpp */; };
@@ -1635,7 +1632,6 @@
 				BF5A003F2DAE486D0068992F /* ImportKeyTests.cpp in Sources */,
 				BF498ACD1CDDDABE00D7E904 /* cc7ByteRangeTests.cpp in Sources */,
 				BF5A000A2DA53F570068992F /* SignatureTests.cpp in Sources */,
-				BF0059412D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
 				BFB494011CE8E79400F8D81B /* TestDirectory.cpp in Sources */,
 				BF00592C2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */,
 			);
@@ -1757,7 +1753,6 @@
 				BF5A003D2DAE486D0068992F /* ImportKeyTests.cpp in Sources */,
 				BF8EEC2626662A0B009AC5FD /* cc7ByteRangeTests.cpp in Sources */,
 				BF5A00092DA53F570068992F /* SignatureTests.cpp in Sources */,
-				BF0059432D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
 				BF8EEC2726662A0B009AC5FD /* TestDirectory.cpp in Sources */,
 				BF00592B2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */,
 			);
@@ -1928,7 +1923,6 @@
 				BF5A003E2DAE486D0068992F /* ImportKeyTests.cpp in Sources */,
 				BFFE8AC62449B53C0032821F /* cc7ByteRangeTests.cpp in Sources */,
 				BF5A000B2DA53F570068992F /* SignatureTests.cpp in Sources */,
-				BF0059422D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
 				BFFE8AC72449B53C0032821F /* TestDirectory.cpp in Sources */,
 				BF00592D2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */,
 			);
