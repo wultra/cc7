@@ -189,12 +189,13 @@ public:
         _t = Null;
     }
     
-    // Append
+    // Append / Insert
     
-    void pushBack(const JsonValue& value)
-    {
-        asMutableArray().push_back(value);
-    }
+    void reserve(size_t count);
+    void pushBack(const JsonValue& value);
+    void pushBack(std::initializer_list<TArray::value_type> list);
+    void insert(const std::string& key, const JsonValue& value);
+    void insert(std::initializer_list<TObject::value_type> list);
     
     // casting
     

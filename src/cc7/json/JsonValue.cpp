@@ -181,6 +181,38 @@ ByteArray JsonValue::asHexString() const
     return FromHexString(*_string);
 }
 
+// Append / Insert
+
+void JsonValue::reserve(size_t count)
+{
+    switch (_t) {
+        case Array: _array->reserve(count); break;
+        case String: _string->reserve(count); break;
+        default: break;
+    }
+}
+
+void JsonValue::pushBack(const JsonValue &value)
+{
+    asMutableArray().push_back(value);
+}
+
+void JsonValue::pushBack(std::initializer_list<TArray::value_type> list)
+{
+    auto& array = asMutableArray();
+    array.insert(array.end(), list);
+}
+
+void JsonValue::insert(const std::string& key, const JsonValue& value)
+{
+    asMutableObject()[key] = value;
+}
+
+void JsonValue::insert(std::initializer_list<TObject::value_type> list)
+{
+    asMutableObject().insert(list);
+}
+
 // Utility
 
 std::string JsonValue::typeToName(Type t)
