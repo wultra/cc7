@@ -38,6 +38,8 @@ namespace tests
     
     TestLog::TestLog() :
         _lock(new std::mutex()),
+        _platform_log(debug::Platform_GetDefaultLogHandler()),
+        _dump_incident_to_system_log(false),
         _dump_to_system_log(false),
         _incident_breakpoint(false)
     {
@@ -55,6 +57,11 @@ namespace tests
     
     
     // MARK: Logging
+
+    void TestLog::platformLog(const std::string &message)
+    {
+        _platform_log.handler(_platform_log.handler_data, message.c_str());
+    }
     
     void TestLog::appendMultilineString(const std::string & string)
     {
@@ -161,16 +168,16 @@ namespace tests
             _log_data.c.incidents_count += 1;
             _log_data.c.current_test_incidents_count += 1;
             
-            dump_to_syslog = _dump_to_system_log && !_incident_breakpoint;
+            dump_to_syslog = (_dump_to_system_log || _dump_incident_to_system_log) && !_incident_breakpoint;
             break_execution = _incident_breakpoint;
         }
         _lock->unlock();
         
         if (dump_to_syslog) {
-            CC7_LOG("%s", message_buffer);
+            platformLog(message);
         }
         if (break_execution) {
-            CC7_LOG("%s", message_buffer);
+            platformLog(message);
             CC7_BREAKPOINT();
         }
     }
@@ -179,6 +186,18 @@ namespace tests
     
     // MARK: Log configuration
     
+    void TestLog::setDumpIncidentToSystemLogEnabled(bool enabled)
+    {
+        GUARD_LOCK();
+        _dump_incident_to_system_log = enabled;
+    }
+
+    bool TestLog::dumpIncidentToSystemLogEnabled() const
+    {
+        GUARD_LOCK();
+        return _dump_incident_to_system_log;
+    }
+
     void TestLog::setDumpToSystemLogEnabled(bool enable)
     {
         GUARD_LOCK();

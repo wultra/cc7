@@ -17,6 +17,8 @@
 #pragma once
 
 #include <cc7/Platform.h>
+#include <cc7/DebugFeatures.h>
+
 #include <mutex>
 #include <set>
 
@@ -196,10 +198,20 @@ namespace tests
         // Log configuration
         
         /**
+         Enables or disables passing incident to system log.
+         */
+        void setDumpIncidentToSystemLogEnabled(bool enabled = true);
+        
+        /**
+         Returns whether passing incident to system log is enabled.
+         */
+        bool dumpIncidentToSystemLogEnabled() const;
+
+        /**
          Enables or disables passing messages to system log. The logging also depends
          on whether the CC7_LOG() is enabled.
          */
-        void setDumpToSystemLogEnabled(bool enabled);
+        void setDumpToSystemLogEnabled(bool enabled = true);
         
         /**
          Returns whether the dumping to system log is enabled or not.
@@ -209,7 +221,7 @@ namespace tests
         /**
          Enables or disables software breakpoint triggered on any incident.
          */
-        void setIncidentBreakpointEnabled(bool enabled);
+        void setIncidentBreakpointEnabled(bool enabled = true);
         /**
          Returns whether the incidents breakpoint is enabled or not.
          */
@@ -265,6 +277,8 @@ namespace tests
         
         void appendMultilineString(const std::string & string);
         
+        void platformLog(const std::string & message);
+        
         size_t indentationLevelImpl() const;
         
         std::mutex *    _lock;
@@ -277,6 +291,8 @@ namespace tests
         std::set<std::string> _incident_locations_set;
         
         // flags
+        debug::LogHandlerSetup _platform_log;
+        bool            _dump_incident_to_system_log;
         bool            _dump_to_system_log;
         bool            _incident_breakpoint;
     };
