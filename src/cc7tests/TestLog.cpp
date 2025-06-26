@@ -38,7 +38,6 @@ namespace tests
     
     TestLog::TestLog() :
         _lock(new std::mutex()),
-        _platform_log(debug::Platform_GetDefaultLogHandler()),
         _dump_incident_to_system_log(false),
         _dump_to_system_log(false),
         _incident_breakpoint(false)
@@ -60,15 +59,17 @@ namespace tests
 
     void TestLog::platformLog(const std::string &message)
     {
-        _platform_log.handler(_platform_log.handler_data, message.c_str());
+        fputs(message.c_str(), stdout);
     }
     
     void TestLog::appendMultilineString(const std::string & string)
     {
-//      if (_dump_to_system_log) {
-//          CC7_LOG("%s", string.c_str());
-//      }
-        _AppendMultilineString(string, _indentation, _log_data.log);
+        std::string out;
+        _AppendMultilineString(string, _indentation, out);
+        _log_data.log += out;
+        if (_dump_to_system_log) {
+            platformLog(out);
+        }
     }
     
     void TestLog::logMessage(const char * message)
@@ -161,14 +162,14 @@ namespace tests
                 // New incident, store key to locations set
                 _incident_locations_set.insert(file_location_key);
                 // Append message to log
-                _AppendMultilineString(message, _indentation,  _log_data.log);
                 _AppendMultilineString(message, std::string(), _log_data.incidents);
+                appendMultilineString(message);
             }
             
             _log_data.c.incidents_count += 1;
             _log_data.c.current_test_incidents_count += 1;
             
-            dump_to_syslog = (_dump_to_system_log || _dump_incident_to_system_log) && !_incident_breakpoint;
+            dump_to_syslog = _dump_incident_to_system_log && !_incident_breakpoint;
             break_execution = _incident_breakpoint;
         }
         _lock->unlock();

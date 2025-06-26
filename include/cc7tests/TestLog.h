@@ -17,7 +17,6 @@
 #pragma once
 
 #include <cc7/Platform.h>
-#include <cc7/DebugFeatures.h>
 
 #include <mutex>
 #include <set>
@@ -291,7 +290,6 @@ namespace tests
         std::set<std::string> _incident_locations_set;
         
         // flags
-        debug::LogHandlerSetup _platform_log;
         bool            _dump_incident_to_system_log;
         bool            _dump_to_system_log;
         bool            _incident_breakpoint;
