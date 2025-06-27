@@ -38,7 +38,7 @@ public:
     static std::shared_ptr<Signature> getInstance(const std::string & algorithm);
 };
 
-typedef std::shared_ptr<Signature> SignaturePtr;
+CC7_SHARED_PTR(Signature)
 
 } // cc7::crypto
 } // cc7

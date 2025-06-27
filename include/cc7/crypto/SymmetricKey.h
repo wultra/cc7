@@ -132,7 +132,7 @@ private:
     SymmetricKey(const SymmetricKeySpec * spec) : _spec(spec) {}
 };
 
-typedef std::shared_ptr<SymmetricKey> SymmetricKeyPtr;
+CC7_SHARED_PTR(SymmetricKey)
 
 } // cc7::crypto
 } // cc7

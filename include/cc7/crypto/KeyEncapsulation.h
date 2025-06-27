@@ -39,7 +39,7 @@ public:
     static std::shared_ptr<KeyEncapsulation> getInstance(const std::string & algorithm, KeyDerivationPtr kdf = KeyDerivation::noDerivation());
 };
 
-typedef std::shared_ptr<KeyEncapsulation> KeyEncapsulationPtr;
+CC7_SHARED_PTR(KeyEncapsulation)
 
 } // cc7::crypto
 } // cc7

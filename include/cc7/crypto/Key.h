@@ -47,7 +47,7 @@ public:
     void importKeyFromBase64(const std::string_view & base64Key, KeyFormat format = KEY_FORMAT_DEFAULT);
 };
 
-typedef std::shared_ptr<Key> KeyPtr;
+CC7_SHARED_PTR(Key)
 
 } // cc7::crypto
 } // cc7

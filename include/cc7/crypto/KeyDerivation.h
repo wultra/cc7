@@ -41,7 +41,7 @@ public:
     static std::shared_ptr<KeyDerivation> noDerivation();
 };
 
-typedef std::shared_ptr<KeyDerivation> KeyDerivationPtr;
+CC7_SHARED_PTR(KeyDerivation)
 
 } // cc7::crypto
 } // cc7

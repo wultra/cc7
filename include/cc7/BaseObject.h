@@ -26,6 +26,6 @@ public:
     virtual ~BaseObject() = default;
 };
 
-typedef std::shared_ptr<BaseObject> BaseObjectPtr;
+CC7_SHARED_PTR(BaseObject)
 
 } // cc7

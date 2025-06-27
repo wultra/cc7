@@ -34,7 +34,7 @@ public:
     virtual void resetSavedState() = 0;
 };
 
-typedef std::shared_ptr<NonceGenerator> NonceGeneratorPtr;
+CC7_SHARED_PTR(NonceGenerator)
 
 
 class SimpleNonceGenerator : public NonceGenerator

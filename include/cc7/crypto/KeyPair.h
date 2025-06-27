@@ -36,9 +36,8 @@ public:
     static std::shared_ptr<PrivateKey> getInstance(const std::string & key_type);
 };
 
-typedef std::shared_ptr<PublicKey> PublicKeyPtr;
-typedef std::shared_ptr<PrivateKey> PrivateKeyPtr;
-
+CC7_SHARED_PTR(PublicKey)
+CC7_SHARED_PTR(PrivateKey)
 
 // KeyPair object
 
@@ -66,7 +65,7 @@ private:
     PrivateKeyPtr _private_key;
 };
 
-typedef std::shared_ptr<KeyPair> KeyPairPtr;
+CC7_SHARED_PTR(KeyPair)
 
 // KeyPairFactory
 
@@ -108,7 +107,7 @@ public:
     static std::shared_ptr<KeyPairFactory> getInstance(const std::string & key_type);
 };
 
-typedef std::shared_ptr<KeyPairFactory> KeyPairFactoryPtr;
+CC7_SHARED_PTR(KeyPairFactory)
 
 } // cc7::crypto
 } // cc7

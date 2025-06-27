@@ -287,6 +287,10 @@
         
     } // cc7
 
+#define CC7_SHARED_PTR(Class)                           \
+    typedef std::shared_ptr<Class> Class##Ptr;          \
+    typedef std::shared_ptr<const Class> Const##Class##Ptr;
+
     // compat
     #if defined(CC7_NO_EXCEPTIONS)
     #Warning "CC7_NO_EXCEPTIONS is no longer supported"

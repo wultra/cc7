@@ -40,7 +40,7 @@ protected:
     const JwsSpec* _spec;
 };
 
-typedef std::shared_ptr<JwsAlgorithm> JwsAlgorithmPtr;
+CC7_SHARED_PTR(JwsAlgorithm)
 
 } // namespace jwt
 } // namespace cc7

@@ -59,7 +59,7 @@ private:
     static const std::string& getAlgorithmForKey(const crypto::Key& key);
 };
 
-typedef std::shared_ptr<JwtKey> JwtKeyPtr;
+CC7_SHARED_PTR(JwtKey)
 typedef std::vector<JwtKeyPtr> JwtKeyList;
 
 

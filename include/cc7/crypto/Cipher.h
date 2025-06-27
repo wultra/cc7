@@ -38,7 +38,7 @@ public:
     static std::shared_ptr<Cipher> getInstance(const std::string & algorithm);
 };
 
-typedef std::shared_ptr<Cipher> CipherPtr;
+CC7_SHARED_PTR(Cipher)
 
 } // cc7::crypto
 } // cc7

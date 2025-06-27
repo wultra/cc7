@@ -35,7 +35,7 @@ public:
     static std::shared_ptr<KeyAgreement> getInstance(const std::string & algorithm, KeyDerivationPtr kdf = KeyDerivation::noDerivation());
 };
 
-typedef std::shared_ptr<KeyAgreement> KeyAgreementPtr;
+CC7_SHARED_PTR(KeyAgreement)
 
 } // cc7::crypto
 } // cc7
