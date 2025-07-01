@@ -280,6 +280,12 @@
 		BFC5254E1CDBC985002E653C /* PerformanceTimerApple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC5254D1CDBC985002E653C /* PerformanceTimerApple.cpp */; };
 		BFE174041CC9664500039466 /* PlatformApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFE174021CC9664500039466 /* PlatformApple.mm */; };
 		BFE174071CC96D3600039466 /* DebugFeatures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFE174061CC96D3600039466 /* DebugFeatures.cpp */; };
+		BFF21B842E13E858000BF450 /* ObjcJson.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B832E13E858000BF450 /* ObjcJson.mm */; };
+		BFF21B852E13E858000BF450 /* ObjcJson.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B832E13E858000BF450 /* ObjcJson.mm */; };
+		BFF21B862E13E858000BF450 /* ObjcJson.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B832E13E858000BF450 /* ObjcJson.mm */; };
+		BFF21B882E14194A000BF450 /* CC7ObjcTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */; };
+		BFF21B892E14194A000BF450 /* CC7ObjcTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */; };
+		BFF21B8A2E14194A000BF450 /* CC7ObjcTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */; };
 		BFFE8AA12449B4F80032821F /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC41CE3AEFE006CAA74 /* Base64.cpp */; };
 		BFFE8AA22449B4F80032821F /* HexString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC61CE3B94D006CAA74 /* HexString.cpp */; };
 		BFFE8AA32449B4F80032821F /* PlatformApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFE174021CC9664500039466 /* PlatformApple.mm */; };
@@ -643,6 +649,9 @@
 		BFE174091CCCE4C900039466 /* TestFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
 		BFE1740A1CCCE53E00039466 /* TestResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestResource.h; sourceTree = "<group>"; };
 		BFE1740B1CCCE59200039466 /* TestDirectory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestDirectory.h; sourceTree = "<group>"; };
+		BFF21B822E13E824000BF450 /* ObjcJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjcJson.h; sourceTree = "<group>"; };
+		BFF21B832E13E858000BF450 /* ObjcJson.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ObjcJson.mm; sourceTree = "<group>"; };
+		BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CC7ObjcTests.mm; sourceTree = "<group>"; };
 		BFFE8AAF2449B4F80032821F /* libcc7-tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcc7-tvos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFFE8ACF2449B53C0032821F /* libcc7tests-tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcc7tests-tvos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFFE8ADF2449B5820032821F /* CC7TestsWrapper-tvos.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CC7TestsWrapper-tvos.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -847,6 +856,7 @@
 			isa = PBXGroup;
 			children = (
 				BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */,
+				BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */,
 				BF498AA61CDCBE8400D7E904 /* Info.plist */,
 			);
 			path = CC7TestsWrapper;
@@ -1074,6 +1084,7 @@
 			isa = PBXGroup;
 			children = (
 				BF79F0161D04BD32004653A1 /* ObjcHelper.h */,
+				BFF21B822E13E824000BF450 /* ObjcJson.h */,
 			);
 			path = objc;
 			sourceTree = "<group>";
@@ -1260,6 +1271,7 @@
 			children = (
 				BFE174021CC9664500039466 /* PlatformApple.mm */,
 				BF79F0171D04BFB7004653A1 /* ObjcHelper.mm */,
+				BFF21B832E13E858000BF450 /* ObjcJson.mm */,
 				BF0D67EF1CE63DF90070D853 /* PrefixCC7.pch */,
 			);
 			path = apple;
@@ -1648,6 +1660,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF498AAE1CDCBEC000D7E904 /* CC7TestWrapper.mm in Sources */,
+				BFF21B892E14194A000BF450 /* CC7ObjcTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1656,6 +1669,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF8EEBF3266629ED009AC5FD /* CC7TestWrapper.mm in Sources */,
+				BFF21B882E14194A000BF450 /* CC7ObjcTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1682,6 +1696,7 @@
 				BF00591F2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
 				BF4D85672DE5A47B00D32F55 /* JsonValue.cpp in Sources */,
 				BF8EEC0326662A01009AC5FD /* PlatformApple.mm in Sources */,
+				BFF21B842E13E858000BF450 /* ObjcJson.mm in Sources */,
 				BF00594C2D9E957400C0F3AF /* ECDSA.cpp in Sources */,
 				BF0059032D9AA27900C0F3AF /* AES.cpp in Sources */,
 				BF00593F2D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
@@ -1788,6 +1803,7 @@
 				BF00591E2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
 				BF4D85682DE5A47B00D32F55 /* JsonValue.cpp in Sources */,
 				BFE174041CC9664500039466 /* PlatformApple.mm in Sources */,
+				BFF21B862E13E858000BF450 /* ObjcJson.mm in Sources */,
 				BF00594D2D9E957400C0F3AF /* ECDSA.cpp in Sources */,
 				BF0059012D9AA27900C0F3AF /* AES.cpp in Sources */,
 				BF0059402D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
@@ -1853,6 +1869,7 @@
 				BF0059202D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
 				BF4D85692DE5A47B00D32F55 /* JsonValue.cpp in Sources */,
 				BFFE8AA32449B4F80032821F /* PlatformApple.mm in Sources */,
+				BFF21B852E13E858000BF450 /* ObjcJson.mm in Sources */,
 				BF00594B2D9E957400C0F3AF /* ECDSA.cpp in Sources */,
 				BF0059022D9AA27900C0F3AF /* AES.cpp in Sources */,
 				BF00593E2D9E7E0300C0F3AF /* Parameter.cpp in Sources */,
@@ -1941,6 +1958,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFFE8AD82449B5820032821F /* CC7TestWrapper.mm in Sources */,
+				BFF21B8A2E14194A000BF450 /* CC7ObjcTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

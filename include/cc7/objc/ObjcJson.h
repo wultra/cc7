@@ -1,0 +1,45 @@
+/*
+ * Copyright 2025 Wultra s.r.o.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#pragma once
+
+#include <cc7/json/JsonValue.h>
+#import <Foundation/Foundation.h>
+
+namespace cc7 {
+namespace objc {
+
+/// Function converts `JsonValue` into Objective-C JSON representation. The returned object
+/// is NSDictionary, NSArray, NSString or NSNumber, depending on type of provided `JsonValue`.
+///
+/// - Parameter value: Input `JsonValue` to convert
+/// - Returns: Objective-C representation of given `JsonValue`.
+/// - Throws:
+///   - `std::invalid_argument` exception in case that value contains `NaT` type.
+id JsonValueToObjC(const cc7::json::JsonValue& value);
+
+/// Function converts Objective-C JSON representation into `JsonValue`.
+///
+/// - Parameter json_representation: Objective-C representation of JSON.
+/// - Returns: `JsonValue` created from given representation.
+/// - Throws:
+///   - `std::invalid_argument` exception in case that input object is unknown type.
+cc7::json::JsonValue JsonValueFromObjC(id json_representation);
+
+} // namespace objc
+} // namespace cc7
+
+
