@@ -287,9 +287,11 @@
         
     } // cc7
 
-#define CC7_SHARED_PTR(Class)                           \
-    typedef std::shared_ptr<Class> Class##Ptr;          \
-    typedef std::shared_ptr<const Class> Const##Class##Ptr;
+#define CC7_SHARED_PTR(Class)                                   \
+    typedef std::shared_ptr<Class> Class##Ptr;                  \
+    typedef std::shared_ptr<const Class> Const##Class##Ptr;     \
+    typedef std::weak_ptr<Class> Class##WeakPtr;                \
+    typedef std::weak_ptr<const Class> Const##Class##WeakPtr;
 
     // compat
     #if defined(CC7_NO_EXCEPTIONS)
