@@ -91,7 +91,7 @@ JsonValue JsonValueFromObjC(id repr)
                 auto cv = n.charValue;
                 if (cv == 0 || cv == 1) {
                     // @NO or @YES
-                    return JsonValue(n.boolValue);
+                    return JsonValue::boolean(n.boolValue);
                 }
                 // fallback to integer
             }
