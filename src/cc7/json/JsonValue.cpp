@@ -276,6 +276,11 @@ JsonValue JsonValue::no()
     return JsonValue(false);
 }
 
+JsonValue JsonValue::boolean(bool value)
+{
+    return JsonValue(value);
+}
+
 JsonValue JsonValue::count(size_t c)
 {
     return JsonValue((int64_t)c);

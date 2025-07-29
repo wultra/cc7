@@ -348,6 +348,7 @@ public:
     static JsonValue array(std::initializer_list<TArray::value_type> list);
     static JsonValue string(const std::string_view& str);
     
+    static JsonValue boolean(bool value);
     static JsonValue count(size_t c);
     static JsonValue integer(int64_t value);
     static JsonValue number(double value);
