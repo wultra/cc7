@@ -26,7 +26,7 @@ class JwtHeader
 public:
     
     JwtHeader();
-    JwtHeader(const std::string& algorithm, const std::string& type = JWT_TYPE);
+    JwtHeader(const std::string& algorithm, const std::string& type = NO_TYPE);
     
     const std::string& getEncoded();
     
@@ -41,6 +41,7 @@ public:
     static JwtHeader fromEncodedString(const std::string& encoded);
     
     static const std::string JWT_TYPE;
+    static const std::string NO_TYPE;
     
 private:
     

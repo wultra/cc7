@@ -30,18 +30,19 @@ JwtWriter::JwtWriter(int options) :
 {
 }
 
-JwtWriter& JwtWriter::withJsonPayload(const json::JsonValue &payload)
+JwtWriter& JwtWriter::withJsonPayload(const json::JsonValue &payload, const std::string& payload_type)
 {
-    return withPayload(_writer.toJsonData(payload));
+    return withPayload(_writer.toJsonData(payload), payload_type);
 }
 
-JwtWriter& JwtWriter::withPayload(const ByteRange &payload)
+JwtWriter& JwtWriter::withPayload(const ByteRange &payload, const std::string& payload_type)
 {
     if (_has_payload) {
         throw JwtException("Payload is already set");
     }
     _has_payload = true;
     _payload = payload;
+    _payload_type = payload_type;
     return *this;
 }
 
@@ -66,6 +67,9 @@ JwtWriter& JwtWriter::sign(const JwtKeyList &keys)
     auto payload = getEncodedPayload();
     for (auto& key : keys) {
         JwtHeader header;
+        if (!_payload_type.empty()) {
+            header.setType(_payload_type);
+        }
         auto signature = signPayload(*key, payload, header);
         _headers.push_back(header);
         _signatures.push_back(signature);
@@ -149,9 +153,8 @@ bool JwtWriter::isCompact() const
 
 std::string JwtWriter::signPayload(const JwtKey &key, const std::string& payload, JwtHeader& out_header)
 {
-    auto jwt_algorithm = key.getJwtAlgorithm();
-    auto algorithm = JwsAlgorithm::getInstance(jwt_algorithm);
-    out_header = JwtHeader(jwt_algorithm);
+    out_header.setAlgorithm(key.getJwtAlgorithm());
+    auto algorithm = JwsAlgorithm::getInstance(out_header.getAlgorithm());
     auto signature = algorithm->sign(key, MakeRange(out_header.getEncoded() + "." + payload));
     return signature.base64Url();
 }

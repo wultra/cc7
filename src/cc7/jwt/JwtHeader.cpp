@@ -23,9 +23,9 @@ namespace cc7 {
 namespace jwt {
 
 const std::string JwtHeader::JWT_TYPE("JWT");
+const std::string JwtHeader::NO_TYPE("");
 
-JwtHeader::JwtHeader() :
-    _type(JWT_TYPE)
+JwtHeader::JwtHeader()
 {
 }
 

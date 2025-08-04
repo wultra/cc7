@@ -30,8 +30,8 @@ public:
     
     // Building
     
-    JwtWriter& withJsonPayload(const json::JsonValue& payload);
-    JwtWriter& withPayload(const ByteRange& payload);
+    JwtWriter& withJsonPayload(const json::JsonValue& payload, const std::string & payload_type = JwtHeader::NO_TYPE);
+    JwtWriter& withPayload(const ByteRange& payload, const std::string & payload_type = JwtHeader::NO_TYPE);
     JwtWriter& withHeader(const JwtHeader& header);
     JwtWriter& sign(const JwtKeyList& keys);
     
@@ -57,6 +57,7 @@ private:
     std::vector<std::string> _signatures;
     
     ByteArray _payload;
+    std::string _payload_type;
     
     json::JsonWriter _writer;
     

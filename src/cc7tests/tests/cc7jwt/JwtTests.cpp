@@ -144,6 +144,19 @@ namespace tests
                         break;
                     }
                 }
+                if (td.key->getType() == jwt::JwtKey::Type::SYMMETRIC && td.testMode != TEST_FAIL) {
+                    auto writer = JwtWriter();
+                    try {
+                        auto header = reader.getHeaders().front();
+                        auto compact = writer.withPayload(reader.getPayload(), header.getType())
+                            .sign({ td.key })
+                            .toCompact();
+                        ccstAssertEqual(td.token, compact);
+                    } catch (...) {
+                        ccstFailure("%s: Writer validation failed", alg_name);
+                        break;
+                    }
+                }
             }
         }
         
