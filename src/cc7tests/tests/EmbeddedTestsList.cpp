@@ -34,6 +34,7 @@ namespace tests
         CC7_ADD_UNIT_TEST(cc7Base32Tests, list);
         CC7_ADD_UNIT_TEST(cc7Base64Tests, list);
         CC7_ADD_UNIT_TEST(cc7HexStringTests, list);
+        CC7_ADD_UNIT_TEST(TimeTests, list);
         
         // cc7/utils framework tests
         CC7_ADD_UNIT_TEST(URLEncodingTests, list);

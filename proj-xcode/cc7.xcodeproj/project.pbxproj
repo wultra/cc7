@@ -265,6 +265,9 @@
 		BF9FFBC71CE3B94D006CAA74 /* HexString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC61CE3B94D006CAA74 /* HexString.cpp */; };
 		BF9FFBCA1CE3BF08006CAA74 /* cc7Base64Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC91CE3BF08006CAA74 /* cc7Base64Tests.cpp */; };
 		BF9FFBCC1CE3C172006CAA74 /* cc7HexStringTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBCB1CE3C172006CAA74 /* cc7HexStringTests.cpp */; };
+		BFAAC9B62E42328100062165 /* TimeTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFAAC9B52E42328100062165 /* TimeTests.cpp */; };
+		BFAAC9B72E42328100062165 /* TimeTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFAAC9B52E42328100062165 /* TimeTests.cpp */; };
+		BFAAC9B82E42328100062165 /* TimeTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFAAC9B52E42328100062165 /* TimeTests.cpp */; };
 		BFABCD70214C087700A9221F /* Base32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFABCD6F214C087700A9221F /* Base32.cpp */; };
 		BFABCD742150036A00A9221F /* cc7Base32Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFABCD732150036A00A9221F /* cc7Base32Tests.cpp */; };
 		BFB493FF1CE8E74600F8D81B /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB493FE1CE8E74600F8D81B /* TestFile.cpp */; };
@@ -614,6 +617,7 @@
 		BF9FFBC81CE3B962006CAA74 /* HexString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HexString.h; sourceTree = "<group>"; };
 		BF9FFBC91CE3BF08006CAA74 /* cc7Base64Tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cc7Base64Tests.cpp; sourceTree = "<group>"; };
 		BF9FFBCB1CE3C172006CAA74 /* cc7HexStringTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cc7HexStringTests.cpp; sourceTree = "<group>"; };
+		BFAAC9B52E42328100062165 /* TimeTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TimeTests.cpp; sourceTree = "<group>"; };
 		BFABCD6E214C07F400A9221F /* Base32.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base32.h; sourceTree = "<group>"; };
 		BFABCD6F214C087700A9221F /* Base32.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Base32.cpp; sourceTree = "<group>"; };
 		BFABCD732150036A00A9221F /* cc7Base32Tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7Base32Tests.cpp; sourceTree = "<group>"; };
@@ -890,6 +894,7 @@
 				BFABCD732150036A00A9221F /* cc7Base32Tests.cpp */,
 				BF9FFBC91CE3BF08006CAA74 /* cc7Base64Tests.cpp */,
 				BF9FFBCB1CE3C172006CAA74 /* cc7HexStringTests.cpp */,
+				BFAAC9B52E42328100062165 /* TimeTests.cpp */,
 			);
 			path = cc7base;
 			sourceTree = "<group>";
@@ -1634,6 +1639,7 @@
 				BFB494031CE8E7C600F8D81B /* TestResource.cpp in Sources */,
 				BF5A8C742DC16C5200B3FB01 /* KeyEncapsulationTests.cpp in Sources */,
 				BF4D85892DE5D0B200D32F55 /* JsonWriterTests.cpp in Sources */,
+				BFAAC9B72E42328100062165 /* TimeTests.cpp in Sources */,
 				BF9FFBCC1CE3C172006CAA74 /* cc7HexStringTests.cpp in Sources */,
 				BF498AB71CDCC24F00D7E904 /* EmbeddedTestsList.cpp in Sources */,
 				BF3068521CC91E56002FD3BC /* TestManager.cpp in Sources */,
@@ -1759,6 +1765,7 @@
 				BF8EEC1A26662A0B009AC5FD /* TestResource.cpp in Sources */,
 				BF5A8C722DC16C5200B3FB01 /* KeyEncapsulationTests.cpp in Sources */,
 				BF4D85882DE5D0B200D32F55 /* JsonWriterTests.cpp in Sources */,
+				BFAAC9B62E42328100062165 /* TimeTests.cpp in Sources */,
 				BF8EEC1B26662A0B009AC5FD /* cc7HexStringTests.cpp in Sources */,
 				BF8EEC1E26662A0B009AC5FD /* EmbeddedTestsList.cpp in Sources */,
 				BF8EEC1F26662A0B009AC5FD /* TestManager.cpp in Sources */,
@@ -1932,6 +1939,7 @@
 				BFFE8ABA2449B53C0032821F /* TestResource.cpp in Sources */,
 				BF5A8C732DC16C5200B3FB01 /* KeyEncapsulationTests.cpp in Sources */,
 				BF4D85872DE5D0B200D32F55 /* JsonWriterTests.cpp in Sources */,
+				BFAAC9B82E42328100062165 /* TimeTests.cpp in Sources */,
 				BFFE8ABB2449B53C0032821F /* cc7HexStringTests.cpp in Sources */,
 				BFFE8ABE2449B53C0032821F /* EmbeddedTestsList.cpp in Sources */,
 				BFFE8ABF2449B53C0032821F /* TestManager.cpp in Sources */,
