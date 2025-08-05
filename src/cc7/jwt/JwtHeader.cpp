@@ -25,6 +25,9 @@ namespace jwt {
 const std::string JwtHeader::JWT_TYPE("JWT");
 const std::string JwtHeader::NO_TYPE("");
 
+static const std::string cALG("alg");
+static const std::string cTYP("typ");
+
 JwtHeader::JwtHeader()
 {
 }
@@ -42,7 +45,7 @@ JwtHeader::JwtHeader(const std::string& algorithm, const std::string& type, cons
 {
 }
 
-bool JwtHeader::isValid() const
+bool JwtHeader::isValid() const noexcept
 {
     return !_algorithm.empty();
 }
@@ -55,10 +58,10 @@ const std::string& JwtHeader::getEncoded()
     if (_encoded.empty()) {
         auto object = json::JsonValue::object();
         if (!_type.empty()) {
-            object["typ"] = json::JsonValue(_type);
+            object[cTYP] = json::JsonValue(_type);
         }
         if (!_algorithm.empty()) {
-            object["alg"] = json::JsonValue(_algorithm);
+            object[cALG] = json::JsonValue(_algorithm);
         }
         _encoded = Base64::urlEncode(json::JsonWriter().toData(object));
     }
@@ -71,7 +74,7 @@ void JwtHeader::setType(const std::string &type)
     _encoded.clear();
 }
 
-const std::string& JwtHeader::getType() const
+const std::string& JwtHeader::getType() const noexcept
 {
     return _type;
 }
@@ -82,12 +85,12 @@ void JwtHeader::setAlgorithm(const std::string& algorithm)
     _encoded.clear();
 }
 
-const std::string& JwtHeader::getAlgorithm() const
+const std::string& JwtHeader::getAlgorithm() const noexcept
 {
     return _algorithm;
 }
 
-bool JwtHeader::isSupportedAlgorithm() const
+bool JwtHeader::isSupportedAlgorithm() const noexcept
 {
     if (!_algorithm.empty()) {
         return JwsSpec::specForJwsAlgorithm(_algorithm) != nullptr;
@@ -101,11 +104,11 @@ JwtHeader JwtHeader::fromEncodedString(const std::string& encoded)
         auto header_data = Base64::urlDecode(encoded);
         auto hdr = json::JsonReader().parse(header_data).asObject();
         std::string algorithm, type;
-        auto found = hdr.find("alg");
+        auto found = hdr.find(cALG);
         if (found != hdr.end()) {
             algorithm = found->second.asString();
         }
-        found = hdr.find("typ");
+        found = hdr.find(cTYP);
         if (found != hdr.end()) {
             type = found->second.asString();
         }

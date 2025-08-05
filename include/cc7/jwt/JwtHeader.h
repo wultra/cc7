@@ -31,12 +31,12 @@ public:
     const std::string& getEncoded();
     
     void setAlgorithm(const std::string& algorithm);
-    const std::string& getAlgorithm() const;
+    const std::string& getAlgorithm() const noexcept;
     void setType(const std::string& type);
-    const std::string& getType() const;
+    const std::string& getType() const noexcept;
     
-    bool isValid() const;
-    bool isSupportedAlgorithm() const;
+    bool isValid() const noexcept;
+    bool isSupportedAlgorithm() const noexcept;
     
     static JwtHeader fromEncodedString(const std::string& encoded);
     

@@ -198,6 +198,7 @@ namespace tests
         
         struct SignVerifyData
         {
+            std::string jws_name;
             JwtKeyPtr sign_key;
             JwtKeyPtr verify_key;
         };
@@ -206,8 +207,9 @@ namespace tests
         {
             auto key_pair = crypto::KeyPair::generateKeyPair(alg_name);
             return {
+                JwsSpec::specForKeyAlgorithm(alg_name)->jwsName,
                 JwtKey::privateKey(key_pair->getPrivateKeyPtr()),
-                JwtKey::publicKey(key_pair->getPublicKeyPtr())
+                JwtKey::publicKey(key_pair->getPublicKeyPtr()),
             };
         }
         
@@ -215,6 +217,7 @@ namespace tests
         {
             auto key = crypto::GetRandomData(size);
             return {
+                alg,
                 JwtKey::symmetricKey(alg, key),
                 JwtKey::symmetricKey(alg, crypto::SymmetricKey::getInstance(key))
             };
@@ -254,7 +257,7 @@ namespace tests
             }
             return { title, sign, verify };
         }
-        
+                
         void testSignVerify()
         {
             auto payload = Base64::urlDecode("eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0");
@@ -273,20 +276,63 @@ namespace tests
             tests.push_back(testDataForMac("xKMAC256", 64));
             
             for (auto& td : tests) {
-                ccstMessage("%s", td.sign_key->getJwtAlgorithm().c_str());
-                auto compact = JwtWriter()
-                                    .withPayload(payload)
-                                    .sign({ td.sign_key })
-                                    .toCompact();
-                auto payload = JwtReader::fromCompact(compact)
-                                    .verify({ td.verify_key })
-                                    .getPayload();
-                
-                auto claims = JsonReader::fromJsonData(payload);
-                ccstAssertEqual("1234567890", claims["sub"].asString());
-                ccstAssertEqual("John Doe", claims["name"].asString());
-                ccstAssertEqual(true, claims["admin"].asBoolean());
-                ccstAssertEqual(1516239022, claims["iat"].asInteger());
+                for (auto iter = 1; iter <= 2; iter++) {
+                    std::string iter_name = iter == 1 ? "JWT" : "";
+                    ccstMessage("%s", td.sign_key->getJwtAlgorithm().c_str());
+                    auto jwt = JwtWriter()
+                        .withPayload(payload, iter_name)
+                        .sign({ td.sign_key })
+                        .toCompact();
+                    auto parsed = JwtReader::fromCompact(jwt)
+                        .verify({ td.verify_key })
+                        .getPayload();
+                    auto claims = JsonReader::fromJsonData(parsed);
+                    ccstAssertEqual("1234567890", claims["sub"].asString());
+                    ccstAssertEqual("John Doe", claims["name"].asString());
+                    ccstAssertEqual(true, claims["admin"].asBoolean());
+                    ccstAssertEqual(1516239022, claims["iat"].asInteger());
+                    // verify signature manually
+                    auto pos = jwt.rfind('.');
+                    ccstAssertNotEqual(std::string::npos, pos);
+                    auto signed_data = ByteArray(MakeRange(jwt.substr(0, pos)));
+                    auto signature   = Base64::urlDecode(jwt.substr(pos + 1));
+                    auto spec = JwsSpec::specForJwsAlgorithm(td.jws_name);
+                    bool verified = false;
+                    switch (spec->type) {
+                        case JwsSpec::Type::MAC: {
+                            crypto::ParameterList params;
+                            if (spec->sizeParam) {
+                                params[crypto::MAC_PARAM_DIGEST_LENGTH] = crypto::Parameter::take(spec->sizeParam);
+                            };
+                            if (!spec->stringParam.empty()) {
+                                params[crypto::MAC_PARAM_CUSTOM_STRING] = crypto::Parameter::ref(spec->stringParam);
+                            }
+                            const auto& key = td.sign_key->getSymmetricKey();
+                            auto mac_algorithm = crypto::MAC::getInstance(spec->algorithm);
+                            verified = mac_algorithm->verifyToken(key, signed_data, signature, params);
+                            break;
+                        }
+                        case JwsSpec::Type::DSA: {
+                            if (spec->inputConversion) {
+                                signature = spec->inputConversion(spec, signature);
+                            }
+                            const auto& key = td.verify_key->getPublicKey();
+                            auto dsa_algorithm = crypto::Signature::getInstance(spec->algorithm);
+                            verified = dsa_algorithm->verify(key, signature, signed_data);
+                            break;
+                        }
+                    }
+                    if (!verified) {
+                        ccstMessage("JWT   %s", jwt.c_str());
+                        if (spec->type == JwsSpec::Type::MAC) {
+                            ccstMessage("Key   %s", td.verify_key->getSymmetricKey().getKeyData().base64Url().c_str());
+                        } else {
+                            ccstMessage("Key   %s", td.verify_key->getPublicKey().exportKey().base64().c_str());
+                        }
+                        ccstMessage("Verification failed for '%s'", iter_name.c_str());
+                    }
+                    ccstAssertTrue(verified);
+                }
             }
         }
         
