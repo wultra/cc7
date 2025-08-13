@@ -21,14 +21,14 @@ using namespace cc7::json;
 namespace cc7 {
 namespace objc {
     
-id JsonValueToObjC(const JsonValue& value)
+id JsonValueToObjC(const JsonValue& value, bool null_is_nil)
 {
     switch (value.type()) {
         case JsonValue::Object: {
             NSMutableDictionary* out = [NSMutableDictionary dictionary];
             for (const auto& entry : value.asObject()) {
                 NSString * key = [NSString stringWithUTF8String:entry.first.c_str()];
-                NSString * value = JsonValueToObjC(entry.second);
+                NSString * value = JsonValueToObjC(entry.second, false);
                 [out setValue:value forKey:key];
             }
             return out;
@@ -36,7 +36,7 @@ id JsonValueToObjC(const JsonValue& value)
         case JsonValue::Array: {
             NSMutableArray* out = [NSMutableArray arrayWithCapacity:0];
             for (const auto& entry : value.asArray()) {
-                [out addObject:JsonValueToObjC(entry)];
+                [out addObject:JsonValueToObjC(entry, false)];
             }
             return out;
         }
@@ -49,10 +49,9 @@ id JsonValueToObjC(const JsonValue& value)
         case JsonValue::Boolean:
             return [NSNumber numberWithBool:value.asBoolean()];
         case JsonValue::Null:
-            return [NSNull null];
+            return null_is_nil ? nil : [NSNull null];
         default:
             throw std::invalid_argument("JsonValue contains NaT object");
-            
     }
 }
 

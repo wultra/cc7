@@ -23,13 +23,16 @@ namespace cc7 {
 namespace objc {
 
 /// Function converts `JsonValue` into Objective-C JSON representation. The returned object
-/// is NSDictionary, NSArray, NSString or NSNumber, depending on type of provided `JsonValue`.
+/// is `NSDictionary`, `NSArray`, `NSString`, `NSNumber` or `NSNull`, depending on type of
+/// provided `JsonValue`.
 ///
-/// - Parameter value: Input `JsonValue` to convert
+/// - Parameters:
+///   - value: Input `JsonValue` to convert
+///   - null_is_nil: If `true`, then function returns `nil` if JsonValue is Null type, otherwise returns `NSNull` instance.
 /// - Returns: Objective-C representation of given `JsonValue`.
 /// - Throws:
 ///   - `std::invalid_argument` exception in case that value contains `NaT` type.
-id JsonValueToObjC(const cc7::json::JsonValue& value);
+id JsonValueToObjC(const cc7::json::JsonValue& value, bool null_is_nil = true);
 
 /// Function converts Objective-C JSON representation into `JsonValue`.
 ///
