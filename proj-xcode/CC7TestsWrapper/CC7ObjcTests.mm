@@ -73,6 +73,18 @@ using namespace cc7;
     XCTAssertEqualObjects(@YES, ((NSArray*)repr[@"array"])[0]);
     XCTAssertEqualObjects(@"Hello", ((NSArray*)repr[@"array"])[1]);
     XCTAssertEqualObjects(@3.14, ((NSArray*)repr[@"array"])[2]);
+    
+    
+    // null - nil
+    XCTAssertEqualObjects([NSNull null], objc::JsonValueToObjC(json::JsonValue::null(), false));
+    XCTAssertNil(objc::JsonValueToObjC(json::JsonValue::null()));
+    XCTAssertNil(objc::JsonValueToObjC(json::JsonValue()));
+    try {
+        objc::JsonValueToObjC(json::JsonValue(), true, false);
+        XCTFail(@"Must throw");
+    } catch (std::invalid_argument& e) {
+        // OK
+    }
 }
 
 
