@@ -21,14 +21,14 @@ using namespace cc7::json;
 namespace cc7 {
 namespace objc {
     
-id JsonValueToObjC(const JsonValue& value, bool null_is_nil)
+static id JsonValueToObjCImpl(const JsonValue& value)
 {
     switch (value.type()) {
         case JsonValue::Object: {
             NSMutableDictionary* out = [NSMutableDictionary dictionary];
             for (const auto& entry : value.asObject()) {
                 NSString * key = [NSString stringWithUTF8String:entry.first.c_str()];
-                NSString * value = JsonValueToObjC(entry.second, false);
+                NSString * value = JsonValueToObjCImpl(entry.second);
                 [out setValue:value forKey:key];
             }
             return out;
@@ -36,7 +36,7 @@ id JsonValueToObjC(const JsonValue& value, bool null_is_nil)
         case JsonValue::Array: {
             NSMutableArray* out = [NSMutableArray arrayWithCapacity:0];
             for (const auto& entry : value.asArray()) {
-                [out addObject:JsonValueToObjC(entry, false)];
+                [out addObject:JsonValueToObjCImpl(entry)];
             }
             return out;
         }
@@ -49,10 +49,26 @@ id JsonValueToObjC(const JsonValue& value, bool null_is_nil)
         case JsonValue::Boolean:
             return [NSNumber numberWithBool:value.asBoolean()];
         case JsonValue::Null:
-            return null_is_nil ? nil : [NSNull null];
+            return [NSNull null];
         default:
             throw std::invalid_argument("JsonValue contains NaT object");
     }
+}
+
+id JsonValueToObjC(const cc7::json::JsonValue& value, bool null_is_nil, bool nat_is_nil)
+{
+    switch (value.type()) {
+        case JsonValue::Null:
+            return null_is_nil ? nil : [NSNull null];
+        case JsonValue::NaT:
+            if (nat_is_nil) {
+                return nil;
+            }
+            break;
+        default:
+            break;
+    }
+    return JsonValueToObjCImpl(value);
 }
 
 JsonValue JsonValueFromObjC(id repr)

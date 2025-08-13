@@ -28,11 +28,12 @@ namespace objc {
 ///
 /// - Parameters:
 ///   - value: Input `JsonValue` to convert
-///   - null_is_nil: If `true`, then function returns `nil` if JsonValue is Null type, otherwise returns `NSNull` instance.
+///   - null_is_nil: If `true`, then function returns `nil` if JsonValue is `Null` type, otherwise returns `NSNull` instance.
+///   - nat_is_nil: If `true`, then function returns `nil` if JsonValue is `NaT` type (e.g. unassigned).
 /// - Returns: Objective-C representation of given `JsonValue`.
 /// - Throws:
 ///   - `std::invalid_argument` exception in case that value contains `NaT` type.
-id JsonValueToObjC(const cc7::json::JsonValue& value, bool null_is_nil = true);
+id JsonValueToObjC(const cc7::json::JsonValue& value, bool null_is_nil = true, bool nat_is_nil = true);
 
 /// Function converts Objective-C JSON representation into `JsonValue`.
 ///
