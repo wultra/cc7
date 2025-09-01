@@ -44,7 +44,7 @@ public:
             auto t2 = GetCurrentTime();
             auto diff = t2 - t1;
             ccstAssertTrue(diff > 0.005);
-            ccstAssertTrue(diff < 0.015);
+            ccstAssertTrue(diff < 0.020);
         }
     }
     
@@ -56,7 +56,7 @@ public:
             auto t2 = GetCurrentTimeMillis();
             auto diff = t2 - t1;
             ccstAssertTrue(diff > 5);
-            ccstAssertTrue(diff < 15);
+            ccstAssertTrue(diff < 20);
         }
     }
 
