@@ -58,12 +58,14 @@ public:
             std::string result = "ok";
             do {
                 crypto::KeyPtr key;
+                bool test_sealed = false;
                 // create instance
                 try {
                     if (type == "public") {
                         key = crypto::PublicKey::getInstance(algorithm);
                     } else if (type == "private") {
                         key = crypto::PrivateKey::getInstance(algorithm);
+                        test_sealed = true;
                     } else if (type == "symmetric") {
                         key = crypto::SymmetricKey::getInstance(algorithm);
                     } else {
@@ -126,6 +128,16 @@ public:
                             // ignore
                         }
                     }
+                }
+                
+                if (test_sealed) {
+                    auto private_key = std::dynamic_pointer_cast<crypto::PrivateKey>(key->duplicate());
+                    ccstAssertFalse(private_key->isSealed());
+                    private_key->setSealed();
+                    ccstAssertTrue(private_key->isSealed());
+                    ccstMustThrow(crypto::CryptoException, private_key->exportKey());
+                    ccstMustThrow(crypto::CryptoException, private_key->importKey(keyData, keyFmt));
+                    ccstMustThrow(crypto::CryptoException, private_key->duplicate());
                 }
 
             } while (false);

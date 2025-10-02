@@ -202,6 +202,7 @@ const std::string & ECPrivateKey::getKeyType() const
 
 void ECPrivateKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
+    checkNotSealed();
     getEvpKey() = importPrivateKey(curveSpec()->name, format, keyData);
     if (!_public_key_conversion.empty()) {
         EVPKeyPair_SetStringParam(_ll_key, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT, _public_key_conversion);
@@ -210,6 +211,7 @@ void ECPrivateKey::importKey(const ByteRange & keyData, KeyFormat format)
 
 ByteArray ECPrivateKey::exportKey(KeyFormat format) const
 {
+    checkNotSealed();
     return exportPrivateKey(_ll_key, curveSpec()->name, format);
 }
 
@@ -254,6 +256,22 @@ std::shared_ptr<Key> ECPrivateKey::duplicate() const
     return duplicated;
 }
 
+bool ECPrivateKey::isSealed() const noexcept
+{
+    return _sealed;
+}
+
+void ECPrivateKey::setSealed() noexcept
+{
+    _sealed = true;
+}
+
+void ECPrivateKey::checkNotSealed() const
+{
+    if (_sealed) {
+        throwSealedKey(curveSpec()->name);
+    }
+}
 
 // MARK: - Support functions
 

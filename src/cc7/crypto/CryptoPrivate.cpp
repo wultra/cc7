@@ -44,7 +44,12 @@ void throwInvalidKey(const std::string & key_type)
 {
     throw std::invalid_argument(key_type + ": key is invalid");
 }
-    
+
+void throwSealedKey(const std::string & key_type)
+{
+    throw CryptoException(key_type + ": private key is sealed");
+}
+
 bool stringHasPrefix(const std::string & str, const std::string & prefix)
 {
     return str.size() >= prefix.size() &&

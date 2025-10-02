@@ -36,7 +36,8 @@ struct ECCurveSpec
 
 // EC Public key
 
-class ECPublicKey : public PublicKey {
+class ECPublicKey : public PublicKey
+{
 public:
     const std::string & getKeyType() const override;
     void importKey(const ByteRange & keyData, KeyFormat format) override;
@@ -79,7 +80,8 @@ private:
 
 // EC Private key
 
-class ECPrivateKey : public PrivateKey {
+class ECPrivateKey : public PrivateKey
+{
 public:
     const std::string & getKeyType() const override;
     void importKey(const ByteRange & keyData, KeyFormat format) override;
@@ -87,6 +89,9 @@ public:
     Parameter getKeyParameter(int param_id) const override;
     void setKeyParameter(int param_id, const Parameter & value) override;
     std::shared_ptr<Key> duplicate() const override;
+    // PrivateKey interface
+    bool isSealed() const noexcept override;
+    void setSealed() noexcept override;
 
     const EVPKeyPair & getEvpKey() const {
         return _ll_key;
@@ -106,17 +111,21 @@ public:
     
     ECPrivateKey(EVPKeyPair & ll_key, const ECCurveSpec * curve_spec) :
         _ll_key(ll_key),
-        _curve(curve_spec)
+        _curve(curve_spec),
+        _sealed(false)
     {}
 
     ECPrivateKey(const ECCurveSpec * curve_spec) :
-        _curve(curve_spec)
+        _curve(curve_spec),
+        _sealed(false)
     {}
     
 private:
+    void checkNotSealed() const;
     const ECCurveSpec * _curve;
     EVPKeyPair  _ll_key;
     std::string _public_key_conversion;
+    bool _sealed;
 };
 
 class ECKeyPairFactory : public KeyPairFactory

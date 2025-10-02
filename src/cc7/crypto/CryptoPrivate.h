@@ -31,6 +31,8 @@ void throwUnsupportedKeyFormat [[noreturn]] (const std::string & key_type, KeyFo
 
 void throwInvalidKey [[noreturn]] (const std::string & key_type);
 
+void throwSealedKey [[noreturn]] (const std::string & key_type);
+
 bool stringHasPrefix(const std::string & str, const std::string & prefix);
 bool stringHasSuffix(const std::string & str, const std::string & suffix);
 

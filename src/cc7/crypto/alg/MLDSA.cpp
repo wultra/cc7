@@ -227,11 +227,13 @@ const std::string & MLDSAPrivateKey::getKeyType() const
 
 void MLDSAPrivateKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
+    checkNotSealed();
     getEvpKey() = importPrivateKey(algSpec()->name, format, keyData);
 }
 
 ByteArray MLDSAPrivateKey::exportKey(KeyFormat format) const
 {
+    checkNotSealed();
     return exportPrivateKey(_ll_key, algSpec()->name, format);
 }
 
@@ -253,6 +255,23 @@ Parameter MLDSAPrivateKey::getKeyParameter(int param_id) const
 void MLDSAPrivateKey::setKeyParameter(int param_id, const Parameter & value)
 {
     throwUnsupportedParam(param_id);
+}
+
+bool MLDSAPrivateKey::isSealed() const noexcept
+{
+    return _sealed;
+}
+
+void MLDSAPrivateKey::setSealed() noexcept
+{
+    _sealed = true;
+}
+
+void MLDSAPrivateKey::checkNotSealed() const
+{
+    if (_sealed) {
+        throwSealedKey(_spec->name);
+    }
 }
 
 // MARK: - Utils

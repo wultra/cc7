@@ -245,11 +245,13 @@ const std::string & MLKEMPrivateKey::getKeyType() const
 
 void MLKEMPrivateKey::importKey(const ByteRange & keyData, KeyFormat format)
 {
+    checkNotSealed();
     getEvpKey() = importPrivateKey(_spec->name, format, keyData);
 }
 
 ByteArray MLKEMPrivateKey::exportKey(KeyFormat format) const
 {
+    checkNotSealed();
     return exportPrivateKey(_ll_key, _spec->name, format);
 }
 
@@ -271,6 +273,24 @@ void MLKEMPrivateKey::setKeyParameter(int param_id, const Parameter & value)
 {
     throwUnsupportedParam(param_id);
 }
+
+bool MLKEMPrivateKey::isSealed() const noexcept
+{
+    return _sealed;
+}
+
+void MLKEMPrivateKey::setSealed() noexcept
+{
+    _sealed = true;
+}
+
+void MLKEMPrivateKey::checkNotSealed() const
+{
+    if (_sealed) {
+        throwSealedKey(_spec->name);
+    }
+}
+
 
 // MARK: - Utils
 

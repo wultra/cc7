@@ -78,12 +78,15 @@ class MLKEMPrivateKey : public PrivateKey
 {
 public:
     // Key interface
-    virtual const std::string & getKeyType() const;
-    virtual void importKey(const ByteRange & keyData, KeyFormat format);
-    virtual ByteArray exportKey(KeyFormat format) const;
-    virtual std::shared_ptr<Key> duplicate() const;
-    virtual Parameter getKeyParameter(int param_id) const;
-    virtual void setKeyParameter(int param_id, const Parameter & value);
+    const std::string & getKeyType() const override;
+    void importKey(const ByteRange & keyData, KeyFormat format) override;
+    ByteArray exportKey(KeyFormat format) const override;
+    std::shared_ptr<Key> duplicate() const override;
+    Parameter getKeyParameter(int param_id) const override;
+    void setKeyParameter(int param_id, const Parameter & value) override;
+    // PrivateKey interface
+    bool isSealed() const noexcept override;
+    void setSealed() noexcept override;
 
     const MLKEMSpec * algSpec() const { return _spec; }
     const char * algName() const { return _spec->name.c_str(); }
@@ -97,17 +100,22 @@ public:
     }
     
     MLKEMPrivateKey(const MLKEMSpec * spec) :
-        _spec(spec)
+        _spec(spec),
+        _sealed(false)
     {}
     
     MLKEMPrivateKey(EVPKeyPair & ll_key, const MLKEMSpec * spec) :
         _spec(spec),
-        _ll_key(ll_key)
+        _ll_key(ll_key),
+        _sealed(false)
     {}
 
 private:
+    void checkNotSealed() const;
+    
     const MLKEMSpec * _spec;
     EVPKeyPair  _ll_key;
+    bool _sealed;
 };
 
 

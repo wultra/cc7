@@ -86,6 +86,9 @@ public:
     std::shared_ptr<Key> duplicate() const override;
     Parameter getKeyParameter(int param_id) const override;
     void setKeyParameter(int param_id, const Parameter & value) override;
+    // PrivateKey interface
+    bool isSealed() const noexcept override;
+    void setSealed() noexcept override;
 
     const MLDSASpec * algSpec() const { return _spec; }
     const char * algName() const { return _spec->name.c_str(); }
@@ -99,17 +102,22 @@ public:
     }
     
     MLDSAPrivateKey(const MLDSASpec * spec) :
-        _spec(spec)
+        _spec(spec),
+        _sealed(false)
     {}
     
     MLDSAPrivateKey(EVPKeyPair & ll_key, const MLDSASpec * spec) :
         _spec(spec),
-        _ll_key(ll_key)
+        _ll_key(ll_key),
+        _sealed(false)
     {}
 
 private:
+    void checkNotSealed() const;
+    
     const MLDSASpec * _spec;
     EVPKeyPair  _ll_key;
+    bool _sealed;
 };
 
 

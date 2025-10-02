@@ -33,6 +33,10 @@ public:
 class PrivateKey : public Key
 {
 public:
+    virtual void setSealed() noexcept = 0;
+    
+    virtual bool isSealed() const noexcept = 0;
+    
     static std::shared_ptr<PrivateKey> getInstance(const std::string & key_type);
 };
 
