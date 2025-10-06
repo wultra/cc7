@@ -16,19 +16,19 @@
 
 #pragma once
 
-#include "JwsAlgorithm.h"
+#include "JwsBaseAlgorithm.h"
 #include <cc7/crypto/MAC.h>
 
 namespace cc7 {
 namespace jwt {
 
-class JwsMacSignature : public JwsAlgorithm
+class JwsMacSignature : public JwsBaseAlgorithm
 {
 public:
     JwsMacSignature(const crypto::MACPtr& mac, const JwsSpec * spec);
     
-    ByteArray sign(const JwtKey &key, const ByteRange &data) const override;
-    bool verify(const JwtKey &key, const ByteRange &data, const ByteRange &signature) const override;
+    ByteArray sign(const JwsKey &key, const ByteRange &data) const override;
+    bool verify(const JwsKey &key, const ByteRange &data, const ByteRange &signature) const override;
 
 private:
     const crypto::MACPtr _mac;

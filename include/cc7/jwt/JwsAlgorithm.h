@@ -14,18 +14,31 @@
  * limitations under the License.
  */
 
-#include <cc7/jwt/JwsAlgorithm.h>
-#include "JwsBaseAlgorithm.h"
+#pragma once
+
+#include <cc7/jwt/JwsKey.h>
 
 namespace cc7 {
 namespace jwt {
 
-const JwsAlgorithmProvider JwsAlgorithmProvider::defaultProvider;
-
-JwsAlgorithmPtr JwsAlgorithmProvider::getAlgorithm(const std::string &algorithm_name) const
+class JwsAlgorithm : public BaseObject
 {
-    return JwsBaseAlgorithm::getInstance(algorithm_name);
-}
+public:
+    virtual ByteArray sign(const JwsKey& key, const ByteRange& data) const = 0;
+    virtual bool verify(const JwsKey& key, const ByteRange& data, const ByteRange& signature) const = 0;
+};
+
+CC7_SHARED_PTR(JwsAlgorithm)
+
+class JwsAlgorithmProvider : public BaseObject
+{
+public:
+    virtual JwsAlgorithmPtr getAlgorithm(const std::string& algorithm_name) const;
+    
+    static const JwsAlgorithmProvider defaultProvider;
+};
+
+CC7_SHARED_PTR(JwsAlgorithmProvider)
 
 } // namespace jwt
 } // namespace cc7

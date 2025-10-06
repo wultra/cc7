@@ -22,25 +22,24 @@
 namespace cc7 {
 namespace jwt {
 
-class JwsAlgorithm : public BaseObject
+class JwsBaseAlgorithm : public BaseObject
 {
 public:
-    JwsAlgorithm(const JwsSpec* spec);
+    JwsBaseAlgorithm(const JwsSpec* spec);
     
     virtual ByteArray sign(const JwtKey& key, const ByteRange& data) const;
     virtual bool verify(const JwtKey& key, const ByteRange& data, const ByteRange& signature) const;
     
     const JwsSpec * getSpec() const;
     
-    static std::shared_ptr<JwsAlgorithm> getInstance(const std::string& algorithm);
-    
+    static std::shared_ptr<JwsBaseAlgorithm> getInstance(const std::string& algorithm);
     
 protected:
     
     const JwsSpec* _spec;
 };
 
-CC7_SHARED_PTR(JwsAlgorithm)
+CC7_SHARED_PTR(JwsBaseAlgorithm)
 
 } // namespace jwt
 } // namespace cc7

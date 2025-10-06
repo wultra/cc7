@@ -16,7 +16,7 @@
 
 #include <cc7/jwt/JwtWriter.h>
 #include <cc7/Base64.h>
-#include "JwsAlgorithm.h"
+#include "JwsBaseAlgorithm.h"
 
 namespace cc7 {
 namespace jwt {
@@ -56,7 +56,7 @@ JwtWriter& JwtWriter::withHeader(const JwtHeader &header)
     return *this;
 }
 
-JwtWriter& JwtWriter::sign(const JwtKeyList &keys)
+JwtWriter& JwtWriter::sign(const JwsKeyList &keys, const JwsAlgorithmProvider& provider)
 {
     if (keys.empty()) {
         throw std::invalid_argument("Empty list of keys");
@@ -70,7 +70,7 @@ JwtWriter& JwtWriter::sign(const JwtKeyList &keys)
         if (!_payload_type.empty()) {
             header.setType(_payload_type);
         }
-        auto signature = signPayload(*key, payload, header);
+        auto signature = signPayload(*key, payload, provider, header);
         _headers.push_back(header);
         _signatures.push_back(signature);
     }
@@ -151,10 +151,13 @@ bool JwtWriter::isCompact() const
 // MARK: - Private
 
 
-std::string JwtWriter::signPayload(const JwtKey &key, const std::string& payload, JwtHeader& out_header)
+std::string JwtWriter::signPayload(const JwsKey &key,
+                                   const std::string& payload,
+                                   const JwsAlgorithmProvider& provider,
+                                   JwtHeader& out_header)
 {
     out_header.setAlgorithm(key.getJwtAlgorithm());
-    auto algorithm = JwsAlgorithm::getInstance(out_header.getAlgorithm());
+    auto algorithm = provider.getAlgorithm(out_header.getAlgorithm());
     auto data_to_sign = out_header.getEncoded() + cDOT + payload;
     auto signature = algorithm->sign(key, MakeRange(data_to_sign));
     return signature.base64Url();

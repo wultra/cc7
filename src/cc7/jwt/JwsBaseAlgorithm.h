@@ -14,18 +14,27 @@
  * limitations under the License.
  */
 
+#pragma once
+
 #include <cc7/jwt/JwsAlgorithm.h>
-#include "JwsBaseAlgorithm.h"
+#include "JwsSpec.h"
 
 namespace cc7 {
 namespace jwt {
 
-const JwsAlgorithmProvider JwsAlgorithmProvider::defaultProvider;
-
-JwsAlgorithmPtr JwsAlgorithmProvider::getAlgorithm(const std::string &algorithm_name) const
+class JwsBaseAlgorithm : public JwsAlgorithm
 {
-    return JwsBaseAlgorithm::getInstance(algorithm_name);
-}
+public:
+    JwsBaseAlgorithm(const JwsSpec* spec);
+        
+    const JwsSpec * getSpec() const;
+    
+    static JwsAlgorithmPtr getInstance(const std::string& algorithm);
+    
+protected:
+    
+    const JwsSpec* _spec;
+};
 
 } // namespace jwt
 } // namespace cc7

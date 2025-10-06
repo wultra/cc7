@@ -24,7 +24,7 @@
 namespace cc7 {
 namespace jwt {
 
-class JwtKey : public BaseObject
+class JwsKey : public BaseObject
 {
 public:
     
@@ -42,13 +42,13 @@ public:
     const crypto::PrivateKey& getPrivateKey() const;
     const crypto::SymmetricKey& getSymmetricKey() const;
     
-    static std::shared_ptr<JwtKey> symmetricKey(const std::string & algorithm, const crypto::SymmetricKeyPtr& symmetric_key);
-    static std::shared_ptr<JwtKey> symmetricKey(const std::string & algorithm, const ByteRange& key_data);
-    static std::shared_ptr<JwtKey> publicKey(const crypto::PublicKeyPtr& public_key);
-    static std::shared_ptr<JwtKey> privateKey(const crypto::PrivateKeyPtr& private_key);
+    static std::shared_ptr<JwsKey> symmetricKey(const std::string & algorithm, const crypto::SymmetricKeyPtr& symmetric_key);
+    static std::shared_ptr<JwsKey> symmetricKey(const std::string & algorithm, const ByteRange& key_data);
+    static std::shared_ptr<JwsKey> publicKey(const crypto::PublicKeyPtr& public_key);
+    static std::shared_ptr<JwsKey> privateKey(const crypto::PrivateKeyPtr& private_key);
 private:
     
-    JwtKey(Type type, const std::string& algorithm, const crypto::KeyPtr& key);
+    JwsKey(Type type, const std::string& algorithm, const crypto::KeyPtr& key);
     
 
     const Type _type;
@@ -59,8 +59,8 @@ private:
     static const std::string& getAlgorithmForKey(const crypto::Key& key);
 };
 
-CC7_SHARED_PTR(JwtKey)
-typedef std::vector<JwtKeyPtr> JwtKeyList;
+CC7_SHARED_PTR(JwsKey)
+typedef std::vector<JwsKeyPtr> JwsKeyList;
 
 
 } // namespace jwt

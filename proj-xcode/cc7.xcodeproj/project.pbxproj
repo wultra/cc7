@@ -143,17 +143,17 @@
 		BF4D85942DE7296500D32F55 /* JwtReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85932DE7296500D32F55 /* JwtReader.cpp */; };
 		BF4D85952DE7296500D32F55 /* JwtReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85932DE7296500D32F55 /* JwtReader.cpp */; };
 		BF4D85962DE7296500D32F55 /* JwtReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85932DE7296500D32F55 /* JwtReader.cpp */; };
-		BF4D85AF2DE7838400D32F55 /* JwtKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */; };
-		BF4D85B02DE7838400D32F55 /* JwtKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */; };
-		BF4D85B12DE7838400D32F55 /* JwtKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */; };
+		BF4D85AF2DE7838400D32F55 /* JwsKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwsKey.cpp */; };
+		BF4D85B02DE7838400D32F55 /* JwsKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwsKey.cpp */; };
+		BF4D85B12DE7838400D32F55 /* JwsKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwsKey.cpp */; };
 		BF4D85BE2DE7850700D32F55 /* JwsMacSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */; };
-		BF4D85BF2DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */; };
+		BF4D85BF2DE7850700D32F55 /* JwsBaseAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsBaseAlgorithm.cpp */; };
 		BF4D85C02DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */; };
 		BF4D85C12DE7850700D32F55 /* JwsMacSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */; };
-		BF4D85C22DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */; };
+		BF4D85C22DE7850700D32F55 /* JwsBaseAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsBaseAlgorithm.cpp */; };
 		BF4D85C32DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */; };
 		BF4D85C42DE7850700D32F55 /* JwsMacSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */; };
-		BF4D85C52DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */; };
+		BF4D85C52DE7850700D32F55 /* JwsBaseAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsBaseAlgorithm.cpp */; };
 		BF4D85C62DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */; };
 		BF4D85C92DE7869600D32F55 /* JwsSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85C82DE7869600D32F55 /* JwsSpec.cpp */; };
 		BF4D85CA2DE7869600D32F55 /* JwsSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85C82DE7869600D32F55 /* JwsSpec.cpp */; };
@@ -273,6 +273,9 @@
 		BFB493FF1CE8E74600F8D81B /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB493FE1CE8E74600F8D81B /* TestFile.cpp */; };
 		BFB494011CE8E79400F8D81B /* TestDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494001CE8E79400F8D81B /* TestDirectory.cpp */; };
 		BFB494031CE8E7C600F8D81B /* TestResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494021CE8E7C600F8D81B /* TestResource.cpp */; };
+		BFBFA71B2E93F30200907B39 /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFBFA71A2E93F30200907B39 /* JwsAlgorithm.cpp */; };
+		BFBFA71C2E93F30200907B39 /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFBFA71A2E93F30200907B39 /* JwsAlgorithm.cpp */; };
+		BFBFA71D2E93F30200907B39 /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFBFA71A2E93F30200907B39 /* JwsAlgorithm.cpp */; };
 		BFC372922DA0286D00BA292D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
 		BFC372932DA0286D00BA292D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
 		BFC372942DA0286D00BA292D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
@@ -548,10 +551,10 @@
 		BF4D85902DE727D100D32F55 /* JwtException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwtException.h; sourceTree = "<group>"; };
 		BF4D85912DE7284300D32F55 /* JwtWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwtWriter.h; sourceTree = "<group>"; };
 		BF4D85932DE7296500D32F55 /* JwtReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwtReader.cpp; sourceTree = "<group>"; };
-		BF4D85AD2DE7834700D32F55 /* JwtKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwtKey.h; sourceTree = "<group>"; };
-		BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwtKey.cpp; sourceTree = "<group>"; };
-		BF4D85B82DE7850700D32F55 /* JwsAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsAlgorithm.h; sourceTree = "<group>"; };
-		BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwsAlgorithm.cpp; sourceTree = "<group>"; };
+		BF4D85AD2DE7834700D32F55 /* JwsKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsKey.h; sourceTree = "<group>"; };
+		BF4D85AE2DE7838400D32F55 /* JwsKey.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwsKey.cpp; sourceTree = "<group>"; };
+		BF4D85B82DE7850700D32F55 /* JwsBaseAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsBaseAlgorithm.h; sourceTree = "<group>"; };
+		BF4D85B92DE7850700D32F55 /* JwsBaseAlgorithm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwsBaseAlgorithm.cpp; sourceTree = "<group>"; };
 		BF4D85BA2DE7850700D32F55 /* JwsDsaSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsDsaSignature.h; sourceTree = "<group>"; };
 		BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwsDsaSignature.cpp; sourceTree = "<group>"; };
 		BF4D85BC2DE7850700D32F55 /* JwsMacSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsMacSignature.h; sourceTree = "<group>"; };
@@ -640,6 +643,8 @@
 		BFB493FE1CE8E74600F8D81B /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
 		BFB494001CE8E79400F8D81B /* TestDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestDirectory.cpp; sourceTree = "<group>"; };
 		BFB494021CE8E7C600F8D81B /* TestResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestResource.cpp; sourceTree = "<group>"; };
+		BFBFA7192E93EDD200907B39 /* JwsAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JwsAlgorithm.h; sourceTree = "<group>"; };
+		BFBFA71A2E93F30200907B39 /* JwsAlgorithm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JwsAlgorithm.cpp; sourceTree = "<group>"; };
 		BFC372952DA02A7900BA292D /* CryptoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptoConstants.h; sourceTree = "<group>"; };
 		BFC372962DA02B2D00BA292D /* CryptoConstants.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CryptoConstants.cpp; sourceTree = "<group>"; };
 		BFC525481CDB9C13002E653C /* TestTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestTypes.h; sourceTree = "<group>"; };
@@ -1023,7 +1028,8 @@
 				BF4D85E82DE9D22E00D32F55 /* JwtReader.h */,
 				BF4D85DF2DE97EF200D32F55 /* JwtHeader.h */,
 				BF4D85902DE727D100D32F55 /* JwtException.h */,
-				BF4D85AD2DE7834700D32F55 /* JwtKey.h */,
+				BFBFA7192E93EDD200907B39 /* JwsAlgorithm.h */,
+				BF4D85AD2DE7834700D32F55 /* JwsKey.h */,
 			);
 			path = jwt;
 			sourceTree = "<group>";
@@ -1033,14 +1039,15 @@
 			children = (
 				BF4D85C72DE7869600D32F55 /* JwsSpec.h */,
 				BF4D85C82DE7869600D32F55 /* JwsSpec.cpp */,
-				BF4D85B82DE7850700D32F55 /* JwsAlgorithm.h */,
-				BF4D85B92DE7850700D32F55 /* JwsAlgorithm.cpp */,
+				BF4D85B82DE7850700D32F55 /* JwsBaseAlgorithm.h */,
+				BF4D85B92DE7850700D32F55 /* JwsBaseAlgorithm.cpp */,
 				BF4D85BA2DE7850700D32F55 /* JwsDsaSignature.h */,
 				BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */,
 				BF4D85BC2DE7850700D32F55 /* JwsMacSignature.h */,
 				BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */,
 				BF4D858C2DE727B900D32F55 /* JwtException.cpp */,
-				BF4D85AE2DE7838400D32F55 /* JwtKey.cpp */,
+				BFBFA71A2E93F30200907B39 /* JwsAlgorithm.cpp */,
+				BF4D85AE2DE7838400D32F55 /* JwsKey.cpp */,
 				BF4D85E02DE998B000D32F55 /* JwtHeader.cpp */,
 				BF4D85E42DE999E100D32F55 /* JwtWriter.cpp */,
 				BF4D85932DE7296500D32F55 /* JwtReader.cpp */,
@@ -1719,6 +1726,7 @@
 				BF0058F12D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
 				BF5A00192DA654EC0068992F /* KeyAgreement.cpp in Sources */,
 				BF4D85752DE5AADF00D32F55 /* StringUtils.cpp in Sources */,
+				BFBFA71C2E93F30200907B39 /* JwsAlgorithm.cpp in Sources */,
 				BF4D85E72DE999E100D32F55 /* JwtWriter.cpp in Sources */,
 				BF00590E2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
 				BF5A8C8E2DC5204400B3FB01 /* X963KDF.cpp in Sources */,
@@ -1733,7 +1741,7 @@
 				BF0058F52D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */,
 				BF8EEC0726662A01009AC5FD /* DebugFeatures.cpp in Sources */,
 				BF4D85BE2DE7850700D32F55 /* JwsMacSignature.cpp in Sources */,
-				BF4D85BF2DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */,
+				BF4D85BF2DE7850700D32F55 /* JwsBaseAlgorithm.cpp in Sources */,
 				BF4D85C02DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */,
 				BF0059522D9E982900C0F3AF /* ECKeyPair.cpp in Sources */,
 				BF5A00312DA69B450068992F /* MLKEM.cpp in Sources */,
@@ -1741,7 +1749,7 @@
 				BF0059232D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */,
 				BF4D85E12DE998B000D32F55 /* JwtHeader.cpp in Sources */,
 				BF8EEC0826662A01009AC5FD /* ByteArray.cpp in Sources */,
-				BF4D85B02DE7838400D32F55 /* JwtKey.cpp in Sources */,
+				BF4D85B02DE7838400D32F55 /* JwsKey.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1827,6 +1835,7 @@
 				BF0058E72D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
 				BF5A00182DA654EC0068992F /* KeyAgreement.cpp in Sources */,
 				BF4D85762DE5AADF00D32F55 /* StringUtils.cpp in Sources */,
+				BFBFA71D2E93F30200907B39 /* JwsAlgorithm.cpp in Sources */,
 				BF4D85E62DE999E100D32F55 /* JwtWriter.cpp in Sources */,
 				BF00590D2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
 				BF5A8C902DC5204400B3FB01 /* X963KDF.cpp in Sources */,
@@ -1841,7 +1850,7 @@
 				BF0058EB2D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */,
 				BFE174071CC96D3600039466 /* DebugFeatures.cpp in Sources */,
 				BF4D85C42DE7850700D32F55 /* JwsMacSignature.cpp in Sources */,
-				BF4D85C52DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */,
+				BF4D85C52DE7850700D32F55 /* JwsBaseAlgorithm.cpp in Sources */,
 				BF4D85C62DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */,
 				BF0059512D9E982900C0F3AF /* ECKeyPair.cpp in Sources */,
 				BF5A00302DA69B450068992F /* MLKEM.cpp in Sources */,
@@ -1849,7 +1858,7 @@
 				BF0059222D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */,
 				BF4D85E32DE998B000D32F55 /* JwtHeader.cpp in Sources */,
 				BF388B631CC62CF700DEC1AE /* ByteArray.cpp in Sources */,
-				BF4D85AF2DE7838400D32F55 /* JwtKey.cpp in Sources */,
+				BF4D85AF2DE7838400D32F55 /* JwsKey.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1893,6 +1902,7 @@
 				BF0058EC2D9A9FF300C0F3AF /* KeyPair.cpp in Sources */,
 				BF5A001A2DA654EC0068992F /* KeyAgreement.cpp in Sources */,
 				BF4D85742DE5AADF00D32F55 /* StringUtils.cpp in Sources */,
+				BFBFA71B2E93F30200907B39 /* JwsAlgorithm.cpp in Sources */,
 				BF4D85E52DE999E100D32F55 /* JwtWriter.cpp in Sources */,
 				BF00590F2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
 				BF5A8C8F2DC5204400B3FB01 /* X963KDF.cpp in Sources */,
@@ -1907,7 +1917,7 @@
 				BF0058F02D9A9FF300C0F3AF /* MessageDigest.cpp in Sources */,
 				BFFE8AA72449B4F80032821F /* DebugFeatures.cpp in Sources */,
 				BF4D85C12DE7850700D32F55 /* JwsMacSignature.cpp in Sources */,
-				BF4D85C22DE7850700D32F55 /* JwsAlgorithm.cpp in Sources */,
+				BF4D85C22DE7850700D32F55 /* JwsBaseAlgorithm.cpp in Sources */,
 				BF4D85C32DE7850700D32F55 /* JwsDsaSignature.cpp in Sources */,
 				BF0059502D9E982900C0F3AF /* ECKeyPair.cpp in Sources */,
 				BF5A00322DA69B450068992F /* MLKEM.cpp in Sources */,
@@ -1915,7 +1925,7 @@
 				BF0059242D9C093500C0F3AF /* CryptoPrivate.cpp in Sources */,
 				BF4D85E22DE998B000D32F55 /* JwtHeader.cpp in Sources */,
 				BFFE8AA82449B4F80032821F /* ByteArray.cpp in Sources */,
-				BF4D85B12DE7838400D32F55 /* JwtKey.cpp in Sources */,
+				BF4D85B12DE7838400D32F55 /* JwsKey.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

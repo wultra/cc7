@@ -32,23 +32,20 @@ static const std::vector<JwsSpec> spec_list {
     // RFC-7515
     
     // HMAC-SHA based
-    { JwsSpec::Type::MAC, "HS256", "HMAC-SHA-256", NIL, 0, "", nullptr, nullptr },
-    { JwsSpec::Type::MAC, "HS384", "HMAC-SHA-384", NIL, 0, "", nullptr, nullptr },
-    { JwsSpec::Type::MAC, "HS512", "HMAC-SHA-512", NIL, 0, "", nullptr, nullptr },
+    { JwsSpec::Type::MAC, "HS256", "HMAC-SHA-256", NIL, 0, NIL, nullptr, nullptr },
+    { JwsSpec::Type::MAC, "HS384", "HMAC-SHA-384", NIL, 0, NIL, nullptr, nullptr },
+    { JwsSpec::Type::MAC, "HS512", "HMAC-SHA-512", NIL, 0, NIL, nullptr, nullptr },
     // ECDSA based
-    { JwsSpec::Type::DSA, "ES256", "ECDSA-SHA-256", "P-256", 32, "", EC_JoseToAsn1, EC_Asn1ToJose },
-    { JwsSpec::Type::DSA, "ES384", "ECDSA-SHA-384", "P-384", 48, "", EC_JoseToAsn1, EC_Asn1ToJose },
-    { JwsSpec::Type::DSA, "ES512", "ECDSA-SHA-512", "P-521", 66, "", EC_JoseToAsn1, EC_Asn1ToJose },
+    { JwsSpec::Type::DSA, "ES256", "ECDSA-SHA-256", "P-256", 32, NIL, EC_JoseToAsn1, EC_Asn1ToJose },
+    { JwsSpec::Type::DSA, "ES384", "ECDSA-SHA-384", "P-384", 48, NIL, EC_JoseToAsn1, EC_Asn1ToJose },
+    { JwsSpec::Type::DSA, "ES512", "ECDSA-SHA-512", "P-521", 66, NIL, EC_JoseToAsn1, EC_Asn1ToJose },
     
     // Draft algorithms
     
     // ML-DSA
-    { JwsSpec::Type::DSA, "ML-DSA-44", "ML-DSA-44", "ML-DSA-44", 0, "", nullptr, nullptr },
-    { JwsSpec::Type::DSA, "ML-DSA-65", "ML-DSA-65", "ML-DSA-65", 0, "", nullptr, nullptr },
-    { JwsSpec::Type::DSA, "ML-DSA-87", "ML-DSA-87", "ML-DSA-87", 0, "", nullptr, nullptr },
-    // KMAC based
-    { JwsSpec::Type::MAC, "xKMAC128", "KMAC-128", NIL, 32, "JWS", nullptr, nullptr },
-    { JwsSpec::Type::MAC, "xKMAC256", "KMAC-256", NIL, 64, "JWS", nullptr, nullptr },
+    { JwsSpec::Type::DSA, "ML-DSA-44", "ML-DSA-44", "ML-DSA-44", 0, NIL, nullptr, nullptr },
+    { JwsSpec::Type::DSA, "ML-DSA-65", "ML-DSA-65", "ML-DSA-65", 0, NIL, nullptr, nullptr },
+    { JwsSpec::Type::DSA, "ML-DSA-87", "ML-DSA-87", "ML-DSA-87", 0, NIL, nullptr, nullptr },
 };
 
 const JwsSpec* JwsSpec::specForJwsAlgorithm(const std::string& jws_algorithm)

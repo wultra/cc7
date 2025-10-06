@@ -14,92 +14,92 @@
  * limitations under the License.
  */
 
-#include <cc7/jwt/JwtKey.h>
+#include <cc7/jwt/JwsKey.h>
 #include "JwsSpec.h"
 
 namespace cc7 {
 namespace jwt {
 
-JwtKey::JwtKey(Type type, const std::string& algorithm, const crypto::KeyPtr& key) :
+JwsKey::JwsKey(Type type, const std::string& algorithm, const crypto::KeyPtr& key) :
     _type(type),
     _algorithm(algorithm),
     _key(key)
 {
 }
 
-JwtKey::Type JwtKey::getType() const
+JwsKey::Type JwsKey::getType() const
 {
     return _type;
 }
 
-const std::string& JwtKey::getJwtAlgorithm() const
+const std::string& JwsKey::getJwtAlgorithm() const
 {
     return _algorithm;
 }
 
-const crypto::PublicKey& JwtKey::getPublicKey() const
+const crypto::PublicKey& JwsKey::getPublicKey() const
 {
     checkKeyType(Type::PUBLIC);
     return reinterpret_cast<crypto::PublicKey&>(*_key);
 }
 
-const crypto::PrivateKey& JwtKey::getPrivateKey() const
+const crypto::PrivateKey& JwsKey::getPrivateKey() const
 {
     checkKeyType(Type::PRIVATE);
     return reinterpret_cast<crypto::PrivateKey&>(*_key);
 }
 
-const crypto::SymmetricKey& JwtKey::getSymmetricKey() const
+const crypto::SymmetricKey& JwsKey::getSymmetricKey() const
 {
     checkKeyType(Type::SYMMETRIC);
     return reinterpret_cast<crypto::SymmetricKey&>(*_key);
 }
 
-JwtKeyPtr JwtKey::symmetricKey(const std::string & algorithm, const ByteRange& key_data)
+JwsKeyPtr JwsKey::symmetricKey(const std::string & algorithm, const ByteRange& key_data)
 {
     return symmetricKey(algorithm, crypto::SymmetricKey::getInstance(key_data));
 }
 
-JwtKeyPtr JwtKey::symmetricKey(const std::string & algorithm, const crypto::SymmetricKeyPtr& symmetric_key)
+JwsKeyPtr JwsKey::symmetricKey(const std::string & algorithm, const crypto::SymmetricKeyPtr& symmetric_key)
 {
     // Check whether algorithm is supported.
     if (!JwsSpec::specForJwsAlgorithm(algorithm)) {
         throw JwtException("Unsupported JWT algorithm " + algorithm);
     }
-    return std::shared_ptr<JwtKey>(new JwtKey(Type::SYMMETRIC, algorithm, symmetric_key));
+    return std::shared_ptr<JwsKey>(new JwsKey(Type::SYMMETRIC, algorithm, symmetric_key));
 }
 
-JwtKeyPtr JwtKey::publicKey(const crypto::PublicKeyPtr& public_key)
+JwsKeyPtr JwsKey::publicKey(const crypto::PublicKeyPtr& public_key)
 {
-    return std::shared_ptr<JwtKey>(new JwtKey(Type::PUBLIC,
+    return std::shared_ptr<JwsKey>(new JwsKey(Type::PUBLIC,
                                               getAlgorithmForKey(*public_key),
                                               public_key));
 }
 
-JwtKeyPtr JwtKey::privateKey(const crypto::PrivateKeyPtr& private_key)
+JwsKeyPtr JwsKey::privateKey(const crypto::PrivateKeyPtr& private_key)
 {
-    return std::shared_ptr<JwtKey>(new JwtKey(Type::PRIVATE,
+    return std::shared_ptr<JwsKey>(new JwsKey(Type::PRIVATE,
                                               getAlgorithmForKey(*private_key),
                                               private_key));
 }
 
-static std::string _TypeToName(JwtKey::Type t)
+static std::string _TypeToName(JwsKey::Type t)
 {
     switch (t) {
-        case JwtKey::Type::SYMMETRIC: return "SYMMETRIC";
-        case JwtKey::Type::PUBLIC: return "PUBLIC";
-        case JwtKey::Type::PRIVATE: return "PRIVATE";
+        case JwsKey::Type::SYMMETRIC: return "SYMMETRIC";
+        case JwsKey::Type::PUBLIC: return "PUBLIC";
+        case JwsKey::Type::PRIVATE: return "PRIVATE";
     }
 }
 
-void JwtKey::checkKeyType(Type t) const
+void JwsKey::checkKeyType(Type t) const
 {
     if (_type != t) {
         throw std::logic_error("Requesting " + _TypeToName(t) + " key, while key is " + _algorithm + "/" + _TypeToName(_type));
     }
 }
 
-const std::string& JwtKey::getAlgorithmForKey(const crypto::Key &key)
+const std::string& JwsKey::getAlgorithmForKey(const crypto::Key &key)
 {
     const auto spec = JwsSpec::specForKeyAlgorithm(key.getKeyType());
     if (!spec) {

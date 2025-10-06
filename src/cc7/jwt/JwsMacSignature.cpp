@@ -33,18 +33,18 @@ crypto::ParameterList JwsMacSignature::buildParamsForSpec(const JwsSpec* spec)
 
 
 JwsMacSignature::JwsMacSignature(const crypto::MACPtr& mac, const JwsSpec * spec) :
-    JwsAlgorithm(spec),
+    JwsBaseAlgorithm(spec),
     _mac(mac),
     _mac_params(buildParamsForSpec(spec))
 {
 }
 
-ByteArray JwsMacSignature::sign(const JwtKey &key, const ByteRange &data) const
+ByteArray JwsMacSignature::sign(const JwsKey &key, const ByteRange &data) const
 {
     return _mac->token(key.getSymmetricKey(), data, _mac_params);
 }
 
-bool JwsMacSignature::verify(const JwtKey &key, const ByteRange &data, const ByteRange &signature) const
+bool JwsMacSignature::verify(const JwsKey &key, const ByteRange &data, const ByteRange &signature) const
 {
     return _mac->verifyToken(key.getSymmetricKey(), data, signature, _mac_params);
 }

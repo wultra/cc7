@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <cc7/jwt/JwtKey.h>
+#include <cc7/jwt/JwsAlgorithm.h>
 #include <cc7/jwt/JwtHeader.h>
 #include <cc7/json/Json.h>
 
@@ -40,7 +40,8 @@ public:
     
     // Verify
     
-    JwtReader& verify(const JwtKeyList& keys);
+    JwtReader& verify(const JwsKeyList& keys,
+                      const JwsAlgorithmProvider& provider = JwsAlgorithmProvider::defaultProvider);
     
     bool isCompact() const;
     const ByteArray& getPayload() const;

@@ -20,12 +20,12 @@ namespace cc7 {
 namespace jwt {
 
 JwsDsaSignature::JwsDsaSignature(const crypto::SignaturePtr& signature, const JwsSpec* spec) :
-    JwsAlgorithm(spec),
+    JwsBaseAlgorithm(spec),
     _signature(signature)
 {
 }
 
-ByteArray JwsDsaSignature::sign(const JwtKey &key, const ByteRange &data) const
+ByteArray JwsDsaSignature::sign(const JwsKey &key, const ByteRange &data) const
 {
     auto signature = _signature->sign(key.getPrivateKey(), data);
     if (_spec->outputConversion) {
@@ -34,7 +34,7 @@ ByteArray JwsDsaSignature::sign(const JwtKey &key, const ByteRange &data) const
     return signature;
 }
 
-bool JwsDsaSignature::verify(const JwtKey &key, const ByteRange &data, const ByteRange &signature) const
+bool JwsDsaSignature::verify(const JwsKey &key, const ByteRange &data, const ByteRange &signature) const
 {
     const auto& public_key = key.getPublicKey();
     ByteArray in_signature;

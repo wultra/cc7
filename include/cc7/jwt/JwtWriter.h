@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <cc7/jwt/JwtKey.h>
+#include <cc7/jwt/JwsAlgorithm.h>
 #include <cc7/jwt/JwtHeader.h>
 #include <cc7/json/Json.h>
 
@@ -33,7 +33,8 @@ public:
     JwtWriter& withJsonPayload(const json::JsonValue& payload, const std::string & payload_type = JwtHeader::NO_TYPE);
     JwtWriter& withPayload(const ByteRange& payload, const std::string & payload_type = JwtHeader::NO_TYPE);
     JwtWriter& withHeader(const JwtHeader& header);
-    JwtWriter& sign(const JwtKeyList& keys);
+    JwtWriter& sign(const JwsKeyList& keys,
+                    const JwsAlgorithmProvider& provider = JwsAlgorithmProvider::defaultProvider);
     
     // Result
     
@@ -61,7 +62,10 @@ private:
     
     json::JsonWriter _writer;
     
-    static std::string signPayload(const JwtKey& key, const std::string& payload, JwtHeader& out_header);
+    static std::string signPayload(const JwsKey& key,
+                                   const std::string& payload,
+                                   const JwsAlgorithmProvider& provider,
+                                   JwtHeader& out_header);
 };
 
 } // namespace jwt

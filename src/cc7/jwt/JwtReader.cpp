@@ -17,7 +17,7 @@
 #include <cc7/jwt/JwtReader.h>
 #include <cc7/Base64.h>
 #include <cc7/detail/StringUtils.h>
-#include "JwsAlgorithm.h"
+#include "JwsBaseAlgorithm.h"
 
 namespace cc7 {
 namespace jwt {
@@ -90,7 +90,7 @@ JwtReader JwtReader::fromJsonString(const std::string& string)
     return fromJson(root);
 }
 
-JwtReader& JwtReader::verify(const JwtKeyList& keys)
+JwtReader& JwtReader::verify(const JwsKeyList& keys, const JwsAlgorithmProvider& provider)
 {
     std::set<std::string> processed;
     size_t matched = 0;
@@ -104,14 +104,14 @@ JwtReader& JwtReader::verify(const JwtKeyList& keys)
         processed.insert(algorithm);
         
         // Look for key
-        auto key_found = std::find_if(keys.begin(), keys.end(), [algorithm](const JwtKeyPtr& ptr) {
+        auto key_found = std::find_if(keys.begin(), keys.end(), [algorithm](const JwsKeyPtr& ptr) {
             return ptr->getJwtAlgorithm() == algorithm;
         });
         if (key_found == keys.end()) {
             throw JwtException("Missing key for algorithm " + algorithm);
         }
         auto key = *key_found;
-        auto verifier = JwsAlgorithm::getInstance(algorithm);
+        auto verifier = provider.getAlgorithm(algorithm);
         bool success = false;
         try {
             auto data = header.getEncoded() + cDOT + _encoded_payload;
