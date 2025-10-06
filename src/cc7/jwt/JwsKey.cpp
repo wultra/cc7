@@ -20,7 +20,7 @@
 namespace cc7 {
 namespace jwt {
 
-JwsKey::JwsKey(Type type, const std::string& algorithm, const crypto::KeyPtr& key) :
+JwsKey::JwsKey(Type type, const std::string& algorithm, const crypto::ConstKeyPtr& key) :
     _type(type),
     _algorithm(algorithm),
     _key(key)
@@ -40,19 +40,19 @@ const std::string& JwsKey::getJwtAlgorithm() const
 const crypto::PublicKey& JwsKey::getPublicKey() const
 {
     checkKeyType(Type::PUBLIC);
-    return reinterpret_cast<crypto::PublicKey&>(*_key);
+    return reinterpret_cast<const crypto::PublicKey&>(*_key);
 }
 
 const crypto::PrivateKey& JwsKey::getPrivateKey() const
 {
     checkKeyType(Type::PRIVATE);
-    return reinterpret_cast<crypto::PrivateKey&>(*_key);
+    return reinterpret_cast<const crypto::PrivateKey&>(*_key);
 }
 
 const crypto::SymmetricKey& JwsKey::getSymmetricKey() const
 {
     checkKeyType(Type::SYMMETRIC);
-    return reinterpret_cast<crypto::SymmetricKey&>(*_key);
+    return reinterpret_cast<const crypto::SymmetricKey&>(*_key);
 }
 
 JwsKeyPtr JwsKey::symmetricKey(const std::string & algorithm, const ByteRange& key_data)
@@ -60,7 +60,7 @@ JwsKeyPtr JwsKey::symmetricKey(const std::string & algorithm, const ByteRange& k
     return symmetricKey(algorithm, crypto::SymmetricKey::getInstance(key_data));
 }
 
-JwsKeyPtr JwsKey::symmetricKey(const std::string & algorithm, const crypto::SymmetricKeyPtr& symmetric_key)
+JwsKeyPtr JwsKey::symmetricKey(const std::string & algorithm, const crypto::ConstSymmetricKeyPtr& symmetric_key)
 {
     // Check whether algorithm is supported.
     if (!JwsSpec::specForJwsAlgorithm(algorithm)) {
@@ -69,14 +69,14 @@ JwsKeyPtr JwsKey::symmetricKey(const std::string & algorithm, const crypto::Symm
     return std::shared_ptr<JwsKey>(new JwsKey(Type::SYMMETRIC, algorithm, symmetric_key));
 }
 
-JwsKeyPtr JwsKey::publicKey(const crypto::PublicKeyPtr& public_key)
+JwsKeyPtr JwsKey::publicKey(const crypto::ConstPublicKeyPtr& public_key)
 {
     return std::shared_ptr<JwsKey>(new JwsKey(Type::PUBLIC,
                                               getAlgorithmForKey(*public_key),
                                               public_key));
 }
 
-JwsKeyPtr JwsKey::privateKey(const crypto::PrivateKeyPtr& private_key)
+JwsKeyPtr JwsKey::privateKey(const crypto::ConstPrivateKeyPtr& private_key)
 {
     return std::shared_ptr<JwsKey>(new JwsKey(Type::PRIVATE,
                                               getAlgorithmForKey(*private_key),

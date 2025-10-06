@@ -42,18 +42,18 @@ public:
     const crypto::PrivateKey& getPrivateKey() const;
     const crypto::SymmetricKey& getSymmetricKey() const;
     
-    static std::shared_ptr<JwsKey> symmetricKey(const std::string & algorithm, const crypto::SymmetricKeyPtr& symmetric_key);
+    static std::shared_ptr<JwsKey> symmetricKey(const std::string & algorithm, const crypto::ConstSymmetricKeyPtr& symmetric_key);
     static std::shared_ptr<JwsKey> symmetricKey(const std::string & algorithm, const ByteRange& key_data);
-    static std::shared_ptr<JwsKey> publicKey(const crypto::PublicKeyPtr& public_key);
-    static std::shared_ptr<JwsKey> privateKey(const crypto::PrivateKeyPtr& private_key);
+    static std::shared_ptr<JwsKey> publicKey(const crypto::ConstPublicKeyPtr& public_key);
+    static std::shared_ptr<JwsKey> privateKey(const crypto::ConstPrivateKeyPtr& private_key);
 private:
     
-    JwsKey(Type type, const std::string& algorithm, const crypto::KeyPtr& key);
+    JwsKey(Type type, const std::string& algorithm, const crypto::ConstKeyPtr& key);
     
 
     const Type _type;
     const std::string _algorithm;
-    const crypto::KeyPtr _key;
+    const crypto::ConstKeyPtr _key;
     
     void checkKeyType(Type t) const;
     static const std::string& getAlgorithmForKey(const crypto::Key& key);
