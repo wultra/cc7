@@ -44,7 +44,9 @@ public:
     
     static std::shared_ptr<JwsKey> symmetricKey(const std::string & algorithm, const crypto::ConstSymmetricKeyPtr& symmetric_key);
     static std::shared_ptr<JwsKey> symmetricKey(const std::string & algorithm, const ByteRange& key_data);
+    static std::shared_ptr<JwsKey> publicKey(const std::string& algorithm, const crypto::ConstPublicKeyPtr& public_key);
     static std::shared_ptr<JwsKey> publicKey(const crypto::ConstPublicKeyPtr& public_key);
+    static std::shared_ptr<JwsKey> privateKey(const std::string& algorithm, const crypto::ConstPrivateKeyPtr& private_key);
     static std::shared_ptr<JwsKey> privateKey(const crypto::ConstPrivateKeyPtr& private_key);
 private:
     
