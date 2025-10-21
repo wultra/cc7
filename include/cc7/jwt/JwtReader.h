@@ -23,6 +23,17 @@
 namespace cc7 {
 namespace jwt {
 
+/// The `JwsVerifyMode` enumeration specifies the mode of JWS verification.
+enum class JwsVerifyMode
+{
+    /// Verify signatures for all provided keys. Any additional signatures in the JWS may be ignored.
+    VERIFY_ALL_KEYS,
+    /// Verify all signatures present in the JWS. If a corresponding key is not provided, an error is reported.
+    VERIFY_ALL_SIGNATURES,
+    /// Verify that at least one signature in the JWS can be validated using the provided keys.
+    VERIFY_AT_LEAST_ONE
+};
+
 class JwtReader
 {
 public:
@@ -41,8 +52,9 @@ public:
     // Verify
     
     JwtReader& verify(const JwsKeyList& keys,
+                      JwsVerifyMode mode = JwsVerifyMode::VERIFY_ALL_KEYS,
                       const JwsAlgorithmProvider& provider = JwsAlgorithmProvider::defaultProvider);
-    
+        
     bool isCompact() const;
     const ByteArray& getPayload() const;
     const std::vector<JwtHeader>& getHeaders() const;

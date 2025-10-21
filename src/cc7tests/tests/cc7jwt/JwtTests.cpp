@@ -40,6 +40,7 @@ namespace tests
             CC7_REGISTER_TEST_METHOD(testCompositeSignatures)
             CC7_REGISTER_TEST_METHOD(testSignVerify)
             CC7_REGISTER_TEST_METHOD(testMultiSignVerify)
+            CC7_REGISTER_TEST_METHOD(testVerificationModes)
         }
         
         static const int TEST_OK = 0;
@@ -228,6 +229,8 @@ namespace tests
             std::string title;
             JwsKeyList sign_keys;
             JwsKeyList verify_keys;
+            JwsVerifyMode mode;
+            bool should_pass;
         };
         
         bool isMacAlg(const std::string& algorithm)
@@ -236,7 +239,9 @@ namespace tests
             return spec ? spec->type == JwsSpec::Type::MAC : false;
         }
         
-        MultiSignVerifyData testDataForAlgs(const std::vector<std::string>& algs)
+        MultiSignVerifyData testDataForAlgs(const std::vector<std::string>& algs,
+                                            jwt::JwsVerifyMode mode = jwt::JwsVerifyMode::VERIFY_ALL_KEYS,
+                                            bool should_pass = true)
         {
             std::string title;
             JwsKeyList sign, verify;
@@ -255,7 +260,47 @@ namespace tests
                 sign.push_back(td.sign_key);
                 verify.push_back(td.verify_key);
             }
-            return { title, sign, verify };
+            return { title, sign, verify, mode, should_pass };
+        }
+        
+        MultiSignVerifyData testDataForPartialAlgs(const std::vector<std::string>& for_sign,
+                                                   const std::vector<std::string>& for_verify,
+                                                   jwt::JwsVerifyMode mode,
+                                                   bool should_pass)
+        {
+            std::set<std::string> algs;
+            algs.insert(for_sign.begin(), for_sign.end());
+            algs.insert(for_verify.begin(), for_verify.end());
+            std::string s_title, v_title;
+            JwsKeyList sign, verify;
+            for (auto alg : algs) {
+                SignVerifyData td;
+                if (isMacAlg(alg)) {
+                    td = testDataForMac(alg, 64);
+                } else {
+                    td = testDataForDsa(alg);
+                }
+                if (std::find(for_sign.begin(), for_sign.end(), alg) != for_sign.end()) {
+                    sign.push_back(td.sign_key);
+                    if (s_title.empty()) {
+                        s_title = td.sign_key->getJwtAlgorithm();
+                    } else {
+                        s_title += ", " + td.sign_key->getJwtAlgorithm();
+                    }
+                }
+                if (std::find(for_verify.begin(), for_verify.end(), alg) != for_verify.end()) {
+                    verify.push_back(td.verify_key);
+                    if (v_title.empty()) {
+                        v_title = td.verify_key->getJwtAlgorithm();
+                    } else {
+                        v_title += ", " + td.verify_key->getJwtAlgorithm();
+                    }
+                }
+            }
+            auto title = "S=( " + s_title + " ) V=(" + v_title + "), Mode="
+                            + std::to_string((int)mode) + ", must "
+                            + (should_pass ? "pass" : "fail");
+            return { title, sign, verify, mode, should_pass };
         }
                 
         void testSignVerify()
@@ -361,6 +406,51 @@ namespace tests
                 ccstAssertEqual("John Doe", claims["name"].asString());
                 ccstAssertEqual(true, claims["admin"].asBoolean());
                 ccstAssertEqual(1516239022, claims["iat"].asInteger());
+            }
+        }
+        
+        void testVerificationModes()
+        {
+            auto payload = Base64::urlDecode("eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0");
+            
+            std::vector<MultiSignVerifyData> tests;
+            tests.push_back(testDataForPartialAlgs({ "P-256", "P-384" }, { "P-256" }, jwt::JwsVerifyMode::VERIFY_ALL_KEYS, true));
+            tests.push_back(testDataForPartialAlgs({ "P-256", "P-384" }, { "P-256" }, jwt::JwsVerifyMode::VERIFY_AT_LEAST_ONE, true));
+            tests.push_back(testDataForPartialAlgs({ "P-256", "P-384", "ML-DSA-44" }, { "P-384" }, jwt::JwsVerifyMode::VERIFY_AT_LEAST_ONE, true));
+            tests.push_back(testDataForPartialAlgs({ "P-256", "P-384", "ML-DSA-44" }, { "P-384", "P-256" }, jwt::JwsVerifyMode::VERIFY_ALL_KEYS, true));
+            tests.push_back(testDataForPartialAlgs({ "P-256", "P-384", "ML-DSA-44" }, { "P-384", "P-256" }, jwt::JwsVerifyMode::VERIFY_AT_LEAST_ONE, true));
+            tests.push_back(testDataForPartialAlgs({ "P-256", "P-384" }, { "P-256", "P-384", "ML-DSA-44" }, jwt::JwsVerifyMode::VERIFY_ALL_SIGNATURES, true));
+            // tests that should fail
+            tests.push_back(testDataForPartialAlgs({ "P-256", "P-384" }, { "P-256" }, jwt::JwsVerifyMode::VERIFY_ALL_SIGNATURES, false));
+            tests.push_back(testDataForPartialAlgs({ "P-256", "P-384" }, { "P-384", "ML-DSA-65" }, jwt::JwsVerifyMode::VERIFY_ALL_SIGNATURES, false));
+            tests.push_back(testDataForPartialAlgs({ "P-521", "P-384" }, { "P-384", "ML-DSA-65" }, jwt::JwsVerifyMode::VERIFY_ALL_KEYS, false));
+            tests.push_back(testDataForPartialAlgs({ "P-521", "P-384" }, { }, jwt::JwsVerifyMode::VERIFY_ALL_KEYS, false));
+            
+            for (auto& td : tests) {
+                ccstMessage("%s", td.title.c_str());
+                auto json_data = JwtWriter()
+                                    .withPayload(payload)
+                                    .sign( td.sign_keys )
+                                    .toJsonData();
+                try {
+                    auto payload = JwtReader::fromJsonData(json_data)
+                        .verify( td.verify_keys, td.mode )
+                        .getPayload();
+                    
+                    if (!td.should_pass) {
+                        ccstMessage("Test should fail");
+                        continue;
+                    }
+                    auto claims = JsonReader::fromJsonData(payload);
+                    ccstAssertEqual("1234567890", claims["sub"].asString());
+                    ccstAssertEqual("John Doe", claims["name"].asString());
+                    ccstAssertEqual(true, claims["admin"].asBoolean());
+                    ccstAssertEqual(1516239022, claims["iat"].asInteger());
+                } catch (...) {
+                    if (td.should_pass) {
+                        ccstMessage("Test should not fail");
+                    }
+                }
             }
         }
     };

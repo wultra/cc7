@@ -90,8 +90,11 @@ JwtReader JwtReader::fromJsonString(const std::string& string)
     return fromJson(root);
 }
 
-JwtReader& JwtReader::verify(const JwsKeyList& keys, const JwsAlgorithmProvider& provider)
+JwtReader& JwtReader::verify(const JwsKeyList& keys, JwsVerifyMode mode, const JwsAlgorithmProvider& provider)
 {
+    if (keys.empty()) {
+        throw std::invalid_argument("Empty list of keys");
+    }
     std::set<std::string> processed;
     size_t matched = 0;
     for (auto i = 0; i < _headers.size(); i++) {
@@ -108,7 +111,12 @@ JwtReader& JwtReader::verify(const JwsKeyList& keys, const JwsAlgorithmProvider&
             return ptr->getJwtAlgorithm() == algorithm;
         });
         if (key_found == keys.end()) {
-            throw JwtException("Missing key for algorithm " + algorithm);
+            if (mode == JwsVerifyMode::VERIFY_ALL_SIGNATURES) {
+                throw JwtException("Missing key for algorithm " + algorithm);
+            }
+            // VERIFY_ALL_KEYS or VERIFY_AT_LEAST_ONE is specified and no key for verify found.
+            // This may be OK, so continue with another signature
+            continue;
         }
         auto key = *key_found;
         auto verifier = provider.getAlgorithm(algorithm);
@@ -119,14 +127,19 @@ JwtReader& JwtReader::verify(const JwsKeyList& keys, const JwsAlgorithmProvider&
         } catch (std::exception& e) {
             throw JwtException("Signature verify failed " + algorithm, std::current_exception());
         }
-        if (success) {
-            matched++;
-        } else {
-            throw JwtException("Wrong signature " + algorithm);
+        if (!success) {
+            throw JwtException("Signature doesn't match " + algorithm);
         }
+        matched++;
+    }
+    if (!matched) {
+        throw JwtException("No signature verified");
     }
     if (matched != keys.size()) {
-        throw JwtException("Not all keys processed");
+        if (mode == JwsVerifyMode::VERIFY_ALL_KEYS) {
+            // Number of verified signatures doesn't match the number of provided keys.
+            throw JwtException("Not all keys used for signature verification");
+        }
     }
     return *this;
 }
