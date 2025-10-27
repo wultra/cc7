@@ -104,6 +104,11 @@ static const Spec spec_BASE64_URL {
 // MARK: - Encoder
 
 
+/// Helper method that estimate length of Base64 encoded output string.
+/// - Parameters:
+///   - len: Input data length.
+///   - wrap_output: Wrapping size in case of multiline encoding, or 0 if sequence is not multiline.
+/// - Returns: Estimated length of output Base64 encoded string.
 static size_t _EstimateEncodedLength(size_t len, size_t wrap_output)
 {
     size_t n = ((len + 2) / 3) * 4;
@@ -113,6 +118,13 @@ static size_t _EstimateEncodedLength(size_t len, size_t wrap_output)
     return n;
 }
 
+/// Common Base64 encoding routine.
+/// - Parameters:
+///   - s: Base64 specification.
+///   - range: Input data.
+///   - wrap_size: Wrapping size in case of multiline encoding, or 0 if sequence is not multiline.
+///   - out_string: Output string.
+/// - Returns: Encode result.
 static Result Base64Impl_Encode(const Spec & s, const ByteRange & range, size_t wrap_size, ByteArray & out_string) noexcept
 {
     out_string.clear();
@@ -165,6 +177,16 @@ static Result Base64Impl_Encode(const Spec & s, const ByteRange & range, size_t 
 
 // MARK: - Decoder
 
+/// Decode simple Base64 encoded sequence. The routine expects that the string contains no wrapping
+/// or unsupported characters.
+/// - Parameters:
+///   - s: Base64 specification.
+///   - str: String view.
+///   - sequence_start: Start of sequence, pointing to `str`.
+///   - sequence_length: Length of sequence.
+///   - out_data: Output data.
+///   - end_marker: Marker indicating end of the sequence. This is important for multiline decoder.
+/// - Returns: Decode result.
 static Result Base64Impl_DecodeNoWrap(const Spec & s,
                                       const std::string_view & str, size_t sequence_start, size_t sequence_length,
                                       ByteArray & out_data,
@@ -313,6 +335,13 @@ static Result Base64Impl_DecodeNoWrap(const Spec & s,
     return RESULT_OK;
 }
 
+/// Common Base64 decoding routine.
+/// - Parameters:
+///   - s: Base64 specification.
+///   - string: Input string.
+///   - wrap_size: Wrapping size in case of multiline encoding, or 0 if sequence is not multiline.
+///   - out_data: Output data.
+/// - Returns: Decode result.
 static Result Base64Impl_Decode(const Spec& s, const std::string_view & string, size_t wrap_size, ByteArray & out_data) noexcept
 {
     Result result = RESULT_WRONG_DATA;
@@ -390,9 +419,10 @@ static Result Base64Impl_Decode(const Spec& s, const std::string_view & string, 
     return result;
 }
 
-
-// MARK: - Base64 class
-
+/// Helper function that throws exception in case the result is not `RESULT_OK`.
+/// - Parameters:
+///   - r: Operation result.
+///   - s: Base64 specification.
 static void throwIfNOK(Result r, const Spec& s)
 {
     switch (r) {
@@ -402,6 +432,8 @@ static void throwIfNOK(Result r, const Spec& s)
         default: throw std::logic_error("Internal error in " + s.name + " routine");
     }
 }
+
+// MARK: - Base64 class
 
 std::string Base64::encode(const ByteRange &data, size_t wrap_size)
 {
