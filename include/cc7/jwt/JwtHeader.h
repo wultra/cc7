@@ -45,8 +45,11 @@ public:
     
 private:
     
+    JwtHeader(const std::string& algorithm, const std::string& type, const std::string& encoded);
+    
     std::string _type;
     std::string _algorithm;
+    std::string _encoded;
 };
 
 } // namespace jwt
