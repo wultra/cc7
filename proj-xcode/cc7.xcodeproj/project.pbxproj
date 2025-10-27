@@ -2193,6 +2193,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = YES;
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
 				GCC_WARN_PEDANTIC = YES;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
@@ -2376,6 +2377,7 @@
 		BFB1A6BF1CB5937800B2D172 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
 				GCC_WARN_PEDANTIC = YES;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
@@ -2411,6 +2413,7 @@
 		BFFE8AAE2449B4F80032821F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
 				GCC_WARN_PEDANTIC = YES;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
