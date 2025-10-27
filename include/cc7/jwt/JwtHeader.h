@@ -29,6 +29,7 @@ public:
     JwtHeader(const std::string& algorithm, const std::string& type = NO_TYPE);
     
     std::string getEncoded() const;
+    const std::string& buildEncoded();
     
     void setAlgorithm(const std::string& algorithm);
     const std::string& getAlgorithm() const noexcept;

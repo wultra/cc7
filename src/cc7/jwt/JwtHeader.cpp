@@ -68,6 +68,14 @@ std::string JwtHeader::getEncoded() const
     return _encoded;
 }
 
+const std::string& JwtHeader::buildEncoded()
+{
+    if (_encoded.empty()) {
+        _encoded = getEncoded();
+    }
+    return _encoded;
+}
+
 void JwtHeader::setType(const std::string &type)
 {
     _type = type;

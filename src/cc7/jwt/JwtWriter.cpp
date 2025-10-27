@@ -158,7 +158,7 @@ std::string JwtWriter::signPayload(const JwsKey &key,
 {
     out_header.setAlgorithm(key.getJwtAlgorithm());
     auto algorithm = provider.getAlgorithm(out_header.getAlgorithm());
-    auto data_to_sign = out_header.getEncoded() + cDOT + payload;
+    auto data_to_sign = out_header.buildEncoded() + cDOT + payload;
     auto signature = algorithm->sign(key, MakeRange(data_to_sign));
     return signature.base64Url();
 }
