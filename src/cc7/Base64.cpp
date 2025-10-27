@@ -189,6 +189,10 @@ static Result Base64Impl_DecodeNoWrap(const Spec & s,
             // should be correct in this case.
             end_marker = true;
         }
+    } else {
+        // Sequence length is perfectly aligned. The end of the sequence will be decided later,
+        // depending on presence of padding character.
+        end_marker = false;
     }
     if (sequence_start + sequence_length > str.length()) {
         // Internal error. The provided sequence is out of the input string's range.

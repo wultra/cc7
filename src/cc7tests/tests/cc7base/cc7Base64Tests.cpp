@@ -216,6 +216,7 @@ namespace tests
             std::string str2("SGVsbG8gd29yZA");
             std::string str3("SGVsbG9-d29ybGQh");
             std::string str4("Kyc_dm9hbC1eQg");
+            std::string str5("eyJ0ZXh0Ijoixb7DtMW-w6QifQ");
 
             std::string out_str = CopyToString(Base64::urlDecode(str1));
             ccstAssertEqual(out_str, "Hello world");
@@ -228,6 +229,9 @@ namespace tests
             
             out_str = CopyToString(Base64::urlDecode(str4));
             ccstAssertEqual(out_str, "+'?voal-^B");
+            
+            out_str = CopyToString(Base64::urlDecode(str5));
+            ccstAssertEqual(out_str, u8"{\"text\":\"žôžä\"}");
         }
 
         void testUrlBadData()
