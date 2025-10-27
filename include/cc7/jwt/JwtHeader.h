@@ -28,7 +28,7 @@ public:
     JwtHeader();
     JwtHeader(const std::string& algorithm, const std::string& type = NO_TYPE);
     
-    const std::string& getEncoded();
+    std::string getEncoded() const;
     
     void setAlgorithm(const std::string& algorithm);
     const std::string& getAlgorithm() const noexcept;
@@ -45,11 +45,8 @@ public:
     
 private:
     
-    JwtHeader(const std::string& algorithm, const std::string& type, const std::string& encoded);
-    
     std::string _type;
     std::string _algorithm;
-    std::string _encoded;
 };
 
 } // namespace jwt

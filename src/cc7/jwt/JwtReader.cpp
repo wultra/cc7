@@ -90,7 +90,7 @@ JwtReader JwtReader::fromJsonString(const std::string& string)
     return fromJson(root);
 }
 
-JwtReader& JwtReader::verify(const JwsKeyList& keys, JwsVerifyMode mode, const JwsAlgorithmProvider& provider)
+const JwtReader& JwtReader::verify(const JwsKeyList& keys, JwsVerifyMode mode, const JwsAlgorithmProvider& provider) const
 {
     if (keys.empty()) {
         throw std::invalid_argument("Empty list of keys");

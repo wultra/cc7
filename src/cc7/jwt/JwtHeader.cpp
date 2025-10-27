@@ -38,40 +38,29 @@ JwtHeader::JwtHeader(const std::string& algorithm, const std::string& type) :
 {
 }
 
-JwtHeader::JwtHeader(const std::string& algorithm, const std::string& type, const std::string& encoded) :
-    _algorithm(algorithm),
-    _type(type),
-    _encoded(encoded)
-{
-}
-
 bool JwtHeader::isValid() const noexcept
 {
     return !_algorithm.empty();
 }
 
-const std::string& JwtHeader::getEncoded()
+std::string JwtHeader::getEncoded() const
 {
     if (!isValid()) {
         throw JwtException("Header is not valid");
     }
-    if (_encoded.empty()) {
-        auto object = json::JsonValue::object();
-        if (!_type.empty()) {
-            object[cTYP] = json::JsonValue(_type);
-        }
-        if (!_algorithm.empty()) {
-            object[cALG] = json::JsonValue(_algorithm);
-        }
-        _encoded = Base64::urlEncode(json::JsonWriter().toData(object));
+    auto object = json::JsonValue::object();
+    if (!_type.empty()) {
+        object[cTYP] = json::JsonValue(_type);
     }
-    return _encoded;
+    if (!_algorithm.empty()) {
+        object[cALG] = json::JsonValue(_algorithm);
+    }
+    return Base64::urlEncode(json::JsonWriter().toData(object));
 }
 
 void JwtHeader::setType(const std::string &type)
 {
     _type = type;
-    _encoded.clear();
 }
 
 const std::string& JwtHeader::getType() const noexcept
@@ -82,7 +71,6 @@ const std::string& JwtHeader::getType() const noexcept
 void JwtHeader::setAlgorithm(const std::string& algorithm)
 {
     _algorithm = algorithm;
-    _encoded.clear();
 }
 
 const std::string& JwtHeader::getAlgorithm() const noexcept
@@ -112,7 +100,7 @@ JwtHeader JwtHeader::fromEncodedString(const std::string& encoded)
         if (found != hdr.end()) {
             type = found->second.asString();
         }
-        return JwtHeader(algorithm, type, encoded);
+        return JwtHeader(algorithm, type);
     } catch (std::exception & e) {
         throw JwtException("Failed to decode JWT header", std::current_exception());
     }

@@ -51,9 +51,9 @@ public:
     
     // Verify
     
-    JwtReader& verify(const JwsKeyList& keys,
-                      JwsVerifyMode mode = JwsVerifyMode::VERIFY_ALL_KEYS,
-                      const JwsAlgorithmProvider& provider = JwsAlgorithmProvider::defaultProvider);
+    const JwtReader& verify(const JwsKeyList& keys,
+                            JwsVerifyMode mode = JwsVerifyMode::VERIFY_ALL_KEYS,
+                            const JwsAlgorithmProvider& provider = JwsAlgorithmProvider::defaultProvider) const;
         
     bool isCompact() const;
     const ByteArray& getPayload() const;
