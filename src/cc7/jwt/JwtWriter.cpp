@@ -38,7 +38,7 @@ JwtWriter& JwtWriter::withJsonPayload(const json::JsonValue &payload, const std:
 JwtWriter& JwtWriter::withPayload(const ByteRange &payload, const std::string& payload_type)
 {
     if (_has_payload) {
-        throw JwtException("Payload is already set");
+        throw std::invalid_argument("Payload is already set");
     }
     _has_payload = true;
     _payload = payload;
@@ -49,7 +49,7 @@ JwtWriter& JwtWriter::withPayload(const ByteRange &payload, const std::string& p
 JwtWriter& JwtWriter::withHeader(const JwtHeader &header)
 {
     if (!_headers.empty()) {
-        throw JwtException("Header is already set");
+        throw std::invalid_argument("Header is already set");
     }
     _headers.push_back(header);
     _compact = true;
@@ -62,7 +62,7 @@ JwtWriter& JwtWriter::sign(const JwsKeyList &keys, const JwsAlgorithmProvider& p
         throw std::invalid_argument("Empty list of keys");
     }
     if (!_headers.empty()) {
-        throw JwtException("Cannot sign because header is set");
+        throw std::invalid_argument("Cannot sign because header is set");
     }
     auto payload = getEncodedPayload();
     for (auto& key : keys) {
@@ -81,10 +81,10 @@ JwtWriter& JwtWriter::sign(const JwsKeyList &keys, const JwsAlgorithmProvider& p
 std::string JwtWriter::toCompact()
 {
     if (!_compact) {
-        throw JwtException("JWT cannot be represented as compact string");
+        throw std::invalid_argument("JWT cannot be represented as compact string");
     }
     if (_headers.empty()) {
-        throw JwtException("JWT header is not set");
+        throw std::invalid_argument("JWT header is not set");
     }
     auto header = _headers.front().getEncoded(); // TODO: breaks const rule
     auto payload = getEncodedPayload();
@@ -98,10 +98,10 @@ json::JsonValue JwtWriter::toJson()
     auto& array = signatures.asMutableArray();
     
     if (_headers.empty()) {
-        throw JwtException("JWT header is not set");
+        throw std::invalid_argument("JWT header is not set");
     }
     if (_signatures.empty()) {
-        throw JwtException("No signature is set");
+        throw std::invalid_argument("No signature is set");
     }
     if (_signatures.size() != _headers.size()) {
         throw std::logic_error("Number of headers doesn't match signatures");
