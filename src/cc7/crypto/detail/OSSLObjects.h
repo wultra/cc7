@@ -32,6 +32,7 @@
 #include <openssl/encoder.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
+#include <openssl/hpke.h>
 
 namespace cc7 {
 namespace crypto {
@@ -77,6 +78,9 @@ typedef TLLRefObject<EVP_MAC, nullptr, EVP_MAC_up_ref, EVP_MAC_free> EVPMac;
 
 /// The `EVPMacContext` is wrapper for `EVP_MAC_CTX`.
 typedef TLLObject<EVP_MAC_CTX, nullptr, EVP_MAC_CTX_free> EVPMacContext;
+
+/// The `OSSLHpkeContext` is wrapper for `OSSL_HPKE_CTX`.
+typedef TLLObject<OSSL_HPKE_CTX, nullptr, OSSL_HPKE_CTX_free> HPKEContext;
 
 
 // OSSL

@@ -331,7 +331,7 @@ ByteArray AES_GCM_AEAD::seal(const ByteRange & key, const ByteRange & nonce, con
 {
     auto nonce_generator = _nonce_generator;
     auto param_ctx = params.beginParameterProcessing();
-    if (params.getTypedObject<NonceGenerator>(AEAD_NONCE_GENERATOR, param_ctx, nonce_generator)) {
+    if (params.getTypedObject<NonceGenerator>(AEAD_PARAM_NONCE_GENERATOR, param_ctx, nonce_generator)) {
         if (nonce_generator->getNonceSize() != 12) {
             throw std::invalid_argument("Nonce generator generates nonce with wrong size");
         }
@@ -382,7 +382,7 @@ const std::string & AES_GCM_AEAD::getAlgorithmName() const
 void AES_GCM_AEAD::setParameter(int param_id, const Parameter & value)
 {
     switch (param_id) {
-        case AEAD_NONCE_GENERATOR: {
+        case AEAD_PARAM_NONCE_GENERATOR: {
             auto generator = std::dynamic_pointer_cast<NonceGenerator>(value.asObject());
             if (generator && generator->getNonceSize() != 12) {
                 throw std::invalid_argument("Nonce generator generates nonce with wrong size");
@@ -398,7 +398,7 @@ void AES_GCM_AEAD::setParameter(int param_id, const Parameter & value)
 Parameter AES_GCM_AEAD::getParameter(int param_id) const
 {
     switch (param_id) {
-        case AEAD_NONCE_GENERATOR:
+        case AEAD_PARAM_NONCE_GENERATOR:
             return Parameter::take(_nonce_generator);
             
         default:

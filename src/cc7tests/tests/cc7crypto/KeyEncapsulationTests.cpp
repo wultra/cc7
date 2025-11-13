@@ -59,7 +59,8 @@ public:
     void testEncapDecap()
     {
         const std::vector<std::string> test_data = {
-            "ML-KEM-512", "ML-KEM-768", "ML-KEM-1024"
+            "ML-KEM-512", "ML-KEM-768", "ML-KEM-1024",
+            "DHKEM-P256-HKDF-SHA256", "DHKEM-P384-HKDF-SHA384", "DHKEM-P521-HKDF-SHA512"
         };
         for (const auto & alg : test_data) {
             ccstMessage("%s", alg.c_str());

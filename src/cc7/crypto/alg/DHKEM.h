@@ -17,25 +17,26 @@
 #pragma once
 
 #include <cc7/crypto/KeyEncapsulation.h>
+#include "ECKeyPair.h"
 #include "../CryptoPrivate.h"
 
 namespace cc7 {
 namespace crypto {
 
-struct MLKEMSpec
+struct DHKEMSpec
 {
     std::string name;
+    const ECCurveSpec * curve;
+    size_t secretSize;
     
-    static const MLKEMSpec * specForAlgorithm(const std::string & algorithm);
+    OSSL_HPKE_SUITE suite;
     
-    static const MLKEMSpec ML_KEM_512;
-    static const MLKEMSpec ML_KEM_768;
-    static const MLKEMSpec ML_KEM_1024;
+    static const DHKEMSpec * specForAlgorithm(const std::string & algorithm);
 };
 
 // PublicKey
 
-class MLKEMPublicKey : public PublicKey
+class DHKEMPublicKey : public PublicKey
 {
 public:
     
@@ -47,81 +48,52 @@ public:
     Parameter getKeyParameter(int param_id) const override;
     void setKeyParameter(int param_id, const Parameter & value) override;
     
-    const MLKEMSpec * algSpec() const { return _spec; }
-    const char * algName() const { return _spec->name.c_str(); }
+    const DHKEMSpec * algSpec() const { return _spec; }
     
-    const EVPKeyPair & getEvpKey() const {
-        return _ll_key;
-    }
-    
-    EVPKeyPair & getEvpKey(){
-        return _ll_key;
-    }
-    
-    MLKEMPublicKey(const MLKEMSpec * spec) :
+    const ByteArray& getRawKey() const { return _raw_key; }
+        
+    DHKEMPublicKey(const DHKEMSpec * spec) :
         _spec(spec)
     {}
     
-    MLKEMPublicKey(EVPKeyPair & ll_key, const MLKEMSpec * spec) :
+    DHKEMPublicKey(const ByteRange& raw_key, const DHKEMSpec * spec) :
         _spec(spec),
-        _ll_key(ll_key)
+        _raw_key(raw_key)
     {}
     
 private:
-    const MLKEMSpec * _spec;
-    EVPKeyPair  _ll_key;
+    const DHKEMSpec * _spec;
+    ByteArray _raw_key;
 };
 
 // PrivateKey
 
-class MLKEMPrivateKey : public PrivateKey
+class DHKEMPrivateKey : public ECPrivateKey
 {
 public:
     // Key interface
     const std::string & getKeyType() const override;
-    void importKey(const ByteRange & keyData, KeyFormat format) override;
-    ByteArray exportKey(KeyFormat format) const override;
     std::shared_ptr<Key> duplicate() const override;
-    Parameter getKeyParameter(int param_id) const override;
-    void setKeyParameter(int param_id, const Parameter & value) override;
-    // PrivateKey interface
-    bool isSealed() const noexcept override;
-    void setSealed() noexcept override;
 
-    const MLKEMSpec * algSpec() const { return _spec; }
-    const char * algName() const { return _spec->name.c_str(); }
-    
-    const EVPKeyPair & getEvpKey() const {
-        return _ll_key;
-    }
-    
-    EVPKeyPair & getEvpKey(){
-        return _ll_key;
-    }
-    
-    MLKEMPrivateKey(const MLKEMSpec * spec) :
-        _spec(spec),
-        _sealed(false)
+    const DHKEMSpec * algSpec() const { return _spec; }
+
+    DHKEMPrivateKey(const DHKEMSpec * spec) :
+        ECPrivateKey(spec->curve),
+        _spec(spec)
     {}
     
-    MLKEMPrivateKey(EVPKeyPair & ll_key, const MLKEMSpec * spec) :
-        _spec(spec),
-        _ll_key(ll_key),
-        _sealed(false)
+    DHKEMPrivateKey(EVPKeyPair & ll_key, const DHKEMSpec * spec) :
+        ECPrivateKey(ll_key, spec->curve),
+        _spec(spec)
     {}
 
 private:
-    void checkNotSealed() const;
-    
-    const MLKEMSpec * _spec;
-    EVPKeyPair  _ll_key;
-    bool _sealed;
+    const DHKEMSpec * _spec;
 };
-
 
 // KeyPairFactory
 
-class MLKEMKeyPairFactory : public KeyPairFactory
+class DHKEMKeyPairFactory : public KeyPairFactory
 {
 public:
     // KeyPairFactory interface
@@ -135,23 +107,21 @@ public:
     
     static KeyPairFactoryPtr getInstance(const std::string & key_type);
     
-    MLKEMKeyPairFactory(const MLKEMSpec * spec) : _spec(spec) {}
+    DHKEMKeyPairFactory(const DHKEMSpec * spec) : _spec(spec) {}
 
-    const MLKEMSpec * algSpec() const { return _spec; }
-    const char * algName() const { return _spec->name.c_str(); }
+    const DHKEMSpec * algSpec() const { return _spec; }
     
 private:
-    const MLKEMSpec * _spec;
+    const DHKEMSpec * _spec;
 };
-
 
 // KeyEncapsulation
 
-class MLKEM : public KeyEncapsulation
+class DHKEM : public KeyEncapsulation
 {
 public:
     
-    static std::shared_ptr<MLKEM> getInstance(const std::string & algorithm, KeyDerivationPtr kdf);
+    static std::shared_ptr<DHKEM> getInstance(const std::string & algorithm, KeyDerivationPtr kdf);
     
     // KeyEncapsulation interface
     
@@ -164,18 +134,21 @@ public:
     void setParameter(int param_id, const Parameter & value) override;
     Parameter getParameter(int param_id) const override;
 
-    MLKEM(const MLKEMSpec * spec, KeyDerivationPtr kdf) : _spec(spec), _kdf(kdf) {}
+    DHKEM(const DHKEMSpec * spec) : _spec(spec), _secret_size(spec->secretSize) {}
     
 private:
         
-    const MLKEMSpec * _spec;
-    KeyDerivationPtr _kdf;
+    const DHKEMSpec * _spec;
     
-    SymmetricKeyPtr buildSymmetricKey(const ByteRange & secret) const;
+    size_t _secret_size;
+    ByteArray _custom_info;
+    
+    HPKEContext createHpkeContext(bool sender) const;
 };
 
-const MLKEMPublicKey & checkMLKEMPublicKey(const PublicKey & public_key, const MLKEMSpec * expected_spec);
-const MLKEMPrivateKey & checkMLKEMPrivateKey(const PrivateKey & private_key, const MLKEMSpec * expected_spec);
+const DHKEMPublicKey & checkDHKEMPublicKey(const PublicKey & public_key, const DHKEMSpec * expected_spec);
+const DHKEMPrivateKey & checkDHKEMPrivateKey(const PrivateKey & private_key, const DHKEMSpec * expected_spec);
+
 
 } // cc7::crypto
 } // cc7

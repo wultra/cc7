@@ -227,6 +227,9 @@
 		BF5A8CB02DCE1C7600B3FB01 /* KeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */; };
 		BF5A8CB12DCE1C7600B3FB01 /* KeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */; };
 		BF5A8CB22DCE1C7600B3FB01 /* KeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */; };
+		BF6833BE2EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
+		BF6833BF2EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
+		BF6833C02EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
 		BF79F0181D04BFB7004653A1 /* ObjcHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF79F0171D04BFB7004653A1 /* ObjcHelper.mm */; };
 		BF8B2B132DC7E46F00989AF3 /* NullKDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF8B2B122DC7E46F00989AF3 /* NullKDF.cpp */; };
 		BF8B2B142DC7E46F00989AF3 /* NullKDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF8B2B122DC7E46F00989AF3 /* NullKDF.cpp */; };
@@ -602,6 +605,8 @@
 		BF5A8C8D2DC5204400B3FB01 /* X963KDF.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = X963KDF.cpp; sourceTree = "<group>"; };
 		BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyDerivationTests.cpp; sourceTree = "<group>"; };
 		BF5A8CB32DCE1E0800B3FB01 /* kdf-test-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "kdf-test-data.json"; sourceTree = "<group>"; };
+		BF6833BC2EBE137C00BF2561 /* DHKEM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DHKEM.h; sourceTree = "<group>"; };
+		BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DHKEM.cpp; sourceTree = "<group>"; };
 		BF71B3E31D5AB5D800ABE831 /* README.jni.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.jni.txt; sourceTree = "<group>"; };
 		BF71B3E41D5AB95700ABE831 /* Android.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
 		BF79F0161D04BD32004653A1 /* ObjcHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjcHelper.h; sourceTree = "<group>"; };
@@ -817,6 +822,8 @@
 				BF0059452D9E927200C0F3AF /* MLDSA.cpp */,
 				BF5A002E2DA69B450068992F /* MLKEM.h */,
 				BF5A002F2DA69B450068992F /* MLKEM.cpp */,
+				BF6833BC2EBE137C00BF2561 /* DHKEM.h */,
+				BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */,
 				BF0059492D9E957400C0F3AF /* ECDSA.h */,
 				BF00594A2D9E957400C0F3AF /* ECDSA.cpp */,
 				BF5A001F2DA66AB50068992F /* ECDH.h */,
@@ -1731,6 +1738,7 @@
 				BF00590E2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
 				BF5A8C8E2DC5204400B3FB01 /* X963KDF.cpp in Sources */,
 				BF0058F22D9A9FF300C0F3AF /* Cipher.cpp in Sources */,
+				BF6833BF2EBE137C00BF2561 /* DHKEM.cpp in Sources */,
 				BF0058F32D9A9FF300C0F3AF /* Key.cpp in Sources */,
 				BF0058FA2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */,
 				BF4D85D52DE84A8F00D32F55 /* DataWriter.cpp in Sources */,
@@ -1840,6 +1848,7 @@
 				BF00590D2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
 				BF5A8C902DC5204400B3FB01 /* X963KDF.cpp in Sources */,
 				BF0058E82D9A9FF300C0F3AF /* Cipher.cpp in Sources */,
+				BF6833BE2EBE137C00BF2561 /* DHKEM.cpp in Sources */,
 				BF0058E92D9A9FF300C0F3AF /* Key.cpp in Sources */,
 				BF0058FC2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */,
 				BF4D85DB2DE84A8F00D32F55 /* DataWriter.cpp in Sources */,
@@ -1907,6 +1916,7 @@
 				BF00590F2D9AB9E600C0F3AF /* KMAC.cpp in Sources */,
 				BF5A8C8F2DC5204400B3FB01 /* X963KDF.cpp in Sources */,
 				BF0058ED2D9A9FF300C0F3AF /* Cipher.cpp in Sources */,
+				BF6833C02EBE137C00BF2561 /* DHKEM.cpp in Sources */,
 				BF0058EE2D9A9FF300C0F3AF /* Key.cpp in Sources */,
 				BF0058FB2D9AA0D500C0F3AF /* OSSLObjects.cpp in Sources */,
 				BF4D85D82DE84A8F00D32F55 /* DataWriter.cpp in Sources */,

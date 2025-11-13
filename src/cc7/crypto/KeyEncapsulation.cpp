@@ -17,6 +17,7 @@
 #include <cc7/crypto/KeyEncapsulation.h>
 #include <cc7/crypto/KeyDerivation.h>
 #include "alg/MLKEM.h"
+#include "alg/DHKEM.h"
 
 namespace cc7 {
 namespace crypto {
@@ -26,6 +27,8 @@ std::shared_ptr<KeyEncapsulation> KeyEncapsulation::getInstance(const std::strin
     KeyEncapsulationPtr key_encap;
     if (stringHasPrefix(algorithm, "ML-KEM-")) {
         key_encap = MLKEM::getInstance(algorithm, kdf);
+    } else if (stringHasPrefix(algorithm, "DHKEM-")) {
+        key_encap = DHKEM::getInstance(algorithm, kdf);
     }
     if (key_encap == nullptr) {
         throwUnsupporterAlgorithm(algorithm);

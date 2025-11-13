@@ -126,7 +126,7 @@ enum AlgorithmParameterId
     // AEAD
     
     /// Alter NonceGenerator function in AEAD algorithm. Parameter is NonceGenerator object.
-    AEAD_NONCE_GENERATOR        = 0x00A0,
+    AEAD_PARAM_NONCE_GENERATOR        = 0x00A0,
     
     // KeyAgreement
     
@@ -135,6 +135,10 @@ enum AlgorithmParameterId
     
     /// Alter KDF function in KeyEncapsulation algorithm. Parameter is KeyDerivation object.
     KEY_ENCAPSULATION_PARAM_KDF = 0x00E0,
+    /// Provide additional info bytes to KEM's internal KDF algorithm. Parameter is byte range type.
+    KEY_ENCAPSULATION_PARAM_INFO = 0x00E1,
+    /// Alter output secret size generated in KEM. Parameter is size type.
+    KEY_ENCAPSULATION_PARAM_SECRET_SIZE = 0x00E2,
     
     // Application specific params, for custom algorithms.
     
@@ -147,7 +151,7 @@ enum AlgorithmParameterId
     /// App specific parameter, not used by cc7/crypto library.
     CIPHER_PARAM_APP_CUSTOM             = 0x1080,
     /// App specific parameter, not used by cc7/crypto library.
-    AEAD_PARAM_APP_CUSTOM               = 0x00A0,
+    AEAD_PARAM_APP_CUSTOM               = 0x10A0,
     /// App specific parameter, not used by cc7/crypto library.
     KEY_AGREEMENT_PARAM_APP_CUSTOM      = 0x10C0,
     /// App specific parameter, not used by cc7/crypto library.

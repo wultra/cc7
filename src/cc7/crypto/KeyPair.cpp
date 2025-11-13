@@ -17,6 +17,7 @@
 #include <cc7/crypto/KeyPair.h>
 #include "alg/MLDSA.h"
 #include "alg/MLKEM.h"
+#include "alg/DHKEM.h"
 #include "alg/ECKeyPair.h"
 
 namespace cc7 {
@@ -33,6 +34,8 @@ KeyPairFactoryPtr KeyPairFactory::getInstance(const std::string & key_type)
         factory = MLDSAKeyPairFactory::getInstance(key_type);
     } else if (stringHasPrefix(key_type, "ML-KEM-")) {
         factory = MLKEMKeyPairFactory::getInstance(key_type);
+    } else if (stringHasPrefix(key_type, "DHKEM-")) {
+        factory = DHKEMKeyPairFactory::getInstance(key_type);
     }
     if (factory == nullptr) {
         throw UnsupportedAlgorithm("Unsupported key type " + key_type);
