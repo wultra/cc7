@@ -136,9 +136,11 @@ enum AlgorithmParameterId
     /// Alter KDF function in KeyEncapsulation algorithm. Parameter is KeyDerivation object.
     KEY_ENCAPSULATION_PARAM_KDF = 0x00E0,
     /// Provide additional info bytes to KEM's internal KDF algorithm. Parameter is byte range type.
-    KEY_ENCAPSULATION_PARAM_INFO = 0x00E1,
+    KEY_ENCAPSULATION_PARAM_INFO1 = 0x00E1,
+    /// Provide additional info bytes to KEM's internal KDF algorithm. Parameter is byte range type.
+    KEY_ENCAPSULATION_PARAM_INFO2 = 0x00E2,
     /// Alter output secret size generated in KEM. Parameter is size type.
-    KEY_ENCAPSULATION_PARAM_SECRET_SIZE = 0x00E2,
+    KEY_ENCAPSULATION_PARAM_SECRET_SIZE = 0x00E3,
     
     // Application specific params, for custom algorithms.
     

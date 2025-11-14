@@ -141,7 +141,8 @@ private:
     const DHKEMSpec * _spec;
     
     size_t _secret_size;
-    ByteArray _custom_info;
+    ByteArray _custom_info1;
+    ByteArray _custom_info2;
     
     HPKEContext createHpkeContext(bool sender) const;
 };

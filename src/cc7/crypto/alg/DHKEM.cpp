@@ -208,12 +208,14 @@ std::pair<ByteArray, SymmetricKeyPtr> DHKEM::encapsulate(const PublicKey & encap
     const auto& pub_key = checkDHKEMPublicKey(encapsulation_key, _spec);
     
     // Customization
-    auto info = _custom_info.byteRange();
+    auto info1 = _custom_info1.byteRange();
+    auto info2 = _custom_info2.byteRange();
     auto secret_size = _secret_size;
 
     // Validate parameters
     auto param_ctx = parameters.beginParameterProcessing();
-    parameters.getBytes(KEY_ENCAPSULATION_PARAM_INFO, param_ctx, info);
+    parameters.getBytes(KEY_ENCAPSULATION_PARAM_INFO1, param_ctx, info1);
+    parameters.getBytes(KEY_ENCAPSULATION_PARAM_INFO2, param_ctx, info2);
     parameters.getSize(KEY_ENCAPSULATION_PARAM_SECRET_SIZE, param_ctx, secret_size);
     parameters.endParameterProcessing(param_ctx);
     
@@ -225,13 +227,13 @@ std::pair<ByteArray, SymmetricKeyPtr> DHKEM::encapsulate(const PublicKey & encap
     if (OSSL_HPKE_encap(ctx,
                         enc_buffer, &enc_buffer_len,
                         pub_key.getRawKey().data(), pub_key.getRawKey().size(),
-                        nullptr, 0) != 1) {
+                        info1.data(), info1.size()) != 1) {
         throw CryptoException("Failed to encapsulate secret key");
     }
     
     // Export
     auto secret = ByteArray(secret_size, 0);
-    if (OSSL_HPKE_export(ctx, secret.data(), secret.size(), info.data(), info.size()) != 1) {
+    if (OSSL_HPKE_export(ctx, secret.data(), secret.size(), info2.data(), info2.size()) != 1) {
         throw CryptoException("Failed to export secret key");
     }
     
@@ -246,12 +248,14 @@ SymmetricKeyPtr DHKEM::decapsulate(const PrivateKey & decapsulation_key, const B
     const auto& priv_key = checkDHKEMPrivateKey(decapsulation_key, _spec);
     
     // Customization
-    auto info = _custom_info.byteRange();
+    auto info1 = _custom_info1.byteRange();
+    auto info2 = _custom_info2.byteRange();
     auto secret_size = _secret_size;
 
     // Validate parameters
     auto param_ctx = parameters.beginParameterProcessing();
-    parameters.getBytes(KEY_ENCAPSULATION_PARAM_INFO, param_ctx, info);
+    parameters.getBytes(KEY_ENCAPSULATION_PARAM_INFO1, param_ctx, info1);
+    parameters.getBytes(KEY_ENCAPSULATION_PARAM_INFO2, param_ctx, info2);
     parameters.getSize(KEY_ENCAPSULATION_PARAM_SECRET_SIZE, param_ctx, secret_size);
     parameters.endParameterProcessing(param_ctx);
 
@@ -260,13 +264,13 @@ SymmetricKeyPtr DHKEM::decapsulate(const PrivateKey & decapsulation_key, const B
     if (OSSL_HPKE_decap(ctx,
                         wrapped_key.data(), wrapped_key.size(),
                         priv_key.getEvpKey(),
-                        nullptr, 0) != 1) {
+                        info1.data(), info1.size()) != 1) {
         throw CryptoException("Failed to decapsulate secret key");
     }
     
     // Export
     auto secret = ByteArray(secret_size, 0);
-    if (OSSL_HPKE_export(ctx, secret.data(), secret.size(), info.data(), info.size()) != 1) {
+    if (OSSL_HPKE_export(ctx, secret.data(), secret.size(), info2.data(), info2.size()) != 1) {
         throw CryptoException("Failed to export secret key");
     }
 
@@ -282,8 +286,11 @@ const std::string & DHKEM::getAlgorithmName() const
 void DHKEM::setParameter(int param_id, const Parameter & value)
 {
     switch (param_id) {
-        case KEY_ENCAPSULATION_PARAM_INFO:
-            _custom_info = value.asByteRange();
+        case KEY_ENCAPSULATION_PARAM_INFO1:
+            _custom_info1 = value.asByteRange();
+            break;
+        case KEY_ENCAPSULATION_PARAM_INFO2:
+            _custom_info2 = value.asByteRange();
             break;
         case KEY_ENCAPSULATION_PARAM_SECRET_SIZE:
             _secret_size = value.asSize();
@@ -296,8 +303,11 @@ void DHKEM::setParameter(int param_id, const Parameter & value)
 Parameter DHKEM::getParameter(int param_id) const
 {
     switch (param_id) {
-        case KEY_ENCAPSULATION_PARAM_INFO:
-            return Parameter::ref(_custom_info);
+        case KEY_ENCAPSULATION_PARAM_INFO1:
+            return Parameter::ref(_custom_info1);
+            
+        case KEY_ENCAPSULATION_PARAM_INFO2:
+            return Parameter::ref(_custom_info2);
             
         case KEY_ENCAPSULATION_PARAM_SECRET_SIZE:
             return Parameter::take(_secret_size);
