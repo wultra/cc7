@@ -94,6 +94,7 @@ LOCAL_SRC_FILES += \
 	cc7/crypto/alg/SHA.cpp \
 	cc7/crypto/alg/MLDSA.cpp \
 	cc7/crypto/alg/MLKEM.cpp \
+	cc7/crypto/alg/DHKEM.cpp \
 	cc7/crypto/alg/ECDSA.cpp \
 	cc7/crypto/alg/ECDH.cpp \
 	cc7/crypto/alg/ECKeyPair.cpp \
@@ -112,11 +113,12 @@ LOCAL_SRC_FILES += \
 # cc7/jwt
 LOCAL_SRC_FILES += \
 	cc7/jwt/JwsSpec.cpp \
+	cc7/jwt/JwsKey.cpp \
 	cc7/jwt/JwsAlgorithm.cpp \
+	cc7/jwt/JwsBaseAlgorithm.cpp \
 	cc7/jwt/JwsDsaSignature.cpp \
 	cc7/jwt/JwsMacSignature.cpp \
 	cc7/jwt/JwtException.cpp \
-	cc7/jwt/JwtKey.cpp \
 	cc7/jwt/JwtHeader.cpp \
 	cc7/jwt/JwtWriter.cpp \
 	cc7/jwt/JwtReader.cpp
@@ -179,7 +181,8 @@ LOCAL_SRC_FILES += \
 # Unit tests (cc7/json)
 LOCAL_SRC_FILES += \
 	cc7tests/tests/cc7json/JsonReaderTests.cpp \
-	cc7tests/tests/cc7json/JsonWriterTests.cpp
+	cc7tests/tests/cc7json/JsonWriterTests.cpp \
+	cc7tests/tests/cc7json/JsonValueTests.cpp
 
 # Unit tests (cc7/jwt)
 LOCAL_SRC_FILES += \

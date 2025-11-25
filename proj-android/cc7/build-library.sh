@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # Copyright 2016 Juraj Durech <durech.juraj@gmail.com>
+# Copyright 2025 Wultra s.r.o.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +20,12 @@ set -e
 
 CMD=$(basename $0)
 TOP=$(dirname $0)
+
+INCLUDE_PATH="${TOP}/../../openssl-build"
+
+source "${INCLUDE_PATH}/common-functions.sh"
+source "${INCLUDE_PATH}/ndk-helper.sh"
+
 JOBS=`getconf _NPROCESSORS_ONLN`
 
 function USAGE
@@ -33,6 +40,15 @@ function USAGE
 	echo "  ddebug     the same as debug, but one job"
 	echo ""
     exit 1
+}
+
+function NDK_BUILD
+{
+	if [ -z "$ANDROID_BUILD_NDK_HOME" ]; then
+		DEBUG_LOG "Looking for NDK installation..."
+		BUILD_ANDROID_LOOK_FOR_NDK
+	fi
+	"$ANDROID_BUILD_NDK_HOME/ndk-build" $@
 }
 
 # Check parameters
@@ -56,9 +72,12 @@ case "$1" in
 		BUILD_TYPE='release'
 		;;
 	clean)
-		ndk-build clean
-		ndk-build clean NDK_DEBUG=1
+		NDK_BUILD clean
+		NDK_BUILD clean NDK_DEBUG=1
 		exit 0;
+		;;
+	-v*)
+		SET_VERBOSE_LEVEL_FROM_SWITCH "$1"
 		;;
 	*)
 		USAGE
@@ -75,18 +94,16 @@ case $BUILD_TYPE in
 		;;
 esac
 
-${TOP}/../../openssl-build/fetch.sh android
+${INCLUDE_PATH}/fetch.sh android
 
-echo "---------------------------------------------------"
-echo "NDK-BUILD"
-echo "---------------------------------------------------"
+LOG "---------------------------------------------------"
+LOG "NDK-BUILD"
+LOG "---------------------------------------------------"
 
-ndk-build -j $JOBS $NDK_PARAMS
+NDK_BUILD -j $JOBS $NDK_PARAMS
 
 if [ $? -ne 0 ]; then
 	exit 1;
 fi
 
-echo "---------------------------------------------------"
-echo "OK"
-echo "---------------------------------------------------"
+EXIT_SUCCESS -l

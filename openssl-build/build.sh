@@ -18,6 +18,8 @@
 # Include common functions...
 # -----------------------------------------------------------------------------
 TOP=$(dirname $0)
+INCLUDE_PATH=$TOP
+
 source "${TOP}/common-functions.sh"
 source "${TOP}/utils.sh"
 source "${TOP}/config.sh"
