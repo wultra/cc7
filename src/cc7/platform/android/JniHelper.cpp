@@ -149,5 +149,5 @@ jobject CreateJavaObject(JNIEnv * env, const char * clazz, const char * ctr_sign
     return result_object;
 }
 
-} // cc7::jni
-} // cc7
+} // namespace jni
+} // namespace cc7

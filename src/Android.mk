@@ -126,7 +126,8 @@ LOCAL_SRC_FILES += \
 # Android specific sources
 LOCAL_SRC_FILES += \
 	cc7/platform/android/PlatformAndroid.cpp \
-	cc7/platform/android/JniHelper.cpp
+	cc7/platform/android/JniHelper.cpp \
+	cc7/platform/android/ObjectRegister.cpp
 
 include $(BUILD_STATIC_LIBRARY)
 
