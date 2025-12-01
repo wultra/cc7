@@ -18,8 +18,7 @@
 
 #include <cc7/jwt/JwsKey.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 class JwsAlgorithm : public BaseObject
 {
@@ -40,5 +39,4 @@ public:
 
 CC7_SHARED_PTR(JwsAlgorithmProvider)
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

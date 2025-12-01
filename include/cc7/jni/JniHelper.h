@@ -20,8 +20,7 @@
 #include <cc7/jni/JniHelperMacros.h>
 #include <jni.h>
 
-namespace cc7 {
-namespace jni {
+namespace cc7::jni {
 
 /**
  Function creates a new instance of jstring object with characters copied 
@@ -90,5 +89,4 @@ cc7::ByteArray CopyFromJavaByteArray(JNIEnv * env, jbyteArray array);
  */
 jobject CreateJavaObject(JNIEnv * env, const char * clazz, const char * ctr_signature, ...);
     
-} // namespace jni
-} // namespace cc7
+} // namespace cc7::jni

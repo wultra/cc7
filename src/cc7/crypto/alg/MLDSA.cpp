@@ -18,8 +18,7 @@
 #include "KeyUtility.h"
 #include <openssl/x509.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - MLDSASpec implementation
 
@@ -317,5 +316,4 @@ const MLDSAPrivateKey & checkMLDSAPrivateKey(const PrivateKey & private_key, con
     return *ml_key;
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

@@ -18,8 +18,7 @@
 
 #include "MACBase.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 class HMAC : public MACBase
 {
@@ -38,4 +37,3 @@ private:
 };
 
 } // cc7::crypto
-} // cc7

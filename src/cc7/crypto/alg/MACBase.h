@@ -19,8 +19,7 @@
 #include <cc7/crypto/MAC.h>
 #include "../CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 struct MACBaseSpec
 {
@@ -72,5 +71,4 @@ protected:
     }
 };
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

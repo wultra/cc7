@@ -18,8 +18,7 @@
 
 #include <cc7/crypto/Key.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 struct SymmetricKeySpec
 {
@@ -134,5 +133,4 @@ private:
 
 CC7_SHARED_PTR(SymmetricKey)
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

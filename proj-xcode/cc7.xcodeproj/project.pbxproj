@@ -865,7 +865,7 @@
 			isa = PBXGroup;
 			children = (
 			);
-			path = detail;
+			name = detail;
 			sourceTree = "<group>";
 		};
 		BF498AA31CDCBE8400D7E904 /* CC7TestsWrapper */ = {

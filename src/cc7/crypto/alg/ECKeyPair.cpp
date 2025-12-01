@@ -17,8 +17,7 @@
 #include "ECKeyPair.h"
 #include "KeyUtility.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - ECCurveSpec structure
 
@@ -318,5 +317,4 @@ const ECPrivateKey & checkECPrivateKey(const PrivateKey & private_key, const ECC
     return *ec_key;
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

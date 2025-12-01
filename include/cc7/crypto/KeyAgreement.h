@@ -20,8 +20,7 @@
 #include <cc7/crypto/KeyPair.h>
 #include <cc7/crypto/KeyDerivation.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 class KeyAgreement : public Algorithm
 {
@@ -37,5 +36,4 @@ public:
 
 CC7_SHARED_PTR(KeyAgreement)
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

@@ -18,8 +18,7 @@
 #include <cc7/Base64.h>
 #include "JwsBaseAlgorithm.h"
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 static const std::string cDOT(".");
 
@@ -163,5 +162,4 @@ std::string JwtWriter::signPayload(const JwsKey &key,
     return signature.base64Url();
 }
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

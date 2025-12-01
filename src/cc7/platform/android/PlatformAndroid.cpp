@@ -26,8 +26,7 @@
 #include <stdio.h>
 
 #if defined(ENABLE_CC7_ASSERT)
-namespace cc7 {
-namespace debug {
+namespace cc7::debug {
 
 static void private_androidDumpToLog(void * foo, const char * file, int line, const char * message)
 {
@@ -48,26 +47,22 @@ bool Platform_IsDefaultLogEnabled()
 }
 
 } // cc7::debug
-} // cc7
 #endif //ENABLE_CC7_ASSERT
 
 
 #if defined(ENABLE_CC7_LOG)
-namespace cc7
+namespace cc7::debug {
+
+static void private_AndroidLogImpl(void * foo, const char * message)
 {
-namespace debug
+    __android_log_write(ANDROID_LOG_INFO, "CC7", message);
+}
+
+LogHandlerSetup Platform_GetDefaultLogHandler()
 {
-    static void private_AndroidLogImpl(void * foo, const char * message)
-    {
-        __android_log_write(ANDROID_LOG_INFO, "CC7", message);
-    }
-    
-    LogHandlerSetup Platform_GetDefaultLogHandler()
-    {
-        static LogHandlerSetup s_default_setup = { private_AndroidLogImpl, nullptr };
-        return s_default_setup;
-    }
+    static LogHandlerSetup s_default_setup = { private_AndroidLogImpl, nullptr };
+    return s_default_setup;
+}
     
 } // cc7::debug
-} // cc7
 #endif //ENABLE_CC7_LOG

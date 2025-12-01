@@ -20,8 +20,7 @@
 #include "alg/DHKEM.h"
 #include "alg/ECKeyPair.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - KeyPairFactory implementation
 
@@ -67,5 +66,4 @@ std::shared_ptr<KeyPair> KeyPair::generateKeyPair(const std::string & key_type)
     return KeyPairFactory::getInstance(key_type)->generateKeyPair();
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

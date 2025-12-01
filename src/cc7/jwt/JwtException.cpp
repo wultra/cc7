@@ -16,10 +16,8 @@
 
 #include <cc7/jwt/JwtException.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 const std::string JwtException::CLASS_NAME("cc7::jws::JwtException");
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

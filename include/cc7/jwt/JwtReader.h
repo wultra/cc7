@@ -20,8 +20,7 @@
 #include <cc7/jwt/JwtHeader.h>
 #include <cc7/json/Json.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 /// The `JwsVerifyMode` enumeration specifies the mode of JWS verification.
 enum class JwsVerifyMode
@@ -73,5 +72,4 @@ private:
     std::vector<ByteArray> _signatures;
 };
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

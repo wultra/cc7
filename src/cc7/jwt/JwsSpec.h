@@ -18,8 +18,7 @@
 
 #include <cc7/ByteArray.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 struct JwsSpec
 {
@@ -40,5 +39,4 @@ struct JwsSpec
     static const JwsSpec* specForKeyAlgorithm(const std::string& key_algorithm);
 };
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

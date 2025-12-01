@@ -22,8 +22,7 @@
 #include <map>
 #include <vector>
 
-namespace cc7 {
-namespace json {
+namespace cc7::json {
 
 class JsonValue
 {
@@ -432,5 +431,4 @@ private:
     static std::string typeToName(Type t);
 };
 
-} // namespace json
-} // namespace cc7
+} // namespace cc7::json

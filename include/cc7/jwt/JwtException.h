@@ -18,8 +18,7 @@
 
 #include <cc7/BaseException.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 class JwtException : public BaseException
 {
@@ -32,5 +31,4 @@ private:
     static const std::string CLASS_NAME;
 };
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

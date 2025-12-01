@@ -20,8 +20,7 @@
 #include <cc7/jwt/JwtHeader.h>
 #include <cc7/json/Json.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 class JwtWriter
 {
@@ -68,5 +67,4 @@ private:
                                    JwtHeader& out_header);
 };
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

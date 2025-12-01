@@ -21,22 +21,18 @@
 #error "This file is designed for Android platform only"
 #endif
 
-namespace cc7
-{
-namespace tests
-{
-    cc7::U64 Platform_GetCurrentTime()
-    {
-        struct timespec res;
-        clock_gettime(CLOCK_REALTIME, &res);
-        return (cc7::U64)(1000000.0*res.tv_sec + (double)res.tv_nsec * 1.0/1000.0);
-    }
-    
-    double Platform_GetTimeDiff(cc7::U64 start, cc7::U64 future)
-    {
-        return (future - start) * 1.0/1000.0;
-    }
+namespace cc7::tests {
 
+cc7::U64 Platform_GetCurrentTime()
+{
+    struct timespec res;
+    clock_gettime(CLOCK_REALTIME, &res);
+    return (cc7::U64)(1000000.0*res.tv_sec + (double)res.tv_nsec * 1.0/1000.0);
+}
 
-} // cc7::tests
-} // cc7
+double Platform_GetTimeDiff(cc7::U64 start, cc7::U64 future)
+{
+    return (future - start) * 1.0/1000.0;
+}
+
+} // namespace cc7::tests

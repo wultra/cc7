@@ -20,8 +20,7 @@
 #error "This file is for Android platform only"
 #endif
 
-namespace cc7 {
-namespace jni {
+namespace cc7::jni {
 
 // Strings
 
@@ -149,5 +148,4 @@ jobject CreateJavaObject(JNIEnv * env, const char * clazz, const char * ctr_sign
     return result_object;
 }
 
-} // namespace jni
-} // namespace cc7
+} // namespace cc7::jni

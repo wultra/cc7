@@ -17,114 +17,112 @@
 #include <cc7tests/UnitTest.h>
 #include <stdexcept>
 
-namespace cc7
-{
-namespace tests
-{
-    UnitTest::UnitTest() :
-        _log(nullptr),
-        _manager(nullptr)
-    {
-    }
-    
-    
-    UnitTest::~UnitTest()
-    {
-    }
-    
-    
-    TestLog & UnitTest::tl()
-    {
-        if (!_log) {
-            throw std::runtime_error("The TestLog is not set.");
-        }
-        return *_log;
-    }
-    
-    
-    TestLog & UnitTest::tl() const
-    {
-        if (!_log) {
-            throw std::runtime_error("The TestLog is not set.");
-        }
-        return *_log;
-    }
-    
-    
-    TestManager & UnitTest::testManager()
-    {
-        if (!_manager) {
-            throw std::runtime_error("The TestManager is not set.");
-        }
-        return *_manager;
-    }
+namespace cc7::tests {
 
-    
-    TestManager & UnitTest::testManager() const
-    {
-        if (!_manager) {
-            throw std::runtime_error("The TestManager is not set.");
-        }
-        return *_manager;
-    }
+UnitTest::UnitTest() :
+    _log(nullptr),
+    _manager(nullptr)
+{
+}
 
-    
-    void UnitTest::registerTestMethod(std::function<void()> method, const char * description)
-    {
-        if (CC7_CHECK(method != nullptr && description != nullptr, "method & description must be set")) {
-            _methods.push_back(make_tuple(method, std::string(description)));
-        }
+
+UnitTest::~UnitTest()
+{
+}
+
+
+TestLog & UnitTest::tl()
+{
+    if (!_log) {
+        throw std::runtime_error("The TestLog is not set.");
     }
-    
-    
-    bool UnitTest::runTest(TestManager * manager, TestLog * log)
-    {
-        _log = log;
-        _manager = manager;
-        
-        tl().clearCurrentTestIncidentsCount();
-        
-        instanceSetUp();
-        
-        if (_methods.size() == 0) {
-            tl().logMessage("The test class is empty. Try to register some test methods.");
-        }
-        
-        size_t indent_before = tl().indentationLevel();
-        bool test_case_exception = false;
-        for (auto&& desc : _methods) {
-            std::function<void()>   method_ptr;
-            std::string             method_name;
-            tie(method_ptr, method_name) = desc;
-            
-            tl().logFormattedMessage("[ %s ]", method_name.c_str());
-            
-            tl().setIndentationLevel(indent_before + 2);
-            setUp();
-            try {
-                method_ptr();
-            } catch (std::exception & exc) {
-                std::string message("FAILED: Exception: ");
-                message.append(exc.what());
-                tl().logMessage(message);
-                test_case_exception = true;
-            } catch (...) {
-                tl().logMessage(std::string("FAILED: An unknown exception occurred."));
-                test_case_exception = true;
-            }
-            tearDown();
-            tl().setIndentationLevel(indent_before);
-        }
-        
-        instanceTearDown();
-        
-        bool result = test_case_exception == false &&
-                      tl().logDataCounters().current_test_incidents_count == 0;
-        
-        _log        = nullptr;
-        _manager    = nullptr;
-        
-        return result;
+    return *_log;
+}
+
+
+TestLog & UnitTest::tl() const
+{
+    if (!_log) {
+        throw std::runtime_error("The TestLog is not set.");
+    }
+    return *_log;
+}
+
+
+TestManager & UnitTest::testManager()
+{
+    if (!_manager) {
+        throw std::runtime_error("The TestManager is not set.");
+    }
+    return *_manager;
+}
+
+
+TestManager & UnitTest::testManager() const
+{
+    if (!_manager) {
+        throw std::runtime_error("The TestManager is not set.");
+    }
+    return *_manager;
+}
+
+
+void UnitTest::registerTestMethod(std::function<void()> method, const char * description)
+{
+    if (CC7_CHECK(method != nullptr && description != nullptr, "method & description must be set")) {
+        _methods.push_back(make_tuple(method, std::string(description)));
     }
 }
+
+
+bool UnitTest::runTest(TestManager * manager, TestLog * log)
+{
+    _log = log;
+    _manager = manager;
+    
+    tl().clearCurrentTestIncidentsCount();
+    
+    instanceSetUp();
+    
+    if (_methods.size() == 0) {
+        tl().logMessage("The test class is empty. Try to register some test methods.");
+    }
+    
+    size_t indent_before = tl().indentationLevel();
+    bool test_case_exception = false;
+    for (auto&& desc : _methods) {
+        std::function<void()>   method_ptr;
+        std::string             method_name;
+        tie(method_ptr, method_name) = desc;
+        
+        tl().logFormattedMessage("[ %s ]", method_name.c_str());
+        
+        tl().setIndentationLevel(indent_before + 2);
+        setUp();
+        try {
+            method_ptr();
+        } catch (std::exception & exc) {
+            std::string message("FAILED: Exception: ");
+            message.append(exc.what());
+            tl().logMessage(message);
+            test_case_exception = true;
+        } catch (...) {
+            tl().logMessage(std::string("FAILED: An unknown exception occurred."));
+            test_case_exception = true;
+        }
+        tearDown();
+        tl().setIndentationLevel(indent_before);
+    }
+    
+    instanceTearDown();
+    
+    bool result = test_case_exception == false &&
+                  tl().logDataCounters().current_test_incidents_count == 0;
+    
+    _log        = nullptr;
+    _manager    = nullptr;
+    
+    return result;
 }
+
+} // namespace cc7::tests

@@ -19,8 +19,7 @@
 #include <cc7/crypto/Signature.h>
 #include "../CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // Common specification
 
@@ -178,5 +177,4 @@ private:
 const MLDSAPublicKey & checkMLDSAPublicKey(const PublicKey & public_key, const MLDSASpec * expected_spec);
 const MLDSAPrivateKey & checkMLDSAPrivateKey(const PrivateKey & private_key, const MLDSASpec * expected_spec);
     
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

@@ -18,8 +18,7 @@
 
 #include <cc7/ByteArray.h>
 
-namespace cc7 {
-namespace utils {
+namespace cc7::utils {
 
 /**
  The DataWriter class provides simple streaming interface usable for
@@ -150,5 +149,4 @@ private:
     bool            _destroy_data;
 };
 
-} // cc7::utils
-} // cc7
+} // namespace cc7::utils

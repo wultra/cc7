@@ -19,8 +19,7 @@
 #include <cc7/jwt/JwsAlgorithm.h>
 #include "JwsSpec.h"
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 class JwsBaseAlgorithm : public JwsAlgorithm
 {
@@ -36,5 +35,4 @@ protected:
     const JwsSpec* _spec;
 };
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

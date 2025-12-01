@@ -18,8 +18,7 @@
 
 #include <cc7/Platform.h>
 
-namespace cc7 {
-namespace detail {
+namespace cc7::detail {
 
 /**
  The CleanupAllocator is a special std::allocator, which only purpose
@@ -53,5 +52,4 @@ public :
     }
 };
     
-} // cc7::detail
-} // cc7
+} // namespace cc7::detail

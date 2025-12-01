@@ -20,8 +20,7 @@
 #include <cc7/utils/DataReader.h>
 #include <cc7/utils/DataWriter.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 static ByteArray EC_JoseToAsn1(const JwsSpec* spec, const ByteRange& signature);
 static ByteArray EC_Asn1ToJose(const JwsSpec* spec, const ByteRange& signature);
@@ -205,5 +204,4 @@ static ByteArray EC_Asn1ToJose(const JwsSpec* spec, const ByteRange& signature)
 }
 
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

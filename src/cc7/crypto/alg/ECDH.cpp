@@ -16,8 +16,7 @@
 
 #include "ECDH.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 static const std::string ECDH_ALG("ECDH");
 
@@ -96,5 +95,4 @@ Parameter ECDH::getParameter(int param_id) const
     }
 }
     
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

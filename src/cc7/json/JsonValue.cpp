@@ -19,8 +19,7 @@
 #include <cc7/HexString.h>
 #include <cc7/detail/StringUtils.h>
 
-namespace cc7 {
-namespace json {
+namespace cc7::json {
 
 // Operators
 
@@ -311,5 +310,4 @@ JsonValue JsonValue::hexString(const ByteRange& data)
     return JsonValue(data.hexadecimal());
 }
 
-} // namespace json
-} // namespace cc7
+} // namespace cc7::json

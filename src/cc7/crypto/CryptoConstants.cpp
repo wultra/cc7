@@ -17,8 +17,7 @@
 #include <cc7/crypto/CryptoConstants.h>
 #include "CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 std::string EC_PUBLIC_KEY_CONVERSION_COMPRESSED(OSSL_PKEY_EC_POINT_CONVERSION_FORMAT_COMPRESSED);
 std::string EC_PUBLIC_KEY_CONVERSION_UNCOMPRESSED(OSSL_PKEY_EC_POINT_CONVERSION_FORMAT_UNCOMPRESSED);
@@ -47,6 +46,4 @@ std::string KeyFormat_ToString(KeyFormat format, bool human_readable)
     }
 }
 
-} // cc7::crypto
-} // cc7
-
+} // namespace cc7::crypto

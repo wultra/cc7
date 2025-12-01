@@ -16,8 +16,7 @@
 
 #include "ECDSA.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - ECDSASpec structure
 
@@ -124,6 +123,5 @@ Parameter ECDSA::getParameter(int param_id) const
     throwUnsupportedParam(param_id);
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto
 

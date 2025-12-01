@@ -18,8 +18,7 @@
 
 #include <cc7/BaseException.h>
 
-namespace cc7 {
-namespace json {
+namespace cc7::json {
 
 class JsonException : public BaseException
 {
@@ -32,5 +31,4 @@ private:
     static const std::string CLASS_NAME;
 };
 
-}
-}
+} // namespace cc7::json

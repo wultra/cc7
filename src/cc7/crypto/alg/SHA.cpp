@@ -17,8 +17,7 @@
 #include "SHA.h"
 #include <openssl/sha.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 static const SHASpec SHA_256  = { "SHA-256" , 32, EVP_sha256()  };
 static const SHASpec SHA_384  = { "SHA-384" , 48, EVP_sha384()  };
@@ -82,5 +81,4 @@ Parameter SHA::getParameter(int param_id) const
     throwUnsupportedParam(param_id);
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

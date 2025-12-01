@@ -22,8 +22,7 @@
 #include <map>
 #include <set>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 /// The `Parameter` class
 class Parameter
@@ -171,5 +170,4 @@ private:
     bool consume(int param_id, ParameterListCtx & info, parent_class::const_iterator & out) const;
 };
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

@@ -19,8 +19,7 @@
 #include <memory>
 #include <stdlib.h>
 
-namespace cc7 {
-namespace detail {
+namespace cc7::detail {
 
 std::string FormattedString(const char * format, ...)
 {
@@ -74,5 +73,4 @@ void StringCleanup(std::string& str)
 }
 
 
-} // namespace detail
-} // namespace cc7
+} // namespace cc7::detail

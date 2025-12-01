@@ -19,8 +19,7 @@
 
 using namespace std;
 
-namespace cc7 {
-namespace utils {
+namespace cc7::utils {
 
 DataReader::DataReader() :
     _offset(0)
@@ -317,5 +316,4 @@ cc7::byte DataReader::currentVersion() const
     return 0;
 }
     
-} // cc7::utils
-} // cc7
+} // namespace cc7::utils

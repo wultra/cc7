@@ -19,8 +19,7 @@
 #include "JwsBaseAlgorithm.h"
 #include <cc7/crypto/MAC.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 class JwsMacSignature : public JwsBaseAlgorithm
 {
@@ -37,5 +36,4 @@ private:
     static crypto::ParameterList buildParamsForSpec(const JwsSpec* spec);
 };
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

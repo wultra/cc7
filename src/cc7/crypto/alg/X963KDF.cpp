@@ -16,8 +16,7 @@
 
 #include "X963KDF.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: X963KDFSpec implementation
 
@@ -110,5 +109,4 @@ KeyDerivationPtr X963KDF::getInstance(const std::string & alg_name)
 }
 
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

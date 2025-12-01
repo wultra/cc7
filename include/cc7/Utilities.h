@@ -18,28 +18,25 @@
 
 #include <cc7/Platform.h>
 
-namespace cc7
-{
-namespace utilities
-{
-    template<size_t Align> size_t AlignValue(size_t value)
-    {
-        static_assert(Align > 0, "Align must be greater than 0");
-        static_assert((Align & (~Align + 1)) == Align, "Align must be power of 2");
-                      
-        if (value) {
-            return (value + (Align - 1)) & ~(Align - 1);
-        }
-        return Align;
-    }
+namespace cc7::utilities {
 
-    template<size_t Align> size_t AlignValueUp(size_t value)
-    {
-        static_assert(Align > 0, "Align must be greater than 0");
-        static_assert((Align & (~Align + 1)) == Align, "Align must be power of 2");
-                      
-        return (value + Align + (Align - 1)) & ~(Align - 1);
+template<size_t Align> size_t AlignValue(size_t value)
+{
+    static_assert(Align > 0, "Align must be greater than 0");
+    static_assert((Align & (~Align + 1)) == Align, "Align must be power of 2");
+                  
+    if (value) {
+        return (value + (Align - 1)) & ~(Align - 1);
     }
-} // cc7::utilities
-} // cc7
+    return Align;
+}
 
+template<size_t Align> size_t AlignValueUp(size_t value)
+{
+    static_assert(Align > 0, "Align must be greater than 0");
+    static_assert((Align & (~Align + 1)) == Align, "Align must be power of 2");
+                  
+    return (value + Align + (Align - 1)) & ~(Align - 1);
+}
+
+} // namespace cc7::utilities

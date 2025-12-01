@@ -17,8 +17,7 @@
 #include "MLKEM.h"
 #include "KeyUtility.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - MLKEMSpec implementation
 
@@ -332,6 +331,4 @@ const MLKEMPrivateKey & checkMLKEMPrivateKey(const PrivateKey & private_key, con
     return *ml_key;
 }
 
-
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

@@ -19,8 +19,7 @@
 #include <cc7/crypto/KeyDerivation.h>
 #include <set>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 class NonceGenerator : public BaseObject
 {
@@ -131,5 +130,4 @@ private:
     ByteArray deriveKeyFromNonce(const ByteRange& nonce) const;
 };
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

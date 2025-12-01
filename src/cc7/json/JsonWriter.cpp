@@ -18,8 +18,7 @@
 #include <cc7/json/JsonException.h>
 #include <cc7/detail/StringUtils.h>
 
-namespace cc7 {
-namespace json {
+namespace cc7::json {
 
 // Constants
 
@@ -296,5 +295,4 @@ void JsonValue::debugDump() const
     printf("%s\n", writer.toString(*this).c_str());
 }
 
-} // namespace json
-} // namespace cc7
+} // namespace cc7::json

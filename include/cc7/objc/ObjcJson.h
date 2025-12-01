@@ -19,8 +19,7 @@
 #include <cc7/json/JsonValue.h>
 #import <Foundation/Foundation.h>
 
-namespace cc7 {
-namespace objc {
+namespace cc7::objc {
 
 /// Function converts `JsonValue` into Objective-C JSON representation. The returned object
 /// is `NSDictionary`, `NSArray`, `NSString`, `NSNumber` or `NSNull`, depending on type of
@@ -43,7 +42,4 @@ id JsonValueToObjC(const cc7::json::JsonValue& value, bool null_is_nil = true, b
 ///   - `std::invalid_argument` exception in case that input object is unknown type.
 cc7::json::JsonValue JsonValueFromObjC(id json_representation);
 
-} // namespace objc
-} // namespace cc7
-
-
+} // namespace cc7::objc

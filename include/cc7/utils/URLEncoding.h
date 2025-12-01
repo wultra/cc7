@@ -18,13 +18,11 @@
 
 #include <cc7/ByteArray.h>
 
-namespace cc7 {
-namespace utils {
+namespace cc7::utils {
 
 /**
  Converts UTF8 string into URL encoded data.
  */
 cc7::ByteArray ConvertStringToUrlEncodedData(const std::string & str);
     
-} // cc7::utils
-} // cc7
+} // namespace cc7::utils

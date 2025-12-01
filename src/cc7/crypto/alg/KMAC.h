@@ -18,8 +18,7 @@
 
 #include "MACBase.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 class KMAC : public MACBase
 {
@@ -43,5 +42,4 @@ private:
     KMAC(EVPMac & mac, const MACBaseSpec * spec) : MACBase(mac, spec) {}
 };
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

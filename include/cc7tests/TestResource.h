@@ -18,26 +18,23 @@
 
 #include <cc7/ByteRange.h>
 
-namespace cc7
+namespace cc7::tests {
+
+class TestResource
 {
-namespace tests
-{
-    class TestResource
-    {
-    public:
-        TestResource(const cc7::byte * data, size_t size, const char * name);
-        
-        const cc7::byte *   data() const { return _data; }
-        size_t              size() const { return _size; }
-        const char *        name() const { return _name; }
-        cc7::ByteRange      range() const { return cc7::ByteRange(_data, _size); }
-        
-    private:
-        
-        const cc7::byte *   _data;
-        size_t              _size;
-        const char *        _name;
-    };
+public:
+    TestResource(const cc7::byte * data, size_t size, const char * name);
     
-} // cc7::tests
-} // cc7
+    const cc7::byte *   data() const { return _data; }
+    size_t              size() const { return _size; }
+    const char *        name() const { return _name; }
+    cc7::ByteRange      range() const { return cc7::ByteRange(_data, _size); }
+    
+private:
+    
+    const cc7::byte *   _data;
+    size_t              _size;
+    const char *        _name;
+};
+    
+} // namespace cc7::tests

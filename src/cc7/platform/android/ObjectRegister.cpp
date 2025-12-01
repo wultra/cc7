@@ -21,12 +21,6 @@ namespace jni {
 
 #define LOCK_GUARD() std::lock_guard<std::mutex> _lock_guard(_lock)
 
-ObjectRegister& ObjectRegister::global() noexcept
-{
-    static ObjectRegister s_register;
-    return s_register;
-}
-
 ObjectRegister::ObjID ObjectRegister::registerObject(const BaseObjectPtr& ptr)
 {
     LOCK_GUARD();

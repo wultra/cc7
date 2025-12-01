@@ -18,8 +18,7 @@
 #include "CryptoPrivate.h"
 #include "alg/AES.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 std::shared_ptr<Cipher> Cipher::getInstance(const std::string & algorithm)
 {
@@ -33,5 +32,4 @@ std::shared_ptr<Cipher> Cipher::getInstance(const std::string & algorithm)
     return cipher;
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

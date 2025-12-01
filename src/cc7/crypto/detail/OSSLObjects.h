@@ -34,8 +34,7 @@
 #include <openssl/buffer.h>
 #include <openssl/hpke.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // EVP
 
@@ -133,5 +132,4 @@ typedef TLLObject<BUF_MEM, TFuncWithParam1<BUF_MEM, unsigned long, BUF_MEM_new_e
     #define OSSL_print_errors()
 #endif
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

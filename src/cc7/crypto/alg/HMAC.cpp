@@ -16,8 +16,7 @@
 
 #include "HMAC.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 static const MACBaseSpec HMAC_SHA_256  = { "HMAC-SHA-256",  "SHA-256",  32, true };
 static const MACBaseSpec HMAC_SHA_384  = { "HMAC-SHA-384",  "SHA-384",  48, true };
@@ -64,5 +63,4 @@ bool HMAC::prepareParams(MACBase::MACBaseParams & params) const
     return MACBase::prepareParams(params);
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

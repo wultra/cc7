@@ -20,8 +20,7 @@
 #include <cc7/crypto/Parameter.h>
 #include <cc7/crypto/CryptoException.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // Abstract algorithm interface
 class Algorithm : public BaseObject
@@ -32,6 +31,4 @@ public:
     virtual Parameter getParameter(int param_id) const = 0;
 };
 
-
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

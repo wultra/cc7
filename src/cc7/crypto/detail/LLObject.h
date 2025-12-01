@@ -18,8 +18,7 @@
 
 #include <cc7/Platform.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 /**
  The `TLLRefObject` template helper class is responsible for capturing and managing lifetime of
@@ -327,5 +326,4 @@ template <typename T, typename U, T* (*Parametrized)(U), U value> T * TFuncWithP
     return Parametrized(value);
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

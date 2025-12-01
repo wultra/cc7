@@ -19,8 +19,7 @@
 #include "alg/X963KDF.h"
 #include "alg/PBKDF2.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 std::shared_ptr<KeyDerivation> KeyDerivation::getInstance(const std::string & algorithm)
 {
@@ -66,5 +65,4 @@ SymmetricKeyPtr KeyDerivation::deriveKey(const SymmetricKey & key,
     return SymmetricKey::getInstance(out_key_type, derived_key_material);
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

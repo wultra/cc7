@@ -19,8 +19,7 @@
 
 #include <cc7/ByteArray.h>
 
-namespace cc7
-{
+namespace cc7 {
 
 /// The `Base64` class provides routines for Base64 and Base64Url encoding and decoding.
 class Base64 {
@@ -120,4 +119,4 @@ std::string ToBase64String(const ByteRange & data, size_t wrap_size = 0) noexcep
  */
 ByteArray FromBase64String(const std::string_view & string, size_t wrap_size = 0) noexcept;
     
-} // cc7
+} // namespace cc7

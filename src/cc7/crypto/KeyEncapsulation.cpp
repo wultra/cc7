@@ -19,8 +19,7 @@
 #include "alg/MLKEM.h"
 #include "alg/DHKEM.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 std::shared_ptr<KeyEncapsulation> KeyEncapsulation::getInstance(const std::string & algorithm, KeyDerivationPtr kdf)
 {
@@ -41,5 +40,4 @@ std::shared_ptr<KeyEncapsulation> KeyEncapsulation::getInstance(const std::strin
     return getInstance(algorithm, KeyDerivation::getInstance(kdf_algorithm));
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

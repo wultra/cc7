@@ -19,8 +19,7 @@
 #include <cc7/crypto/Key.h>
 #include <cc7/crypto/Algorithm.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // Abstract public key interface
 class PublicKey : public Key
@@ -113,6 +112,4 @@ public:
 
 CC7_SHARED_PTR(KeyPairFactory)
 
-} // cc7::crypto
-} // cc7
-
+} // namespace cc7::crypto

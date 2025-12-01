@@ -16,8 +16,7 @@
 
 #include "JwsMacSignature.h"
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 crypto::ParameterList JwsMacSignature::buildParamsForSpec(const JwsSpec* spec)
 {
@@ -49,5 +48,4 @@ bool JwsMacSignature::verify(const JwsKey &key, const ByteRange &data, const Byt
     return _mac->verifyToken(key.getSymmetricKey(), data, signature, _mac_params);
 }
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

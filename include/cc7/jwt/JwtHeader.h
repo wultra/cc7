@@ -18,8 +18,7 @@
 
 #include <cc7/jwt/JwtException.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 class JwtHeader
 {
@@ -53,5 +52,4 @@ private:
     std::string _encoded;
 };
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

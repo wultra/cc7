@@ -19,10 +19,8 @@
 #include <cc7tests/TestFile.h>
 #include <cc7/json/JsonReader.h>
 
-namespace cc7
-{
-namespace tests
-{
+namespace cc7::tests {
+
 class TestResource;
 
 class TestDirectory
@@ -43,5 +41,4 @@ private:
 
 json::JsonValue JSON_ParseFile(const TestDirectory & dir, const std::string & file_name);
 
-} // cc7::tests
-} // cc7
+} // namespace cc7::tests

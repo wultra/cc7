@@ -20,8 +20,7 @@
 #include "ECKeyPair.h"
 #include "../CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 struct DHKEMSpec
 {
@@ -150,6 +149,4 @@ private:
 const DHKEMPublicKey & checkDHKEMPublicKey(const PublicKey & public_key, const DHKEMSpec * expected_spec);
 const DHKEMPrivateKey & checkDHKEMPrivateKey(const PrivateKey & private_key, const DHKEMSpec * expected_spec);
 
-
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

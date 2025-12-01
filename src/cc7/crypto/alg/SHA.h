@@ -19,8 +19,7 @@
 #include <cc7/crypto/MessageDigest.h>
 #include "../CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 struct SHASpec
 {
@@ -49,5 +48,4 @@ private:
     SHA(const SHASpec * spec) : _spec(spec) {}
 };
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

@@ -18,8 +18,7 @@
 #include <cc7/Base64.h>
 #include "CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - Key
 
@@ -38,5 +37,4 @@ void Key::importKeyFromBase64(const std::string_view & base64Key, KeyFormat form
     importKey(Base64::decode(base64Key), format);
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

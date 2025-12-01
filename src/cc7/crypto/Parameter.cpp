@@ -18,8 +18,7 @@
 #include "CryptoPrivate.h"
 #include <stdexcept>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - Parameter implementation
 
@@ -353,5 +352,4 @@ bool ParameterList::consume(int param_id, ParameterListCtx &ctx, parent_class::c
     return found;
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

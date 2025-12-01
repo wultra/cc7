@@ -19,8 +19,7 @@
 #include <cc7/crypto/KeyAgreement.h>
 #include "ECKeyPair.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 class ECDH : public KeyAgreement
 {
@@ -42,5 +41,4 @@ private:
     ECDH(KeyDerivationPtr kdf) : _key_derivation(kdf) {}
 };
     
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

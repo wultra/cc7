@@ -19,8 +19,7 @@
 #include <cc7/crypto/KeyPair.h>
 #include "../CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 struct ECCurveSpec
 {
@@ -159,5 +158,4 @@ private:
 const ECPublicKey & checkECPublicKey(const PublicKey & public_key, const ECCurveSpec * expected_curve);
 const ECPrivateKey & checkECPrivateKey(const PrivateKey & private_key, const ECCurveSpec * expected_curve, bool check_signing);
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

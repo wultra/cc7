@@ -18,8 +18,7 @@
 
 #include <cc7/BaseException.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 class CryptoException : public BaseException
 {
@@ -56,5 +55,4 @@ private:
     static const std::string CLASS_NAME;
 };
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

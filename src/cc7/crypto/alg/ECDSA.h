@@ -19,8 +19,7 @@
 #include <cc7/crypto/Signature.h>
 #include "ECKeyPair.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 struct ECDSASpec
 {
@@ -60,5 +59,4 @@ private:
     const ECDSASpec * _spec;
 };
     
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

@@ -17,8 +17,7 @@
 #include <cc7/crypto/AEAD.h>
 #include "alg/AES.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 AEADPtr AEAD::getInstance(const std::string &algorithm)
 {
@@ -59,5 +58,4 @@ ByteArray AEAD::open(const SymmetricKey & key,
     return open(key.getKeyData().byteRange(), associated_data, ciphertext, p);
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

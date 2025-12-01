@@ -16,17 +16,13 @@
 
 #include <cc7tests/TestResource.h>
 
+namespace cc7::tests {
 
-namespace cc7
+TestResource::TestResource(const cc7::byte * data, size_t size, const char * name) :
+    _data(data),
+    _size(size),
+    _name(name)
 {
-namespace tests
-{
-    TestResource::TestResource(const cc7::byte * data, size_t size, const char * name) :
-        _data(data),
-        _size(size),
-        _name(name)
-    {
-    }
+}
     
-} // cc7::tests
-} // cc7
+} // namespace cc7::tests

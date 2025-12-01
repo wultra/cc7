@@ -16,8 +16,7 @@
 
 #include "PBKDF2.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: PBKDF2Spec implementation
 
@@ -127,6 +126,4 @@ KeyDerivationPtr PBKDF2::getInstance(const std::string & alg_name)
     return std::make_shared<PBKDF2>(spec);
 }
 
-
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

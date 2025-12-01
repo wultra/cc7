@@ -19,8 +19,7 @@
 #include <cc7/crypto/Key.h>
 #include <cc7/crypto/Algorithm.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 class MessageDigest : public Algorithm
 {
@@ -33,5 +32,4 @@ public:
 
 CC7_SHARED_PTR(MessageDigest)
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

@@ -19,8 +19,7 @@
 #include <cc7/crypto/SymmetricKey.h>
 #include <cc7/crypto/Algorithm.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 class AEAD : public Algorithm
 {
@@ -54,5 +53,4 @@ public:
 
 CC7_SHARED_PTR(AEAD)
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

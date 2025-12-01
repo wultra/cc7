@@ -21,8 +21,7 @@
 #include <cc7/crypto/Parameter.h>
 #include <cc7/BaseObject.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 class Key : public BaseObject
 {
@@ -49,5 +48,4 @@ public:
 
 CC7_SHARED_PTR(Key)
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

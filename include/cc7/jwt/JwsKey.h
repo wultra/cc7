@@ -21,8 +21,7 @@
 #include <cc7/crypto/SymmetricKey.h>
 #include <cc7/jwt/JwtException.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 class JwsKey : public BaseObject
 {
@@ -65,5 +64,4 @@ CC7_SHARED_PTR(JwsKey)
 typedef std::vector<JwsKeyPtr> JwsKeyList;
 
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

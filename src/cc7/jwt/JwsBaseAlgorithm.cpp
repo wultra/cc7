@@ -18,8 +18,7 @@
 #include "JwsDsaSignature.h"
 #include "JwsMacSignature.h"
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 JwsBaseAlgorithm::JwsBaseAlgorithm(const JwsSpec* spec) :
     _spec(spec)
@@ -49,5 +48,4 @@ JwsAlgorithmPtr JwsBaseAlgorithm::getInstance(const std::string& algorithm)
     }
 }
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

@@ -17,8 +17,7 @@
 #include <cc7/crypto/SymmetricKey.h>
 #include "CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - SymmetricKey
 
@@ -135,5 +134,4 @@ const SymmetricKeySpec SymmetricKeySpec::ANY_384 = { "GENERIC-384", 48 };
 const SymmetricKeySpec SymmetricKeySpec::ANY_512 = { "GENERIC-512", 64 };
 const SymmetricKeySpec SymmetricKeySpec::ANY     = { "GENERIC", 0 };
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

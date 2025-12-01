@@ -16,10 +16,8 @@
 
 #include <cc7/json/JsonException.h>
 
-namespace cc7 {
-namespace json {
+namespace cc7::json {
 
 const std::string JsonException::CLASS_NAME("cc7::json::JsonException");
 
-}
-}
+} // namespace cc7::json

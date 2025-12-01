@@ -17,8 +17,7 @@
 #include <cc7/crypto/NonceGenerator.h>
 #include <cc7/crypto/Random.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - SimpleNonceGenerator
 
@@ -311,5 +310,4 @@ ByteArray CollisionResistantNonceGenerator::deriveKeyFromNonce(const ByteRange& 
     return key;
 }
 
-} // cc7::crypto
-} // cc74
+} // namespace cc7::crypto

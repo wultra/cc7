@@ -19,8 +19,7 @@
 #include "JwsBaseAlgorithm.h"
 #include <cc7/crypto/Signature.h>
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 class JwsDsaSignature : public JwsBaseAlgorithm
 {
@@ -34,5 +33,4 @@ private:
     const crypto::SignaturePtr _signature;
 };
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

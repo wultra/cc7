@@ -17,8 +17,7 @@
 #include "OSSLObjects.h"
 #include <cc7/crypto/CryptoException.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 cc7::ByteArray BigNum_ToArray(const BigNum & bn)
 {
@@ -147,5 +146,4 @@ bool EVPKeyPair_ContainsPrivateKey(const EVPKeyPair & key)
     return false;
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

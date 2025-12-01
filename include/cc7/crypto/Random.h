@@ -18,8 +18,7 @@
 
 #include <cc7/ByteArray.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 /**
  Generates required amount of random bytes. if |reject_sequence_of_zeros|
@@ -45,5 +44,4 @@ ByteArray GetUniqueRandomData(size_t size, const std::vector<cc7::ByteRange> & r
  */
 void ReseedRandomGenerator();
 
-} // cc7::crypto
-} // cc74
+} // namespace cc7::crypto

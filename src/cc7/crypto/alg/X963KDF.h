@@ -19,8 +19,7 @@
 #include <cc7/crypto/KeyDerivation.h>
 #include "../CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 struct X963KDFSpec
 {
@@ -57,6 +56,4 @@ private:
     size_t _out_size;
 };
 
-} // cc7::crypto
-} // cc7
-
+} // namespace cc7::crypto

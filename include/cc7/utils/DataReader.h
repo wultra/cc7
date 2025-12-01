@@ -18,8 +18,7 @@
 
 #include <cc7/ByteArray.h>
 
-namespace cc7 {
-namespace utils {
+namespace cc7::utils {
 
 /**
  The DataReader class provides simple streaming interface usable for
@@ -182,5 +181,4 @@ private:
     VersionStack    _version_stack;
 };
     
-} // cc7::utils
-} // cc7
+} // namespace cc7::utils

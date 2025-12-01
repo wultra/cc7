@@ -18,9 +18,7 @@
 #include "NullKDF.h"
 #include "KeyUtility.h"
 
-namespace cc7 {
-namespace crypto {
-
+namespace cc7::crypto {
 
 #define MAX_PUB_LEN 256
 #define MAX_ENC_LEN 256
@@ -369,5 +367,4 @@ const DHKEMPrivateKey & checkDHKEMPrivateKey(const PrivateKey & private_key, con
     return *key;
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

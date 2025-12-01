@@ -17,8 +17,7 @@
 #include "CryptoPrivate.h"
 #include <openssl/provider.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 const std::string CryptoException::CLASS_NAME = "cc7::crypto::CryptoException";
 const std::string UnsupportedAlgorithm::CLASS_NAME = "cc7::crypto::UnsupportedAlgorithm";
@@ -119,5 +118,4 @@ OSSL_LIB_CTX * ossl_ctx()
 #endif
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

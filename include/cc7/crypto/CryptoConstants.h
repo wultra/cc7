@@ -18,10 +18,7 @@
 
 #include <cc7/Platform.h>
 
-namespace cc7
-{
-namespace crypto
-{
+namespace cc7::crypto {
 
 // Key import / export formats
 
@@ -160,6 +157,4 @@ enum AlgorithmParameterId
     KEY_ENCAPSULATION_PARAM_APP_CUSTOM  = 0x10E0
 };
 
-} // cc7::crypto
-} // cc7
-
+} // namespace cc7::crypto

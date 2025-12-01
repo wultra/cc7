@@ -18,8 +18,7 @@
 
 #include <cc7/Platform.h>
 
-namespace cc7 {
-namespace detail {
+namespace cc7::detail {
 
 /// Returns formatted std::string like regular sprintf() does.
 /// - Parameter format: Format specification.
@@ -46,5 +45,4 @@ std::vector<std::string> SplitString(const std::string & str, char delimiter, bo
 /// - Parameter str: String to cleanup
 void StringCleanup(std::string& str);
 
-} // namespace detail
-} // namespace cc7
+} // namespace cc7::detail

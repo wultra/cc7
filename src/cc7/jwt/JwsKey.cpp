@@ -17,8 +17,7 @@
 #include <cc7/jwt/JwsKey.h>
 #include "JwsSpec.h"
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 JwsKey::JwsKey(Type type, const std::string& algorithm, const crypto::ConstKeyPtr& key) :
     _type(type),
@@ -114,6 +113,4 @@ const std::string& JwsKey::getAlgorithmForKey(const crypto::Key &key)
     return spec->jwsName;
 }
 
-} // namespace jwt
-} // namespace cc7
-
+} // namespace cc7::jwt

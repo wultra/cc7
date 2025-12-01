@@ -20,8 +20,7 @@
 #include <cc7/crypto/CryptoConstants.h>
 #include <cc7/crypto/CryptoException.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 void throwUnsupporterAlgorithm [[noreturn]] (const std::string & alg_name);
 
@@ -38,6 +37,4 @@ bool stringHasSuffix(const std::string & str, const std::string & suffix);
 
 OSSL_LIB_CTX * ossl_ctx();
 
-} // cc7::crypto
-} // cc7
-
+} // namespace cc7::crypto

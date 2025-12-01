@@ -19,8 +19,7 @@
 #include <cc7/crypto/KeyEncapsulation.h>
 #include "../CryptoPrivate.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 struct MLKEMSpec
 {
@@ -177,5 +176,4 @@ private:
 const MLKEMPublicKey & checkMLKEMPublicKey(const PublicKey & public_key, const MLKEMSpec * expected_spec);
 const MLKEMPrivateKey & checkMLKEMPrivateKey(const PrivateKey & private_key, const MLKEMSpec * expected_spec);
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

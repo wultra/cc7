@@ -17,10 +17,7 @@
 #include <cc7tests/TestDirectory.h>
 #include <cc7tests/TestResource.h>
 
-namespace cc7
-{
-namespace tests
-{
+namespace cc7::tests {
 
 TestDirectory::TestDirectory(std::initializer_list<TResource> il) :
     _resources(il)
@@ -56,5 +53,4 @@ json::JsonValue JSON_ParseFile(const TestDirectory & dir, const std::string & fi
     return json::JsonReader::fromJsonData(f.readMemory(f.size()));
 }
 
-} // cc7::tests
-} // cc7
+} // namespace cc7::tests

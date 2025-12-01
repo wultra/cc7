@@ -16,8 +16,7 @@
 
 #include <cc7/utils/URLEncoding.h>
 
-namespace cc7 {
-namespace utils {
+namespace cc7::utils {
 
 static size_t _URLEncodingEstimateResultLength(std::string::const_iterator begin, std::string::const_iterator end)
 {
@@ -103,5 +102,4 @@ cc7::ByteArray ConvertStringToUrlEncodedData(const std::string & str)
     return buffer;
 }
     
-} // cc7::utils
-} // cc7
+} // namespace cc7::utils

@@ -18,8 +18,7 @@
 #include <cc7/crypto/Random.h>
 #include <cc7/Utilities.h>
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - AESSpec implementation
 
@@ -406,5 +405,4 @@ Parameter AES_GCM_AEAD::getParameter(int param_id) const
     }
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

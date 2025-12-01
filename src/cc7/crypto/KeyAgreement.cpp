@@ -17,8 +17,7 @@
 #include <cc7/crypto/KeyAgreement.h>
 #include "alg/ECDH.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 std::shared_ptr<KeyAgreement> KeyAgreement::getInstance(const std::string & algorithm, KeyDerivationPtr kdf)
 {
@@ -38,5 +37,4 @@ std::shared_ptr<KeyAgreement> KeyAgreement::getInstance(const std::string & algo
     return getInstance(algorithm, KeyDerivation::getInstance(kdf_algorithm));
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

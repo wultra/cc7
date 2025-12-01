@@ -18,7 +18,7 @@
 
 #include <cc7/BaseObject.h>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <mutex>
 
 namespace cc7 {
@@ -99,16 +99,9 @@ public:
         return typed;
     }
 
-    /// Get a reference to the global registry instance.
-    ///
-    /// This function returns a singleton `ObjectRegister` that can be used as a process-wide registry.
-    ///
-    /// Thread-safety: The construction of the global instance is thread-safe, and all subsequent calls are thread-safe.
-    static ObjectRegister& global() noexcept;
-
 private:
     
-    typedef std::map<ObjID, BaseObjectPtr> ObjMap;
+    typedef std::unordered_map<ObjID, BaseObjectPtr> ObjMap;
 
     mutable std::mutex  _lock;
     ObjMap              _register;

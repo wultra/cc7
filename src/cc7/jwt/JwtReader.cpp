@@ -19,8 +19,7 @@
 #include <cc7/detail/StringUtils.h>
 #include "JwsBaseAlgorithm.h"
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 static const std::string cDOT(".");
 
@@ -159,5 +158,4 @@ const std::vector<JwtHeader>& JwtReader::getHeaders() const
     return _headers;
 }
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

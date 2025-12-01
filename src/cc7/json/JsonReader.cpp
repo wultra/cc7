@@ -17,8 +17,7 @@
 #include <cc7/json/JsonReader.h>
 #include <cc7/json/JsonException.h>
 
-namespace cc7 {
-namespace json {
+namespace cc7::json {
 
 // MARK: helper functions -
 
@@ -690,5 +689,4 @@ const std::string& JsonReader::getErrorMessage() const
     return _error;
 }
 
-} // namespace json
-} // namespace cc7
+} // namespace cc7::json

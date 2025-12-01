@@ -16,8 +16,7 @@
 
 #import <cc7/objc/ObjcHelper.h>
 
-namespace cc7 {
-namespace objc {
+namespace cc7::objc {
 
 NSData * CopyToNSData(const cc7::ByteRange & range)
 {
@@ -72,5 +71,4 @@ ByteArray CopyFromNSStringToByteArray(NSString * string)
     return result;
 }
     
-} // cc7::objc
-} // cc7
+} // namespace cc7::objc

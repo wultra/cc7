@@ -17,8 +17,7 @@
 #include <cc7/jwt/JwsAlgorithm.h>
 #include "JwsBaseAlgorithm.h"
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 const JwsAlgorithmProvider JwsAlgorithmProvider::defaultProvider;
 
@@ -27,5 +26,4 @@ JwsAlgorithmPtr JwsAlgorithmProvider::getAlgorithm(const std::string &algorithm_
     return JwsBaseAlgorithm::getInstance(algorithm_name);
 }
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

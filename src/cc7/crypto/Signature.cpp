@@ -18,8 +18,7 @@
 #include "alg/MLDSA.h"
 #include "alg/ECDSA.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 std::shared_ptr<Signature> Signature::getInstance(const std::string & algorithm)
 {
@@ -35,6 +34,4 @@ std::shared_ptr<Signature> Signature::getInstance(const std::string & algorithm)
     return signature;
 }
 
-} // cc7::crypto
-} // cc7
-
+} // namespace cc7::crypto

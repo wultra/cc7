@@ -16,8 +16,7 @@
 
 #include "JwsDsaSignature.h"
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 JwsDsaSignature::JwsDsaSignature(const crypto::SignaturePtr& signature, const JwsSpec* spec) :
     JwsBaseAlgorithm(spec),
@@ -44,5 +43,4 @@ bool JwsDsaSignature::verify(const JwsKey &key, const ByteRange &data, const Byt
     return _signature->verify(public_key, signature, data);
 }
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

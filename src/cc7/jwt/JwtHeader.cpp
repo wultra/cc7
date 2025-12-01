@@ -19,8 +19,7 @@
 #include <cc7/Base64.h>
 #include "JwsSpec.h"
 
-namespace cc7 {
-namespace jwt {
+namespace cc7::jwt {
 
 const std::string JwtHeader::JWT_TYPE("JWT");
 const std::string JwtHeader::NO_TYPE("");
@@ -126,5 +125,4 @@ JwtHeader JwtHeader::fromEncodedString(const std::string& encoded)
     }
 }
 
-} // namespace jwt
-} // namespace cc7
+} // namespace cc7::jwt

@@ -23,8 +23,7 @@
 #include <unistd.h>
 #endif
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 // MARK: - Random generator
 
@@ -123,5 +122,4 @@ void ReseedRandomGenerator()
     RAND_seed(buffer.data(), (int)buffer.size());
 }
 
-} // cc7::crypto
-} // cc74
+} // namespace cc7::crypto

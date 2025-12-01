@@ -18,8 +18,7 @@
 
 using namespace cc7::json;
 
-namespace cc7 {
-namespace objc {
+namespace cc7::objc {
     
 static id JsonValueToObjCImpl(const JsonValue& value)
 {
@@ -126,5 +125,4 @@ JsonValue JsonValueFromObjC(id repr)
     throw std::invalid_argument("Unsupported object type in ObjC JSON representation");
 }
     
-} // namespace objc
-} // namespace cc7
+} // namespace cc7::objc

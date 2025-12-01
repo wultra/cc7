@@ -19,186 +19,186 @@
 #include <cc7/ByteRange.h>
 #include <cc7/detail/CleanupAllocator.h>
 
-namespace cc7
+namespace cc7 {
+
+//
+// The ByteArray class is a special version of vector of bytes which
+// implements secure data cleanup when the object is destroyed.
+//
+// This is a reference implementation of ByteArray class, with using
+// regular std::vector in cooperation with a custom std::allocator.
+//
+
+class ByteArray : public std::vector<cc7::byte, detail::CleanupAllocator<cc7::byte>>
 {
-    //
-    // The ByteArray class is a special version of vector of bytes which
-    // implements secure data cleanup when the object is destroyed.
-    //
-    // This is a reference implementation of ByteArray class, with using
-    // regular std::vector in cooperation with a custom std::allocator.
-    //
+public:
     
-    class ByteArray : public std::vector<cc7::byte, detail::CleanupAllocator<cc7::byte>>
-    {
-    public:
-        
-        typedef std::vector<cc7::byte, detail::CleanupAllocator<cc7::byte>> parent_class;
-        
-        using parent_class::parent_class;
-        using parent_class::assign;
-        using parent_class::insert;
-        
-        ByteArray()
-        {
-        }
-        
-        
-        //
-        // Interaction with ByteRange class
-        //
-        ByteArray(const ByteRange & range) : ByteArray(range.begin(), range.end())
-        {
-        }
-        
-        ByteArray& operator=(const ByteRange& range)
-        {
-            parent_class::assign(range.begin(), range.end());
-            return *this;
-        }
-        
-        void assign(const ByteRange & range)
-        {
-            parent_class::assign(range.begin(), range.end());
-        }
-        
-        ByteArray & append(const ByteRange & range)
-        {
-            parent_class::insert(end(), range.begin(), range.end());
-            return *this;
-        }
-        
-        iterator insert(const_iterator position, const ByteRange & range)
-        {
-            return parent_class::insert(position, range.begin(), range.end());
-        }
-        
-        ByteRange byteRange() const
-        {
-            return ByteRange(data(), size());
-        }
-
-        // dirty.. automatic casting to ByteRange
-        operator ByteRange () const
-        {
-            return byteRange();
-        }
-
-        
-        //
-        // Appending
-        //
-        
-        // single element, the same as push_back()
-        ByteArray & append(const value_type& val)
-        {
-            parent_class::push_back(val);
-            return *this;
-        }
-        
-        // fill
-        ByteArray & append(size_type n, const value_type& val)
-        {
-            parent_class::insert(end(), n, val);
-            return *this;
-        }
-
-        // range
-        template <class InputIterator>
-        ByteArray & append(InputIterator first, InputIterator last)
-        {
-            parent_class::insert(end(), first, last);
-            return *this;
-        }
-
-        // initializer list
-        ByteArray & append(std::initializer_list<value_type> il)
-        {
-            parent_class::insert(end(), il);
-            return *this;
-        }
-        
-        // append [pointer, size]
-        ByteArray & append(const_pointer p, size_type size)
-        {
-            parent_class::insert(end(), p, p + size);
-            return *this;
-        }
-        
-        //
-        // Other custom methods
-        //
-        
-        void secureClear()
-        {
-            CC7_SecureClean(data(), capacity());
-            parent_class::clear();
-        }
-        
-        static ByteArray zero(size_t count)
-        {
-            return ByteArray(count, 0);
-        }
-        
-        std::string_view stringView() const
-        {
-            return std::string_view(reinterpret_cast<const char*>(data()), size());
-        }
-
-        
-        // Legacy
-        bool readFromBase64String(const std::string_view & base64_string, size_t wrap_size = 0) noexcept;
-        bool readFromHexString(const std::string_view & hex_string) noexcept;
-        
-        std::string base64String(size_t wrap_size = 0) const noexcept;
-        std::string hexString(bool lower_case = false) const noexcept;
-        
-        // New methods
-        
-        void readFromBase64(const std::string_view & base64_string, size_t wrap_size = 0);
-        void readFromBase64Url(const std::string_view & base64url_string);
-        void readFromHexadecimal(const std::string_view & hex_string);
-        
-        std::string base64(size_t wrap_size) const;
-        std::string base64() const noexcept;
-        std::string base64Url() const noexcept;
-        ByteArray secureBase64(size_t wrap_size) const;
-        ByteArray secureBase64() const noexcept;
-        ByteArray secureBase64Url() const noexcept;
-
-        std::string hexadecimal(bool lower_case = false) const noexcept;
-    };
+    typedef std::vector<cc7::byte, detail::CleanupAllocator<cc7::byte>> parent_class;
     
-    /**
-     Copy conversion, from ByteArray to std::string
-     */
-    inline std::string CopyToString(const ByteArray & array)
+    using parent_class::parent_class;
+    using parent_class::assign;
+    using parent_class::insert;
+    
+    ByteArray()
     {
-        return std::string(reinterpret_cast<const char*>(array.data()), array.size());
     }
     
-    /**
-     Creates a new ByteRange object from given ByteArray. The method
-     is here just for convenience and for increasing code readability in 
-     some specific situations. 
-     
-     You can use automatic casting, ByteArray::byteRange() method or
-     this conversion function. It's up to you, which form of conversion
-     between the array and the range is more familiar with your coding style.
-     */
-    inline ByteRange MakeRange(const ByteArray & array)
+    
+    //
+    // Interaction with ByteRange class
+    //
+    ByteArray(const ByteRange & range) : ByteArray(range.begin(), range.end())
     {
-        return array.byteRange();
+    }
+    
+    ByteArray& operator=(const ByteRange& range)
+    {
+        parent_class::assign(range.begin(), range.end());
+        return *this;
+    }
+    
+    void assign(const ByteRange & range)
+    {
+        parent_class::assign(range.begin(), range.end());
+    }
+    
+    ByteArray & append(const ByteRange & range)
+    {
+        parent_class::insert(end(), range.begin(), range.end());
+        return *this;
+    }
+    
+    iterator insert(const_iterator position, const ByteRange & range)
+    {
+        return parent_class::insert(position, range.begin(), range.end());
+    }
+    
+    ByteRange byteRange() const
+    {
+        return ByteRange(data(), size());
     }
 
-    /**
-     Concat multiple ByteRange components into continuous ByteArray.
-     */
-    extern ByteArray ConcatByteRanges(std::initializer_list<ByteRange> components);
+    // dirty.. automatic casting to ByteRange
+    operator ByteRange () const
+    {
+        return byteRange();
+    }
 
-    /**
-     Concat multiple ByteRange components into continuous ByteArray.
-     */
-    extern ByteArray ConcatByteRanges(const std::vector<ByteRange>& components);
+    
+    //
+    // Appending
+    //
+    
+    // single element, the same as push_back()
+    ByteArray & append(const value_type& val)
+    {
+        parent_class::push_back(val);
+        return *this;
+    }
+    
+    // fill
+    ByteArray & append(size_type n, const value_type& val)
+    {
+        parent_class::insert(end(), n, val);
+        return *this;
+    }
+
+    // range
+    template <class InputIterator>
+    ByteArray & append(InputIterator first, InputIterator last)
+    {
+        parent_class::insert(end(), first, last);
+        return *this;
+    }
+
+    // initializer list
+    ByteArray & append(std::initializer_list<value_type> il)
+    {
+        parent_class::insert(end(), il);
+        return *this;
+    }
+    
+    // append [pointer, size]
+    ByteArray & append(const_pointer p, size_type size)
+    {
+        parent_class::insert(end(), p, p + size);
+        return *this;
+    }
+    
+    //
+    // Other custom methods
+    //
+    
+    void secureClear()
+    {
+        CC7_SecureClean(data(), capacity());
+        parent_class::clear();
+    }
+    
+    static ByteArray zero(size_t count)
+    {
+        return ByteArray(count, 0);
+    }
+    
+    std::string_view stringView() const
+    {
+        return std::string_view(reinterpret_cast<const char*>(data()), size());
+    }
+
+    
+    // Legacy
+    bool readFromBase64String(const std::string_view & base64_string, size_t wrap_size = 0) noexcept;
+    bool readFromHexString(const std::string_view & hex_string) noexcept;
+    
+    std::string base64String(size_t wrap_size = 0) const noexcept;
+    std::string hexString(bool lower_case = false) const noexcept;
+    
+    // New methods
+    
+    void readFromBase64(const std::string_view & base64_string, size_t wrap_size = 0);
+    void readFromBase64Url(const std::string_view & base64url_string);
+    void readFromHexadecimal(const std::string_view & hex_string);
+    
+    std::string base64(size_t wrap_size) const;
+    std::string base64() const noexcept;
+    std::string base64Url() const noexcept;
+    ByteArray secureBase64(size_t wrap_size) const;
+    ByteArray secureBase64() const noexcept;
+    ByteArray secureBase64Url() const noexcept;
+
+    std::string hexadecimal(bool lower_case = false) const noexcept;
+};
+
+/**
+ Copy conversion, from ByteArray to std::string
+ */
+inline std::string CopyToString(const ByteArray & array)
+{
+    return std::string(reinterpret_cast<const char*>(array.data()), array.size());
+}
+
+/**
+ Creates a new ByteRange object from given ByteArray. The method
+ is here just for convenience and for increasing code readability in 
+ some specific situations. 
+ 
+ You can use automatic casting, ByteArray::byteRange() method or
+ this conversion function. It's up to you, which form of conversion
+ between the array and the range is more familiar with your coding style.
+ */
+inline ByteRange MakeRange(const ByteArray & array)
+{
+    return array.byteRange();
+}
+
+/**
+ Concat multiple ByteRange components into continuous ByteArray.
+ */
+extern ByteArray ConcatByteRanges(std::initializer_list<ByteRange> components);
+
+/**
+ Concat multiple ByteRange components into continuous ByteArray.
+ */
+extern ByteArray ConcatByteRanges(const std::vector<ByteRange>& components);
 
 } // cc7

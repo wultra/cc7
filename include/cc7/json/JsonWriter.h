@@ -19,8 +19,7 @@
 #include <cc7/json/JsonValue.h>
 #include <cc7/json/JsonException.h>
 
-namespace cc7 {
-namespace json {
+namespace cc7::json {
 
 class JsonWriter
 {
@@ -95,5 +94,4 @@ private:
     void nextItem(bool& need_separator);
 };
 
-} // namespace json
-} // namespace cc7
+} // namespace cc7::json

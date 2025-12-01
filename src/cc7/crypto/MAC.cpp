@@ -18,8 +18,7 @@
 #include "alg/KMAC.h"
 #include "alg/HMAC.h"
 
-namespace cc7 {
-namespace crypto {
+namespace cc7::crypto {
 
 std::shared_ptr<MAC> MAC::getInstance(const std::string & algorithm)
 {
@@ -35,5 +34,4 @@ std::shared_ptr<MAC> MAC::getInstance(const std::string & algorithm)
     return mac;
 }
 
-} // cc7::crypto
-} // cc7
+} // namespace cc7::crypto

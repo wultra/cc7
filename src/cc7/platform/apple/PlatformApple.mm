@@ -23,8 +23,7 @@
 #pragma mark - Assertion log
 
 #if defined(ENABLE_CC7_ASSERT)
-namespace cc7 {
-namespace debug {
+namespace cc7::debug {
 
 static void private_DumpAssertToLog(void * foo, const char * file, int line, const char * message)
 {
@@ -41,15 +40,13 @@ AssertionHandlerSetup Platform_GetDefaultAssertionHandler()
     return s_default_setup;
 }
 
-} // cc7::debug
-} // cc7
+} // namespace cc7::debug
 #endif
 
 #pragma mark - Debug log
 
 #if defined(ENABLE_CC7_LOG)
-namespace cc7 {
-namespace debug {
+namespace cc7::debug {
 
 static void private_LogImpl(void * foo, const char * message)
 {
@@ -67,8 +64,7 @@ bool Platform_IsDefaultLogEnabled()
     return false;
 }
 
-} // cc7::debug
-} // cc7
+} // namespace cc7::debug
 #endif //ENABLE_CC7_LOG
 
 /*
