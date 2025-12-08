@@ -17,19 +17,20 @@
 #pragma once
 
 #include <cc7/BaseObject.h>
-#include <vector>
 #include <unordered_map>
 #include <mutex>
 
-namespace cc7 {
-namespace jni {
+namespace cc7::jni {
 
-/// The `ObjectRegister` class manages `BaseObject` instances in a centralized registry.
-class ObjectRegister
+/// The `JniObjectRegister` class manages `BaseObject` instances in a centralized registry.
+class JniObjectRegister
 {
 public:
     /// Type used for object identifiers.
     typedef int64_t ObjID;
+
+    /// A constant representing a null identifier.
+    static const ObjID NULL_ID = 0L;
 
     /// Register an object and return a unique identifier associated with it.
     ///
@@ -49,8 +50,18 @@ public:
     /// - Parameters:
     ///   - object_id: Object identifier.
     /// - Throws:
-    ///   - `std::invalid_argument` if no object with the given `object_id` exists in the registry.
+    ///   - `jni::JniBadHandleException` if no object with the given `object_id` exists in the registry.
     void removeObject(ObjID object_id);
+
+    /// Remove multiple previously registered object.
+    ///
+    /// Thread-safety: This function is thread-safe.
+    ///
+    /// - Parameters:
+    ///   - object_ids: Object identifiers.
+    /// - Throws:
+    ///   - `jni::JniBadHandleException` if array contains object that doesn't exists in the registry.
+    void removeObjects(const std::vector<ObjID>& object_ids);
 
     /// Check whether an object with the given identifier is currently registered.
     ///
@@ -75,7 +86,7 @@ public:
     ///   - object_id: Object identifier.
     /// - Returns: Shared pointer to the registered object.
     /// - Throws:
-    ///   - `std::invalid_argument` if no object with the given `object_id` exists in the registry.
+    ///   - `jni::JniBadHandleException` if no object with the given `object_id` exists in the registry.
     BaseObjectPtr getObject(ObjID object_id) const;
 
     /// Retrieve a typed pointer to a registered object.
@@ -88,7 +99,7 @@ public:
     ///   - object_id: Object identifier.
     /// - Returns: Shared pointer to the registered object cast to `std::shared_ptr<T>`.
     /// - Throws:
-    ///   - `std::invalid_argument` if no object with the given `object_id` exists in the registry.
+    ///   - `jni::JniBadHandleException` if no object with the given `object_id` exists in the registry.
     ///   - `std::invalid_argument` if the object exists but cannot be cast to `T`.
     template<typename T> std::shared_ptr<T> getTypedObject(ObjID object_id) const
     {
@@ -108,5 +119,4 @@ private:
     ObjID               _next_id = 0;
 };
 
-} // namespace jni
-} // namespace cc7
+} // namespace cc7::jni

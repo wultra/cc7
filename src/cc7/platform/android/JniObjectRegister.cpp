@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-#include <cc7/jni/ObjectRegister.h>
+#include <cc7/jni/JniObjectRegister.h>
+#include <cc7/jni/JniException.h>
 
-namespace cc7 {
-namespace jni {
+namespace cc7::jni {
 
 #define LOCK_GUARD() std::lock_guard<std::mutex> _lock_guard(_lock)
 
-ObjectRegister::ObjID ObjectRegister::registerObject(const BaseObjectPtr& ptr)
+JniObjectRegister::ObjID JniObjectRegister::registerObject(const BaseObjectPtr& ptr)
 {
     LOCK_GUARD();
     if (ptr == nullptr) {
@@ -33,31 +33,47 @@ ObjectRegister::ObjID ObjectRegister::registerObject(const BaseObjectPtr& ptr)
     return object_id;
 }
 
-void ObjectRegister::removeObject(ObjID object_id)
+void JniObjectRegister::removeObject(ObjID object_id)
 {
     LOCK_GUARD();
     auto it = _register.find(object_id);
     if (it == _register.end()) {
-        throw std::invalid_argument("Native object not found. ID = " + std::to_string(object_id));
+        throw JniBadHandleException("Native object not found. ID = " + std::to_string(object_id));
     }
     _register.erase(it);
 }
 
-BaseObjectPtr ObjectRegister::getObject(ObjID object_id) const
+void JniObjectRegister::removeObjects(const std::vector<ObjID>& object_ids)
+{
+    LOCK_GUARD();
+    auto failed_id = NULL_ID;
+    for (auto object_id : object_ids) {
+        auto it = _register.find(object_id);
+        if (it != _register.end()) {
+            _register.erase(it);
+        } else {
+            failed_id = object_id;
+        }
+    }
+    if (failed_id != NULL_ID) {
+        throw JniBadHandleException("Native object not found. ID = " + std::to_string(failed_id));
+    }
+}
+
+BaseObjectPtr JniObjectRegister::getObject(ObjID object_id) const
 {
     LOCK_GUARD();
     auto it = _register.find(object_id);
     if (it == _register.end()) {
-        throw std::invalid_argument("Native object not found. ID = " + std::to_string(object_id));
+        throw JniBadHandleException("Native object not found. ID = " + std::to_string(object_id));
     }
     return it->second;
 }
 
-bool ObjectRegister::containsObject(ObjID object_id) const noexcept
+bool JniObjectRegister::containsObject(ObjID object_id) const noexcept
 {
     LOCK_GUARD();
     return _register.find(object_id) != _register.end();
 }
 
-} // namespace jni
-} // namespace cc7
+} // namespace cc7::jni
