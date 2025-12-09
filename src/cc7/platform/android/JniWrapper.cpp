@@ -91,12 +91,20 @@ JniCommon JNIGlobal::buildSpecs(JNI &jni)
         spec.runtimeException = jni.buildClassSpec<JniCommon::ExceptionSpec>("java/lang/RuntimeException");
         spec.illegalStateException = jni.buildClassSpec<JniCommon::ExceptionSpec>("java/lang/IllegalStateException");
         spec.illegalArgumentException = jni.buildClassSpec<JniCommon::ExceptionSpec>("java/lang/IllegalArgumentException");
+        spec.classString = jni.getClass("java/lang/String").makeGlobal();
+        spec.classBoolean = jni.getClass("java/lang/Boolean").makeGlobal();
+        spec.classDouble = jni.getClass("java/lang/Double").makeGlobal();
+        spec.classLong = jni.getClass("java/lang/Long").makeGlobal();
         return spec;
     } catch (...) {
         // Cleanup
         jni.releaseObject(spec.runtimeException.classRef);
         jni.releaseObject(spec.illegalStateException.classRef);
         jni.releaseObject(spec.illegalArgumentException.classRef);
+        jni.releaseObject(spec.classString);
+        jni.releaseObject(spec.classBoolean);
+        jni.releaseObject(spec.classDouble);
+        jni.releaseObject(spec.classLong);
         // Rethrow exception
         std::rethrow_exception(std::current_exception());
     }
@@ -131,6 +139,11 @@ JNIGlobal& JNI::globalOrFatal()
         _env->FatalError("JNIGlobal instance is not set, exception processing is unavailable.");
     }
     return *_global;
+}
+
+const JniCommon& JNI::commonSpecs()
+{
+    return global().commonSpecs();
 }
 
 // Parameters
@@ -266,6 +279,18 @@ JniObjectArray JNI::fromJava(jobjectArray array)
     return { this, size, array };
 }
 
+JniObjectArray JNI::createObjectArray(jclass item_clazz, size_t size, bool null_if_empty)
+{
+    jobjectArray array;
+    if (size && !null_if_empty) {
+        array = _env->NewObjectArray((jsize) size, item_clazz, nullptr);
+        checkForJniFailure("NewObjectArray");
+    } else {
+        array = nullptr;
+    }
+    return { this, (jsize) size, array };
+}
+
 // Objects
 
 JniObject JNI::createObject(JniMethod constructor, ...)
@@ -322,6 +347,11 @@ jobject JNI::toJava(const JniCommon::NativeHandleClass& spec, const BaseObjectPt
 
 // Class management
 
+JniClass JNI::getClass(const char * class_name)
+{
+    return { this, findClass(class_name) };
+}
+
 jclass JNI::findClass(const char *class_name)
 {
     if (!class_name) {
@@ -370,6 +400,34 @@ jfieldID JNI::findStaticField(jclass clazz, const char * name, const char * sign
     auto fid = _env->GetStaticFieldID(clazz, name, signature);
     checkForJniFailure("GetStaticFieldID");
     return fid;
+}
+
+// Enumerations
+
+JniCommon::ConstantSetSpec JNI::buildConstantSetSpec(const char * class_name, std::initializer_list<const char*> fields)
+{
+    auto clazz = getClass(class_name);
+    std::unordered_set<jint> values;
+    for (auto field_name : fields) {
+        auto field_id = clazz.findStaticField(field_name, "I");
+        auto field_value = clazz.getInt(field_id);
+        if (values.find(field_value) != values.end()) {
+            throw JniException(std::string("Value of static field is duplicit: ") + field_name);
+        }
+        values.insert(field_value);
+    }
+    return { clazz.makeGlobal(), class_name, values };
+}
+
+JniCommon::ConstantRangeSpec JNI::buildConstantRangeSpec(const char * class_name, const char * bottom_field, const char * top_field)
+{
+    auto clazz = getClass(class_name);
+    auto bottom_value = clazz.getInt(clazz.findStaticField(bottom_field, "I"));
+    auto top_value = clazz.getInt(clazz.findStaticField(top_field, "I"));
+    if (bottom_value > top_value) {
+        throw JniException(std::string("Bottom value is greater than top value. Field names: ") + bottom_field + ", " + top_field);
+    }
+    return { clazz.makeGlobal(), class_name, bottom_value, top_value };
 }
 
 // Other
@@ -506,7 +564,7 @@ void JNI::checkForJniFailure(const char *jni_call)
     }
 }
 
-bool JNI::processException(std::exception_ptr exception)
+bool JNI::processException(std::exception_ptr exception, bool custom_argument_exception)
 {
     try {
         // re-throw to investigate the cause
@@ -522,13 +580,17 @@ bool JNI::processException(std::exception_ptr exception)
         _env->FatalError(e.what());
         return true;
     } catch (std::invalid_argument &e) {
-        throwToJava(e);
-        return true;
+        if (custom_argument_exception) {
+            throwToJava(e);
+            return true;
+        }
+        // Exception is not handled
     } catch (...) {
-        // Unknown exception, Otherwise just release registered handles
-        releaseOnFail();
-        return false;
+        // Unknown exception
     }
+    // Unknown or unhandled exception, Otherwise just release registered handles
+    releaseOnFail();
+    return false;
 }
 
 void JNI::releaseOnFail()
@@ -680,6 +742,103 @@ ByteArray JniObject::getByteArray(jfieldID field)
 ByteArray JniObject::getStringAsBytes(jfieldID field)
 {
     return _jni->fromJavaStringToBytes((jstring) getObject(field));
+}
+
+
+// MARK: - JniClass
+
+jclass JniClass::makeGlobal()
+{
+    if (isNull()) {
+        return nullptr;
+    }
+    return (jclass) _jni->makeGlobal(_clazz);
+}
+
+jfieldID JniClass::findField(const char * name, const char * signature)
+{
+    return _jni->findField(_clazz, name, signature);
+}
+
+jfieldID JniClass::findStaticField(const char * name, const char * signature)
+{
+    return _jni->findStaticField(_clazz, name, signature);
+}
+
+jmethodID JniClass::findMethod(const char * name, const char * signature)
+{
+    return _jni->findMethod(_clazz, name, signature);
+}
+
+jmethodID JniClass::findStaticMethod(const char * name, const char * signature)
+{
+    return _jni->findStaticMethod(_clazz, name, signature);
+}
+
+jlong JniClass::getLong(jfieldID field)
+{
+    auto value = _jni->env()->GetStaticLongField(_clazz, field);
+    _jni->checkForJniFailure("GetStaticLongField");
+    return value;
+}
+
+jint JniClass::getInt(jfieldID field)
+{
+    auto value = _jni->env()->GetStaticIntField(_clazz, field);
+    _jni->checkForJniFailure("GetStaticIntField");
+    return value;
+}
+
+jboolean JniClass::getBoolean(jfieldID field)
+{
+    auto value = _jni->env()->GetStaticIntField(_clazz, field);
+    _jni->checkForJniFailure("GetStaticIntField");
+    return value;
+}
+
+jchar JniClass::getChar(jfieldID field)
+{
+    auto value = _jni->env()->GetStaticCharField(_clazz, field);
+    _jni->checkForJniFailure("GetStaticCharField");
+    return value;
+}
+
+jshort JniClass::getShort(jfieldID field)
+{
+    auto value = _jni->env()->GetStaticShortField(_clazz, field);
+    _jni->checkForJniFailure("GetStaticShortField");
+    return value;
+}
+
+jfloat JniClass::getFloat(jfieldID field)
+{
+    auto value = _jni->env()->GetStaticFloatField(_clazz, field);
+    _jni->checkForJniFailure("GetStaticFloatField");
+    return value;
+}
+
+jdouble JniClass::getDouble(jfieldID field)
+{
+    auto value = _jni->env()->GetStaticDoubleField(_clazz, field);
+    _jni->checkForJniFailure("GetStaticDoubleField");
+    return value;
+}
+
+jobject JniClass::getObject(jfieldID field)
+{
+    auto value = _jni->env()->GetStaticObjectField(_clazz, field);
+    _jni->checkForJniFailure("GetStaticObjectField");
+    return value;
+}
+
+std::string JniClass::getString(jfieldID field)
+{
+    return _jni->fromJava((jstring) getObject(field));
+}
+
+ByteArray JniClass::getByteArray(jfieldID field)
+{
+    return _jni->fromJava((jbyteArray) getObject(field));
 }
 
 

@@ -110,6 +110,91 @@ private:
     jobject _object;
 };
 
+/// The `JniClass` is a thin wrapper that allows you simplify access to class' static fields.
+class JniClass
+{
+public:
+    /// Returns information whether object is null.
+    bool isNull() const noexcept { return _clazz == nullptr; }
+
+    /// Automatic casting to jobject
+    operator jclass () const { return _clazz; }
+    /// Get pointer to java object.
+    jclass clazz() const { return _clazz; }
+    /// Conversion to bool, just like a raw pointer
+    operator bool() const noexcept { return _clazz != nullptr; }
+
+    /// Make global reference from class stored in this object. If captured class is null, then returns null.
+    jclass makeGlobal();
+
+    // Field / Method lookup
+
+    /// Find instance method in the class.
+    /// @param name Name of the instance method. If you're looking for constructor, use "<init>".
+    /// @param signature Signature of the instance method.
+    /// @return Information about the instance method.
+    jmethodID findMethod(const char * name, const char * signature);
+
+    /// Find static method in the class.
+    /// @param name Name of the static method.
+    /// @param signature Signature of the static method.
+    /// @return Information about the static method.
+    jmethodID findStaticMethod(const char * name, const char * signature);
+
+    /// Find instance field in the class.
+    /// @param name Name of the instance field.
+    /// @param signature Signature of the instance field.
+    /// @return Information about the instance field.
+    jfieldID findField(const char * name, const char * signature);
+
+    /// Find static field in the class.
+    /// @param name Name of the static field.
+    /// @param signature Signature of the static field.
+    /// @return Information about the static field.
+    jfieldID findStaticField(const char * name, const char * signature);
+
+    // Static field getters
+
+    /// Get long value from the static field.
+    jlong getLong(jfieldID field);
+    /// Get int value from the static field.
+    jint getInt(jfieldID field);
+    /// Get boolean value from the static field.
+    jboolean getBoolean(jfieldID field);
+    /// Get char value from the static field.
+    jchar getChar(jfieldID field);
+    /// Get short value from the static field.
+    jshort getShort(jfieldID field);
+    /// Get float value from the static field.
+    jfloat getFloat(jfieldID field);
+    /// Get double value from the static field.
+    jdouble getDouble(jfieldID field);
+    /// Get object value from the static field.
+    jobject getObject(jfieldID field);
+    /// Get string value from the static field.
+    std::string getString(jfieldID field);
+    /// Get byte array value from the static field.
+    ByteArray getByteArray(jfieldID field);
+
+
+    // Delete copy/move to avoid accidental dangling JNI/JNIEnv pointer
+    JniClass(const JniObject&) = delete;
+    JniClass(JniObject&&) = delete;
+    JniClass& operator=(const JniObject&) = delete;
+    JniClass& operator=(JniObject&&) = delete;
+
+private:
+    friend class JNI;
+
+    /// Construct class wrapper.
+    /// @param jni Pointer to JNI object.
+    /// @param size Size of array.
+    /// @param array jobjectArray object.
+    JniClass(JNI * jni, jclass clazz) : _jni(jni), _clazz(clazz) {}
+    JNI * _jni;
+    jclass _clazz;
+};
+
 /// The `JniObjectArray` is a thin wrapper that allows you simplify access to array of objects.
 class JniObjectArray
 {
@@ -252,6 +337,9 @@ public:
     /// Convert `jobjectArray` into `JniObjectArray` wrapper.
     JniObjectArray fromJava(jobjectArray array);
 
+    /// Create `jobjectArray` with the requested size.
+    JniObjectArray createObjectArray(jclass item_clazz, size_t size, bool null_if_empty = false);
+
     // TODO...
 
     // Objects
@@ -323,6 +411,11 @@ public:
 
     // Class management
 
+    /// Find Java class by its name and return JniClass wrapper object.
+    /// @param class_name Class name to find. Use slashes in naming, such as "java/lang/String".
+    /// @return JniClass wrapper object.
+    JniClass getClass(const char * class_name);
+
     /// Find Java class by its name.
     /// @param class_name Class name to find. Use slashes in naming, such as "java/lang/String".
     /// @return Information about the class.
@@ -376,6 +469,57 @@ public:
     /// @param class_name Name of the java class to resolve.
     /// @return T with initialized information about the class.
     template<typename T> T buildClassSpec(const char * class_name);
+
+    // Enumerations
+
+    /// Build specification structure for integer constants extracted from given Java class.
+    /// @param class_name Class name that contains static fields with integer constants.
+    /// @param fields List with fields.
+    /// @return Specification structure for integer constants extracted from given Java class.
+    JniCommon::ConstantSetSpec buildConstantSetSpec(const char * class_name, std::initializer_list<const char*> fields);
+
+    /// Convert integer value into enumeration. Conversion is specified in `JniCommon::ConstantSetSpec`.
+    template<typename T> T fromJava(const JniCommon::ConstantSetSpec& spec, jint value)
+    {
+        if (spec.values.find(value) == spec.values.end()) {
+            throw std::invalid_argument(std::string("Cannot convert Java integer value to enumeration. Class: ") + spec.className);
+        }
+        return static_cast<T>(value);
+    }
+
+    /// Convert enumeration into Java integer. Conversion is specified in `JniCommon::ConstantSetSpec`.
+    template<typename T> jint toJava(const JniCommon::ConstantSetSpec& spec, T value)
+    {
+        if (spec.values.find(value) == spec.values.end()) {
+            throw std::invalid_argument(std::string("Cannot convert enumeration to Java integer. Class: ") + spec.className);
+        }
+        return static_cast<jint>(value);
+    }
+
+    /// Build specification structure for integer constants extracted from given Java class.
+    /// @param class_name
+    /// @param bottom_field
+    /// @param top_field
+    /// @return
+    JniCommon::ConstantRangeSpec buildConstantRangeSpec(const char * class_name, const char * bottom_field, const char * top_field);
+
+    /// Convert integer value into enumeration. Conversion is specified in `JniCommon::ConstantRangeSpec`.
+    template<typename T> T fromJava(const JniCommon::ConstantRangeSpec& spec, jint value)
+    {
+        if (value >= spec.bottomValue && value <= spec.topValue) {
+            return static_cast<T>(value);
+        }
+        throw std::invalid_argument(std::string("Cannot convert Java integer value to enumeration. Class: ") + spec.className);
+    }
+
+    /// Convert enumeration into Java integer. Conversion is specified in `JniCommon::ConstantRangeSpec`.
+    template<typename T> jint toJava(const JniCommon::ConstantRangeSpec& spec, T value)
+    {
+        if (value >= spec.bottomValue && value <= spec.topValue) {
+            return static_cast<jint>(value);
+        }
+        throw std::invalid_argument(std::string("Cannot convert enumeration to Java integer. Class: ") + spec.className);
+    }
 
     // Other
 
@@ -453,9 +597,10 @@ public:
     /// should execute your own logic in the failure processing.
     ///
     /// @param exception C++ exception to process.
+    /// @param custom_argument_exception If `true` then function will not handle a `std::invalid_argument` exception.
     /// @return true if exception was processed, false otherwise. You should apply your own logic of failure processing
     ///         when false is returned.
-    bool processException(std::exception_ptr exception = std::current_exception());
+    bool processException(std::exception_ptr exception = std::current_exception(), bool custom_argument_exception = false);
 
     /// Get `JNIGlobal` reference associated with this JNI object. Method throws `JniException` if a global instance is
     /// not available. This situation may happen during a `JNIGlobal` instance's initialization sequence.
@@ -463,6 +608,10 @@ public:
     /// Get `JNIGlobal` reference associated with this JNI object. Method causes a Java Fatal failure if a global instance is
     /// not available. This situation may happen during a `JNIGlobal` instance's initialization sequence.
     JNIGlobal& globalOrFatal();
+
+    /// Get `JniCommon` reference associated with this JNI object. Method throws `JniException` if a `JNIGlobal` instance is
+    /// not available. This situation may happen during a `JNIGlobal` instance's initialization sequence.
+    const JniCommon& commonSpecs();
 
 private:
     friend class JNIGlobal;
@@ -518,7 +667,7 @@ template<typename T> T JNI::buildClassSpec(const char * class_name)
 
     T result {};
     // At first, resolve the class
-    auto clazz = findClass(class_name);
+    auto clazz = getClass(class_name);
 
     // Lookup for methods
     auto methods_count = sizeof(T::methodSpecs) / sizeof(T::methodSpecs[0]);
@@ -528,9 +677,9 @@ template<typename T> T JNI::buildClassSpec(const char * class_name)
             const JniMethodSpec& spec = T::methodSpecs[i];
             auto dest = reinterpret_cast<JniMethod*>(methods_base + spec.targetOffset);
             if (!spec.isStatic) {
-                dest->methodId = findMethod(clazz, spec.name, spec.signature);
+                dest->methodId = clazz.findMethod(spec.name, spec.signature);
             } else {
-                dest->methodId = findStaticMethod(clazz, spec.name, spec.signature);
+                dest->methodId = clazz.findStaticMethod(spec.name, spec.signature);
             }
         }
     }
@@ -542,14 +691,14 @@ template<typename T> T JNI::buildClassSpec(const char * class_name)
             const JniFieldSpec& spec = T::fieldSpecs[i];
             auto dest = reinterpret_cast<jfieldID*>(fields_base + spec.targetOffset);
             if (!spec.isStatic) {
-                *dest = findField(clazz, spec.name, spec.signature);
+                *dest = clazz.findField(spec.name, spec.signature);
             } else {
-                *dest = findStaticField(clazz, spec.name, spec.signature);
+                *dest = clazz.findStaticField(spec.name, spec.signature);
             }
         }
     }
     // So far, so good, make jclass reference global, and update appropriate members in the structure.
-    result.classRef = (jclass) makeGlobal(clazz);
+    result.classRef = clazz.makeGlobal();
     // Update method structures with the global reference
     for (size_t i = 0; i < methods_count; ++i) {
         const JniMethodSpec& spec = T::methodSpecs[i];

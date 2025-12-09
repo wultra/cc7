@@ -17,6 +17,7 @@
 #pragma once
 
 #include <cc7/Platform.h>
+#include <unordered_set>
 #include <jni.h>
 
 namespace cc7::jni {
@@ -112,11 +113,35 @@ struct JniCommon
         Fields fields;
     };
 
+    /// Specification for set of constants, such as `@interface IntEnums`
+    struct ConstantSetSpec
+    {
+        jclass classRef;
+        const char * className;
+        std::unordered_set<jint> values;
+    };
+
+    /// Specification for range of constants, such as `@interface IntEnums`
+    struct ConstantRangeSpec
+    {
+        jclass classRef;
+        const char * className;
+        jint bottomValue;
+        jint topValue;
+    };
+
     // Common exceptions
 
     ExceptionSpec runtimeException;
     ExceptionSpec illegalStateException;
     ExceptionSpec illegalArgumentException;
+
+    // Common objects
+
+    jclass classString;
+    jclass classBoolean;
+    jclass classDouble;
+    jclass classLong;
 };
 
 } // namespace cc7::jni
