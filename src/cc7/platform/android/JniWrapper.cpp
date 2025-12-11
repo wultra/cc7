@@ -16,6 +16,7 @@
 
 #include <cc7/jni/JniWrapper.h>
 #include <cc7/Utilities.h>
+#include <set>
 
 namespace cc7::jni {
 
@@ -396,28 +397,48 @@ jfieldID JNI::findStaticField(jclass clazz, const char * name, const char * sign
 
 JniCommon::ConstantSetSpec JNI::buildConstantSetSpec(const char * class_name, std::initializer_list<const char*> fields)
 {
+    if (empty(fields)) {
+        throw JniException(std::string("Empty list of static fields provided. Class: ") + class_name);
+    }
     auto clazz = getClass(class_name);
     std::unordered_set<jint> values;
     for (auto field_name : fields) {
         auto field_id = clazz.findStaticField(field_name, "I");
         auto field_value = clazz.getInt(field_id);
         if (values.find(field_value) != values.end()) {
-            throw JniException(std::string("Value of static field is duplicit: ") + field_name);
+            throw JniException(std::string("Value of static field \"") + field_name + "\" is duplicit. Class: " + class_name);
         }
         values.insert(field_value);
     }
     return { clazz.makeGlobal(), class_name, values };
 }
 
-JniCommon::ConstantRangeSpec JNI::buildConstantRangeSpec(const char * class_name, const char * bottom_field, const char * top_field)
+JniCommon::ConstantRangeSpec JNI::buildConstantRangeSpec(const char * class_name, std::initializer_list<const char*> fields)
 {
-    auto clazz = getClass(class_name);
-    auto bottom_value = clazz.getInt(clazz.findStaticField(bottom_field, "I"));
-    auto top_value = clazz.getInt(clazz.findStaticField(top_field, "I"));
-    if (bottom_value > top_value) {
-        throw JniException(std::string("Bottom value is greater than top value. Field names: ") + bottom_field + ", " + top_field);
+    if (empty(fields)) {
+        throw JniException(std::string("Empty list of static fields provided. Class: ") + class_name);
     }
-    return { clazz.makeGlobal(), class_name, bottom_value, top_value };
+    auto clazz = getClass(class_name);
+    std::set<jint> values;
+    for (auto field_name : fields) {
+        auto field_id = clazz.findStaticField(field_name, "I");
+        auto field_value = clazz.getInt(field_id);
+        if (values.find(field_value) != values.end()) {
+            throw JniException(std::string("Value of static field \"") + field_name + "\" is duplicit. Class: " + class_name);
+        }
+        values.insert(field_value);
+    }
+    auto prev = *values.begin(), min = INT_MAX, max = INT_MIN, diff = 0;
+    for (auto value : values) {
+        auto d = value - prev;
+        if (d < 0 || d > 1) {
+            throw JniException(std::string("Values in provided fields are not contiguous. Class: ") + class_name);
+        }
+        prev = value;
+        min = std::min(min, value);
+        max = std::max(max, value);
+    }
+    return { clazz.makeGlobal(), class_name, min, max };
 }
 
 // Other

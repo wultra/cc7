@@ -532,11 +532,10 @@ public:
     }
 
     /// Build specification structure for integer constants extracted from given Java class.
-    /// @param class_name
-    /// @param bottom_field
-    /// @param top_field
-    /// @return
-    JniCommon::ConstantRangeSpec buildConstantRangeSpec(const char * class_name, const char * bottom_field, const char * top_field);
+    /// @param class_name Class name that contains static fields with integer constants.
+    /// @param fields List with fields. All fields must lead to an contiguous range of integers, otherwise an error is reported.
+    /// @return Specification structure for range of integer constants extracted from given Java class.
+    JniCommon::ConstantRangeSpec buildConstantRangeSpec(const char * class_name, std::initializer_list<const char*> fields);
 
     /// Convert integer value into enumeration. Conversion is specified in `JniCommon::ConstantRangeSpec`.
     template<typename T> T fromJava(const JniCommon::ConstantRangeSpec& spec, jint value)
