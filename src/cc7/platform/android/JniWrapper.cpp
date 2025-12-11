@@ -15,13 +15,19 @@
  */
 
 #include <cc7/jni/JniWrapper.h>
+#include <cc7/Utilities.h>
 
 namespace cc7::jni {
 
 // MARK: - JNIGlobal
 
 std::once_flag JNIGlobal::s_init_flag;
-JNIGlobal * JNIGlobal::s_instance = nullptr;
+std::unique_ptr<JNIGlobal> JNIGlobal::s_instance;
+
+#define SAFE_ARGS(name, param)                              \
+    va_list name;                                           \
+    va_start(name, param);                                  \
+    cc7::utilities::VaListGuard _guard_ ## name { name };
 
 static std::vector<JNIGlobal::GlobalInitializer>& initializers()
 {
@@ -44,7 +50,7 @@ JNIGlobal& JNIGlobal::global(JNIEnv * env)
             JNI temporary(env, nullptr, 0);
 
             // Create JNIGlobal instance
-            s_instance = new JNIGlobal(temporary);
+            s_instance = std::unique_ptr<JNIGlobal>(new JNIGlobal(temporary));
 
             // Get and call all global initializers
             std::vector<GlobalInitializer> init_functions;
@@ -80,34 +86,8 @@ void JNIGlobal::addGlobalInitializer(const GlobalInitializer& initializer)
 }
 
 JNIGlobal::JNIGlobal(JNI &jni) :
-    _specs(buildSpecs(jni))
+    _specs(JniCommon::buildSpecs(jni))
 {
-}
-
-JniCommon JNIGlobal::buildSpecs(JNI &jni)
-{
-    JniCommon spec {};
-    try {
-        spec.runtimeException = jni.buildClassSpec<JniCommon::ExceptionSpec>("java/lang/RuntimeException");
-        spec.illegalStateException = jni.buildClassSpec<JniCommon::ExceptionSpec>("java/lang/IllegalStateException");
-        spec.illegalArgumentException = jni.buildClassSpec<JniCommon::ExceptionSpec>("java/lang/IllegalArgumentException");
-        spec.classString = jni.getClass("java/lang/String").makeGlobal();
-        spec.classBoolean = jni.getClass("java/lang/Boolean").makeGlobal();
-        spec.classDouble = jni.getClass("java/lang/Double").makeGlobal();
-        spec.classLong = jni.getClass("java/lang/Long").makeGlobal();
-        return spec;
-    } catch (...) {
-        // Cleanup
-        jni.releaseObject(spec.runtimeException.classRef);
-        jni.releaseObject(spec.illegalStateException.classRef);
-        jni.releaseObject(spec.illegalArgumentException.classRef);
-        jni.releaseObject(spec.classString);
-        jni.releaseObject(spec.classBoolean);
-        jni.releaseObject(spec.classDouble);
-        jni.releaseObject(spec.classLong);
-        // Rethrow exception
-        std::rethrow_exception(std::current_exception());
-    }
 }
 
 // MARK: - JNI
@@ -295,12 +275,8 @@ JniObjectArray JNI::createObjectArray(jclass item_clazz, size_t size, bool null_
 
 JniObject JNI::createObject(JniMethod constructor, ...)
 {
-    va_list args;
-    va_start(args, constructor);
-    auto result = _env->NewObjectV(constructor.classRef, constructor.methodId, args);
-    va_end(args);
-    checkForJniFailure("NewObjectV");
-    return {this, result };
+    SAFE_ARGS(args, constructor)
+    return createObjectV(constructor, args);
 }
 
 JniObject JNI::createObjectV(const JniMethod& constructor, va_list args)
@@ -337,12 +313,26 @@ jobject JNI::toJava(const JniCommon::NativeHandleClass& spec, const BaseObjectPt
     auto& reg = global().objectRegister();
     auto handle = reg.registerObject(object);
     try {
-        return createObject(spec.methods.initHandle, handle);
+        return createObject(spec.initHandle, handle);
     } catch (...) {
         // Delete registered instance and re-throw exception.
         reg.removeObject(handle);
         std::rethrow_exception(std::current_exception());
     }
+}
+
+JniCommon::NativeHandleClass JNI::buildNativeHandleSpec(const char * class_name)
+{
+    auto this_class = getClass(class_name);
+    auto constructor = this_class.findMethod("<init>", "(J)V");
+    jfieldID handle_field = this_class.findField("nativeObjectHandle", "J");
+    auto global_this = this_class.makeGlobal();
+    return {
+        global_this,
+        { global_this, constructor },
+        handle_field,
+        class_name
+    };
 }
 
 // Class management
@@ -476,6 +466,30 @@ void JNI::releaseObject(jobject object)
     }
 }
 
+void JNI::releaseSpec(JniCommon::NativeHandleClass& spec)
+{
+    releaseObject(spec.classRef);
+    spec.classRef = nullptr;
+}
+
+void JNI::releaseSpec(JniCommon::ConstantSetSpec& spec)
+{
+    releaseObject(spec.classRef);
+    spec.classRef = nullptr;
+}
+
+void JNI::releaseSpec(JniCommon::ConstantRangeSpec& spec)
+{
+    releaseObject(spec.classRef);
+    spec.classRef = nullptr;
+}
+
+void JNI::releaseSpec(JniCommon::ExceptionSpec& spec)
+{
+    releaseObject(spec.classRef);
+    spec.classRef = nullptr;
+}
+
 bool JNI::isEqual(jobject obj1, jobject obj2)
 {
     return _env->IsSameObject(obj1, obj2);
@@ -504,9 +518,7 @@ void JNI::throwToJava(const JniJavaException& exception)
 {
     releaseOnFail();
 
-    if (_env->ExceptionOccurred() != exception.throwable()) {
-        _env->Throw(exception.throwable());
-    }
+    _env->Throw(exception.throwable());
 }
 
 void JNI::throwToJava(const JniException& exception)
@@ -532,10 +544,8 @@ void JNI::throwToJava(JniMethod constructor, ...)
 {
     releaseOnFail();
 
-    va_list args;
-    va_start(args, constructor);
+    SAFE_ARGS(args, constructor)
     auto throwable = (jthrowable) createObject(constructor, args).object();
-    va_end(args);
     _env->Throw(throwable);
 }
 
@@ -553,7 +563,14 @@ void JNI::wrapCurrentThrowable [[noreturn]] (const char * jni_call)
     if (!throwable) {
         throw JniException("wrapCurrentThrowable() failed, because there's no exception set");
     }
-    auto message = "JNI call \"" + std::string(jni_call) + "\" failed";
+    std::string exception_msg;
+    try {
+        exception_msg = JniObject(this, throwable).callString(commonSpecs().throwable.methods.getMessage);
+    } catch (...) {
+        exception_msg = "Failed to extract message from java/lang/Throwable";
+        _env->ExceptionClear();
+    }
+    auto message = "JNI call \"" + std::string(jni_call) + "\" failed: " + exception_msg;
     throw JniJavaException(throwable, message, nullptr);
 }
 
@@ -701,6 +718,13 @@ jchar JniObject::getChar(jfieldID field)
     return result;
 }
 
+jbyte JniObject::getByte(jfieldID field)
+{
+    auto result = _jni->env()->GetByteField(_object, field);
+    _jni->checkForJniFailure("GetByteField");
+    return result;
+}
+
 jshort JniObject::getShort(jfieldID field)
 {
     auto result = _jni->env()->GetShortField(_object, field);
@@ -742,6 +766,104 @@ ByteArray JniObject::getByteArray(jfieldID field)
 ByteArray JniObject::getStringAsBytes(jfieldID field)
 {
     return _jni->fromJavaStringToBytes((jstring) getObject(field));
+}
+
+// calls
+
+void JniObject::callVoid(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    _jni->env()->CallVoidMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallVoidMethodV");
+}
+
+jlong JniObject::callLong(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    auto result = _jni->env()->CallLongMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallLongMethodV");
+    return result;
+}
+
+jint JniObject::callInt(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    auto result = _jni->env()->CallIntMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallIntMethodV");
+    return result;
+}
+
+jboolean JniObject::callBoolean(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    auto result = _jni->env()->CallBooleanMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallBooleanMethodV");
+    return result;
+}
+
+jchar JniObject::callChar(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    auto result = _jni->env()->CallCharMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallCharMethodV");
+    return result;
+}
+
+jbyte JniObject::callByte(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    auto result = _jni->env()->CallByteMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallByteMethodV");
+    return result;
+}
+
+jshort JniObject::callShort(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    auto result = _jni->env()->CallShortMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallShortMethodV");
+    return result;
+}
+
+jfloat JniObject::callFloat(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    auto result = _jni->env()->CallFloatMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallFloatMethodV");
+    return result;
+}
+
+jdouble JniObject::callDouble(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    auto result = _jni->env()->CallDoubleMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallDoubleMethodV");
+    return result;
+}
+
+jobject JniObject::callObjectV(JniMethod method, va_list args)
+{
+    auto result = _jni->env()->CallObjectMethodV(_object, method.methodId, args);
+    _jni->checkForJniFailure("CallObjectMethodV");
+    return result;
+}
+
+jobject JniObject::callObject(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method);
+    return callObjectV(method, args);
+}
+
+std::string JniObject::callString(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method)
+    return _jni->fromJava((jstring) callObjectV(method, args));
+}
+
+ByteArray JniObject::callByteArray(JniMethod method, ...)
+{
+    SAFE_ARGS(args, method)
+    return _jni->fromJava((jbyteArray) callObjectV(method, args));
 }
 
 
@@ -800,6 +922,13 @@ jchar JniClass::getChar(jfieldID field)
 {
     auto value = _jni->env()->GetStaticCharField(_clazz, field);
     _jni->checkForJniFailure("GetStaticCharField");
+    return value;
+}
+
+jbyte JniClass::getByte(jfieldID field)
+{
+    auto value = _jni->env()->GetStaticByteField(_clazz, field);
+    _jni->checkForJniFailure("GetStaticByteField");
     return value;
 }
 

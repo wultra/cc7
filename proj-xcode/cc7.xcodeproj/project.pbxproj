@@ -505,10 +505,7 @@
 		BF14D46C2DD48CB400BA7F51 /* NonceGeneratorTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NonceGeneratorTests.cpp; sourceTree = "<group>"; };
 		BF1C7BBE1CE0CE9300C4399E /* cc7PlatformTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cc7PlatformTests.cpp; sourceTree = "<group>"; };
 		BF22BDFC2476995A00029A38 /* cc7OpenSSLIntegration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cc7OpenSSLIntegration.cpp; sourceTree = "<group>"; };
-		BF2723621D340ED700020395 /* JniHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JniHelper.h; sourceTree = "<group>"; };
 		BF2723631D34137B00020395 /* JniHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JniHelper.cpp; sourceTree = "<group>"; };
-		BF2723651D35470300020395 /* JniHelperMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JniHelperMacros.h; sourceTree = "<group>"; };
-		BF2723751D35486600020395 /* JniModule.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = JniModule.inl; sourceTree = "<group>"; };
 		BF3068371CC91B20002FD3BC /* libcc7tests-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcc7tests-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3068501CC91DA4002FD3BC /* TestManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestManager.h; sourceTree = "<group>"; };
 		BF3068511CC91E56002FD3BC /* TestManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestManager.cpp; sourceTree = "<group>"; };
@@ -842,16 +839,6 @@
 			path = alg;
 			sourceTree = "<group>";
 		};
-		BF2723611D340E7900020395 /* jni */ = {
-			isa = PBXGroup;
-			children = (
-				BF2723621D340ED700020395 /* JniHelper.h */,
-				BF2723651D35470300020395 /* JniHelperMacros.h */,
-				BF2723751D35486600020395 /* JniModule.inl */,
-			);
-			path = jni;
-			sourceTree = "<group>";
-		};
 		BF3068291CC8F607002FD3BC /* detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1153,7 +1140,6 @@
 				BF4D855F2DE5A2FC00D32F55 /* json */,
 				BF4D858A2DE7272500D32F55 /* jwt */,
 				BF4D85CD2DE849FC00D32F55 /* utils */,
-				BF2723611D340E7900020395 /* jni */,
 				BF79F0111D04BBDC004653A1 /* objc */,
 				BF3068291CC8F607002FD3BC /* detail */,
 				BF4B4AB41CC6BF6100BF2C9D /* CC7.h */,

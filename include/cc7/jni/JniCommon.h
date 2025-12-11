@@ -22,6 +22,8 @@
 
 namespace cc7::jni {
 
+class JNI;
+
 /// The `JniMethod` structure contains data for a Java method execution.
 struct JniMethod
 {
@@ -64,15 +66,20 @@ struct JniCommon
     {
         struct Methods
         {
+            /// constructor ()
+            JniMethod init;
             /// constructor (String)
             JniMethod initMessage;
             /// constructor (String, Throwable)
             JniMethod initMessageCause;
+            /// String getMessage();
+            JniMethod getMessage;
         };
-        static constexpr JniMethodSpec methodSpecs[3] = {
-                { "<init>", "(V)V", offsetof(Methods, initMessage) },
+        static constexpr JniMethodSpec methodSpecs[4] = {
+                { "<init>", "()V", offsetof(Methods, init) },
                 { "<init>", "(Ljava/lang/String;)V", offsetof(Methods, initMessage) },
                 { "<init>", "(Ljava/lang/String;Ljava/lang/Throwable;)V", offsetof(Methods, initMessageCause) },
+                { "getMessage", "()Ljava/lang/String;", offsetof(Methods, getMessage ) },
         };
 
         struct Fields {};
@@ -83,34 +90,13 @@ struct JniCommon
         Fields fields;
     };
 
-    /// Class specification for an object wrapping native handle. Object must implement constructor with
-    /// (long handle) parameter and must contain "long handle" field.
+    /// Structure describing Java class using native handle for wrapping C++ object.
     struct NativeHandleClass
     {
-        // Methods
-        struct Methods
-        {
-            // constructor (long handle)
-            JniMethod initHandle;
-        };
-        // Method specs
-        static constexpr JniMethodSpec methodSpecs[1] = {
-                { "<init>", "(J)V", offsetof(Methods, initHandle) },
-        };
-        // Fields
-        struct Fields
-        {
-            jfieldID handle;
-        };
-
-        // Field specs
-        static constexpr JniFieldSpec fieldSpecs[] = {
-                { "handle", "J", offsetof(Fields, handle) },
-        };
-
         jclass classRef;
-        Methods methods;
-        Fields fields;
+        JniMethod initHandle;
+        jfieldID handle;
+        const char * className;
     };
 
     /// Specification for set of constants, such as `@interface IntEnums`
@@ -132,6 +118,7 @@ struct JniCommon
 
     // Common exceptions
 
+    ExceptionSpec throwable;
     ExceptionSpec runtimeException;
     ExceptionSpec illegalStateException;
     ExceptionSpec illegalArgumentException;
@@ -142,6 +129,8 @@ struct JniCommon
     jclass classBoolean;
     jclass classDouble;
     jclass classLong;
+
+    static JniCommon buildSpecs(JNI& jni);
 };
 
 } // namespace cc7::jni

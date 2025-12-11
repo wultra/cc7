@@ -79,6 +79,8 @@ public:
     jboolean getBoolean(jfieldID field);
     /// Get char value from the field.
     jchar getChar(jfieldID field);
+    /// Get byte value from the field.
+    jbyte getByte(jfieldID field);
     /// Get short value from the field.
     jshort getShort(jfieldID field);
     /// Get float value from the field.
@@ -99,6 +101,34 @@ public:
     JniObject(JniObject&&) = delete;
     JniObject& operator=(const JniObject&) = delete;
     JniObject& operator=(JniObject&&) = delete;
+
+    /// Call Java method returning void.
+    void callVoid(JniMethod method, ...);
+    /// Call Java method returning "long" value type.
+    jlong callLong(JniMethod method, ...);
+    /// Call Java method returning "int" value type.
+    jint callInt(JniMethod method, ...);
+    /// Call Java method returning "boolean" value type.
+    jboolean callBoolean(JniMethod method, ...);
+    /// Call Java method returning "char" value type.
+    jchar callChar(JniMethod method, ...);
+    /// Call Java method returning "byte" value type.
+    jbyte callByte(JniMethod method, ...);
+    /// Call Java method returning "short" value type.
+    jshort callShort(JniMethod method, ...);
+    /// Call Java method returning "float" value type.
+    jfloat callFloat(JniMethod method, ...);
+    /// Call Java method returning "double" value type.
+    jdouble callDouble(JniMethod method, ...);
+    /// Call Java method returning "any" object.
+    jobject callObject(JniMethod method, ...);
+    /// Call Java method returning "any" object.
+    jobject callObjectV(JniMethod method, va_list args);
+    /// Call Java method returning "String" value type.
+    std::string callString(JniMethod method, ...);
+    /// Call Java method returning "byte[]" value type.
+    ByteArray callByteArray(JniMethod method, ...);
+
 
 private:
     friend class JNI;
@@ -163,6 +193,8 @@ public:
     jboolean getBoolean(jfieldID field);
     /// Get char value from the static field.
     jchar getChar(jfieldID field);
+    /// Get byte value from the static field.
+    jbyte getByte(jfieldID field);
     /// Get short value from the static field.
     jshort getShort(jfieldID field);
     /// Get float value from the static field.
@@ -279,10 +311,8 @@ private:
     JniCommon _specs;
     JniObjectRegister _object_register;
 
-    static JniCommon buildSpecs(JNI& jni);
-
     static std::once_flag s_init_flag;
-    static JNIGlobal * s_instance;
+    static std::unique_ptr<JNIGlobal> s_instance;
 };
 
 /// The `JNI` class is a thin wrapper that provides conversion of various types from and to Java environment.
@@ -340,7 +370,7 @@ public:
     /// Create `jobjectArray` with the requested size.
     JniObjectArray createObjectArray(jclass item_clazz, size_t size, bool null_if_empty = false);
 
-    // TODO...
+    // TODO: Other array types?
 
     // Objects
 
@@ -395,11 +425,16 @@ public:
     template<class T> std::shared_ptr<T> fromJava(const JniCommon::NativeHandleClass& spec, jobject object)
     {
         if (object) {
-            auto handle = fromJava(object, spec.classRef).getLong(spec.fields.handle);
+            auto handle = fromJava(object, spec.classRef).getLong(spec.handle);
             return global().objectRegister().getTypedObject<T>(handle);
         }
         return nullptr;
     }
+
+    /// Build specification structure for Java object wrapping a native C++ object.
+    /// @param class_name Java class name.
+    /// @return `NativeHandleClass` specification.
+    JniCommon::NativeHandleClass buildNativeHandleSpec(const char * class_name);
 
     /// Check whether handle represents a `null` object.
     /// @param handle Handle to test.
@@ -536,6 +571,25 @@ public:
     ///
     /// @param object Reference to object to delete.
     void releaseObject(jobject object);
+
+    /// Release global references in class specification structure.
+    void releaseSpec(JniCommon::NativeHandleClass& spec);
+
+    /// Release global references in class specification structure.
+    void releaseSpec(JniCommon::ConstantSetSpec& spec);
+
+    /// Release global references in class specification structure.
+    void releaseSpec(JniCommon::ConstantRangeSpec& spec);
+
+    /// Release global references in class specification structure.
+    void releaseSpec(JniCommon::ExceptionSpec& spec);
+    
+    /// Release global references in class specification structure. The T type must
+    /// contain `jclass classRef` field.
+    template <typename T> void releaseSpec(T& spec) {
+        releaseObject(spec.classRef);
+        spec.classRef = nullptr;
+    }
 
     /// Tests whether two references refer to the same Java object.
     bool isEqual(jobject obj1, jobject obj2);
@@ -684,7 +738,7 @@ template<typename T> T JNI::buildClassSpec(const char * class_name)
         }
     }
     // Lookup for fields
-    auto fields_count = sizeof(T::methodSpecs) / sizeof(T::methodSpecs[0]);
+    auto fields_count = sizeof(T::fieldSpecs) / sizeof(T::fieldSpecs[0]);
     auto fields_base = reinterpret_cast<char*>(&result.methods);
     {
         for (size_t i = 0; i < fields_count; ++i) {

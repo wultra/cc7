@@ -39,4 +39,10 @@ template<size_t Align> size_t AlignValueUp(size_t value)
     return (value + Align + (Align - 1)) & ~(Align - 1);
 }
 
+struct VaListGuard
+{
+    va_list& ref;
+    ~VaListGuard() { va_end(ref); }
+};
+
 } // namespace cc7::utilities
