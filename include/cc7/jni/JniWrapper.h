@@ -17,7 +17,6 @@
 #pragma once
 
 #include <cc7/ByteArray.h>
-#include <cc7/BaseObject.h>
 #include <cc7/jni/JniCommon.h>
 #include <cc7/jni/JniException.h>
 #include <cc7/jni/JniObjectRegister.h>
@@ -409,27 +408,20 @@ public:
     ///        from the register if exception occurs during the native code execution. This cleanup works only if you use
     ///        `processException()` method for the exception processing.
     /// @return Unique handle assigned to the given instance of C++ object.
-    jlong toHandle(const BaseObjectPtr& object, bool release_on_exception = true);
+    template <typename T> jlong toHandle(const std::shared_ptr<T>& object, bool release_on_exception = true);
 
     /// Convert the provided C++ object into Java object. The object must fulfill `JniCommon::NativeHandleClass` class specification.
     /// @param spec Java object specification.
     /// @param object C++ object.
     /// @return Java object created from C++ object.
-    jobject toJava(const JniCommon::NativeHandleClass& spec, const BaseObjectPtr& object);
+    template <typename T> jobject toJava(const JniCommon::NativeHandleClass& spec, const std::shared_ptr<T>& object);
 
     /// Convert Java object into typed C++ object with using given `JniCommon::NativeHandleClass` specification.
     /// @tparam T Type of C++ object.
     /// @param spec Java object specification.
     /// @param object Java object to convert.
     /// @return Smart pointer with given
-    template<class T> std::shared_ptr<T> fromJava(const JniCommon::NativeHandleClass& spec, jobject object)
-    {
-        if (object) {
-            auto handle = fromJava(object, spec.classRef).getLong(spec.handle);
-            return global().objectRegister().getTypedObject<T>(handle);
-        }
-        return nullptr;
-    }
+    template<class T> std::shared_ptr<T> fromJava(const JniCommon::NativeHandleClass& spec, jobject object);
 
     /// Build specification structure for Java object wrapping a native C++ object.
     /// @param class_name Java class name.
@@ -514,22 +506,10 @@ public:
     JniCommon::ConstantSetSpec buildConstantSetSpec(const char * class_name, std::initializer_list<const char*> fields);
 
     /// Convert integer value into enumeration. Conversion is specified in `JniCommon::ConstantSetSpec`.
-    template<typename T> T fromJava(const JniCommon::ConstantSetSpec& spec, jint value)
-    {
-        if (spec.values.find(value) == spec.values.end()) {
-            throw std::invalid_argument(std::string("Cannot convert Java integer value to enumeration. Class: ") + spec.className);
-        }
-        return static_cast<T>(value);
-    }
+    template<typename T> T fromJava(const JniCommon::ConstantSetSpec& spec, jint value);
 
     /// Convert enumeration into Java integer. Conversion is specified in `JniCommon::ConstantSetSpec`.
-    template<typename T> jint toJava(const JniCommon::ConstantSetSpec& spec, T value)
-    {
-        if (spec.values.find(value) == spec.values.end()) {
-            throw std::invalid_argument(std::string("Cannot convert enumeration to Java integer. Class: ") + spec.className);
-        }
-        return static_cast<jint>(value);
-    }
+    template<typename T> jint toJava(const JniCommon::ConstantSetSpec& spec, T value);
 
     /// Build specification structure for integer constants extracted from given Java class.
     /// @param class_name Class name that contains static fields with integer constants.
@@ -538,22 +518,10 @@ public:
     JniCommon::ConstantRangeSpec buildConstantRangeSpec(const char * class_name, std::initializer_list<const char*> fields);
 
     /// Convert integer value into enumeration. Conversion is specified in `JniCommon::ConstantRangeSpec`.
-    template<typename T> T fromJava(const JniCommon::ConstantRangeSpec& spec, jint value)
-    {
-        if (value >= spec.bottomValue && value <= spec.topValue) {
-            return static_cast<T>(value);
-        }
-        throw std::invalid_argument(std::string("Cannot convert Java integer value to enumeration. Class: ") + spec.className);
-    }
+    template<typename T> T fromJava(const JniCommon::ConstantRangeSpec& spec, jint value);
 
     /// Convert enumeration into Java integer. Conversion is specified in `JniCommon::ConstantRangeSpec`.
-    template<typename T> jint toJava(const JniCommon::ConstantRangeSpec& spec, T value)
-    {
-        if (value >= spec.bottomValue && value <= spec.topValue) {
-            return static_cast<jint>(value);
-        }
-        throw std::invalid_argument(std::string("Cannot convert enumeration to Java integer. Class: ") + spec.className);
-    }
+    template<typename T> jint toJava(const JniCommon::ConstantRangeSpec& spec, T value);
 
     // Other
 
@@ -760,6 +728,73 @@ template<typename T> T JNI::buildClassSpec(const char * class_name)
     }
     // Finally, return the result structure,
     return result;
+}
+
+// enums
+
+template<typename T> T JNI::fromJava(const JniCommon::ConstantSetSpec& spec, jint value)
+{
+    if (spec.values.find(value) == spec.values.end()) {
+        throw std::invalid_argument(std::string("Cannot convert Java integer value to enumeration. Class: ") + spec.className);
+    }
+    return static_cast<T>(value);
+}
+
+template<typename T> jint JNI::toJava(const JniCommon::ConstantSetSpec& spec, T value)
+{
+    if (spec.values.find(value) == spec.values.end()) {
+        throw std::invalid_argument(std::string("Cannot convert enumeration to Java integer. Class: ") + spec.className);
+    }
+    return static_cast<jint>(value);
+}
+
+template<typename T> T JNI::fromJava(const JniCommon::ConstantRangeSpec& spec, jint value)
+{
+    if (value >= spec.bottomValue && value <= spec.topValue) {
+        return static_cast<T>(value);
+    }
+    throw std::invalid_argument(std::string("Cannot convert Java integer value to enumeration. Class: ") + spec.className);
+}
+
+template<typename T> jint JNI::toJava(const JniCommon::ConstantRangeSpec& spec, T value)
+{
+    if (value >= spec.bottomValue && value <= spec.topValue) {
+        return static_cast<jint>(value);
+    }
+    throw std::invalid_argument(std::string("Cannot convert enumeration to Java integer. Class: ") + spec.className);
+}
+
+// handle objects
+
+template<typename T> jlong JNI::toHandle(const std::shared_ptr<T>& object, bool release_on_exception)
+{
+    auto handle = global().objectRegister().registerObject(object);
+    if (release_on_exception) {
+        _release_on_fail.push_back(handle);
+    }
+    return handle;
+}
+
+template <typename T> jobject JNI::toJava(const JniCommon::NativeHandleClass& spec, const std::shared_ptr<T>& object)
+{
+    auto& reg = global().objectRegister();
+    auto handle = reg.registerObject<T>(object);
+    try {
+        return createObject(spec.initHandle, handle);
+    } catch (...) {
+        // Delete registered instance and re-throw exception.
+        reg.removeEntry(handle);
+        std::rethrow_exception(std::current_exception());
+    }
+}
+
+template<class T> std::shared_ptr<T> JNI::fromJava(const JniCommon::NativeHandleClass& spec, jobject object)
+{
+    if (object) {
+        auto handle = fromJava(object, spec.classRef).getLong(spec.handle);
+        return global().objectRegister().getTypedObject<T>(handle);
+    }
+    return nullptr;
 }
 
 } // namespace cc7::jni

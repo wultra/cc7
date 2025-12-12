@@ -300,28 +300,6 @@ JniObject JNI::fromJava(jobject object, jclass clazz)
 
 // Handle based objects
 
-jlong JNI::toHandle(const BaseObjectPtr& object, bool release_on_exception)
-{
-    auto handle = global().objectRegister().registerObject(object);
-    if (release_on_exception) {
-        _release_on_fail.push_back(handle);
-    }
-    return handle;
-}
-
-jobject JNI::toJava(const JniCommon::NativeHandleClass& spec, const BaseObjectPtr& object)
-{
-    auto& reg = global().objectRegister();
-    auto handle = reg.registerObject(object);
-    try {
-        return createObject(spec.initHandle, handle);
-    } catch (...) {
-        // Delete registered instance and re-throw exception.
-        reg.removeObject(handle);
-        std::rethrow_exception(std::current_exception());
-    }
-}
-
 JniCommon::NativeHandleClass JNI::buildNativeHandleSpec(const char * class_name)
 {
     auto this_class = getClass(class_name);
@@ -633,7 +611,7 @@ bool JNI::processException(std::exception_ptr exception, bool custom_argument_ex
 
 void JNI::releaseOnFail()
 {
-    global().objectRegister().removeObjects(_release_on_fail);
+    global().objectRegister().removeEntries(_release_on_fail);
     _release_on_fail.clear();
 }
 

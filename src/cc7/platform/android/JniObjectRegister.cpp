@@ -21,19 +21,19 @@ namespace cc7::jni {
 
 #define LOCK_GUARD() std::lock_guard<std::mutex> _lock_guard(_lock)
 
-JniObjectRegister::ObjID JniObjectRegister::registerObject(const BaseObjectPtr& ptr)
+JniObjectRegister::ObjID JniObjectRegister::registerEntry(const EntryRef& entry)
 {
     LOCK_GUARD();
-    if (ptr == nullptr) {
+    if (entry == nullptr || entry->isNull()) {
         throw std::invalid_argument("Null pointer cannot be registered");
     }
     
     auto object_id = ++_next_id;
-    _register.insert({ object_id, ptr });
+    _register.insert({object_id, entry });
     return object_id;
 }
 
-void JniObjectRegister::removeObject(ObjID object_id)
+void JniObjectRegister::removeEntry(ObjID object_id)
 {
     LOCK_GUARD();
     auto it = _register.find(object_id);
@@ -43,7 +43,7 @@ void JniObjectRegister::removeObject(ObjID object_id)
     _register.erase(it);
 }
 
-void JniObjectRegister::removeObjects(const std::vector<ObjID>& object_ids)
+void JniObjectRegister::removeEntries(const std::vector<ObjID>& object_ids)
 {
     LOCK_GUARD();
     auto failed_id = NULL_ID;
@@ -60,7 +60,7 @@ void JniObjectRegister::removeObjects(const std::vector<ObjID>& object_ids)
     }
 }
 
-BaseObjectPtr JniObjectRegister::getObject(ObjID object_id) const
+JniObjectRegister::EntryRef JniObjectRegister::getEntry(ObjID object_id) const
 {
     LOCK_GUARD();
     auto it = _register.find(object_id);
@@ -70,7 +70,7 @@ BaseObjectPtr JniObjectRegister::getObject(ObjID object_id) const
     return it->second;
 }
 
-bool JniObjectRegister::containsObject(ObjID object_id) const noexcept
+bool JniObjectRegister::containsEntry(ObjID object_id) const noexcept
 {
     LOCK_GUARD();
     return _register.find(object_id) != _register.end();

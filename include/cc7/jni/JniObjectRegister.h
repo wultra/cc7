@@ -16,13 +16,13 @@
 
 #pragma once
 
-#include <cc7/BaseObject.h>
+#include <cc7/Platform.h>
 #include <unordered_map>
 #include <mutex>
 
 namespace cc7::jni {
 
-/// The `JniObjectRegister` class manages `BaseObject` instances in a centralized registry.
+/// The `JniObjectRegister` class manages std::shared_ptr<T> references in a centralized registry.
 class JniObjectRegister
 {
 public:
@@ -32,36 +32,33 @@ public:
     /// A constant representing a null identifier.
     static const ObjID NULL_ID = 0L;
 
-    /// Register an object and return a unique identifier associated with it.
+    /// Base structure stored in the register.
+    struct Entry
+    {
+        virtual ~Entry() = default;
+        virtual bool isNull() { return true; }
+    };
+
+    typedef std::shared_ptr<Entry> EntryRef;
+
+    /// Type safe structure for storing shared_ptr<T> pointers in the register.
+    template <typename T> struct TypedEntry : public Entry
+    {
+        TypedEntry(const std::shared_ptr<T>& ptr) : ref(ptr) {}
+        bool isNull() override { return ref == nullptr; }
+        std::shared_ptr<T> ref;
+    };
+
+    /// Register object entry and return a unique identifier associated with it.
     ///
     /// Thread-safety: This function is thread-safe.
     ///
     /// - Parameters:
-    ///   - ptr: Shared pointer to the object to register. Must not be null.
+    ///   - entry: Shared pointer to the entry. Must not be null.
     /// - Returns: Identifier assigned to this object instance.
     /// - Throws:
-    ///   - `std::invalid_argument` if `ptr` is `nullptr`.
-    ObjID registerObject(const BaseObjectPtr& ptr);
-
-    /// Remove a previously registered object.
-    ///
-    /// Thread-safety: This function is thread-safe.
-    ///
-    /// - Parameters:
-    ///   - object_id: Object identifier.
-    /// - Throws:
-    ///   - `jni::JniBadHandleException` if no object with the given `object_id` exists in the registry.
-    void removeObject(ObjID object_id);
-
-    /// Remove multiple previously registered object.
-    ///
-    /// Thread-safety: This function is thread-safe.
-    ///
-    /// - Parameters:
-    ///   - object_ids: Object identifiers.
-    /// - Throws:
-    ///   - `jni::JniBadHandleException` if array contains object that doesn't exists in the registry.
-    void removeObjects(const std::vector<ObjID>& object_ids);
+    ///   - `std::invalid_argument` if `ptr` is `nullptr` or `entry->isNull()` is false.
+    ObjID registerEntry(const EntryRef& entry);
 
     /// Check whether an object with the given identifier is currently registered.
     ///
@@ -76,7 +73,7 @@ public:
     ///   - object_id: Object identifier.
     /// - Returns: `true` if an object with the given identifier is registered, `false` otherwise.
     /// - Throws: Never.
-    bool containsObject(ObjID object_id) const noexcept;
+    bool containsEntry(ObjID object_id) const noexcept;
 
     /// Retrieve a pointer to a registered object.
     ///
@@ -87,7 +84,43 @@ public:
     /// - Returns: Shared pointer to the registered object.
     /// - Throws:
     ///   - `jni::JniBadHandleException` if no object with the given `object_id` exists in the registry.
-    BaseObjectPtr getObject(ObjID object_id) const;
+    EntryRef getEntry(ObjID object_id) const;
+
+    /// Remove a previously registered object.
+    ///
+    /// Thread-safety: This function is thread-safe.
+    ///
+    /// - Parameters:
+    ///   - object_id: Object identifier.
+    /// - Throws:
+    ///   - `jni::JniBadHandleException` if no object with the given `object_id` exists in the registry.
+    void removeEntry(ObjID object_id);
+
+    /// Remove multiple previously registered object.
+    ///
+    /// Thread-safety: This function is thread-safe.
+    ///
+    /// - Parameters:
+    ///   - object_ids: Object identifiers.
+    /// - Throws:
+    ///   - `jni::JniBadHandleException` if array contains object that doesn't exists in the registry.
+    void removeEntries(const std::vector<ObjID>& object_ids);
+
+    // Typed objects
+
+    /// Register a std::shared_ptr<T> typed pointer and return a unique identifier associated with it.
+    ///
+    /// Thread-safety: This function is thread-safe.
+    ///
+    /// - Parameters:
+    ///   - ptr: Shared pointer to the object to register. Must not be null.
+    /// - Returns: Identifier assigned to this object instance.
+    /// - Throws:
+    ///   - `std::invalid_argument` if `ptr` is `nullptr`.
+    template <typename T> ObjID registerObject(const std::shared_ptr<T>& ptr)
+    {
+        return registerEntry(std::make_shared<TypedEntry<T>>(ptr));
+    }
 
     /// Retrieve a typed pointer to a registered object.
     ///
@@ -103,16 +136,17 @@ public:
     ///   - `std::invalid_argument` if the object exists but cannot be cast to `T`.
     template<typename T> std::shared_ptr<T> getTypedObject(ObjID object_id) const
     {
-        auto typed = std::dynamic_pointer_cast<T>(getObject(object_id));
+        auto entry = getEntry(object_id);
+        auto typed = std::dynamic_pointer_cast<TypedEntry<T>>(entry);
         if (typed == nullptr) {
             throw std::invalid_argument("Object stored in the register has different type. ID = " + std::to_string(object_id));
         }
-        return typed;
+        return typed->ref;
     }
 
 private:
-    
-    typedef std::unordered_map<ObjID, BaseObjectPtr> ObjMap;
+
+    typedef std::unordered_map<ObjID, EntryRef> ObjMap;
 
     mutable std::mutex  _lock;
     ObjMap              _register;
