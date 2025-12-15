@@ -742,10 +742,11 @@ template<typename T> T JNI::fromJava(const JniCommon::ConstantSetSpec& spec, jin
 
 template<typename T> jint JNI::toJava(const JniCommon::ConstantSetSpec& spec, T value)
 {
-    if (spec.values.find(value) == spec.values.end()) {
-        throw std::invalid_argument(std::string("Cannot convert enumeration to Java integer. Class: ") + spec.className);
+    auto int_value = static_cast<jint>(value);
+    if (spec.values.find(int_value) != spec.values.end()) {
+        return int_value;
     }
-    return static_cast<jint>(value);
+    throw std::invalid_argument(std::string("Cannot convert enumeration to Java integer. Class: ") + spec.className);
 }
 
 template<typename T> T JNI::fromJava(const JniCommon::ConstantRangeSpec& spec, jint value)
@@ -758,8 +759,9 @@ template<typename T> T JNI::fromJava(const JniCommon::ConstantRangeSpec& spec, j
 
 template<typename T> jint JNI::toJava(const JniCommon::ConstantRangeSpec& spec, T value)
 {
-    if (value >= spec.bottomValue && value <= spec.topValue) {
-        return static_cast<jint>(value);
+    auto int_value = static_cast<jint>(value);
+    if (int_value >= spec.bottomValue && int_value <= spec.topValue) {
+        return int_value;
     }
     throw std::invalid_argument(std::string("Cannot convert enumeration to Java integer. Class: ") + spec.className);
 }
