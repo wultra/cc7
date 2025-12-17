@@ -24,13 +24,25 @@ namespace cc7::jni {
 
 class JNI;
 
-/// The `JniMethod` structure contains data for a Java method execution.
-struct JniMethod
+/// The `JniInitMethod` structure contains data for a Java object constructor.
+struct JniInitMethod
 {
-    /// Target class.
-    jclass classRef;
     /// Method identifier.
     jmethodID methodId;
+    /// Target class.
+    jclass classRef;
+};
+
+/// The `JniMethod` represents method called on Java object. The method may be static, virtual or non-virtual.
+typedef jmethodID JniMethod;
+
+/// The `JniMethodType` enumeration defines method types for `JniMethodSpec` structure.
+enum class JniMethodType
+{
+    Constructor,
+    Method,
+    NonVirtual,
+    Static,
 };
 
 /// The `JniMethodSpec` contains method specification required for proper translation to method identifier.
@@ -43,7 +55,29 @@ struct JniMethodSpec
     /// Offset to T::Methods structure where the resolved method data will be stored.
     size_t targetOffset;
     /// Indicating that method is static.
-    bool isStatic;
+    JniMethodType type;
+
+    static constexpr JniMethodSpec constructor(const char * signature, size_t target_offset) {
+        return { "<init>", signature, target_offset, JniMethodType::Constructor };
+    }
+
+    static constexpr JniMethodSpec method(const char * name, const char * signature, size_t target_offset) {
+        return { name, signature, target_offset, JniMethodType::Method };
+    }
+
+    static constexpr JniMethodSpec nonVirtualMethod(const char * name, const char * signature, size_t target_offset) {
+        return { name, signature, target_offset, JniMethodType::NonVirtual };
+    }
+
+    static constexpr JniMethodSpec staticMethod(const char * name, const char * signature, size_t target_offset) {
+        return { name, signature, target_offset, JniMethodType::Static };
+    }
+};
+
+enum class JniFieldType
+{
+    Field,
+    Static
 };
 
 /// The `JniFieldSpec` contains field specification required for proper translation to field identifier.
@@ -56,7 +90,15 @@ struct JniFieldSpec
     /// Offset to T::Fields structure where the resolved field identifier will be stored.
     size_t targetOffset;
     /// Indicating that field is static
-    bool isStatic;
+    JniFieldType type;
+
+    static constexpr JniFieldSpec field(const char * name, const char * signature, size_t target_offset) {
+        return { name, signature, target_offset, JniFieldType::Field };
+    }
+
+    static constexpr JniFieldSpec staticField(const char * name, const char * signature, size_t target_offset) {
+        return { name, signature, target_offset, JniFieldType::Static };
+    }
 };
 
 struct JniCommon
@@ -67,27 +109,24 @@ struct JniCommon
         struct Methods
         {
             /// constructor ()
-            JniMethod init;
+            JniInitMethod init;
             /// constructor (String)
-            JniMethod initMessage;
+            JniInitMethod initMessage;
             /// constructor (String, Throwable)
-            JniMethod initMessageCause;
+            JniInitMethod initMessageCause;
+
             /// String getMessage();
             JniMethod getMessage;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-            { "<init>", "()V", offsetof(Methods, init) },
-            { "<init>", "(Ljava/lang/String;)V", offsetof(Methods, initMessage) },
-            { "<init>", "(Ljava/lang/String;Ljava/lang/Throwable;)V", offsetof(Methods, initMessageCause) },
-            { "getMessage", "()Ljava/lang/String;", offsetof(Methods, getMessage ) },
+                JniMethodSpec::constructor("()V", offsetof(Methods, init)),
+                JniMethodSpec::constructor("(Ljava/lang/String;)V", offsetof(Methods, initMessage)),
+                JniMethodSpec::constructor("(Ljava/lang/String;Ljava/lang/Throwable;)V", offsetof(Methods, initMessageCause)),
+                JniMethodSpec::method("getMessage", "()Ljava/lang/String;", offsetof(Methods, getMessage ))
         };
-
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
 
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.lang.Boolean
@@ -96,24 +135,20 @@ struct JniCommon
         struct Methods
         {
             /// constructor (boolean value)
-            JniMethod initValue;
-            /// Boolean::valueOf(boolean)
-            JniMethod valueOf;
+            JniInitMethod initValue;
             /// bool booleanValue()
             JniMethod booleanValue;
+            /// Boolean::valueOf(boolean)
+            JniMethod valueOf;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-            { "<init>", "(Z)V", offsetof(Methods, initValue) },
-            { "booleanValue", "()Z", offsetof(Methods, booleanValue) },
-            { "valueOf", "(Z)Ljava/lang/Boolean;", offsetof(Methods, valueOf), true },
+                JniMethodSpec::constructor("(Z)V", offsetof(Methods, initValue)),
+                JniMethodSpec::method("booleanValue", "()Z", offsetof(Methods, booleanValue)),
+                JniMethodSpec::staticMethod("valueOf", "(Z)Ljava/lang/Boolean;", offsetof(Methods, valueOf))
         };
-
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
 
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.lang.Long
@@ -122,24 +157,20 @@ struct JniCommon
         struct Methods
         {
             /// constructor (long value)
-            JniMethod initValue;
+            JniInitMethod initValue;
             /// Boolean::valueOf(boolean)
             JniMethod valueOf;
             /// long longValue()
             JniMethod longValue;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-            { "<init>", "(J)V", offsetof(Methods, initValue) },
-            { "longValue", "()J", offsetof(Methods, longValue) },
-            { "valueOf", "(J)Ljava/lang/Long;", offsetof(Methods, valueOf), true },
+                JniMethodSpec::constructor("(J)V", offsetof(Methods, initValue)),
+                JniMethodSpec::method("longValue", "()J", offsetof(Methods, longValue)),
+                JniMethodSpec::staticMethod("valueOf", "(J)Ljava/lang/Long;", offsetof(Methods, valueOf))
         };
-
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
 
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.lang.Double
@@ -148,24 +179,20 @@ struct JniCommon
         struct Methods
         {
             /// constructor (double value)
-            JniMethod initValue;
+            JniInitMethod initValue;
             /// Boolean::valueOf(double)
             JniMethod valueOf;
             /// double doubleValue()
             JniMethod doubleValue;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-            { "<init>", "(D)V", offsetof(Methods, initValue) },
-            { "doubleValue", "()D", offsetof(Methods, doubleValue) },
-            { "valueOf", "(D)Ljava/lang/Double;", offsetof(Methods, valueOf), true },
+                JniMethodSpec::constructor("(D)V", offsetof(Methods, initValue)),
+                JniMethodSpec::method("doubleValue", "()D", offsetof(Methods, doubleValue)),
+                JniMethodSpec::staticMethod("valueOf", "(D)Ljava/lang/Double;", offsetof(Methods, valueOf))
         };
-
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
 
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.lang.Number
@@ -179,16 +206,12 @@ struct JniCommon
             JniMethod doubleValue;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-            { "longValue", "()J", offsetof(Methods, longValue) },
-            { "doubleValue", "()D", offsetof(Methods, doubleValue) },
+                JniMethodSpec::method("longValue", "()J", offsetof(Methods, longValue)),
+                JniMethodSpec::method("doubleValue", "()D", offsetof(Methods, doubleValue)),
         };
-
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
 
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.util.List
@@ -202,17 +225,14 @@ struct JniCommon
             JniMethod add;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-            { "size", "()I", offsetof(Methods, size) },
-            { "get", "(I)Ljava/lang/Object;", offsetof(Methods, get) },
-            { "set", "(ILjava/lang/Object;)Ljava/lang/Object;", offsetof(Methods, set) },
-            {"add", "(Ljava/lang/Object;)Z", offsetof(Methods, add) },
+                JniMethodSpec::method("size", "()I", offsetof(Methods, size)),
+                JniMethodSpec::method("get", "(I)Ljava/lang/Object;", offsetof(Methods, get)),
+                JniMethodSpec::method("set", "(ILjava/lang/Object;)Ljava/lang/Object;", offsetof(Methods, set)),
+                JniMethodSpec::method("add", "(Ljava/lang/Object;)Z", offsetof(Methods, add))
         };
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
 
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.util.ArrayList
@@ -220,17 +240,13 @@ struct JniCommon
     {
         struct Methods
         {
-            JniMethod initCapacity;
+            JniInitMethod initCapacity;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-            { "<init>", "(I)V", offsetof(Methods, initCapacity) },
+                JniMethodSpec::constructor("(I)V", offsetof(Methods, initCapacity))
         };
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
-
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.util.Map
@@ -244,17 +260,13 @@ struct JniCommon
             JniMethod entrySet;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-            { "size", "()I", offsetof(Methods, size) },
-            { "get", "(Ljava/lang/Object;)Ljava/lang/Object;", offsetof(Methods, get) },
-            { "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", offsetof(Methods, put) },
-            { "entrySet", "()Ljava/util/Set;", offsetof(Methods, entrySet) },
+                JniMethodSpec::method("size", "()I", offsetof(Methods, size)),
+                JniMethodSpec::method("get", "(Ljava/lang/Object;)Ljava/lang/Object;", offsetof(Methods, get)),
+                JniMethodSpec::method("put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", offsetof(Methods, put)),
+                JniMethodSpec::method("entrySet", "()Ljava/util/Set;", offsetof(Methods, entrySet)),
         };
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
-
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.util.Map.Entry
@@ -266,15 +278,11 @@ struct JniCommon
             JniMethod getValue;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-                { "getKey", "()Ljava/lang/Object;", offsetof(Methods, getKey) },
-                { "getValue", "()Ljava/lang/Object;", offsetof(Methods, getValue) },
+                JniMethodSpec::method("getKey", "()Ljava/lang/Object;", offsetof(Methods, getKey)),
+                JniMethodSpec::method("getValue", "()Ljava/lang/Object;", offsetof(Methods, getValue)),
         };
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
-
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.util.HashMap
@@ -282,17 +290,13 @@ struct JniCommon
     {
         struct Methods
         {
-            JniMethod initCapacity;
+            JniInitMethod initCapacity;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-            { "<init>", "(I)V", offsetof(Methods, initCapacity) },
+                JniMethodSpec::constructor("(I)V", offsetof(Methods, initCapacity)),
         };
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
-
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.util.Set
@@ -304,15 +308,12 @@ struct JniCommon
             JniMethod iterator;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-                { "size", "()I", offsetof(Methods, size) },
-                { "iterator", "()Ljava/util/Iterator;", offsetof(Methods, iterator) },
+                JniMethodSpec::method("size", "()I", offsetof(Methods, size)),
+                JniMethodSpec::method("iterator", "()Ljava/util/Iterator;", offsetof(Methods, iterator)),
         };
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
 
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Class specification for java.lang.Iterator
@@ -324,22 +325,18 @@ struct JniCommon
             JniMethod next;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
-                { "hasNext", "()Z", offsetof(Methods, hasNext) },
-                { "next", "()Ljava/lang/Object;", offsetof(Methods, next) },
+                JniMethodSpec::method("hasNext", "()Z", offsetof(Methods, hasNext)),
+                JniMethodSpec::method("next", "()Ljava/lang/Object;", offsetof(Methods, next)),
         };
-        struct Fields {};
-        static constexpr JniFieldSpec fieldSpecs[] = {};
-
         jclass classRef;
         Methods methods;
-        Fields fields;
     };
 
     /// Structure describing Java class using native handle for wrapping C++ object.
     struct NativeHandleClass
     {
         jclass classRef;
-        JniMethod initHandle;
+        JniInitMethod initHandle;
         jfieldID handle;
         const char * className;
     };

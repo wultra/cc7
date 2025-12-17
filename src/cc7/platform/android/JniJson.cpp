@@ -29,10 +29,12 @@ static jobject ObjectToJava(JNI& jni, const JniCommon& specs, const JsonValue::T
 {
     auto map = jni.createObject(specs.specHashMap.methods.initCapacity, (jint)value.size());
     for (auto& item : value) {
-        // result from "put" should be always null (map is just created)
-        map.callObject(specs.specMap.methods.put,
-                       jni.toJava(item.first),
-                       AnyToJava(jni, specs, item.second));
+        auto java_key = jni.toJava(item.first);
+        auto java_value = AnyToJava(jni, specs, item.second);
+        // map.put(key, value) should return null, because map is just created.
+        map.callObject(specs.specMap.methods.put, java_key, java_value);
+        // release local objects
+        jni.releaseLocal({ java_key, java_value });
     }
     return map;
 }
@@ -41,9 +43,11 @@ static jobject  ArrayToJava(JNI& jni, const JniCommon& specs, const JsonValue::T
 {
     auto array = jni.createObject(specs.specArrayList.methods.initCapacity, (jint)value.size());
     for (auto& item : value) {
-        if (!array.callBoolean(specs.specList.methods.add, AnyToJava(jni, specs, item))) {
+        auto java_value = AnyToJava(jni, specs, item);
+        if (!array.callBoolean(specs.specList.methods.add, java_value)) {
             throw JniException("Adding item to List<Object> failed");
         }
+        jni.releaseLocal(java_value);
     }
     return array;
 }
@@ -125,12 +129,10 @@ static JsonValue ObjectFromJava(JNI& jni, const JniCommon& specs, jobject obj)
         auto value = entry.callObject(specs.specMapEntry.methods.getValue);
         result[key] = AnyFromJava(jni, specs, value);
         // cleanup
-        entry.releaseLocal();
-        value.releaseLocal();
+        jni.releaseLocal({ entry, value });
     }
     // cleanup
-    entry_set.releaseLocal();
-    iterator.releaseLocal();
+    jni.releaseLocal({ entry_set, iterator });
     return result;
 }
 
@@ -155,19 +157,19 @@ static JsonValue AnyFromJava(JNI& jni, const JniCommon& specs, jobject obj)
     // Integer
     if (jni.isInstanceOf(obj, specs.classInteger) || jni.isInstanceOf(obj, specs.specLong.classRef) ||
         jni.isInstanceOf(obj, specs.classShort) || jni.isInstanceOf(obj, specs.classByte)) {
-        auto wrapped = jni.fromJava(obj, nullptr);
+        auto wrapped = jni.fromJava(obj);
         auto value = wrapped.callLong(specs.specNumber.methods.longValue);
         return JsonValue::integer(value);
     }
     // Floating point numbers
     if (jni.isInstanceOf(obj, specs.classFloat) || jni.isInstanceOf(obj, specs.specDouble.classRef)) {
-        auto wrapped = jni.fromJava(obj, nullptr);
+        auto wrapped = jni.fromJava(obj);
         auto value = wrapped.callDouble(specs.specNumber.methods.doubleValue);
         return JsonValue::number(value);
     }
     // true | false
     if (jni.isInstanceOf(obj, specs.specBoolean.classRef)) {
-        auto wrapped = jni.fromJava(obj, nullptr);
+        auto wrapped = jni.fromJava(obj);
         auto value = wrapped.callBoolean(specs.specBoolean.methods.booleanValue);
         return JsonValue::boolean(value);
     }

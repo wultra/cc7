@@ -390,13 +390,13 @@ public:
     /// @param constructor Method specifying object's constructor.
     /// @param ... Parameters passed to the constructor.
     /// @return `JniObject` wrapper with created Java object.
-    JniObject createObject(JniMethod constructor, ...);
+    JniObject createObject(JniInitMethod constructor, ...);
 
     /// Create new instance of Java object.
     /// @param constructor  Method specifying object's constructor.
     /// @param args Parameters passed to the constructor.
     /// @return `JniObject` wrapper with created Java object.
-    JniObject createObjectV(const JniMethod& constructor, va_list args);
+    JniObject createObjectV(const JniInitMethod& constructor, va_list args);
 
     /// Convert input instance of Java object into `JniObject` wrapper.
     /// @param object jobject to wrap into `JniObject`.
@@ -503,7 +503,7 @@ public:
     /// The template type T must conform to the following requirements:
     /// - T must be a standard layout structure (e.g. no subclassing, no virtual method, etc.)
     /// - T::Methods nested structure must be defined. This nested structure also must conform to the standard layout.
-    ///   The structure typically contains `JniMethod` fields with all instance or static methods you're plan to call from JNI.
+    ///   The structure typically contains `JniInitMethod` or `JniMethod` fields with all instance or static methods you're plan to call from JNI.
     /// - T must contain `static constexpr JniMethodSpec methodSpecs[]` static field with the method specifications.
     /// - T::Fields nested structure must be defined.  This nested structure also must conform to the standard layout.
     ///   The structure typically contains `jfieldID` fields with all instance or static fields you're plan to use from JNI.
@@ -566,6 +566,10 @@ public:
     /// @param object Local reference to object to delete.
     void releaseLocal(jobject object);
 
+    /// Release multiple local objects.
+    /// @param local_objects List of local referenced objects to delete..
+    void releaseLocal(std::initializer_list<jobject> local_objects);
+
     /// Release global references in class specification structure.
     void releaseSpec(JniCommon::NativeHandleClass& spec);
 
@@ -624,7 +628,7 @@ public:
     ///
     /// This method is useful only in a final C++ exception processing, when you catch a specific exception
     /// types and you want to marshall such exception into Java exception.
-    void throwToJava(JniMethod constructor, ...);
+    void throwToJava(JniInitMethod constructor, ...);
 
     /// Clear a possible pending Throwable exception that occurred during the JNI call. The method is useful when you don't want
     /// to report any exception from JNI call execution back to Java. You can decide whether the object handles registered
@@ -705,53 +709,70 @@ template<typename T>
 template<typename T> T JNI::buildClassSpec(const char * class_name)
 {
     static_assert(std::is_standard_layout_v<T>, "buildClassSpec<T>: T must be standard-layout structure");
-    static_assert(std::is_standard_layout_v<typename T::Methods>, "buildClassSpec<T>: T::Methods must be standard-layout structure");
-    static_assert(std::is_standard_layout_v<typename T::Fields>, "buildClassSpec<T>: T::Fields must be standard-layout structure");
-
-    static_assert(has_methods_struct<T>::value, "buildClassSpec<T>: T must have nested struct Methods");
-    static_assert(has_method_specs<T>::value, "buildClassSpec<T>: T must have static member 'methodSpecs'");
-    static_assert(has_fields_struct<T>::value, "buildClassSpec<T>: T must have nested struct Fields");
-    static_assert(has_field_specs<T>::value, "buildClassSpec<T>: T must have static member 'fieldSpecs'");
 
     T result {};
     // At first, resolve the class
     auto clazz = getClass(class_name);
 
     // Lookup for methods
-    auto methods_count = sizeof(T::methodSpecs) / sizeof(T::methodSpecs[0]);
-    auto methods_base = reinterpret_cast<char*>(&result.methods);
-    {
-        for (size_t i = 0; i < methods_count; ++i) {
-            const JniMethodSpec& spec = T::methodSpecs[i];
-            auto dest = reinterpret_cast<JniMethod*>(methods_base + spec.targetOffset);
-            if (!spec.isStatic) {
-                dest->methodId = clazz.findMethod(spec.name, spec.signature);
-            } else {
-                dest->methodId = clazz.findStaticMethod(spec.name, spec.signature);
+    if constexpr (has_methods_struct<T>::value) {
+        static_assert(std::is_standard_layout_v<typename T::Methods>, "buildClassSpec<T>: T::Methods must be standard-layout structure");
+        static_assert(has_method_specs<T>::value, "buildClassSpec<T>: T must have static member 'methodSpecs'");
+        auto methods_base = reinterpret_cast<char*>(&result.methods);
+        {
+            for (size_t i = 0; i < std::size(T::methodSpecs); ++i) {
+                const JniMethodSpec& spec = T::methodSpecs[i];
+                switch (spec.type) {
+                    case JniMethodType::Constructor: {
+                        auto dest = reinterpret_cast<JniInitMethod *>(methods_base + spec.targetOffset);
+                        dest->methodId = clazz.findMethod(spec.name, spec.signature);
+                        break;
+                    }
+                    case JniMethodType::Method:
+                    case JniMethodType::NonVirtual: {
+                        auto dest = reinterpret_cast<JniMethod *>(methods_base + spec.targetOffset);
+                        *dest = clazz.findMethod(spec.name, spec.signature);
+                        break;
+                    }
+                    case JniMethodType::Static: {
+                        auto dest = reinterpret_cast<JniMethod *>(methods_base + spec.targetOffset);
+                        *dest = clazz.findStaticMethod(spec.name, spec.signature);
+                        break;
+                    }
+                }
             }
         }
     }
     // Lookup for fields
-    auto fields_count = sizeof(T::fieldSpecs) / sizeof(T::fieldSpecs[0]);
-    auto fields_base = reinterpret_cast<char*>(&result.methods);
-    {
-        for (size_t i = 0; i < fields_count; ++i) {
-            const JniFieldSpec& spec = T::fieldSpecs[i];
-            auto dest = reinterpret_cast<jfieldID*>(fields_base + spec.targetOffset);
-            if (!spec.isStatic) {
-                *dest = clazz.findField(spec.name, spec.signature);
-            } else {
-                *dest = clazz.findStaticField(spec.name, spec.signature);
+    if constexpr (has_fields_struct<T>::value) {
+        static_assert(std::is_standard_layout_v<typename T::Fields>, "buildClassSpec<T>: T::Fields must be standard-layout structure");
+        static_assert(has_field_specs<T>::value, "buildClassSpec<T>: T must have static member 'fieldSpecs'");
+        auto fields_base = reinterpret_cast<char*>(&result.methods);
+        {
+            for (size_t i = 0; i < std::size(T::fieldSpecs); ++i) {
+                const JniFieldSpec& spec = T::fieldSpecs[i];
+                auto dest = reinterpret_cast<jfieldID*>(fields_base + spec.targetOffset);
+                if (spec.type == JniFieldType::Field) {
+                    *dest = clazz.findField(spec.name, spec.signature);
+                } else {
+                    *dest = clazz.findStaticField(spec.name, spec.signature);
+                }
             }
         }
     }
     // So far, so good, make jclass reference global, and update appropriate members in the structure.
     result.classRef = clazz.makeGlobal();
-    // Update method structures with the global reference
-    for (size_t i = 0; i < methods_count; ++i) {
-        const JniMethodSpec& spec = T::methodSpecs[i];
-        auto dest = reinterpret_cast<JniMethod*>(methods_base + spec.targetOffset);
-        dest->classRef = result.classRef;
+
+    // Update constructor structures with the global reference
+    if (has_methods_struct<T>::value) {
+        auto methods_base = reinterpret_cast<char*>(&result.methods);
+        for (size_t i = 0; i < std::size(T::methodSpecs); ++i) {
+            const JniMethodSpec& spec = T::methodSpecs[i];
+            if (spec.type == JniMethodType::Constructor) {
+                auto dest = reinterpret_cast<JniInitMethod *>(methods_base + spec.targetOffset);
+                dest->classRef = result.classRef;
+            }
+        }
     }
     // Finally, return the result structure,
     return result;

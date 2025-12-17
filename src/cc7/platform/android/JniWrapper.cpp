@@ -274,13 +274,13 @@ JniObjectArray JNI::createObjectArray(jclass item_clazz, size_t size, bool null_
 
 // Objects
 
-JniObject JNI::createObject(JniMethod constructor, ...)
+JniObject JNI::createObject(JniInitMethod constructor, ...)
 {
     SAFE_ARGS(args, constructor)
     return createObjectV(constructor, args);
 }
 
-JniObject JNI::createObjectV(const JniMethod& constructor, va_list args)
+JniObject JNI::createObjectV(const JniInitMethod& constructor, va_list args)
 {
     auto result = _env->NewObjectV(constructor.classRef, constructor.methodId, args);
     checkForJniFailure("NewObjectV");
@@ -308,7 +308,7 @@ JniCommon::NativeHandleClass JNI::buildNativeHandleSpec(const char * class_name)
     auto global_this = this_class.makeGlobal();
     return {
         global_this,
-        { global_this, constructor },
+        { constructor, global_this },
         handle_field,
         class_name
     };
@@ -491,6 +491,16 @@ void JNI::releaseLocal(jobject object)
     }
 }
 
+void JNI::releaseLocal(std::initializer_list<jobject> local_objects)
+{
+    for (auto object : local_objects) {
+        if (object) {
+            _env->DeleteLocalRef(object);
+            checkForJniFailure("DeleteLocalRef");
+        }
+    }
+}
+
 void JNI::releaseSpec(JniCommon::NativeHandleClass& spec)
 {
     releaseObject(spec.classRef);
@@ -565,7 +575,7 @@ void JNI::throwToJava(jclass clazz, const std::string& message)
     _env->ThrowNew(clazz, message.c_str());
 }
 
-void JNI::throwToJava(JniMethod constructor, ...)
+void JNI::throwToJava(JniInitMethod constructor, ...)
 {
     releaseOnFail();
 
@@ -836,14 +846,14 @@ ByteArray JniObject::getStringAsBytes(jfieldID field)
 void JniObject::callVoid(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
-    _jni->env()->CallVoidMethodV(_object, method.methodId, args);
+    _jni->env()->CallVoidMethodV(_object, method, args);
     _jni->checkForJniFailure("CallVoidMethodV");
 }
 
 jlong JniObject::callLong(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
-    auto result = _jni->env()->CallLongMethodV(_object, method.methodId, args);
+    auto result = _jni->env()->CallLongMethodV(_object, method, args);
     _jni->checkForJniFailure("CallLongMethodV");
     return result;
 }
@@ -851,7 +861,7 @@ jlong JniObject::callLong(JniMethod method, ...)
 jint JniObject::callInt(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
-    auto result = _jni->env()->CallIntMethodV(_object, method.methodId, args);
+    auto result = _jni->env()->CallIntMethodV(_object, method, args);
     _jni->checkForJniFailure("CallIntMethodV");
     return result;
 }
@@ -859,7 +869,7 @@ jint JniObject::callInt(JniMethod method, ...)
 jboolean JniObject::callBoolean(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
-    auto result = _jni->env()->CallBooleanMethodV(_object, method.methodId, args);
+    auto result = _jni->env()->CallBooleanMethodV(_object, method, args);
     _jni->checkForJniFailure("CallBooleanMethodV");
     return result;
 }
@@ -867,7 +877,7 @@ jboolean JniObject::callBoolean(JniMethod method, ...)
 jchar JniObject::callChar(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
-    auto result = _jni->env()->CallCharMethodV(_object, method.methodId, args);
+    auto result = _jni->env()->CallCharMethodV(_object, method, args);
     _jni->checkForJniFailure("CallCharMethodV");
     return result;
 }
@@ -875,7 +885,7 @@ jchar JniObject::callChar(JniMethod method, ...)
 jbyte JniObject::callByte(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
-    auto result = _jni->env()->CallByteMethodV(_object, method.methodId, args);
+    auto result = _jni->env()->CallByteMethodV(_object, method, args);
     _jni->checkForJniFailure("CallByteMethodV");
     return result;
 }
@@ -883,7 +893,7 @@ jbyte JniObject::callByte(JniMethod method, ...)
 jshort JniObject::callShort(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
-    auto result = _jni->env()->CallShortMethodV(_object, method.methodId, args);
+    auto result = _jni->env()->CallShortMethodV(_object, method, args);
     _jni->checkForJniFailure("CallShortMethodV");
     return result;
 }
@@ -891,7 +901,7 @@ jshort JniObject::callShort(JniMethod method, ...)
 jfloat JniObject::callFloat(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
-    auto result = _jni->env()->CallFloatMethodV(_object, method.methodId, args);
+    auto result = _jni->env()->CallFloatMethodV(_object, method, args);
     _jni->checkForJniFailure("CallFloatMethodV");
     return result;
 }
@@ -899,14 +909,14 @@ jfloat JniObject::callFloat(JniMethod method, ...)
 jdouble JniObject::callDouble(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
-    auto result = _jni->env()->CallDoubleMethodV(_object, method.methodId, args);
+    auto result = _jni->env()->CallDoubleMethodV(_object, method, args);
     _jni->checkForJniFailure("CallDoubleMethodV");
     return result;
 }
 
 JniObject JniObject::callObjectV(JniMethod method, va_list args)
 {
-    auto result = _jni->env()->CallObjectMethodV(_object, method.methodId, args);
+    auto result = _jni->env()->CallObjectMethodV(_object, method, args);
     _jni->checkForJniFailure("CallObjectMethodV");
     return { _jni, result };
 }
