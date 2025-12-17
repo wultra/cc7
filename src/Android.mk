@@ -128,6 +128,7 @@ LOCAL_SRC_FILES += \
 	cc7/platform/android/PlatformAndroid.cpp \
 	cc7/platform/android/JniWrapper.cpp \
 	cc7/platform/android/JniCommon.cpp \
+	cc7/platform/android/JniJson.cpp \
 	cc7/platform/android/JniException.cpp \
 	cc7/platform/android/JniObjectRegister.cpp
 

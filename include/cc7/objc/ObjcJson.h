@@ -28,7 +28,11 @@ namespace cc7::objc {
 /// - Parameters:
 ///   - value: Input `JsonValue` to convert
 ///   - null_is_nil: If `true`, then function returns `nil` if JsonValue is `Null` type, otherwise returns `NSNull` instance.
-///   - nat_is_nil: If `true`, then function returns `nil` if JsonValue is `NaT` type (e.g. unassigned).
+///                  This conversion is applied only to root object, provided in parameter. Any `Null` value deeper in object's hierarchy
+///                  is converted to `NSNull`.
+///   - nat_is_nil: If `true`, then function returns `nil` if JsonValue is `NaT` type (e.g. unassigned), otherwise exception is raised.
+///                 This conversion is applied only to root object, provided in parameter. Any `NaT` value deeper in object's hierarchy
+///                 cause an exception.
 /// - Returns: Objective-C representation of given `JsonValue`.
 /// - Throws:
 ///   - `std::invalid_argument` exception in case that value contains `NaT` type.

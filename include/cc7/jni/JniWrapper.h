@@ -20,6 +20,7 @@
 #include <cc7/jni/JniCommon.h>
 #include <cc7/jni/JniException.h>
 #include <cc7/jni/JniObjectRegister.h>
+#include <cc7/jni/JniJson.h>
 #include <functional>
 
 namespace cc7::jni {
@@ -40,6 +41,12 @@ public:
     jobject object() const { return _object; }
     /// Conversion to bool, just like a raw pointer
     operator bool() const noexcept { return _object != nullptr; }
+    /// Unsafe cast object pointer to to java object array.
+    jobjectArray objectArray() const { return (jobjectArray) _object; }
+    /// Unsafe cast object pointer to java byte array.
+    jbyteArray byteArray() const { return (jbyteArray) _object; }
+    /// Unsafe cast object pointer to java string.
+    jstring string() const { return (jstring) _object; }
 
     // setters
 
@@ -87,7 +94,7 @@ public:
     /// Get double value from the field.
     jdouble getDouble(jfieldID field);
     /// Get object value from the field.
-    jobject getObject(jfieldID field);
+    JniObject getObject(jfieldID field);
     /// Get string value from the field.
     std::string getString(jfieldID field);
     /// Get byte array value from the field.
@@ -120,17 +127,23 @@ public:
     /// Call Java method returning "double" value type.
     jdouble callDouble(JniMethod method, ...);
     /// Call Java method returning "any" object.
-    jobject callObject(JniMethod method, ...);
+    JniObject callObject(JniMethod method, ...);
     /// Call Java method returning "any" object.
-    jobject callObjectV(JniMethod method, va_list args);
+    JniObject callObjectV(JniMethod method, va_list args);
     /// Call Java method returning "String" value type.
     std::string callString(JniMethod method, ...);
     /// Call Java method returning "byte[]" value type.
     ByteArray callByteArray(JniMethod method, ...);
 
+    /// Release object reference.
+    void release();
+
+    /// Release local object reference.
+    void releaseLocal();
 
 private:
     friend class JNI;
+    friend class JniClass;
 
     /// Construct object with pointer to JNI class and object itself.
     JniObject(JNI * jni, jobject object) : _jni(jni), _object(object) {}
@@ -201,7 +214,7 @@ public:
     /// Get double value from the static field.
     jdouble getDouble(jfieldID field);
     /// Get object value from the static field.
-    jobject getObject(jfieldID field);
+    JniObject getObject(jfieldID field);
     /// Get string value from the static field.
     std::string getString(jfieldID field);
     /// Get byte array value from the static field.
@@ -436,7 +449,16 @@ public:
     /// Constant for handle representing a `null` object.
     static const jlong NULL_HANDLE = JniObjectRegister::NULL_ID;
 
+    /// Remove C++ object registered in global register.
+    /// @param handle Object's handle.
+    void removeHandle(jlong handle);
+
     // Class management
+
+    /// Wrap existing class reference into JniClass.
+    /// @param clazz Class to wrap.
+    /// @return Class wrapped in JniClass object.
+    JniClass fromJava(jclass clazz);
 
     /// Find Java class by its name and return JniClass wrapper object.
     /// @param class_name Class name to find. Use slashes in naming, such as "java/lang/String".
@@ -538,6 +560,11 @@ public:
     ///
     /// @param object Reference to object to delete.
     void releaseObject(jobject object);
+
+    /// Release local object reference.
+    ///
+    /// @param object Local reference to object to delete.
+    void releaseLocal(jobject object);
 
     /// Release global references in class specification structure.
     void releaseSpec(JniCommon::NativeHandleClass& spec);

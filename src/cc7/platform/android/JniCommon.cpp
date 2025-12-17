@@ -26,10 +26,25 @@ JniCommon JniCommon::buildSpecs(JNI &jni)
         spec.runtimeException = jni.buildClassSpec<JniCommon::ExceptionSpec>("java/lang/RuntimeException");
         spec.illegalStateException = jni.buildClassSpec<JniCommon::ExceptionSpec>("java/lang/IllegalStateException");
         spec.illegalArgumentException = jni.buildClassSpec<JniCommon::ExceptionSpec>("java/lang/IllegalArgumentException");
+        spec.specBoolean = jni.buildClassSpec<BooleanSpec>("java/lang/Boolean");
+        spec.specLong = jni.buildClassSpec<LongSpec>("java/lang/Long");
+        spec.specDouble = jni.buildClassSpec<DoubleSpec>("java/lang/Double");
+        spec.specNumber = jni.buildClassSpec<NumberSpec>("java/lang/Number");
+        spec.specList = jni.buildClassSpec<ListSpec>("java/util/List");
+        spec.specArrayList = jni.buildClassSpec<ArrayListSpec>("java/util/ArrayList");
+        spec.specMap = jni.buildClassSpec<MapSpec>("java/util/Map");
+        spec.specMapEntry = jni.buildClassSpec<MapEntrySpec>("java/util/Map$Entry");
+        spec.specHashMap = jni.buildClassSpec<HashMapSpec>("java/util/HashMap");
+        spec.specSet = jni.buildClassSpec<SetSpec>("java/util/Set");
+        spec.specIterator = jni.buildClassSpec<IteratorSpec>("java/util/Iterator");
+
+        spec.classObject = jni.getClass("java/lang/Object").makeGlobal();
         spec.classString = jni.getClass("java/lang/String").makeGlobal();
-        spec.classBoolean = jni.getClass("java/lang/Boolean").makeGlobal();
-        spec.classDouble = jni.getClass("java/lang/Double").makeGlobal();
-        spec.classLong = jni.getClass("java/lang/Long").makeGlobal();
+        spec.classByte = jni.getClass("java/lang/Byte").makeGlobal();
+        spec.classShort = jni.getClass("java/lang/Short").makeGlobal();
+        spec.classInteger = jni.getClass("java/lang/Integer").makeGlobal();
+        spec.classFloat = jni.getClass("java/lang/Float").makeGlobal();
+
         return spec;
     } catch (...) {
         // Cleanup
@@ -37,10 +52,23 @@ JniCommon JniCommon::buildSpecs(JNI &jni)
         jni.releaseSpec(spec.runtimeException);
         jni.releaseSpec(spec.illegalStateException);
         jni.releaseSpec(spec.illegalArgumentException);
+        jni.releaseSpec(spec.specBoolean);
+        jni.releaseSpec(spec.specLong);
+        jni.releaseSpec(spec.specDouble);
+        jni.releaseSpec(spec.specNumber);
+        jni.releaseSpec(spec.specList);
+        jni.releaseSpec(spec.specArrayList);
+        jni.releaseSpec(spec.specMap);
+        jni.releaseSpec(spec.specMapEntry);
+        jni.releaseSpec(spec.specHashMap);
+        jni.releaseSpec(spec.specSet);
+        jni.releaseSpec(spec.specIterator);
+        jni.releaseObject(spec.classObject);
         jni.releaseObject(spec.classString);
-        jni.releaseObject(spec.classBoolean);
-        jni.releaseObject(spec.classDouble);
-        jni.releaseObject(spec.classLong);
+        jni.releaseObject(spec.classByte);
+        jni.releaseObject(spec.classShort);
+        jni.releaseObject(spec.classInteger);
+        jni.releaseObject(spec.classFloat);
         // Rethrow exception
         std::rethrow_exception(std::current_exception());
     }

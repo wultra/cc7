@@ -314,7 +314,25 @@ JniCommon::NativeHandleClass JNI::buildNativeHandleSpec(const char * class_name)
     };
 }
 
+void JNI::removeHandle(jlong handle)
+{
+    if (!isNullHandle(handle)) {
+        // Remove from global register
+        global().objectRegister().removeEntry(handle);
+        // Remove object also from temporary list of handles, created while this JNI call.
+        auto it = std::find(_release_on_fail.begin(), _release_on_fail.end(), handle);
+        if (it != _release_on_fail.end()) {
+            _release_on_fail.erase(it);
+        }
+    }
+}
+
 // Class management
+
+JniClass JNI::fromJava(jclass clazz)
+{
+    return { this, clazz };
+}
 
 JniClass JNI::getClass(const char * class_name)
 {
@@ -465,6 +483,14 @@ void JNI::releaseObject(jobject object)
     }
 }
 
+void JNI::releaseLocal(jobject object)
+{
+    if (object) {
+        _env->DeleteLocalRef(object);
+        checkForJniFailure("DeleteLocalRef");
+    }
+}
+
 void JNI::releaseSpec(JniCommon::NativeHandleClass& spec)
 {
     releaseObject(spec.classRef);
@@ -556,17 +582,46 @@ void JNI::noThrow(bool release_registered_handles)
     _env->ExceptionClear();
 }
 
+/// Fallback function that extracts message from exception, even if JNIGlobal is not initialized yet.
+static std::string _ExtractThrowableMessageFallback(JNIEnv * env, jthrowable throwable)
+{
+    jclass clazz = env->FindClass("java/lang/Throwable");
+    if (!clazz) {
+        return "java/lang/Throwable not found";
+    }
+    jmethodID mid = env->GetMethodID(clazz, "getMessage", "()Ljava/lang/String;");
+    if (!mid) {
+        return "java/lang/Throwable doesn't implement getMessage()";
+    }
+    jstring object = (jstring) env->CallObjectMethod(throwable, mid);
+    auto str_ptr = env->GetStringUTFChars(object, nullptr);
+    if (!str_ptr) {
+        return "java/lang/Throwable.getMessage failed to convert result to string";
+    }
+    std::string result(str_ptr);
+    env->ReleaseStringUTFChars(object, str_ptr);
+    return result;
+}
+
 void JNI::wrapCurrentThrowable [[noreturn]] (const char * jni_call)
 {
     auto throwable = _env->ExceptionOccurred();
     if (!throwable) {
         throw JniException("wrapCurrentThrowable() failed, because there's no exception set");
     }
+    // Clear current exception before we extract message, otherwise fatal error is reported.
+    _env->ExceptionClear();
+
     std::string exception_msg;
     try {
-        exception_msg = JniObject(this, throwable).callString(commonSpecs().throwable.methods.getMessage);
+        if (_global) {
+            exception_msg = JniObject(this, throwable).callString(commonSpecs().throwable.methods.getMessage);
+        } else {
+            exception_msg = _ExtractThrowableMessageFallback(_env, throwable);
+        };
     } catch (...) {
         exception_msg = "Failed to extract message from java/lang/Throwable";
+        // Clear exception again
         _env->ExceptionClear();
     }
     auto message = "JNI call \"" + std::string(jni_call) + "\" failed: " + exception_msg;
@@ -745,26 +800,35 @@ jdouble JniObject::getDouble(jfieldID field)
     return result;
 }
 
-jobject JniObject::getObject(jfieldID field)
+JniObject JniObject::getObject(jfieldID field)
 {
     auto result = _jni->env()->GetObjectField(_object, field);
     _jni->checkForJniFailure("GetObjectField");
-    return result;
+    return { _jni,  result };
 }
 
 std::string JniObject::getString(jfieldID field)
 {
-    return _jni->fromJava((jstring) getObject(field));
+    auto value = getObject(field);
+    auto result = _jni->fromJava(value.string());
+    value.releaseLocal();
+    return result;
 }
 
 ByteArray JniObject::getByteArray(jfieldID field)
 {
-    return _jni->fromJava((jbyteArray) getObject(field));
+    auto value = getObject(field);
+    auto result = _jni->fromJava(value.byteArray());
+    value.releaseLocal();
+    return result;
 }
 
 ByteArray JniObject::getStringAsBytes(jfieldID field)
 {
-    return _jni->fromJavaStringToBytes((jstring) getObject(field));
+    auto value = getObject(field);
+    auto result = _jni->fromJavaStringToBytes(value.string());
+    value.releaseLocal();
+    return result;
 }
 
 // calls
@@ -840,14 +904,14 @@ jdouble JniObject::callDouble(JniMethod method, ...)
     return result;
 }
 
-jobject JniObject::callObjectV(JniMethod method, va_list args)
+JniObject JniObject::callObjectV(JniMethod method, va_list args)
 {
     auto result = _jni->env()->CallObjectMethodV(_object, method.methodId, args);
     _jni->checkForJniFailure("CallObjectMethodV");
-    return result;
+    return { _jni, result };
 }
 
-jobject JniObject::callObject(JniMethod method, ...)
+JniObject JniObject::callObject(JniMethod method, ...)
 {
     SAFE_ARGS(args, method);
     return callObjectV(method, args);
@@ -856,15 +920,32 @@ jobject JniObject::callObject(JniMethod method, ...)
 std::string JniObject::callString(JniMethod method, ...)
 {
     SAFE_ARGS(args, method)
-    return _jni->fromJava((jstring) callObjectV(method, args));
+    auto java_result = callObjectV(method, args);
+    auto cpp_result = _jni->fromJava(java_result.string());
+    java_result.releaseLocal();
+    return cpp_result;
 }
 
 ByteArray JniObject::callByteArray(JniMethod method, ...)
 {
     SAFE_ARGS(args, method)
-    return _jni->fromJava((jbyteArray) callObjectV(method, args));
+    auto java_result = callObjectV(method, args);
+    auto cpp_result = _jni->fromJava(java_result.byteArray());
+    java_result.releaseLocal();
+    return cpp_result;
 }
 
+void JniObject::release()
+{
+    _jni->releaseObject(_object);
+    _object = nullptr;
+}
+
+void JniObject::releaseLocal()
+{
+    _jni->releaseLocal(_object);
+    _object = nullptr;
+}
 
 // MARK: - JniClass
 
@@ -952,21 +1033,27 @@ jdouble JniClass::getDouble(jfieldID field)
     return value;
 }
 
-jobject JniClass::getObject(jfieldID field)
+JniObject JniClass::getObject(jfieldID field)
 {
     auto value = _jni->env()->GetStaticObjectField(_clazz, field);
     _jni->checkForJniFailure("GetStaticObjectField");
-    return value;
+    return { _jni, value };
 }
 
 std::string JniClass::getString(jfieldID field)
 {
-    return _jni->fromJava((jstring) getObject(field));
+    auto value = getObject(field);
+    auto result = _jni->fromJava(value.string());
+    value.releaseLocal();
+    return result;
 }
 
 ByteArray JniClass::getByteArray(jfieldID field)
 {
-    return _jni->fromJava((jbyteArray) getObject(field));
+    auto value = getObject(field);
+    auto result = _jni->fromJava(value.byteArray());
+    value.releaseLocal();
+    return result;
 }
 
 
