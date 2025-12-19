@@ -36,11 +36,14 @@ JniObjectRegister::ObjID JniObjectRegister::registerEntry(const EntryRef& entry)
 void JniObjectRegister::removeEntry(ObjID object_id)
 {
     LOCK_GUARD();
-    auto it = _register.find(object_id);
-    if (it == _register.end()) {
-        throw JniBadHandleException("Native object not found. ID = " + std::to_string(object_id));
+    if (object_id != NULL_ID) {
+        auto it = _register.find(object_id);
+        if (it != _register.end()) {
+            _register.erase(it);
+        } else {
+            throw JniBadHandleException("Native object not found. ID = " + std::to_string(object_id));
+        }
     }
-    _register.erase(it);
 }
 
 void JniObjectRegister::removeEntries(const std::vector<ObjID>& object_ids)
@@ -48,11 +51,13 @@ void JniObjectRegister::removeEntries(const std::vector<ObjID>& object_ids)
     LOCK_GUARD();
     auto failed_id = NULL_ID;
     for (auto object_id : object_ids) {
-        auto it = _register.find(object_id);
-        if (it != _register.end()) {
-            _register.erase(it);
-        } else {
-            failed_id = object_id;
+        if (object_id != NULL_ID) {
+            auto it = _register.find(object_id);
+            if (it != _register.end()) {
+                _register.erase(it);
+            } else {
+                failed_id = object_id;
+            }
         }
     }
     if (failed_id != NULL_ID) {

@@ -359,6 +359,14 @@ public:
     /// Convert `cc7::ByteRange` into nullable `jbyteArray`. If the range is empty, then `null` is returned.
     jbyteArray toJavaNullable(const ByteRange& range);
 
+    // Arrays
+
+    /// Convert `jlongArray` value into `vector<int64_t>`.
+    std::vector<int64_t> fromJava(jlongArray array);
+
+    /// Convert `vector<int64_t>` value into `jlongArray`.
+    jlongArray toJava(const std::vector<int64_t>& vector);
+
     // string
 
     /// Convert `jstring` value into `std::string`.

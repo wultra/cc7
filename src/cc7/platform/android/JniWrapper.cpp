@@ -197,6 +197,44 @@ jbyteArray JNI::toJavaNullable(const ByteRange& range)
     return toJava(range);
 }
 
+// Longs
+
+std::vector<int64_t> JNI::fromJava(jlongArray array)
+{
+    std::vector<int64_t> result;
+    if (array) {
+        auto length = _env->GetArrayLength(array);
+        if (length > 0) {
+            jboolean is_copy = false;
+            auto bytes = _env->GetLongArrayElements(array, &is_copy);
+            if (!bytes) {
+                wrapCurrentThrowable("GetLongArrayElements");
+            }
+            result.assign(bytes, bytes + length);
+            if (is_copy) {
+                // If returned pointer is a copy, then cleanup bytes, to do not leak
+                // possible sensitive information.
+                memset(bytes, 0, length);
+            }
+            // release allocated bytes
+            _env->ReleaseLongArrayElements(array, bytes, JNI_ABORT);
+            checkForJniFailure("ReleaseLongArrayElements");
+        }
+    }
+    return result;
+}
+
+jlongArray JNI::toJava(const std::vector<int64_t>& vector)
+{
+    auto array = _env->NewLongArray((jsize) vector.size());
+    if (!array) {
+        wrapCurrentThrowable("NewLongArray");
+    }
+    _env->SetLongArrayRegion (array, 0, (jsize) vector.size(), (const jlong*)vector.data());
+    checkForJniFailure("SetLongArrayRegion");
+    return array;
+}
+
 // String
 
 std::string JNI::fromJava(jstring string)
