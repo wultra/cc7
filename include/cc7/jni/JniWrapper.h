@@ -755,7 +755,7 @@ template<typename T> T JNI::buildClassSpec(const char * class_name)
     if constexpr (has_fields_struct<T>::value) {
         static_assert(std::is_standard_layout_v<typename T::Fields>, "buildClassSpec<T>: T::Fields must be standard-layout structure");
         static_assert(has_field_specs<T>::value, "buildClassSpec<T>: T must have static member 'fieldSpecs'");
-        auto fields_base = reinterpret_cast<char*>(&result.methods);
+        auto fields_base = reinterpret_cast<char*>(&result.fields);
         {
             for (size_t i = 0; i < std::size(T::fieldSpecs); ++i) {
                 const JniFieldSpec& spec = T::fieldSpecs[i];
@@ -772,7 +772,7 @@ template<typename T> T JNI::buildClassSpec(const char * class_name)
     result.classRef = clazz.makeGlobal();
 
     // Update constructor structures with the global reference
-    if (has_methods_struct<T>::value) {
+    if constexpr (has_methods_struct<T>::value) {
         auto methods_base = reinterpret_cast<char*>(&result.methods);
         for (size_t i = 0; i < std::size(T::methodSpecs); ++i) {
             const JniMethodSpec& spec = T::methodSpecs[i];
