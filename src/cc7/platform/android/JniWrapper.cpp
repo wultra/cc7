@@ -618,7 +618,7 @@ void JNI::throwToJava(JniInitMethod constructor, ...)
     releaseOnFail();
 
     SAFE_ARGS(args, constructor)
-    auto throwable = (jthrowable) createObject(constructor, args).object();
+    auto throwable = (jthrowable) createObjectV(constructor, args).object();
     _env->Throw(throwable);
 }
 
