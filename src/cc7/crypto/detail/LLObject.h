@@ -26,16 +26,18 @@ namespace cc7::crypto {
  such as `EVP_PKEY` structure.
  
  The template class implements casting operator to `T*` and therefore can be easily used as
- a parameter to functions, which requires pointet to type T.
+ a parameter to functions, which requires pointer to type T.
+ 
+ The CreateFunc, RetainFunc and ReleaseFunc should not throw an exception in case of failure.
  */
 template <typename T, T* (*CreateFunc)(), int (*RetainFunc)(T*), void (*ReleaseFunc)(T*)> class TLLRefObject {
 public:
     
     /// Plain constructor creates an invalid object.
-    TLLRefObject() : _ll_object(nullptr) {}
+    TLLRefObject() noexcept : _ll_object(nullptr) {}
     
     // Copy constructor - retains ll object
-    TLLRefObject(const TLLRefObject & other) {
+    TLLRefObject(const TLLRefObject & other) noexcept {
         _ll_object = other._ll_object;
         if (_ll_object) {
             RetainFunc(_ll_object);
@@ -43,7 +45,7 @@ public:
     }
     
     // Move constructor - move ptr only.
-    TLLRefObject(TLLRefObject && other) {
+    TLLRefObject(TLLRefObject && other) noexcept {
         _ll_object = other._ll_object;
         other._ll_object = nullptr;
     }
@@ -54,7 +56,7 @@ public:
     }
     
     // Copy Assignment
-    TLLRefObject& operator=(const TLLRefObject& other) {
+    TLLRefObject& operator=(const TLLRefObject& other) noexcept {
         if (this != &other) {
             assign(other._ll_object);
         }
@@ -62,7 +64,7 @@ public:
     }
     
     // Move Assignment
-    TLLRefObject& operator=(TLLRefObject&& other) {
+    TLLRefObject& operator=(TLLRefObject&& other) noexcept {
         if (this != &other) {
             if (_ll_object != other._ll_object) {
                 destroy();
@@ -74,45 +76,50 @@ public:
     }
     
     // Take ownership of provided object. The reference count is not increased.
-    static TLLRefObject take(T * ll_object) {
+    static TLLRefObject take(T * ll_object) noexcept {
         return TLLRefObject(ll_object, false);
     }
 
     // Keep provided object and increase the reference count.
-    static TLLRefObject ref(T * ll_object) {
+    static TLLRefObject ref(T * ll_object) noexcept {
         return TLLRefObject(ll_object, true);
     }
             
     // Create an empty object. If CreateFunc template parameter is not provided, then
     // it's equal to ::invalid().
-    static TLLRefObject empty() {
+    static TLLRefObject empty() noexcept {
         return TLLRefObject(CreateFunc ? CreateFunc() : nullptr, false);
     }
     
     // Return low level object captured in this object.
-    T* object() const {
+    T* object() const noexcept {
         return _ll_object;
     }
 
     // Return reference to internal low level object pointer. If object contains valid low level object,
     // then this object is destroyed.
-    T** objectRef() {
+    T** objectRef() noexcept {
         destroy();
         return &_ll_object;
     }
     
-    // Cast TLLObject to T pointer to use in low-level functions automatically.
-    operator T * () const {
+    // Cast TLLRefObject to T pointer to use in low-level functions automatically.
+    operator T * () const noexcept {
         return _ll_object;
     }
     
+    /// Cast TLLRefObject to bool to test nullability.
+    explicit operator bool() const noexcept {
+        return isValid();
+    }
+    
     // Return true if object contains valid low-level object.
-    bool isValid() const {
+    bool isValid() const noexcept {
         return _ll_object != nullptr;
     }
     
     // Assign low level object
-    void assign(T * ll_object) {
+    void assign(T * ll_object) noexcept {
         if (_ll_object != ll_object) {
             destroy();
             _ll_object = ll_object;
@@ -123,7 +130,7 @@ public:
     }
     
     // Destroy low level object.
-    void destroy() {
+    void destroy() noexcept {
         if (_ll_object) {
             ReleaseFunc(_ll_object);
             _ll_object = nullptr;
@@ -132,7 +139,7 @@ public:
             
 protected:
     
-    TLLRefObject(T * ll_object, bool retain) : _ll_object(ll_object) {
+    TLLRefObject(T * ll_object, bool retain) noexcept : _ll_object(ll_object) {
         if (_ll_object && retain) {
             RetainFunc(_ll_object);
         }
@@ -149,22 +156,24 @@ private:
  objects, such as BIGNUM.
  
  The template class implements casting operator to `T*` and therefore can be easily used as
- a parameter to functions, which requires pointet to type T.
+ a parameter to functions, which requires pointer to type T.
+ 
+ Both CreateFunc and ReleaseFunc should not throw an exception.
  */
 template <typename T, T* (*CreateFunc)(), void (*ReleaseFunc)(T*)> class TLLObject {
 public:
     
     // Plain constructor creates an invalid object.
-    TLLObject() : _ll_object(nullptr) {}
+    TLLObject() noexcept : _ll_object(nullptr) {}
     
     // Move constructor - move ptr only.
-    TLLObject(TLLObject && other) {
+    TLLObject(TLLObject && other) noexcept {
         _ll_object = other._ll_object;
         other._ll_object = nullptr;
     }
     
     // Move Assignment
-    TLLObject& operator=(TLLObject&& other) {
+    TLLObject& operator=(TLLObject&& other) noexcept {
         if (this != &other) {
             if (_ll_object != other._ll_object) {
                 destroy();
@@ -177,13 +186,13 @@ public:
 
     // Take ownership of provided object. The low level object will be destroyed in object's
     // constructor.
-    static TLLObject take(T * ll_object) {
+    static TLLObject take(T * ll_object) noexcept {
         return TLLObject(ll_object);
     }
             
     // Create an empty object. If CreateFunc template parameter is not provided, then
     // the created object is invalid.
-    static TLLObject empty() {
+    static TLLObject empty() noexcept {
         return TLLObject(CreateFunc ? CreateFunc() : nullptr);
     }
         
@@ -193,121 +202,61 @@ public:
     }
     
     // Return low level object captured in this object.
-    T * object() const {
+    T * object() const noexcept {
         return _ll_object;
     }
     
     // Return reference to internal low level object pointer. If object contains valid low level object,
     // then this object is destroyed.
-    T** objectRef() {
+    T** objectRef() noexcept {
         destroy();
         return &_ll_object;
     }
 
     
     // Cast TLLObject to T pointer to use in low-level functions automatically.
-    operator T * () const {
+    operator T * () const noexcept {
         return _ll_object;
     }
     
+    // Cast TLLObject to bool to test nullability.
+    explicit operator bool() const noexcept {
+        return isValid();
+    }
+    
     // Return true if object contains valid low-level object.
-    bool isValid() const {
+    bool isValid() const noexcept {
         return _ll_object != nullptr;
     }
         
-    void destroy() {
+    void destroy() noexcept {
         if (_ll_object) {
             ReleaseFunc(_ll_object);
             _ll_object = nullptr;
         }
     }
     
-    void assign(T * ll_object) {
+    void assign(T * ll_object) noexcept {
         if (_ll_object != ll_object) {
             destroy();
         }
         _ll_object = ll_object;
     }
     
+    // Take away referenced low-level object.
+    T* release() noexcept {
+        auto ret = _ll_object;
+        _ll_object = nullptr;
+        return ret;
+    }
+    
 protected:
     
-    TLLObject(T * ll_object) : _ll_object(ll_object) {
-    }
+    TLLObject(T * ll_object) noexcept : _ll_object(ll_object) {}
 
 private:
     
     T * _ll_object;
-};
-
-/**
- The `TLLMemory` template allows to capture memory allocated elsewhere and guarantess that
- it's released with the predefined function.
- */
-template <typename T, void (*ReleaseFunc)(T*)> class TLLMemory {
-public:
-    TLLMemory() : _ptr(nullptr) {}
-    
-    ~TLLMemory() {
-        destroy();
-    }
-    
-    // Move constructor - move ptr only.
-    TLLMemory(TLLMemory && other) {
-        _ptr = other._ptr;
-        other._ptr = nullptr;
-    }
-    
-    // Move Assignment
-    TLLMemory& operator=(TLLMemory&& other) {
-        if (this != &other) {
-            if (_ptr != other._ptr) {
-                destroy();
-            }
-            _ptr = other._ptr;
-            other._ptr = nullptr;
-        }
-        return *this;
-    }
-
-    // Take ownership of provided pointer.
-    static TLLMemory take(T * ptr) {
-        return TLLMemory(ptr);
-    }
-    
-    void destroy() {
-        if (_ptr) {
-            ReleaseFunc(_ptr);
-            _ptr = nullptr;
-        }
-    }
-    
-    // Return pointer captured in this object.
-    T * ptr() const {
-        return _ptr;
-    }
-    
-    // Return reference to pointer captured in this object. If pointer is already allocated, then
-    // captured memory is destroyed.
-    T ** ref() {
-        destroy();
-        return &_ptr;
-    }
-    
-    // Cast TLLMemory to T pointer to use in low-level functions automatically.
-    operator T * () const {
-        return _ptr;
-    }
-    
-    // Return true if object contains valid pointer.
-    bool isValid() const {
-        return _ptr != nullptr;
-    }
-    
-private:
-    
-    TLLMemory(T * ptr) : _ptr(ptr) {}
-    
-    T * _ptr;
 };
 
 /**

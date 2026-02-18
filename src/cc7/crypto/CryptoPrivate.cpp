@@ -15,6 +15,9 @@
  */
 
 #include "CryptoPrivate.h"
+#include "alg/ECKeyPair.h"
+#include "alg/MLDSA.h"
+
 #include <openssl/provider.h>
 
 namespace cc7::crypto {
@@ -59,6 +62,26 @@ bool stringHasSuffix(const std::string & str, const std::string & suffix)
 {
     return str.size() >= suffix.size() &&
            str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
+
+std::string stringJoin(const std::vector<std::string>& items, const std::string& separator)
+{
+    std::string result;
+    if (!items.empty()) {
+        // calculate result size to prevent re-allocation
+        size_t total_size = separator.size() * (items.size() - 1);
+        for (const auto& s : items) {
+            total_size += s.size();
+        }
+        result.reserve(total_size);
+        // concatenate
+        result = items[0];
+        for (size_t i = 1; i < items.size(); ++i) {
+            result += separator;
+            result += items[i];
+        }
+    }
+    return result;
 }
 
 #define NULLCTX 1
@@ -116,6 +139,48 @@ OSSL_LIB_CTX * ossl_ctx()
     }
     throw CryptoException("OSSL_LIB_CTX is not initialized yet");
 #endif
+}
+
+// MARK: Getting EVP_KEY from high level keys
+
+EVPKeyPair getLLKey(const PublicKey& public_key)
+{
+    auto& key_type = public_key.getKeyType();
+    if (stringHasPrefix(key_type, "P-")) {
+        try {
+            return checkECPublicKey(public_key, nullptr).getEvpKey();
+        } catch (...) {
+            // ignore, try another key type
+        }
+    }
+    if (stringHasPrefix(key_type, "ML-DSA-")) {
+        try {
+            return checkMLDSAPublicKey(public_key, nullptr).getEvpKey();
+        } catch (...) {
+            // ignore
+        }
+    }
+    throw std::invalid_argument("Cannot get low level key: " + key_type);
+}
+
+EVPKeyPair getLLKey(const PrivateKey& private_key, bool check_signing)
+{
+    auto& key_type = private_key.getKeyType();
+    if (stringHasPrefix(key_type, "P-")) {
+        try {
+            return checkECPrivateKey(private_key, nullptr, check_signing).getEvpKey();
+        } catch (...) {
+            // ignore, try another key type
+        }
+    }
+    if (stringHasPrefix(key_type, "ML-DSA-")) {
+        try {
+            return checkMLDSAPrivateKey(private_key, nullptr).getEvpKey();
+        } catch (...) {
+            // ignore
+        }
+    }
+    throw std::invalid_argument("Cannot get low level key: " + key_type);
 }
 
 } // namespace cc7::crypto

@@ -33,6 +33,9 @@
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
 #include <openssl/hpke.h>
+#include <openssl/x509.h>
+#include <openssl/x509v3.h>
+#include <openssl/pem.h>
 
 namespace cc7::crypto {
 
@@ -99,6 +102,25 @@ typedef TLLObject<OSSL_ENCODER_CTX, nullptr, OSSL_ENCODER_CTX_free> OSSLEncoderC
 /// The `OSSLCtx` is wrapper for `OSSL_LIB_CTX`.
 typedef TLLObject<OSSL_LIB_CTX, OSSL_LIB_CTX_new, OSSL_LIB_CTX_free> OSSLCtx;
 
+// X509
+
+/// The `X509Req` is wrapper for `X509_REQ`.
+typedef TLLObject<X509_REQ, X509_REQ_new, X509_REQ_free> X509Req;
+
+/// The `X509Name` is wrapper for `X509_NAME`.
+typedef TLLObject<X509_NAME, X509_NAME_new, X509_NAME_free> X509Name;
+
+/// The `X509Extension` is wrapper for `X509_EXTENSION`.
+typedef TLLObject<X509_EXTENSION, nullptr, X509_EXTENSION_free> X509Extension;
+
+inline X509_EXTENSIONS* X509ExtensionStack_New() {
+    return sk_X509_EXTENSION_new_null();
+}
+inline void X509ExtensionStack_Free(X509_EXTENSIONS* s) {
+    sk_X509_EXTENSION_pop_free(s, X509_EXTENSION_free);
+}
+/// The `X509ExtensionStack` is wrapper for `STACK_OF(X509_EXTENSION)` (e.g. `X509_EXTENSIONS`).
+typedef TLLObject<X509_EXTENSIONS, X509ExtensionStack_New, X509ExtensionStack_Free> X509ExtensionStack;
 
 // Other
 
