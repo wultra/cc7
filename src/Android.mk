@@ -83,7 +83,8 @@ LOCAL_SRC_FILES += \
 	cc7/crypto/KeyDerivation.cpp \
 	cc7/crypto/AEAD.cpp \
 	cc7/crypto/Parameter.cpp \
-	cc7/crypto/NonceGenerator.cpp
+	cc7/crypto/NonceGenerator.cpp \
+	cc7/crypto/X509.cpp
 
 # cc7/crypto/alg
 LOCAL_SRC_FILES += \
@@ -208,7 +209,8 @@ LOCAL_SRC_FILES += \
 	cc7tests/tests/cc7crypto/MACTests.cpp \
 	cc7tests/tests/cc7crypto/MessageDigestTests.cpp \
 	cc7tests/tests/cc7crypto/SignatureTests.cpp \
-	cc7tests/tests/cc7crypto/NonceGeneratorTests.cpp
+	cc7tests/tests/cc7crypto/NonceGeneratorTests.cpp \
+	cc7tests/tests/cc7crypto/X509Tests.cpp
 
 # Unit tests (OpenSSL)
 LOCAL_SRC_FILES += \

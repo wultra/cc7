@@ -84,6 +84,12 @@
 		BF0059502D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
 		BF0059512D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
 		BF0059522D9E982900C0F3AF /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
+		BF06AC302F44A465008C83B0 /* X509.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF06AC2F2F44A465008C83B0 /* X509.cpp */; };
+		BF06AC312F44A465008C83B0 /* X509.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF06AC2F2F44A465008C83B0 /* X509.cpp */; };
+		BF06AC322F44A465008C83B0 /* X509.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF06AC2F2F44A465008C83B0 /* X509.cpp */; };
+		BF06AC392F45E029008C83B0 /* X509Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF06AC382F45E029008C83B0 /* X509Tests.cpp */; };
+		BF06AC3A2F45E029008C83B0 /* X509Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF06AC382F45E029008C83B0 /* X509Tests.cpp */; };
+		BF06AC3B2F45E029008C83B0 /* X509Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF06AC382F45E029008C83B0 /* X509Tests.cpp */; };
 		BF0825D92E0167B400B89A68 /* JsonValueTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */; };
 		BF0825DA2E0167B400B89A68 /* JsonValueTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */; };
 		BF0825DB2E0167B400B89A68 /* JsonValueTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */; };
@@ -495,6 +501,9 @@
 		BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ECKeyPair.cpp; sourceTree = "<group>"; };
 		BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SymmetricKey.cpp; sourceTree = "<group>"; };
 		BF0059592DA025CD00C0F3AF /* SymmetricKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SymmetricKey.h; sourceTree = "<group>"; };
+		BF06AC2C2F44A006008C83B0 /* X509.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = X509.h; sourceTree = "<group>"; };
+		BF06AC2F2F44A465008C83B0 /* X509.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = X509.cpp; sourceTree = "<group>"; };
+		BF06AC382F45E029008C83B0 /* X509Tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = X509Tests.cpp; sourceTree = "<group>"; };
 		BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JsonValueTests.cpp; sourceTree = "<group>"; };
 		BF0D67EF1CE63DF90070D853 /* PrefixCC7.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixCC7.pch; sourceTree = "<group>"; };
 		BF0D67F01CE63EDA0070D853 /* PrefixCC7Tests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixCC7Tests.pch; sourceTree = "<group>"; };
@@ -762,6 +771,7 @@
 				BF5A00152DA5D0DA0068992F /* KeyEncapsulation.h */,
 				BF5A00242DA675B50068992F /* KeyDerivation.h */,
 				BF0058DB2D996AA400C0F3AF /* AEAD.h */,
+				BF06AC2C2F44A006008C83B0 /* X509.h */,
 			);
 			path = crypto;
 			sourceTree = "<group>";
@@ -788,6 +798,7 @@
 				BF5A00252DA6768E0068992F /* KeyDerivation.cpp */,
 				BF0058DE2D9A9F9B00C0F3AF /* AEAD.cpp */,
 				BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */,
+				BF06AC2F2F44A465008C83B0 /* X509.cpp */,
 			);
 			path = crypto;
 			sourceTree = "<group>";
@@ -911,6 +922,7 @@
 				BF14D45A2DD324CD00BA7F51 /* AEADTests.cpp */,
 				BF5A003C2DAE486D0068992F /* ImportKeyTests.cpp */,
 				BF14D46C2DD48CB400BA7F51 /* NonceGeneratorTests.cpp */,
+				BF06AC382F45E029008C83B0 /* X509Tests.cpp */,
 			);
 			path = cc7crypto;
 			sourceTree = "<group>";
@@ -1658,6 +1670,7 @@
 				BF5A000A2DA53F570068992F /* SignatureTests.cpp in Sources */,
 				BFB494011CE8E79400F8D81B /* TestDirectory.cpp in Sources */,
 				BF00592C2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */,
+				BF06AC3B2F45E029008C83B0 /* X509Tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1700,6 +1713,7 @@
 				BF4D858D2DE727B900D32F55 /* JwtException.cpp in Sources */,
 				BF8B2B192DC7EE5B00989AF3 /* PBKDF2.cpp in Sources */,
 				BF00591F2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
+				BF06AC322F44A465008C83B0 /* X509.cpp in Sources */,
 				BF4D85672DE5A47B00D32F55 /* JsonValue.cpp in Sources */,
 				BF8EEC0326662A01009AC5FD /* PlatformApple.mm in Sources */,
 				BFF21B842E13E858000BF450 /* ObjcJson.mm in Sources */,
@@ -1786,6 +1800,7 @@
 				BF5A00092DA53F570068992F /* SignatureTests.cpp in Sources */,
 				BF8EEC2726662A0B009AC5FD /* TestDirectory.cpp in Sources */,
 				BF00592B2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */,
+				BF06AC3A2F45E029008C83B0 /* X509Tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1810,6 +1825,7 @@
 				BF4D858E2DE727B900D32F55 /* JwtException.cpp in Sources */,
 				BF8B2B1A2DC7EE5B00989AF3 /* PBKDF2.cpp in Sources */,
 				BF00591E2D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
+				BF06AC302F44A465008C83B0 /* X509.cpp in Sources */,
 				BF4D85682DE5A47B00D32F55 /* JsonValue.cpp in Sources */,
 				BFE174041CC9664500039466 /* PlatformApple.mm in Sources */,
 				BFF21B862E13E858000BF450 /* ObjcJson.mm in Sources */,
@@ -1878,6 +1894,7 @@
 				BF4D858F2DE727B900D32F55 /* JwtException.cpp in Sources */,
 				BF8B2B182DC7EE5B00989AF3 /* PBKDF2.cpp in Sources */,
 				BF0059202D9BFB8A00C0F3AF /* HMAC.cpp in Sources */,
+				BF06AC312F44A465008C83B0 /* X509.cpp in Sources */,
 				BF4D85692DE5A47B00D32F55 /* JsonValue.cpp in Sources */,
 				BFFE8AA32449B4F80032821F /* PlatformApple.mm in Sources */,
 				BFF21B852E13E858000BF450 /* ObjcJson.mm in Sources */,
@@ -1964,6 +1981,7 @@
 				BF5A000B2DA53F570068992F /* SignatureTests.cpp in Sources */,
 				BFFE8AC72449B53C0032821F /* TestDirectory.cpp in Sources */,
 				BF00592D2D9C49C400C0F3AF /* g_testFiles.cpp in Sources */,
+				BF06AC392F45E029008C83B0 /* X509Tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

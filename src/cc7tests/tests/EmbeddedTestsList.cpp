@@ -52,6 +52,7 @@ namespace tests
         CC7_ADD_UNIT_TEST(CipherTests, list);
         CC7_ADD_UNIT_TEST(AEADTests, list);
         CC7_ADD_UNIT_TEST(NonceGeneratorTests, list);
+        CC7_ADD_UNIT_TEST(X509Tests, list);
         
         // cc7/json-jwt frameworks tests
         CC7_ADD_UNIT_TEST(JsonReaderTests, list);
