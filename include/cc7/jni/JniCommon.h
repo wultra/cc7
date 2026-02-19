@@ -223,12 +223,14 @@ struct JniCommon
             JniMethod get;
             JniMethod set;
             JniMethod add;
+            JniMethod iterator;
         };
         static constexpr JniMethodSpec methodSpecs[] = {
                 JniMethodSpec::method("size", "()I", offsetof(Methods, size)),
                 JniMethodSpec::method("get", "(I)Ljava/lang/Object;", offsetof(Methods, get)),
                 JniMethodSpec::method("set", "(ILjava/lang/Object;)Ljava/lang/Object;", offsetof(Methods, set)),
-                JniMethodSpec::method("add", "(Ljava/lang/Object;)Z", offsetof(Methods, add))
+                JniMethodSpec::method("add", "(Ljava/lang/Object;)Z", offsetof(Methods, add)),
+                JniMethodSpec::method("iterator", "()Ljava/util/Iterator;", offsetof(Methods, iterator))
         };
 
         jclass classRef;
