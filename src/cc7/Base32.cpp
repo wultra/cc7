@@ -159,7 +159,7 @@ static std::tuple<bool, size_t> _ValidatePadding(const std::string & string, boo
     size_t remainder = new_size % 8;
     if (required) {
         if (remainder != 0) {
-            // Invalid lenght of input string. Must be: (lenght mod 8) == 0
+            // Invalid Length of input string. Must be: (Length mod 8) == 0
             return std::make_tuple(false, 0);
         }
         // Count number of padding characters at the end of the string.
