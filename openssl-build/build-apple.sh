@@ -660,7 +660,7 @@ function BUILD_APPLE_TARGET_OPTION
 # -----------------------------------------------------------------------------
 function BUILD_APPLE_COMMON_OPTION
 {   
-    echo ''
+    echo '-fvisibility=hidden'
 }
 
 # -----------------------------------------------------------------------------

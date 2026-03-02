@@ -34,7 +34,7 @@ function ACQUIRE_LOCK
         count=$((count + 1))
         if [ ${count} -eq ${lock_wait} ]; then
             LOG "Unable to acquire exclusive lock for $lock_wait seconds. You can fix this, but you have to:"
-            LOG " - Try execute this comand later."
+            LOG " - Try execute this command later."
             LOG " - Try execute with '--remove-lock' switch, to force-remove the lock."
             FAILURE "Failed to acquire lock: ${lock_dir}"
         fi
