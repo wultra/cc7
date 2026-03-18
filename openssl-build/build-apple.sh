@@ -62,8 +62,11 @@ function BUILD_APPLE
     APPLE_CONF_ALL=()       # All configuration headers
     for TARGET in ${APPLE_TARGETS}
     do
-        #APPLE_CONF_ALL+=("${TMP_PATH}/${TARGET}/openssl.tmp/include/openssl/configuration_${TARGET}.h")
-        BUILD_APPLE_TARGET ${TARGET} ${LIB_NAME} "${TMP_PATH}"
+        if [ x$OPT_SKIP_ARCH_BUILD == x0 ]; then
+            BUILD_APPLE_TARGET ${TARGET} ${LIB_NAME} "${TMP_PATH}"
+        else
+            SKIP_APPLE_TARGET ${TARGET} ${LIB_NAME} "${TMP_PATH}"
+        fi
     done
     
     # Build FAT frameworks per platform
@@ -121,6 +124,7 @@ function BUILD_APPLE_TARGET
     local TARGET_OPTION=$(BUILD_APPLE_TARGET_OPTION ${TARGET})
     local COMMON_OPTION=$(BUILD_APPLE_COMMON_OPTION ${TARGET})
     local MIN_OS_VERSION=$(BUILD_APPLE_SDK_MIN_VERSION ${SDK_NAME})
+    local CUSTOM_CONFIG=$(BUILD_APPLE_CUSTOM_CONFIG ${TARGET})
     local SRC_PATH="$TMP_PATH/src"
     local OUT_PATH="$TMP_PATH/${OUT_NAME}.tmp"
     local BUILD_LOG="$TMP_PATH/Build.log"
@@ -156,13 +160,13 @@ function BUILD_APPLE_TARGET
     DEBUG_LOG " - CROSS_SYSROOT='$SDKVERSION'"
     DEBUG_LOG " - CROSS_COMMON='$CROSS_COMMON'"
 
-    DEBUG_LOG "Command: ./Configure ${TARGET} ${OPENSSL_CONF_PARAMS}"
+    DEBUG_LOG "Command: ./Configure ${TARGET} ${OPENSSL_CONF_PARAMS} ${CUSTOM_CONFIG}"
     
     set +e
 
     ./Configure \
         ${TARGET} \
-        ${OPENSSL_CONF_PARAMS} \
+        ${OPENSSL_CONF_PARAMS} ${CUSTOM_CONFIG} \
         >> ${BUILD_LOG} 2>&1
     
     if [ $? -ne 0 ]; then
@@ -215,6 +219,28 @@ function BUILD_APPLE_TARGET
     echo "### libtool" >> ${BUILD_LOG}
     libtool -static -no_warning_for_no_symbols -o "${OUT_PATH}/${OUT_NAME}.a" "$SRC_PATH/libcrypto.a" \
         >> ${BUILD_LOG} 2>&1
+}
+
+# -----------------------------------------------------------------------------
+# SKIP_APPLE_TARGET skips OpenSSL build for selected architecture. It's expected
+# the architecture was compiled before.
+#
+# Parameters:
+#   $1   - architecture to build in form of target conf (e.g. ios-cross-armv7)
+#   $2   - output library name (e.g. openssl)
+#   $3   - path to temporary folder
+# -----------------------------------------------------------------------------
+function SKIP_APPLE_TARGET
+{
+    local TARGET=$1
+    local LIB_NAME=$2
+    local TMP_PATH=$3
+    
+    local ARCH_HEADER="${TMP_PATH}/${TARGET}/${LIB_NAME}.tmp/include/${LIB_NAME}/configuration_${TARGET}.h"
+    if [ ! -f "$ARCH_HEADER" ]; then
+        FAILURE "Cannot skip architecture build. Please run regular build at first. Target: $TARGET"
+    fi
+    APPLE_CONF_ALL+=( $ARCH_HEADER )
 }
 
 # -----------------------------------------------------------------------------
@@ -305,7 +331,20 @@ function BUILD_APPLE_XC_FRAMEWORK
         XCFW_ARGS+="-framework ${ARG} "
     done
     $MD "${OPENSSL_DEST_APPLE}"
+
+    DEBUG_LOG "Command: xcodebuild -create-xcframework $XCFW_ARGS -output ${FW_PATH}"
+
+    set +e
+
     xcodebuild -create-xcframework $XCFW_ARGS -output "${FW_PATH}" >> ${BUILD_LOG} 2>&1
+    
+    if [ $? -ne 0 ]; then
+        tail -${TAIL_LOG_LINES} "${BUILD_LOG}"
+        LOG_LINE
+        FAILURE "xcodebuild -create-xcframework command did fail"
+    fi
+
+    set -e
     
     LOG "Preparing Xcode build helper script..."
     
@@ -354,6 +393,14 @@ function BUILD_APPLE_XC_FRAMEWORK
             macOS_Catalyst)
                 local SELECTOR='iosmaccatalyst'
                 local BUILD_SUFFIX='-maccatalyst'
+                ;;
+            watchOS)
+                local SELECTOR='watchossnull'
+                local BUILD_SUFFIX='-watchos'
+                ;;
+            watchOS_Simulator)
+                local SELECTOR='watchossimulator'
+                local BUILD_SUFFIX='-watchsimulator'
                 ;;
             macOSX)
                 local SELECTOR='macosnull'
@@ -555,11 +602,13 @@ function BUILD_APPLE_PLATFORM_SWITCH
             *_tvos64-cross-arm64.h)
                 IF_CONDITION="TARGET_OS_TV && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64" ;;
             *_watchos-cross-armv7k.h)
-                IF_CONDITION="TARGET_OS_WATCHOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARMV7K" ;;
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM" ;;
             *_watchos-cross-arm64_32.h)
-                IF_CONDITION="TARGET_OS_WATCHOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64_32" ;;
-            *_watchos-sim-cross-i386.h)
-                IF_CONDITION="TARGET_OS_SIMULATOR && TARGET_CPU_X86 || TARGET_OS_EMBEDDED" ;;
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64" ;;
+            *_watchos-sim-cross-arm64.h)
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_SIMULATOR || TARGET_CPU_ARM64" ;;
+            *_watchos-sim-cross-x86_64.h)
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_SIMULATOR && TARGET_CPU_X86_64" ;;
             *_mac-catalyst-x86_64.h)
                 IF_CONDITION="(TARGET_OS_MACCATALYST || (TARGET_OS_IOS && TARGET_OS_SIMULATOR)) && TARGET_CPU_X86_64" ;;
             *_mac-catalyst-arm64.h)
@@ -645,8 +694,9 @@ function BUILD_APPLE_TARGET_OPTION
     case $1 in
         mac-catalyst-x86_64)        echo "x86_64-apple-ios${BUILD_APPLE_MACABI_VER}-macabi" ;;
         mac-catalyst-arm64)         echo "arm64-apple-ios${BUILD_APPLE_MACABI_VER}-macabi" ;;
-        ios-sim-cross-arm64)        echo "arm64-apple-ios13.0-simulator" ;;
-        tvos-sim-cross-arm64)       echo "arm64-apple-tvos13.0-simulator" ;;
+        ios-sim-cross-arm64)        echo "arm64-apple-ios${APPLE_IOS_MIN_SDK}-simulator" ;;
+        tvos-sim-cross-arm64)       echo "arm64-apple-tvos${APPLE_TVOS_MIN_SDK}-simulator" ;;
+        watchos-sim-cross-arm64)    echo "arm64-apple-watchos${APPLE_WATCHOS_MIN_SDK}-simulator" ;;
         *) echo "" ;;
     esac
 }
@@ -661,6 +711,18 @@ function BUILD_APPLE_TARGET_OPTION
 function BUILD_APPLE_COMMON_OPTION
 {   
     echo '-fvisibility=hidden'
+}
+
+# -----------------------------------------------------------------------------
+# BUILD_APPLE_CUSTOM_CONFIG converts compile TARGET into custom configuraiton
+# parameter.
+#
+# Parameters:
+#   $1   - target to convert (e.g. ios-cross-armv7)
+# -----------------------------------------------------------------------------
+function BUILD_APPLE_CUSTOM_CONFIG
+{
+    echo ""
 }
 
 # -----------------------------------------------------------------------------

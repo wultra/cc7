@@ -75,7 +75,9 @@ function BUILD_ANDROID
     
     for ABI in ${ANDROID_ARCHITECTURES}
     do
-        BUILD_ANDROID_ARCH $ABI "${TMP_PATH}"
+        if [ x$OPT_SKIP_ARCH_BUILD == x0 ]; then
+            BUILD_ANDROID_ARCH $ABI "${TMP_PATH}"
+        fi
     done
     # Make platform switch header
     BUILD_ANDROID_PLATFORM_SWITCH "${OPENSSL_DEST_ANDROID}/include"
