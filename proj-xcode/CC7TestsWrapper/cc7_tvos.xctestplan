@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "040350F1-7244-40AC-A77D-1C9F705655D0",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:cc7.xcodeproj",
+        "identifier" : "BFFE8AD42449B5820032821F",
+        "name" : "CC7TestsWrapper-tvos"
+      }
+    }
+  ],
+  "version" : 1
+}

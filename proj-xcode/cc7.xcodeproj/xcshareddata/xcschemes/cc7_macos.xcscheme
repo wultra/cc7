@@ -20,6 +20,34 @@
                ReferencedContainer = "container:cc7.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BF8EEC0F26662A0B009AC5FD"
+               BuildableName = "libcc7tests-macos.a"
+               BlueprintName = "cc7tests-macos"
+               ReferencedContainer = "container:cc7.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BF8EEBEF266629ED009AC5FD"
+               BuildableName = "CC7TestsWrapper-macos.xctest"
+               BlueprintName = "CC7TestsWrapper-macos"
+               ReferencedContainer = "container:cc7.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

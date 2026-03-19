@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -190,7 +190,6 @@
 		BF4D85FF2DEDAB6500D32F55 /* URLEncodingTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F92DEDAB6500D32F55 /* URLEncodingTests.cpp */; };
 		BF4D869D2E0156EB00D32F55 /* libcc7-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB1A6B41CB5937800B2D172 /* libcc7-ios.a */; };
 		BF4D869E2E01570600D32F55 /* libcc7-tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFFE8AAF2449B4F80032821F /* libcc7-tvos.a */; };
-		BF4D869F2E01570D00D32F55 /* libcc7-tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFFE8AAF2449B4F80032821F /* libcc7-tvos.a */; };
 		BF5A00092DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000A2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
 		BF5A000B2DA53F570068992F /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
@@ -233,6 +232,11 @@
 		BF5A8CB02DCE1C7600B3FB01 /* KeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */; };
 		BF5A8CB12DCE1C7600B3FB01 /* KeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */; };
 		BF5A8CB22DCE1C7600B3FB01 /* KeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */; };
+		BF5DC0EE2F6AE763001D0F04 /* libcc7-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8EEC0E26662A01009AC5FD /* libcc7-macos.a */; };
+		BF5DC0EF2F6AE778001D0F04 /* libcc7-watchos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB42C8B2F6A9F8C00AB063D /* libcc7-watchos.a */; };
+		BF5DC0F02F6AE77E001D0F04 /* libcc7tests-watchos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB42CB92F6AA15300AB063D /* libcc7tests-watchos.a */; };
+		BF5DC0F52F6BFC67001D0F04 /* CC7TestWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */; };
+		BF5DC0F62F6BFC67001D0F04 /* CC7ObjcTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */; };
 		BF6833BE2EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
 		BF6833BF2EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
 		BF6833C02EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
@@ -279,6 +283,104 @@
 		BFAAC9B82E42328100062165 /* TimeTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFAAC9B52E42328100062165 /* TimeTests.cpp */; };
 		BFABCD70214C087700A9221F /* Base32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFABCD6F214C087700A9221F /* Base32.cpp */; };
 		BFABCD742150036A00A9221F /* cc7Base32Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFABCD732150036A00A9221F /* cc7Base32Tests.cpp */; };
+		BFB42C482F6A9F8C00AB063D /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85302DDF0C8B00D32F55 /* Time.cpp */; };
+		BFB42C492F6A9F8C00AB063D /* BaseException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85262DDDF52000D32F55 /* BaseException.cpp */; };
+		BFB42C4A2F6A9F8C00AB063D /* KeyEncapsulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A001B2DA65D1F0068992F /* KeyEncapsulation.cpp */; };
+		BFB42C4B2F6A9F8C00AB063D /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC41CE3AEFE006CAA74 /* Base64.cpp */; };
+		BFB42C4C2F6A9F8C00AB063D /* JwsSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85C82DE7869600D32F55 /* JwsSpec.cpp */; };
+		BFB42C4D2F6A9F8C00AB063D /* Signature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058D32D9424DC00C0F3AF /* Signature.cpp */; };
+		BFB42C4E2F6A9F8C00AB063D /* NullKDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF8B2B122DC7E46F00989AF3 /* NullKDF.cpp */; };
+		BFB42C4F2F6A9F8C00AB063D /* NonceGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF14D4682DD347AF00BA7F51 /* NonceGenerator.cpp */; };
+		BFB42C502F6A9F8C00AB063D /* JsonException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85792DE5BD2F00D32F55 /* JsonException.cpp */; };
+		BFB42C512F6A9F8C00AB063D /* JwtReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85932DE7296500D32F55 /* JwtReader.cpp */; };
+		BFB42C522F6A9F8C00AB063D /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A000D2DA541930068992F /* Random.cpp */; };
+		BFB42C532F6A9F8C00AB063D /* KeyUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00342DA906430068992F /* KeyUtility.cpp */; };
+		BFB42C542F6A9F8C00AB063D /* HexString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC61CE3B94D006CAA74 /* HexString.cpp */; };
+		BFB42C552F6A9F8C00AB063D /* SymmetricKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059582DA024AD00C0F3AF /* SymmetricKey.cpp */; };
+		BFB42C562F6A9F8C00AB063D /* JwtException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D858C2DE727B900D32F55 /* JwtException.cpp */; };
+		BFB42C572F6A9F8C00AB063D /* PBKDF2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF8B2B172DC7EE5B00989AF3 /* PBKDF2.cpp */; };
+		BFB42C582F6A9F8C00AB063D /* HMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00591D2D9BFB8A00C0F3AF /* HMAC.cpp */; };
+		BFB42C592F6A9F8C00AB063D /* X509.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF06AC2F2F44A465008C83B0 /* X509.cpp */; };
+		BFB42C5A2F6A9F8C00AB063D /* JsonValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85662DE5A47B00D32F55 /* JsonValue.cpp */; };
+		BFB42C5B2F6A9F8C00AB063D /* PlatformApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFE174021CC9664500039466 /* PlatformApple.mm */; };
+		BFB42C5C2F6A9F8C00AB063D /* ObjcJson.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B832E13E858000BF450 /* ObjcJson.mm */; };
+		BFB42C5D2F6A9F8C00AB063D /* ECDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594A2D9E957400C0F3AF /* ECDSA.cpp */; };
+		BFB42C5E2F6A9F8C00AB063D /* AES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059002D9AA27900C0F3AF /* AES.cpp */; };
+		BFB42C5F2F6A9F8C00AB063D /* Parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00593D2D9E7E0300C0F3AF /* Parameter.cpp */; };
+		BFB42C602F6A9F8C00AB063D /* JsonReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D856A2DE5A4DE00D32F55 /* JsonReader.cpp */; };
+		BFB42C612F6A9F8C00AB063D /* JsonWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D856B2DE5A4DE00D32F55 /* JsonWriter.cpp */; };
+		BFB42C622F6A9F8C00AB063D /* AEAD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058DE2D9A9F9B00C0F3AF /* AEAD.cpp */; };
+		BFB42C632F6A9F8C00AB063D /* Base32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFABCD6F214C087700A9221F /* Base32.cpp */; };
+		BFB42C642F6A9F8C00AB063D /* ECDH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00202DA66AB50068992F /* ECDH.cpp */; };
+		BFB42C652F6A9F8C00AB063D /* ByteRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4B4A861CB93B8B00BF2C9D /* ByteRange.cpp */; };
+		BFB42C662F6A9F8C00AB063D /* ObjcHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF79F0171D04BFB7004653A1 /* ObjcHelper.mm */; };
+		BFB42C672F6A9F8C00AB063D /* MACBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059112D9AB9F700C0F3AF /* MACBase.cpp */; };
+		BFB42C682F6A9F8C00AB063D /* SHA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059062D9AA68800C0F3AF /* SHA.cpp */; };
+		BFB42C692F6A9F8C00AB063D /* CryptoConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC372962DA02B2D00BA292D /* CryptoConstants.cpp */; };
+		BFB42C6A2F6A9F8C00AB063D /* KeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E42D9A9FF300C0F3AF /* KeyPair.cpp */; };
+		BFB42C6B2F6A9F8C00AB063D /* KeyAgreement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00172DA654EC0068992F /* KeyAgreement.cpp */; };
+		BFB42C6C2F6A9F8C00AB063D /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85732DE5AADF00D32F55 /* StringUtils.cpp */; };
+		BFB42C6D2F6A9F8C00AB063D /* JwsAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFBFA71A2E93F30200907B39 /* JwsAlgorithm.cpp */; };
+		BFB42C6E2F6A9F8C00AB063D /* JwtWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85E42DE999E100D32F55 /* JwtWriter.cpp */; };
+		BFB42C6F2F6A9F8C00AB063D /* KMAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00590C2D9AB9E600C0F3AF /* KMAC.cpp */; };
+		BFB42C702F6A9F8C00AB063D /* X963KDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8C8D2DC5204400B3FB01 /* X963KDF.cpp */; };
+		BFB42C712F6A9F8C00AB063D /* Cipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E22D9A9FF300C0F3AF /* Cipher.cpp */; };
+		BFB42C722F6A9F8C00AB063D /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
+		BFB42C732F6A9F8C00AB063D /* Key.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E32D9A9FF300C0F3AF /* Key.cpp */; };
+		BFB42C742F6A9F8C00AB063D /* OSSLObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058F92D9AA0D500C0F3AF /* OSSLObjects.cpp */; };
+		BFB42C752F6A9F8C00AB063D /* DataWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D32DE84A8F00D32F55 /* DataWriter.cpp */; };
+		BFB42C762F6A9F8C00AB063D /* DataReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D22DE84A8F00D32F55 /* DataReader.cpp */; };
+		BFB42C772F6A9F8C00AB063D /* URLEncoding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85D42DE84A8F00D32F55 /* URLEncoding.cpp */; };
+		BFB42C782F6A9F8C00AB063D /* MAC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E52D9A9FF300C0F3AF /* MAC.cpp */; };
+		BFB42C792F6A9F8C00AB063D /* MLDSA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059452D9E927200C0F3AF /* MLDSA.cpp */; };
+		BFB42C7A2F6A9F8C00AB063D /* MessageDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0058E62D9A9FF300C0F3AF /* MessageDigest.cpp */; };
+		BFB42C7B2F6A9F8C00AB063D /* DebugFeatures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFE174061CC96D3600039466 /* DebugFeatures.cpp */; };
+		BFB42C7C2F6A9F8C00AB063D /* JwsMacSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BD2DE7850700D32F55 /* JwsMacSignature.cpp */; };
+		BFB42C7D2F6A9F8C00AB063D /* JwsBaseAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85B92DE7850700D32F55 /* JwsBaseAlgorithm.cpp */; };
+		BFB42C7E2F6A9F8C00AB063D /* JwsDsaSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85BB2DE7850700D32F55 /* JwsDsaSignature.cpp */; };
+		BFB42C7F2F6A9F8C00AB063D /* ECKeyPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00594F2D9E982900C0F3AF /* ECKeyPair.cpp */; };
+		BFB42C802F6A9F8C00AB063D /* MLKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A002F2DA69B450068992F /* MLKEM.cpp */; };
+		BFB42C812F6A9F8C00AB063D /* KeyDerivation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00252DA6768E0068992F /* KeyDerivation.cpp */; };
+		BFB42C822F6A9F8C00AB063D /* CryptoPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059212D9C093500C0F3AF /* CryptoPrivate.cpp */; };
+		BFB42C832F6A9F8C00AB063D /* JwtHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85E02DE998B000D32F55 /* JwtHeader.cpp */; };
+		BFB42C842F6A9F8C00AB063D /* ByteArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF388B621CC62CF700DEC1AE /* ByteArray.cpp */; };
+		BFB42C852F6A9F8C00AB063D /* JwsKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85AE2DE7838400D32F55 /* JwsKey.cpp */; };
+		BFB42C902F6AA15300AB063D /* cc7Base64Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBC91CE3BF08006CAA74 /* cc7Base64Tests.cpp */; };
+		BFB42C912F6AA15300AB063D /* JsonReaderTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85822DE5D01F00D32F55 /* JsonReaderTests.cpp */; };
+		BFB42C922F6AA15300AB063D /* MessageDigestTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059352D9E72F300C0F3AF /* MessageDigestTests.cpp */; };
+		BFB42C932F6AA15300AB063D /* JsonValueTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0825D82E0167B400B89A68 /* JsonValueTests.cpp */; };
+		BFB42C942F6AA15300AB063D /* MACTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0059342D9E72F300C0F3AF /* MACTests.cpp */; };
+		BFB42C952F6AA15300AB063D /* AEADTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF14D45A2DD324CD00BA7F51 /* AEADTests.cpp */; };
+		BFB42C962F6AA15300AB063D /* JwtTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85EB2DEA087D00D32F55 /* JwtTests.cpp */; };
+		BFB42C972F6AA15300AB063D /* PerformanceTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC5254A1CDBC887002E653C /* PerformanceTimer.cpp */; };
+		BFB42C982F6AA15300AB063D /* TestLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068571CC95503002FD3BC /* TestLog.cpp */; };
+		BFB42C992F6AA15300AB063D /* cc7OpenSSLIntegration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF22BDFC2476995A00029A38 /* cc7OpenSSLIntegration.cpp */; };
+		BFB42C9A2F6AA15300AB063D /* tt7Testception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498AB91CDD065B00D7E904 /* tt7Testception.cpp */; };
+		BFB42C9B2F6AA15300AB063D /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB493FE1CE8E74600F8D81B /* TestFile.cpp */; };
+		BFB42C9C2F6AA15300AB063D /* CipherTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8C6B2DBBFB1800B3FB01 /* CipherTests.cpp */; };
+		BFB42C9D2F6AA15300AB063D /* TestResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494021CE8E7C600F8D81B /* TestResource.cpp */; };
+		BFB42C9E2F6AA15300AB063D /* KeyEncapsulationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8C712DC16C5200B3FB01 /* KeyEncapsulationTests.cpp */; };
+		BFB42C9F2F6AA15300AB063D /* JsonWriterTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85862DE5D0B200D32F55 /* JsonWriterTests.cpp */; };
+		BFB42CA02F6AA15300AB063D /* TimeTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFAAC9B52E42328100062165 /* TimeTests.cpp */; };
+		BFB42CA12F6AA15300AB063D /* cc7HexStringTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9FFBCB1CE3C172006CAA74 /* cc7HexStringTests.cpp */; };
+		BFB42CA22F6AA15300AB063D /* EmbeddedTestsList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498AB61CDCC24F00D7E904 /* EmbeddedTestsList.cpp */; };
+		BFB42CA32F6AA15300AB063D /* TestManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068511CC91E56002FD3BC /* TestManager.cpp */; };
+		BFB42CA42F6AA15300AB063D /* cc7Base32Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFABCD732150036A00A9221F /* cc7Base32Tests.cpp */; };
+		BFB42CA52F6AA15300AB063D /* KeyAgreementTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A002A2DA68BC30068992F /* KeyAgreementTests.cpp */; };
+		BFB42CA62F6AA15300AB063D /* cc7PlatformTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1C7BBE1CE0CE9300C4399E /* cc7PlatformTests.cpp */; };
+		BFB42CA72F6AA15300AB063D /* NonceGeneratorTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF14D46C2DD48CB400BA7F51 /* NonceGeneratorTests.cpp */; };
+		BFB42CA82F6AA15300AB063D /* KeyDerivationTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */; };
+		BFB42CA92F6AA15300AB063D /* DataWriterReaderTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F82DEDAB6500D32F55 /* DataWriterReaderTests.cpp */; };
+		BFB42CAA2F6AA15300AB063D /* URLEncodingTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF4D85F92DEDAB6500D32F55 /* URLEncodingTests.cpp */; };
+		BFB42CAB2F6AA15300AB063D /* cc7ByteArrayTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498AC91CDDD7ED00D7E904 /* cc7ByteArrayTests.cpp */; };
+		BFB42CAC2F6AA15300AB063D /* PerformanceTimerApple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC5254D1CDBC985002E653C /* PerformanceTimerApple.cpp */; };
+		BFB42CAD2F6AA15300AB063D /* UnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3068541CC91EE4002FD3BC /* UnitTest.cpp */; };
+		BFB42CAE2F6AA15300AB063D /* ImportKeyTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A003C2DAE486D0068992F /* ImportKeyTests.cpp */; };
+		BFB42CAF2F6AA15300AB063D /* cc7ByteRangeTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF498ACB1CDDD80700D7E904 /* cc7ByteRangeTests.cpp */; };
+		BFB42CB02F6AA15300AB063D /* SignatureTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5A00082DA53F570068992F /* SignatureTests.cpp */; };
+		BFB42CB12F6AA15300AB063D /* TestDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494001CE8E79400F8D81B /* TestDirectory.cpp */; };
+		BFB42CB22F6AA15300AB063D /* g_testFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00592A2D9C49C400C0F3AF /* g_testFiles.cpp */; };
+		BFB42CB32F6AA15300AB063D /* X509Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF06AC382F45E029008C83B0 /* X509Tests.cpp */; };
 		BFB493FF1CE8E74600F8D81B /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB493FE1CE8E74600F8D81B /* TestFile.cpp */; };
 		BFB494011CE8E79400F8D81B /* TestDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494001CE8E79400F8D81B /* TestDirectory.cpp */; };
 		BFB494031CE8E7C600F8D81B /* TestResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494021CE8E7C600F8D81B /* TestResource.cpp */; };
@@ -344,6 +446,13 @@
 			remoteGlobalIDString = BF30682D1CC91B20002FD3BC;
 			remoteInfo = "cc7tests-ios";
 		};
+		BF5DC0EC2F6AE732001D0F04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BFB42C8C2F6AA15300AB063D;
+			remoteInfo = "cc7tests-watchos";
+		};
 		BF734A992485263F001F46BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
@@ -378,6 +487,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = BF8EEBFC26662A01009AC5FD;
 			remoteInfo = "cc7-macos";
+		};
+		BFB42C452F6A9F8C00AB063D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF734A94248525E9001F46BA;
+			remoteInfo = OpenSSL;
+		};
+		BFB42CBA2F6AA16F00AB063D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BFB42C432F6A9F8C00AB063D;
+			remoteInfo = "cc7-watchos";
 		};
 		BFFE8AD02449B5490032821F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -424,6 +547,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BFB1A6B21CB5937800B2D172 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB42C872F6A9F8C00AB063D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB42CB52F6AA15300AB063D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -611,6 +752,9 @@
 		BF5A8C8D2DC5204400B3FB01 /* X963KDF.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = X963KDF.cpp; sourceTree = "<group>"; };
 		BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyDerivationTests.cpp; sourceTree = "<group>"; };
 		BF5A8CB32DCE1E0800B3FB01 /* kdf-test-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "kdf-test-data.json"; sourceTree = "<group>"; };
+		BF5DC0F32F6BFA39001D0F04 /* cc7_ios.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = cc7_ios.xctestplan; sourceTree = "<group>"; };
+		BF5DC0F42F6BFA9A001D0F04 /* cc7_tvos.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = cc7_tvos.xctestplan; sourceTree = "<group>"; };
+		BF5DC0F72F6BFD89001D0F04 /* cc7_watchos.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = cc7_watchos.xctestplan; sourceTree = "<group>"; };
 		BF6833BC2EBE137C00BF2561 /* DHKEM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DHKEM.h; sourceTree = "<group>"; };
 		BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DHKEM.cpp; sourceTree = "<group>"; };
 		BF71B3E31D5AB5D800ABE831 /* README.jni.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.jni.txt; sourceTree = "<group>"; };
@@ -640,6 +784,9 @@
 		BFB1A6C51CB594BF00B2D172 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		BFB1A6C61CB594BF00B2D172 /* ByteRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ByteRange.h; sourceTree = "<group>"; };
 		BFB3124E1E4E203F00C6FE7E /* CleanupAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CleanupAllocator.h; sourceTree = "<group>"; };
+		BFB42C8B2F6A9F8C00AB063D /* libcc7-watchos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcc7-watchos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFB42CB92F6AA15300AB063D /* libcc7tests-watchos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcc7tests-watchos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFB42CC92F6AA50900AB063D /* CC7TestsWrapper-watchos.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CC7TestsWrapper-watchos.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB493DE1CE8B29500F8D81B /* data-converter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "data-converter.cpp"; sourceTree = "<group>"; };
 		BFB493DF1CE8B29500F8D81B /* data-converter.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "data-converter.sh"; sourceTree = "<group>"; };
 		BFB493E11CE8B29500F8D81B /* invalid-conf-01.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "invalid-conf-01.conf"; sourceTree = "<group>"; };
@@ -698,7 +845,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF4D869F2E01570D00D32F55 /* libcc7-tvos.a in Frameworks */,
+				BF5DC0EE2F6AE763001D0F04 /* libcc7-macos.a in Frameworks */,
 				BF8EEC3526662A8F009AC5FD /* libcc7tests-macos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -721,6 +868,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB42C862F6A9F8C00AB063D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB42CB42F6AA15300AB063D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB42CC22F6AA50900AB063D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF5DC0EF2F6AE778001D0F04 /* libcc7-watchos.a in Frameworks */,
+				BF5DC0F02F6AE77E001D0F04 /* libcc7tests-watchos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -869,6 +1039,9 @@
 		BF498AA31CDCBE8400D7E904 /* CC7TestsWrapper */ = {
 			isa = PBXGroup;
 			children = (
+				BF5DC0F32F6BFA39001D0F04 /* cc7_ios.xctestplan */,
+				BF5DC0F42F6BFA9A001D0F04 /* cc7_tvos.xctestplan */,
+				BF5DC0F72F6BFD89001D0F04 /* cc7_watchos.xctestplan */,
 				BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */,
 				BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */,
 				BF498AA61CDCBE8400D7E904 /* Info.plist */,
@@ -1131,6 +1304,9 @@
 				BF8EEBFA266629ED009AC5FD /* CC7TestsWrapper-macos.xctest */,
 				BF8EEC0E26662A01009AC5FD /* libcc7-macos.a */,
 				BF8EEC2F26662A0B009AC5FD /* libcc7tests-macos.a */,
+				BFB42C8B2F6A9F8C00AB063D /* libcc7-watchos.a */,
+				BFB42CB92F6AA15300AB063D /* libcc7tests-watchos.a */,
+				BFB42CC92F6AA50900AB063D /* CC7TestsWrapper-watchos.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1414,6 +1590,61 @@
 			productReference = BFB1A6B41CB5937800B2D172 /* libcc7-ios.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		BFB42C432F6A9F8C00AB063D /* cc7-watchos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFB42C882F6A9F8C00AB063D /* Build configuration list for PBXNativeTarget "cc7-watchos" */;
+			buildPhases = (
+				BFB42C462F6A9F8C00AB063D /* [CC7] XCFramework Extract */,
+				BFB42C472F6A9F8C00AB063D /* Sources */,
+				BFB42C862F6A9F8C00AB063D /* Frameworks */,
+				BFB42C872F6A9F8C00AB063D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BFB42C442F6A9F8C00AB063D /* PBXTargetDependency */,
+			);
+			name = "cc7-watchos";
+			productName = cc7;
+			productReference = BFB42C8B2F6A9F8C00AB063D /* libcc7-watchos.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		BFB42C8C2F6AA15300AB063D /* cc7tests-watchos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFB42CB62F6AA15300AB063D /* Build configuration list for PBXNativeTarget "cc7tests-watchos" */;
+			buildPhases = (
+				BFB42C8F2F6AA15300AB063D /* Sources */,
+				BFB42CB42F6AA15300AB063D /* Frameworks */,
+				BFB42CB52F6AA15300AB063D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BFB42CBB2F6AA16F00AB063D /* PBXTargetDependency */,
+			);
+			name = "cc7tests-watchos";
+			productName = cc7;
+			productReference = BFB42CB92F6AA15300AB063D /* libcc7tests-watchos.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		BFB42CBC2F6AA50900AB063D /* CC7TestsWrapper-watchos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFB42CC62F6AA50900AB063D /* Build configuration list for PBXNativeTarget "CC7TestsWrapper-watchos" */;
+			buildPhases = (
+				BFB42CBF2F6AA50900AB063D /* Sources */,
+				BFB42CC22F6AA50900AB063D /* Frameworks */,
+				BFB42CC52F6AA50900AB063D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BF5DC0ED2F6AE732001D0F04 /* PBXTargetDependency */,
+			);
+			name = "CC7TestsWrapper-watchos";
+			productName = CC7TestsWrapper;
+			productReference = BFB42CC92F6AA50900AB063D /* CC7TestsWrapper-watchos.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		BFFE8A9F2449B4F80032821F /* cc7-tvos */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BFFE8AAC2449B4F80032821F /* Build configuration list for PBXNativeTarget "cc7-tvos" */;
@@ -1501,7 +1732,6 @@
 				};
 			};
 			buildConfigurationList = BFB1A6AF1CB5937800B2D172 /* Build configuration list for PBXProject "cc7" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1509,6 +1739,8 @@
 				Base,
 			);
 			mainGroup = BFB1A6AB1CB5937800B2D172;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = BFB1A6B51CB5937800B2D172 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1516,12 +1748,15 @@
 				BFB1A6B31CB5937800B2D172 /* cc7-ios */,
 				BFFE8A9F2449B4F80032821F /* cc7-tvos */,
 				BF8EEBFC26662A01009AC5FD /* cc7-macos */,
+				BFB42C432F6A9F8C00AB063D /* cc7-watchos */,
 				BF30682D1CC91B20002FD3BC /* cc7tests-ios */,
 				BFFE8AB02449B53C0032821F /* cc7tests-tvos */,
 				BF8EEC0F26662A0B009AC5FD /* cc7tests-macos */,
+				BFB42C8C2F6AA15300AB063D /* cc7tests-watchos */,
 				BF498AA11CDCBE8300D7E904 /* CC7TestsWrapper-ios */,
 				BFFE8AD42449B5820032821F /* CC7TestsWrapper-tvos */,
 				BF8EEBEF266629ED009AC5FD /* CC7TestsWrapper-macos */,
+				BFB42CBC2F6AA50900AB063D /* CC7TestsWrapper-watchos */,
 				BF734A94248525E9001F46BA /* OpenSSL */,
 			);
 		};
@@ -1536,6 +1771,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BF8EEBF6266629ED009AC5FD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB42CC52F6AA50900AB063D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1626,7 +1868,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Prepare platform / architecture specific framework\n\"${PROJECT_DIR}/../openssl-build/xcbuild-helper.sh\" \"${PLATFORM_NAME}\" \"${BUILT_PRODUCTS_DIR}\"\n";
+			shellScript = "# Prepare platform / architecture specific framework\n\"${PROJECT_DIR}/../openssl-build/xcbuild-helper.sh\" \"${EFFECTIVE_PLATFORM_NAME}\" \"${BUILT_PRODUCTS_DIR}\"\n";
+		};
+		BFB42C462F6A9F8C00AB063D /* [CC7] XCFramework Extract */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CC7] XCFramework Extract";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Prepare platform / architecture specific framework\n\"${PROJECT_DIR}/../openssl-build/xcbuild-helper.sh\" \"${EFFECTIVE_PLATFORM_NAME}\" \"${BUILT_PRODUCTS_DIR}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1873,6 +2134,127 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BFB42C472F6A9F8C00AB063D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFB42C482F6A9F8C00AB063D /* Time.cpp in Sources */,
+				BFB42C492F6A9F8C00AB063D /* BaseException.cpp in Sources */,
+				BFB42C4A2F6A9F8C00AB063D /* KeyEncapsulation.cpp in Sources */,
+				BFB42C4B2F6A9F8C00AB063D /* Base64.cpp in Sources */,
+				BFB42C4C2F6A9F8C00AB063D /* JwsSpec.cpp in Sources */,
+				BFB42C4D2F6A9F8C00AB063D /* Signature.cpp in Sources */,
+				BFB42C4E2F6A9F8C00AB063D /* NullKDF.cpp in Sources */,
+				BFB42C4F2F6A9F8C00AB063D /* NonceGenerator.cpp in Sources */,
+				BFB42C502F6A9F8C00AB063D /* JsonException.cpp in Sources */,
+				BFB42C512F6A9F8C00AB063D /* JwtReader.cpp in Sources */,
+				BFB42C522F6A9F8C00AB063D /* Random.cpp in Sources */,
+				BFB42C532F6A9F8C00AB063D /* KeyUtility.cpp in Sources */,
+				BFB42C542F6A9F8C00AB063D /* HexString.cpp in Sources */,
+				BFB42C552F6A9F8C00AB063D /* SymmetricKey.cpp in Sources */,
+				BFB42C562F6A9F8C00AB063D /* JwtException.cpp in Sources */,
+				BFB42C572F6A9F8C00AB063D /* PBKDF2.cpp in Sources */,
+				BFB42C582F6A9F8C00AB063D /* HMAC.cpp in Sources */,
+				BFB42C592F6A9F8C00AB063D /* X509.cpp in Sources */,
+				BFB42C5A2F6A9F8C00AB063D /* JsonValue.cpp in Sources */,
+				BFB42C5B2F6A9F8C00AB063D /* PlatformApple.mm in Sources */,
+				BFB42C5C2F6A9F8C00AB063D /* ObjcJson.mm in Sources */,
+				BFB42C5D2F6A9F8C00AB063D /* ECDSA.cpp in Sources */,
+				BFB42C5E2F6A9F8C00AB063D /* AES.cpp in Sources */,
+				BFB42C5F2F6A9F8C00AB063D /* Parameter.cpp in Sources */,
+				BFB42C602F6A9F8C00AB063D /* JsonReader.cpp in Sources */,
+				BFB42C612F6A9F8C00AB063D /* JsonWriter.cpp in Sources */,
+				BFB42C622F6A9F8C00AB063D /* AEAD.cpp in Sources */,
+				BFB42C632F6A9F8C00AB063D /* Base32.cpp in Sources */,
+				BFB42C642F6A9F8C00AB063D /* ECDH.cpp in Sources */,
+				BFB42C652F6A9F8C00AB063D /* ByteRange.cpp in Sources */,
+				BFB42C662F6A9F8C00AB063D /* ObjcHelper.mm in Sources */,
+				BFB42C672F6A9F8C00AB063D /* MACBase.cpp in Sources */,
+				BFB42C682F6A9F8C00AB063D /* SHA.cpp in Sources */,
+				BFB42C692F6A9F8C00AB063D /* CryptoConstants.cpp in Sources */,
+				BFB42C6A2F6A9F8C00AB063D /* KeyPair.cpp in Sources */,
+				BFB42C6B2F6A9F8C00AB063D /* KeyAgreement.cpp in Sources */,
+				BFB42C6C2F6A9F8C00AB063D /* StringUtils.cpp in Sources */,
+				BFB42C6D2F6A9F8C00AB063D /* JwsAlgorithm.cpp in Sources */,
+				BFB42C6E2F6A9F8C00AB063D /* JwtWriter.cpp in Sources */,
+				BFB42C6F2F6A9F8C00AB063D /* KMAC.cpp in Sources */,
+				BFB42C702F6A9F8C00AB063D /* X963KDF.cpp in Sources */,
+				BFB42C712F6A9F8C00AB063D /* Cipher.cpp in Sources */,
+				BFB42C722F6A9F8C00AB063D /* DHKEM.cpp in Sources */,
+				BFB42C732F6A9F8C00AB063D /* Key.cpp in Sources */,
+				BFB42C742F6A9F8C00AB063D /* OSSLObjects.cpp in Sources */,
+				BFB42C752F6A9F8C00AB063D /* DataWriter.cpp in Sources */,
+				BFB42C762F6A9F8C00AB063D /* DataReader.cpp in Sources */,
+				BFB42C772F6A9F8C00AB063D /* URLEncoding.cpp in Sources */,
+				BFB42C782F6A9F8C00AB063D /* MAC.cpp in Sources */,
+				BFB42C792F6A9F8C00AB063D /* MLDSA.cpp in Sources */,
+				BFB42C7A2F6A9F8C00AB063D /* MessageDigest.cpp in Sources */,
+				BFB42C7B2F6A9F8C00AB063D /* DebugFeatures.cpp in Sources */,
+				BFB42C7C2F6A9F8C00AB063D /* JwsMacSignature.cpp in Sources */,
+				BFB42C7D2F6A9F8C00AB063D /* JwsBaseAlgorithm.cpp in Sources */,
+				BFB42C7E2F6A9F8C00AB063D /* JwsDsaSignature.cpp in Sources */,
+				BFB42C7F2F6A9F8C00AB063D /* ECKeyPair.cpp in Sources */,
+				BFB42C802F6A9F8C00AB063D /* MLKEM.cpp in Sources */,
+				BFB42C812F6A9F8C00AB063D /* KeyDerivation.cpp in Sources */,
+				BFB42C822F6A9F8C00AB063D /* CryptoPrivate.cpp in Sources */,
+				BFB42C832F6A9F8C00AB063D /* JwtHeader.cpp in Sources */,
+				BFB42C842F6A9F8C00AB063D /* ByteArray.cpp in Sources */,
+				BFB42C852F6A9F8C00AB063D /* JwsKey.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB42C8F2F6AA15300AB063D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFB42C902F6AA15300AB063D /* cc7Base64Tests.cpp in Sources */,
+				BFB42C912F6AA15300AB063D /* JsonReaderTests.cpp in Sources */,
+				BFB42C922F6AA15300AB063D /* MessageDigestTests.cpp in Sources */,
+				BFB42C932F6AA15300AB063D /* JsonValueTests.cpp in Sources */,
+				BFB42C942F6AA15300AB063D /* MACTests.cpp in Sources */,
+				BFB42C952F6AA15300AB063D /* AEADTests.cpp in Sources */,
+				BFB42C962F6AA15300AB063D /* JwtTests.cpp in Sources */,
+				BFB42C972F6AA15300AB063D /* PerformanceTimer.cpp in Sources */,
+				BFB42C982F6AA15300AB063D /* TestLog.cpp in Sources */,
+				BFB42C992F6AA15300AB063D /* cc7OpenSSLIntegration.cpp in Sources */,
+				BFB42C9A2F6AA15300AB063D /* tt7Testception.cpp in Sources */,
+				BFB42C9B2F6AA15300AB063D /* TestFile.cpp in Sources */,
+				BFB42C9C2F6AA15300AB063D /* CipherTests.cpp in Sources */,
+				BFB42C9D2F6AA15300AB063D /* TestResource.cpp in Sources */,
+				BFB42C9E2F6AA15300AB063D /* KeyEncapsulationTests.cpp in Sources */,
+				BFB42C9F2F6AA15300AB063D /* JsonWriterTests.cpp in Sources */,
+				BFB42CA02F6AA15300AB063D /* TimeTests.cpp in Sources */,
+				BFB42CA12F6AA15300AB063D /* cc7HexStringTests.cpp in Sources */,
+				BFB42CA22F6AA15300AB063D /* EmbeddedTestsList.cpp in Sources */,
+				BFB42CA32F6AA15300AB063D /* TestManager.cpp in Sources */,
+				BFB42CA42F6AA15300AB063D /* cc7Base32Tests.cpp in Sources */,
+				BFB42CA52F6AA15300AB063D /* KeyAgreementTests.cpp in Sources */,
+				BFB42CA62F6AA15300AB063D /* cc7PlatformTests.cpp in Sources */,
+				BFB42CA72F6AA15300AB063D /* NonceGeneratorTests.cpp in Sources */,
+				BFB42CA82F6AA15300AB063D /* KeyDerivationTests.cpp in Sources */,
+				BFB42CA92F6AA15300AB063D /* DataWriterReaderTests.cpp in Sources */,
+				BFB42CAA2F6AA15300AB063D /* URLEncodingTests.cpp in Sources */,
+				BFB42CAB2F6AA15300AB063D /* cc7ByteArrayTests.cpp in Sources */,
+				BFB42CAC2F6AA15300AB063D /* PerformanceTimerApple.cpp in Sources */,
+				BFB42CAD2F6AA15300AB063D /* UnitTest.cpp in Sources */,
+				BFB42CAE2F6AA15300AB063D /* ImportKeyTests.cpp in Sources */,
+				BFB42CAF2F6AA15300AB063D /* cc7ByteRangeTests.cpp in Sources */,
+				BFB42CB02F6AA15300AB063D /* SignatureTests.cpp in Sources */,
+				BFB42CB12F6AA15300AB063D /* TestDirectory.cpp in Sources */,
+				BFB42CB22F6AA15300AB063D /* g_testFiles.cpp in Sources */,
+				BFB42CB32F6AA15300AB063D /* X509Tests.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB42CBF2F6AA50900AB063D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF5DC0F52F6BFC67001D0F04 /* CC7TestWrapper.mm in Sources */,
+				BF5DC0F62F6BFC67001D0F04 /* CC7ObjcTests.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BFFE8AA02449B4F80032821F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2007,6 +2389,11 @@
 			target = BF30682D1CC91B20002FD3BC /* cc7tests-ios */;
 			targetProxy = BF498AA81CDCBE8400D7E904 /* PBXContainerItemProxy */;
 		};
+		BF5DC0ED2F6AE732001D0F04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BFB42C8C2F6AA15300AB063D /* cc7tests-watchos */;
+			targetProxy = BF5DC0EC2F6AE732001D0F04 /* PBXContainerItemProxy */;
+		};
 		BF734A9A2485263F001F46BA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BF734A94248525E9001F46BA /* OpenSSL */;
@@ -2032,6 +2419,16 @@
 			target = BF8EEBFC26662A01009AC5FD /* cc7-macos */;
 			targetProxy = BF8EEC3226662A70009AC5FD /* PBXContainerItemProxy */;
 		};
+		BFB42C442F6A9F8C00AB063D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF734A94248525E9001F46BA /* OpenSSL */;
+			targetProxy = BFB42C452F6A9F8C00AB063D /* PBXContainerItemProxy */;
+		};
+		BFB42CBB2F6AA16F00AB063D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BFB42C432F6A9F8C00AB063D /* cc7-watchos */;
+			targetProxy = BFB42CBA2F6AA16F00AB063D /* PBXContainerItemProxy */;
+		};
 		BFFE8AD12449B5490032821F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BFFE8A9F2449B4F80032821F /* cc7-tvos */;
@@ -2049,7 +2446,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7tests/platform/PrefixCC7Tests.pch";
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -2062,7 +2458,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7tests/platform/PrefixCC7Tests.pch";
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -2150,7 +2545,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					openssl,
@@ -2174,7 +2568,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					openssl,
@@ -2191,7 +2584,6 @@
 				DEAD_CODE_STRIPPING = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
 				GCC_WARN_PEDANTIC = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -2210,7 +2602,6 @@
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
 				GCC_WARN_PEDANTIC = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -2227,7 +2618,6 @@
 			buildSettings = {
 				DEAD_CODE_STRIPPING = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7tests/platform/PrefixCC7Tests.pch";
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2240,7 +2630,6 @@
 			buildSettings = {
 				DEAD_CODE_STRIPPING = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7tests/platform/PrefixCC7Tests.pch";
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2303,14 +2692,14 @@
 					"$(PROJECT_DIR)/../include",
 					"$(PROJECT_DIR)/../openssl-lib/apple/include",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fvisibility=hidden";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 				XROS_DEPLOYMENT_TARGET = 1.3;
 			};
 			name = Debug;
@@ -2364,14 +2753,14 @@
 					"$(PROJECT_DIR)/../include",
 					"$(PROJECT_DIR)/../openssl-lib/apple/include",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-fvisibility=hidden";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 				XROS_DEPLOYMENT_TARGET = 1.3;
 			};
 			name = Release;
@@ -2381,7 +2770,6 @@
 			buildSettings = {
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
 				GCC_WARN_PEDANTIC = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -2400,7 +2788,6 @@
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
 				GCC_WARN_PEDANTIC = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -2413,12 +2800,111 @@
 			};
 			name = Release;
 		};
+		BFB42C892F6A9F8C00AB063D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
+				GCC_WARN_PEDANTIC = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					openssl,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		BFB42C8A2F6A9F8C00AB063D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
+				GCC_WARN_PEDANTIC = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					openssl,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		BFB42CB72F6AA15300AB063D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7tests/platform/PrefixCC7Tests.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		BFB42CB82F6AA15300AB063D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7tests/platform/PrefixCC7Tests.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		BFB42CC72F6AA50900AB063D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = KTT9G859MR;
+				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					openssl,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BFB42CC82F6AA50900AB063D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = KTT9G859MR;
+				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					openssl,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+			};
+			name = Release;
+		};
 		BFFE8AAD2449B4F80032821F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
 				GCC_WARN_PEDANTIC = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -2436,7 +2922,6 @@
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7/platform/apple/PrefixCC7.pch";
 				GCC_WARN_PEDANTIC = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -2452,7 +2937,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7tests/platform/PrefixCC7Tests.pch";
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2464,7 +2948,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/../src/cc7tests/platform/PrefixCC7Tests.pch";
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2588,6 +3071,33 @@
 			buildConfigurations = (
 				BFB1A6BE1CB5937800B2D172 /* Debug */,
 				BFB1A6BF1CB5937800B2D172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFB42C882F6A9F8C00AB063D /* Build configuration list for PBXNativeTarget "cc7-watchos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFB42C892F6A9F8C00AB063D /* Debug */,
+				BFB42C8A2F6A9F8C00AB063D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFB42CB62F6AA15300AB063D /* Build configuration list for PBXNativeTarget "cc7tests-watchos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFB42CB72F6AA15300AB063D /* Debug */,
+				BFB42CB82F6AA15300AB063D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFB42CC62F6AA50900AB063D /* Build configuration list for PBXNativeTarget "CC7TestsWrapper-watchos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFB42CC72F6AA50900AB063D /* Debug */,
+				BFB42CC82F6AA50900AB063D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

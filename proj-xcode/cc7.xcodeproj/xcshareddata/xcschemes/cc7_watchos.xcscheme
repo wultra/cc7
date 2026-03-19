@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "2610"
+   LastUpgradeVersion = "2630"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "YES">
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -14,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BFFE8A9F2449B4F80032821F"
-               BuildableName = "libcc7-tvos.a"
-               BlueprintName = "cc7-tvos"
+               BlueprintIdentifier = "BFB42C432F6A9F8C00AB063D"
+               BuildableName = "libcc7-watchos.a"
+               BlueprintName = "cc7-watchos"
                ReferencedContainer = "container:cc7.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +29,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BFFE8AB02449B53C0032821F"
-               BuildableName = "libcc7tests-tvos.a"
-               BlueprintName = "cc7tests-tvos"
+               BlueprintIdentifier = "BFB42C8C2F6AA15300AB063D"
+               BuildableName = "libcc7tests-watchos.a"
+               BlueprintName = "cc7tests-watchos"
                ReferencedContainer = "container:cc7.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +43,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BFFE8AD42449B5820032821F"
-               BuildableName = "CC7TestsWrapper-tvos.xctest"
-               BlueprintName = "CC7TestsWrapper-tvos"
+               BlueprintIdentifier = "BFB42CBC2F6AA50900AB063D"
+               BuildableName = "CC7TestsWrapper-watchos.xctest"
+               BlueprintName = "CC7TestsWrapper-watchos"
                ReferencedContainer = "container:cc7.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,7 +58,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:CC7TestsWrapper/cc7_tvos.xctestplan"
+            reference = "container:CC7TestsWrapper/cc7_watchos.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
@@ -66,9 +67,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BFFE8AD42449B5820032821F"
-               BuildableName = "CC7TestsWrapper-tvos.xctest"
-               BlueprintName = "CC7TestsWrapper-tvos"
+               BlueprintIdentifier = "BFB42CBC2F6AA50900AB063D"
+               BuildableName = "CC7TestsWrapper-watchos.xctest"
+               BlueprintName = "CC7TestsWrapper-watchos"
                ReferencedContainer = "container:cc7.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -94,9 +95,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BFFE8A9F2449B4F80032821F"
-            BuildableName = "libcc7-tvos.a"
-            BlueprintName = "cc7-tvos"
+            BlueprintIdentifier = "BFB42C432F6A9F8C00AB063D"
+            BuildableName = "libcc7-watchos.a"
+            BlueprintName = "cc7-watchos"
             ReferencedContainer = "container:cc7.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
