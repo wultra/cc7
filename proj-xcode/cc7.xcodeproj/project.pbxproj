@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -235,8 +235,8 @@
 		BF5DC0EE2F6AE763001D0F04 /* libcc7-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8EEC0E26662A01009AC5FD /* libcc7-macos.a */; };
 		BF5DC0EF2F6AE778001D0F04 /* libcc7-watchos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB42C8B2F6A9F8C00AB063D /* libcc7-watchos.a */; };
 		BF5DC0F02F6AE77E001D0F04 /* libcc7tests-watchos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB42CB92F6AA15300AB063D /* libcc7tests-watchos.a */; };
-		BF5DC0F12F6AF95A001D0F04 /* CC7ObjcTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */; };
-		BF5DC0F22F6AF963001D0F04 /* CC7TestWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */; };
+		BF5DC0F52F6BFC67001D0F04 /* CC7TestWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */; };
+		BF5DC0F62F6BFC67001D0F04 /* CC7ObjcTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */; };
 		BF6833BE2EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
 		BF6833BF2EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
 		BF6833C02EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
@@ -752,6 +752,9 @@
 		BF5A8C8D2DC5204400B3FB01 /* X963KDF.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = X963KDF.cpp; sourceTree = "<group>"; };
 		BF5A8CAF2DCE1C7600B3FB01 /* KeyDerivationTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyDerivationTests.cpp; sourceTree = "<group>"; };
 		BF5A8CB32DCE1E0800B3FB01 /* kdf-test-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "kdf-test-data.json"; sourceTree = "<group>"; };
+		BF5DC0F32F6BFA39001D0F04 /* cc7_ios.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = cc7_ios.xctestplan; sourceTree = "<group>"; };
+		BF5DC0F42F6BFA9A001D0F04 /* cc7_tvos.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = cc7_tvos.xctestplan; sourceTree = "<group>"; };
+		BF5DC0F72F6BFD89001D0F04 /* cc7_watchos.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = cc7_watchos.xctestplan; sourceTree = "<group>"; };
 		BF6833BC2EBE137C00BF2561 /* DHKEM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DHKEM.h; sourceTree = "<group>"; };
 		BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DHKEM.cpp; sourceTree = "<group>"; };
 		BF71B3E31D5AB5D800ABE831 /* README.jni.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.jni.txt; sourceTree = "<group>"; };
@@ -1036,6 +1039,9 @@
 		BF498AA31CDCBE8400D7E904 /* CC7TestsWrapper */ = {
 			isa = PBXGroup;
 			children = (
+				BF5DC0F32F6BFA39001D0F04 /* cc7_ios.xctestplan */,
+				BF5DC0F42F6BFA9A001D0F04 /* cc7_tvos.xctestplan */,
+				BF5DC0F72F6BFD89001D0F04 /* cc7_watchos.xctestplan */,
 				BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */,
 				BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */,
 				BF498AA61CDCBE8400D7E904 /* Info.plist */,
@@ -1726,7 +1732,6 @@
 				};
 			};
 			buildConfigurationList = BFB1A6AF1CB5937800B2D172 /* Build configuration list for PBXProject "cc7" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1734,6 +1739,8 @@
 				Base,
 			);
 			mainGroup = BFB1A6AB1CB5937800B2D172;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = BFB1A6B51CB5937800B2D172 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2243,8 +2250,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF5DC0F12F6AF95A001D0F04 /* CC7ObjcTests.mm in Sources */,
-				BF5DC0F22F6AF963001D0F04 /* CC7TestWrapper.mm in Sources */,
+				BF5DC0F52F6BFC67001D0F04 /* CC7TestWrapper.mm in Sources */,
+				BF5DC0F62F6BFC67001D0F04 /* CC7ObjcTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
