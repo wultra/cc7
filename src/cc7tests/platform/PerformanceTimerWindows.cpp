@@ -20,40 +20,32 @@
 #error "This file is designed for Windows platforms only"
 #endif
 
-namespace cc7
+namespace cc7::tests {
+
+static int      s_timebase_initialized = 0;
+static double   s_inv_frequency;
+
+static void _TimerInitialization()
 {
-namespace tests
+    if (!s_timebase_initialized) {
+        LARGE_INTEGER frequency;
+        QueryPerformanceFrequency(&frequency);
+        s_inv_frequency = 1000000.0 / (double)frequency.QuadPart;   // us
+        s_timebase_initialized = 1;
+    }
+}
+
+cc7::U64 Platform_GetCurrentTime()
 {
-    static int      s_timebase_initialized = 0;
-    static double   s_inv_frequency;
+    LARGE_INTEGER time;
+    QueryPerformanceCounter(&time);
+    return time.QuadPart;
+}
 
-    
-    static void _TimerInitialization()
-    {
-        if (!s_timebase_initialized) {
-            LARGE_INTEGER frequency;
-            QueryPerformanceFrequency(&frequency);
-            s_inv_frequency = 1000000.0 / (double)frequency.QuadPart;   // us
-            s_timebase_initialized = 1;
-        }
-    }
+double Platform_GetTimeDiff(cc7::U64 start, cc7::U64 future)
+{
+    _TimerInitialization();
+    return (future - start) * s_inv_frequency;
+}
 
-    cc7::U64 Platform_GetCurrentTime()
-    {
-        LARGE_INTEGER time;
-        QueryPerformanceCounter(&time);
-        return time.QuadPart;
-    }
-    
-    double Platform_GetTimeDiff(cc7::U64 start, cc7::U64 future)
-    {
-        _TimerInitialization();
-        return (future - start) * s_inv_frequency;
-    }
-
-} // cc7::tests
-} // cc7
-
-
-
-
+} // namespace cc7::tests

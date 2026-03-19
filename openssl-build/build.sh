@@ -18,6 +18,8 @@
 # Include common functions...
 # -----------------------------------------------------------------------------
 TOP=$(dirname $0)
+INCLUDE_PATH=$TOP
+
 source "${TOP}/common-functions.sh"
 source "${TOP}/utils.sh"
 source "${TOP}/config.sh"
@@ -30,6 +32,7 @@ DO_ANDROID=0
 DO_PUBLISH=0
 DO_PUBLISH_VER=
 DO_UPLOAD=0
+OPT_SKIP_ARCH_BUILD=0
 GITHUB_ACCESS=
 
 # -----------------------------------------------------------------------------
@@ -60,6 +63,11 @@ function USAGE
     echo "                        file to acquire credentials. Note that token"
     echo "                        must have following scopes: 'public_repo',"
     echo "                        'repo:status' and 'repo_deployment'"
+    echo ""
+    echo "  --skip-arch-build     Skip architecture builds and go directly to"
+    echo "                        library files preparation. The switch is useful"
+    echo "                        when you're debugging the script for library publishing."
+    echo "                        It expects the architectures build passed before."
     echo ""
     echo "  -v0                   turn off all prints to stdout"
     echo "  -v1                   print only basic log about execution progress"
@@ -113,6 +121,9 @@ do
         --github-access)
             GITHUB_ACCESS=$2
             shift
+            ;;
+        --skip-arch-build)
+            OPT_SKIP_ARCH_BUILD=1
             ;;
         -v*)
             SET_VERBOSE_LEVEL_FROM_SWITCH $opt

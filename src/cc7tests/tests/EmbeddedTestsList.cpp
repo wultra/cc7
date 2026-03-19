@@ -26,7 +26,6 @@ namespace tests
         
         // cc7::tests framework tests
         CC7_ADD_UNIT_TEST(tt7Testception, list);
-        CC7_ADD_UNIT_TEST(tt7JSONReaderTests, list);
         
         // cc7 framework tests
         CC7_ADD_UNIT_TEST(cc7PlatformTests, list);
@@ -35,6 +34,32 @@ namespace tests
         CC7_ADD_UNIT_TEST(cc7Base32Tests, list);
         CC7_ADD_UNIT_TEST(cc7Base64Tests, list);
         CC7_ADD_UNIT_TEST(cc7HexStringTests, list);
+        CC7_ADD_UNIT_TEST(TimeTests, list);
+        
+        // cc7/utils framework tests
+        CC7_ADD_UNIT_TEST(URLEncodingTests, list);
+        CC7_ADD_UNIT_TEST(DataWriterReaderTests, list);
+
+        
+        // cc7/crypto framework tests
+        CC7_ADD_UNIT_TEST(ImportKeyTests, list);
+        CC7_ADD_UNIT_TEST(MessageDigestTests, list);
+        CC7_ADD_UNIT_TEST(MACTests, list);
+        CC7_ADD_UNIT_TEST(KeyDerivationTests, list);
+        CC7_ADD_UNIT_TEST(SignatureTests, list);
+        CC7_ADD_UNIT_TEST(KeyAgreementTests, list);
+        CC7_ADD_UNIT_TEST(KeyEncapsulationTests, list);
+        CC7_ADD_UNIT_TEST(CipherTests, list);
+        CC7_ADD_UNIT_TEST(AEADTests, list);
+        CC7_ADD_UNIT_TEST(NonceGeneratorTests, list);
+        CC7_ADD_UNIT_TEST(X509Tests, list);
+        
+        // cc7/json-jwt frameworks tests
+        CC7_ADD_UNIT_TEST(JsonReaderTests, list);
+        CC7_ADD_UNIT_TEST(JsonWriterTests, list);
+        CC7_ADD_UNIT_TEST(JsonValueTests, list);
+        CC7_ADD_UNIT_TEST(JwtTests, list);
+        
         
         // OpenSSL
         CC7_ADD_UNIT_TEST(cc7OpenSSLIntegration, list);

@@ -16,11 +16,17 @@
 
 #pragma once
 
+// core headers
 #include <cc7/Platform.h>
 #include <cc7/DebugFeatures.h>
+#include <cc7/BaseObject.h>
+#include <cc7/BaseException.h>
 #include <cc7/Endian.h>
 #include <cc7/ByteArray.h>
 #include <cc7/Utilities.h>
 #include <cc7/Base32.h>
 #include <cc7/Base64.h>
 #include <cc7/HexString.h>
+
+// crypto module
+#include <cc7/crypto/Crypto.h>

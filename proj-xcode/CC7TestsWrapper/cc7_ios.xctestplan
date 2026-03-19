@@ -1,0 +1,30 @@
+{
+  "configurations" : [
+    {
+      "id" : "AF0204A4-98A2-4C66-83A6-BC5877066FEE",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:cc7.xcodeproj",
+      "identifier" : "BFB1A6B31CB5937800B2D172",
+      "name" : "cc7-ios"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:cc7.xcodeproj",
+        "identifier" : "BF498AA11CDCBE8300D7E904",
+        "name" : "CC7TestsWrapper-ios"
+      }
+    }
+  ],
+  "version" : 1
+}

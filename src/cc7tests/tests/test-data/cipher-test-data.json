@@ -1,0 +1,121 @@
+{
+    "description": "Test data for cc7/crypto/Cipher algorithm",
+    "data": [{
+        "alg" : "AES-128-CTR",
+        "pad" : false,
+        "vectors" : [{
+            "key" : "2b7e151628aed2a6abf7158809cf4f3c",
+            "iv"  : "f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+            "pt"  : "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52ef",
+            "ct"  : "874d6191b620e3261bef6864990db6ce9806f66b7970fdff8617187bb9fffdff5ae4df3edbd5d35e5b4f09020db03eab",
+        }],
+    },{
+        "alg": "AES-256-CTR",
+        "pad" : false,
+        "vectors" : [{
+            "key" : "603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4",
+            "iv"  : "f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+            "pt"  : "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710",
+            "ct"  : "601ec313775789a5b7a7f504bbf3d228f443e3ca4d62b59aca84e990cacaf5c52b0930daa23de94ce87017ba2d84988ddfc9c58db67aada613c2dd08457941a6",
+        }],
+    },{
+        "alg": "AES-128-CBC",
+        "pad" : true,
+        "vectors" : [{
+            "key" : "1f8e4973953f3fb0bd6b16662e9a3c17",
+            "iv"  : "2fe2b333ceda8f98f4a99b40d2cd34a8",
+            "pt"  : "45cf12964fc824ab76616ae2f4bf0822",
+            "ct"  : "0f61c4d44c5147c03c195ad7e2cc12b2",
+        },{
+            "key" : "bbe7b7ba07124ff1ae7c3416fe8b465e",
+            "iv"  : "7f65b5ee3630bed6b84202d97fb97a1e",
+            "pt"  : "2aad0c2c4306568bad7447460fd3dac054346d26feddbc9abd9110914011b4794be2a9a00a519a51a5b5124014f4ed2735480db21b434e99a911bb0b60fe0253763725b628d5739a5117b7ee3aefafc5b4c1bf446467e7bf5f78f31ff7caf187",
+            "ct"  : "3b8611bfc4973c5cd8e982b073b33184cd26110159172e44988eb5ff5661a1e16fad67258fcbfee55469267a12dc374893b4e3533d36f5634c3095583596f135aa8cd1138dc898bc5651ee35a92ebf89ab6aeb5366653bc60a70e0074fc11efe",
+        }],
+    },{
+        "alg": "AES-256-CBC",
+        "pad" : true,
+        "vectors" : [{
+            "key" : "6ed76d2d97c69fd1339589523931f2a6cff554b15f738f21ec72dd97a7330907",
+            "iv"  : "851e8764776e6796aab722dbb644ace8",
+            "pt"  : "6282b8c05c5c1530b97d4816ca434762",
+            "ct"  : "6acc04142e100a65f51b97adf5172c41",
+        },{
+            "key" : "9ddf3745896504ff360a51a3eb49c01b79fccebc71c3abcb94a949408b05b2c9",
+            "iv"  : "e79026639d4aa230b5ccffb0b29d79bc",
+            "pt"  : "cf52e5c3954c51b94c9e38acb8c9a7c76aebdaa9943eae0a1ce155a2efdb4d46985d935511471452d9ee64d2461cb2991d59fc0060697f9a671672163230f367fed1422316e52d29eceacb8768f56d9b80f6d278093c9a8acd3cfd7edd8ebd5c293859f64d2f8486ae1bd593c65bc014",
+            "ct"  : "34df561bd2cfebbcb7af3b4b8d21ca5258312e7e2e4e538e35ad2490b6112f0d7f148f6aa8d522a7f3c61d785bd667db0e1dc4606c318ea4f26af4fe7d11d4dcff0456511b4aed1a0d91ba4a1fd6cd9029187bc5881a5a07fe02049d39368e83139b12825bae2c7be81e6f12c61bb5c5",
+        }],
+    },{
+        "alg": "AES-128-ECB",
+        "pad" : true,
+        "vectors" : [{
+            "key" : "edfdb257cb37cdf182c5455b0c0efebb",
+            "iv"  : "",
+            "pt"  : "1695fe475421cace3557daca01f445ff",
+            "ct"  : "7888beae6e7a426332a7eaa2f808e637",
+        },{
+            "key" : "ebea9c6a82213a00ac1d22faea22116f",
+            "iv"  : "",
+            "pt"  : "451f45663b44fd005f3c288ae57b383883f02d9ad3dc1715f9e3d6948564257b9b06d7dd51935fee580a96bbdfefb918b4e6b1daac809847465578cb8b5356ed38556f801ff7c11ecba9cdd263039c15d05900fc228e1caf302d261d7fb56cee663595b96f192a78ff4455393a5fe8162170a066fdaeac35019469f22b3470686bced2f007a1a2e43e01b4562caaa502ed541b8205874ec1ffb1c8b255766942",
+            "ct"  : "01043053f832ef9b911ed387ba577451e30d51d4b6b11f319d4cd539d067b7f4f9b4f41f7f3d4e920c57cbe2b5e1885aa66203ae493e93a1df63793a9563c176bc6775dd09cc9161e278a01beb8fd8a19200326bd95abc5f716768e34f90b50523d30fdabb103a3bc020afbbb0cb3bd2ad512a6fea79f8d64cef347458dec48be89451cb0b807d73593f273d9fc521b789a77524404f43e00f20b3b77b938b1a",
+        }],
+    },{
+        "alg": "AES-128-GCM",
+        "pad": false,
+        "vectors":[{
+            "key" : "11754cd72aec309bf52f7687212e8957",
+            "iv"  : "3c819d9a9bed087615030b65",
+            "pt"  : "",
+            "ct"  : "",
+            "aad" : "",
+            "tag" : "250327c674aaf477aef2675748cf6971"
+        },{
+            "key" : "952117048f77e276c2ef6580537c1403",
+            "iv"  : "070b8fb46a7ad52885be1b26",
+            "pt"  : "",
+            "ct"  : "",
+            "aad" : "34b088f982818b5f07dabe2b62f9547f4ed09912",
+            "tag" : "bedd4cf30fd7a4abc49bdcc3f3b248b1"
+        },{
+            "key" : "cbd3b8dbfcfb11ce345706e6cd73881a",
+            "iv"  : "dc62bb68d0ec9a5d759d6741",
+            "pt"  : "85f83bf598dfd55bc8bfde2a64",
+            "ct"  : "206f6b3bb032dfecd39f8340b1",
+            "aad" : "0944b661fe6294f3c92abb087ec1b259b032dc4e0c5f28681cbe6e63c2178f474326f35ad3ca80c28e3485e7e5b252c8",
+            "tag" : "425a21b2ea90580c889134032b914bb5"
+        }]
+    },{
+        "alg": "AES-256-GCM",
+        "pad": false,
+        "vectors":[{
+            "key" : "b52c505a37d78eda5dd34f20c22540ea1b58963cf8e5bf8ffa85f9f2492505b4",
+            "iv"  : "516c33929df5a3284ff463d7",
+            "pt"  : "",
+            "ct"  : "",
+            "aad" : "",
+            "tag" : "bdc1ac884d332457a1d2664f168c76f0"
+        },{
+            "key" : "78dc4e0aaf52d935c3c01eea57428f00ca1fd475f5da86a49c8dd73d68c8e223",
+            "iv"  : "d79cf22d504cc793c3fb6c8a",
+            "pt"  : "",
+            "ct"  : "",
+            "aad" : "b96baa8c1c75a671bfb2d08d06be5f36",
+            "tag" : "3e5d486aa2e30b22e040b85723a06e76"
+        },{
+            "key" : "82c4f12eeec3b2d3d157b0f992d292b237478d2cecc1d5f161389b97f999057a",
+            "iv"  : "7b40b20f5f397177990ef2d1",
+            "pt"  : "982a296ee1cd7086afad976945",
+            "ct"  : "ec8e05a0471d6b43a59ca5335f",
+            "aad" : "",
+            "tag" : "113ddeafc62373cac2f5951bb9165249"
+        },{
+            "key" : "5f671466378f470ba5f5160e2209f3d95a48b7e560625d5a08654414de23aee2",
+            "iv"  : "6b3c08a663d04132243dd96c",
+            "pt"  : "c428592d9f8a7f107ec4d0df05",
+            "ct"  : "1d8d7fe4357080c817303ce19c",
+            "aad" : "12965559c31d538f937bda6eee9c93b0387318dc5d9496fb1c3a0b9b978dbfebff2a5823974ee9d679834dbe59f7ec51",
+            "tag" : "e88d6b566fdc7b4fd62106bd2eb806ec"
+        }]
+    }]
+}

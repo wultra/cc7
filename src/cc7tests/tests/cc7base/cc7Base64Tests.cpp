@@ -27,8 +27,16 @@ namespace tests
         cc7Base64Tests()
         {
             CC7_REGISTER_TEST_METHOD(testEncodeDecode);
+            
+            CC7_REGISTER_TEST_METHOD(testBase64DecoderTable);
+            CC7_REGISTER_TEST_METHOD(testBase64UrlDecoderTable);
+
             CC7_REGISTER_TEST_METHOD(testNoWrap);
             CC7_REGISTER_TEST_METHOD(testNoWrapBadData);
+            
+            CC7_REGISTER_TEST_METHOD(testUrl);
+            CC7_REGISTER_TEST_METHOD(testUrlBadData);
+            
             CC7_REGISTER_TEST_METHOD(testWrap);
             CC7_REGISTER_TEST_METHOD(testWrapBadData);
         }
@@ -39,103 +47,33 @@ namespace tests
         {
             // Good scenarios
             ByteArray max_data = getTestRandomData(1025);
-            bool result;
-            for (size_t test_size = 0; test_size < max_data.size(); test_size++) {
-                
+            for (size_t test_size = 0; test_size < max_data.size(); test_size++)
+            {
                 ByteRange source_data = max_data.byteRange().subRangeTo(test_size);
                 std::string plain, padded64, padded76;
-                result = Base64_Encode(source_data, 0, plain);
-                ccstAssertTrue(result);
-                if (!result) return;
-                result = Base64_Encode(source_data, 64, padded64);
-                ccstAssertTrue(result);
-                if (!result) return;
-                result = Base64_Encode(source_data, 76, padded76);
-                ccstAssertTrue(result);
-                if (!result) return;
-                
                 ByteArray plain_dec, padded64_dec, padded76_dec;
-                result = Base64_Decode(plain, 0, plain_dec);
-                ccstAssertTrue(result);
-                if (!result) return;
-                result = plain_dec == source_data;
-                ccstAssertTrue(result);
-                if (!result) return;
                 
-                result = Base64_Decode(padded64, 64, padded64_dec);
-                ccstAssertTrue(result);
-                if (!result) return;
-                result = padded64_dec == source_data;
-                ccstAssertTrue(result);
-                if (!result) return;
+                // classic
+                plain        = Base64::encode(source_data, Base64::NONE);
+                padded64     = Base64::encode(source_data, Base64::WRAP_64);
+                padded76     = Base64::encode(source_data, Base64::WRAP_76);
+                plain_dec    = Base64::decode(plain,       Base64::NONE);
+                padded64_dec = Base64::decode(padded64,    Base64::WRAP_64);
+                padded76_dec = Base64::decode(padded76,    Base64::WRAP_76);
+                ccstAssertEqual(source_data, plain_dec);
+                ccstAssertEqual(source_data, padded64_dec);
+                ccstAssertEqual(source_data, padded76_dec);
                 
-                result = Base64_Decode(padded76, 76, padded76_dec);
-                ccstAssertTrue(result);
-                if (!result) return;
-                result = padded76_dec == source_data;
-                ccstAssertTrue(result);
-                if (!result) return;
+                // url
+                plain        = Base64::urlEncode(source_data);
+                plain_dec    = Base64::urlDecode(plain);
+                ccstAssertEqual(source_data, plain_dec);
             }
         }
-        
-        void testNoWrap()
+                
+        void testBase64DecoderTable()
         {
-            bool result;
-            
-            // Fixed scenarios
-            std::string str1("SGVsbG8gd29ybGQ=");
-            std::string str2("SGVsbG8gd29yZA==");
-            
             ByteArray out;
-            result = Base64_Decode(str1, 0, out);
-            ccstAssertTrue(result);
-            std::string out_str = CopyToString(out);
-            ccstAssertEqual(out_str, "Hello world");
-            
-            result = Base64_Decode(str2, 0, out);
-            ccstAssertTrue(result);
-            out_str = CopyToString(out);
-            ccstAssertEqual(out_str, "Hello word");
-        }
-        
-        void testNoWrapBadData()
-        {
-            bool result;
-            ByteArray out;
-            
-            // Wrong scenarios ... must fail
-            std::string str3("SGVsbG8gd29ybGQ");
-            std::string str4("SGVsbG8gd29yZA=");
-            std::string str5("SGVs_G8gd29ybGQ=");
-            std::string str6("SGVsbG8gd29y?A==");
-            std::string str7("SGVsbG8gd29ybA=X");
-            std::string str8("SGVsbG8gd29yb===");
-            std::string str9("SGVsbG8gd29y====");
-            std::string strA("SGV=bG8gd29ybGQ=");
-            std::string strB("SGVsbG8gd29yZA==\n");
-            std::string strC(" SGVsbG8gd29yZA==");
-            
-            result = Base64_Decode(str3, 0, out);
-            ccstAssertFalse(result);
-            result = Base64_Decode(str4, 0, out);
-            ccstAssertFalse(result);
-            result = Base64_Decode(str5, 0, out);
-            ccstAssertFalse(result);
-            result = Base64_Decode(str6, 0, out);
-            ccstAssertFalse(result);
-            result = Base64_Decode(str7, 0, out);
-            ccstAssertFalse(result);
-            result = Base64_Decode(str8, 0, out);
-            ccstAssertFalse(result);
-            result = Base64_Decode(str9, 0, out);
-            ccstAssertFalse(result);
-            result = Base64_Decode(strA, 0, out);
-            ccstAssertFalse(result);
-            result = Base64_Decode(strB, 0, out);
-            ccstAssertFalse(result);
-            result = Base64_Decode(strC, 0, out);
-            ccstAssertFalse(result);
-            
             // Check if internal decoder table is correct
             const char * valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
             std::string valid("SGVs");
@@ -148,27 +86,184 @@ namespace tests
                 }
                 byte uc = i & 0xff;
                 wrong[ 0 ] = uc;
-                bool result = Base64_Decode(wrong, 0, out);
-                ccstAssertFalse(result);
+                try {
+                    out = Base64::decode(wrong, 0);
+                    ccstFailure("Should fail");
+                } catch (...) {}
                 wrong[ 0 ] = 'x';
                 wrong[ 1 ] = uc;
-                result = Base64_Decode(wrong, 0, out);
-                ccstAssertFalse(result);
+                try {
+                    out = Base64::decode(wrong, 0);
+                    ccstFailure("Should fail");
+                } catch (...) {}
                 wrong[ 1 ] = 'x';
                 wrong[ 2 ] = uc;
-                result = Base64_Decode(wrong, 0, out);
-                ccstAssertFalse(result);
+                try {
+                    out = Base64::decode(wrong, 0);
+                    ccstFailure("Should fail");
+                } catch (...) {}
                 if (uc == '=') {
                     // Next validation makes no sense if injected char is padding marker
                     continue;
                 }
                 wrong[ 2 ] = 'x';
                 wrong[ 3 ] = uc;
-                result = Base64_Decode(wrong, 0, out);
-                ccstAssertFalse(result);
+                try {
+                    out = Base64::decode(wrong, 0);
+                    ccstFailure("Should fail");
+                } catch (...) {}
             }
         }
         
+        void testBase64UrlDecoderTable()
+        {
+            ByteArray out;
+            // Check if internal decoder table is correct
+            const char * valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+            std::string valid("SGVs");
+            for (int i = 0; i <= 0xff; i++) {
+                // inject wrong character...
+                std::string wrong = valid;
+                if (strchr(valid_chars, i) != NULL) {
+                    // this is valid character
+                    continue;
+                }
+                byte uc = i & 0xff;
+                wrong[ 0 ] = uc;
+                try {
+                    out = Base64::urlDecode(wrong);
+                    ccstFailure("Should fail");
+                } catch (...) {}
+                wrong[ 0 ] = 'x';
+                wrong[ 1 ] = uc;
+                try {
+                    out = Base64::urlDecode(wrong);
+                    ccstFailure("Should fail");
+                } catch (...) {}
+                wrong[ 1 ] = 'x';
+                wrong[ 2 ] = uc;
+                try {
+                    out = Base64::urlDecode(wrong);
+                    ccstFailure("Should fail");
+                } catch (...) {}
+                if (uc == '=') {
+                    // Next validation makes no sense if injected char is padding marker
+                    continue;
+                }
+                wrong[ 2 ] = 'x';
+                wrong[ 3 ] = uc;
+                try {
+                    out = Base64::urlDecode(wrong);
+                    ccstFailure("Should fail");
+                } catch (...) {}
+            }
+        }
+
+        void testNoWrap()
+        {
+            // Fixed scenarios
+            std::string str1("SGVsbG8gd29ybGQ=");
+            std::string str2("SGVsbG8gd29yZA==");
+            std::string str3("SGVsbG9+d29ybGQh");
+            std::string str4("Kyc/dm9hbC1eQg==");
+            
+            std::string out_str = CopyToString(Base64::decode(str1));
+            ccstAssertEqual(out_str, "Hello world");
+            
+            out_str = CopyToString(Base64::decode(str2));
+            ccstAssertEqual(out_str, "Hello word");
+            
+            out_str = CopyToString(Base64::decode(str3));
+            ccstAssertEqual(out_str, "Hello~world!");
+            
+            out_str = CopyToString(Base64::decode(str4));
+            ccstAssertEqual(out_str, "+'?voal-^B");
+        }
+        
+        void testNoWrapBadData()
+        {
+            ByteArray out;
+            std::vector<std::string> bad_data {
+                "SGVsbG9-d29ybGQh",
+                "Kyc_dm9hbC1eQg=="
+                "SGVsbG8gd29ybGQ",
+                "SGVsbG8gd29yZA=",
+                "SGVs_G8gd29ybGQ=",
+                "SGVsbG8gd29y?A==",
+                "SGVsbG8gd29ybA=X",
+                "SGVsbG8gd29yb===",
+                "SGVsbG8gd29y====",
+                "SGV=bG8gd29ybGQ=",
+                "SGVsbG8gd29yZA==\n",
+                " SGVsbG8gd29yZA==",
+            };
+            for (auto data : bad_data) {
+                try {
+                    auto out = Base64::decode(data);
+                    ccstFailure("Should fail: %s", + data.c_str());
+                } catch (std::domain_error& e) {
+                    // OK
+                } catch (...) {
+                    ccstFailure("Unexpected exception: %s", + data.c_str());
+                }
+            }
+        }
+        
+        void testUrl()
+        {
+            // Fixed scenarios
+            std::string str1("SGVsbG8gd29ybGQ");
+            std::string str2("SGVsbG8gd29yZA");
+            std::string str3("SGVsbG9-d29ybGQh");
+            std::string str4("Kyc_dm9hbC1eQg");
+            std::string str5("eyJ0ZXh0Ijoixb7DtMW-w6QifQ");
+
+            std::string out_str = CopyToString(Base64::urlDecode(str1));
+            ccstAssertEqual(out_str, "Hello world");
+            
+            out_str = CopyToString(Base64::urlDecode(str2));
+            ccstAssertEqual(out_str, "Hello word");
+            
+            out_str = CopyToString(Base64::urlDecode(str3));
+            ccstAssertEqual(out_str, "Hello~world!");
+            
+            out_str = CopyToString(Base64::urlDecode(str4));
+            ccstAssertEqual(out_str, "+'?voal-^B");
+            
+            out_str = CopyToString(Base64::urlDecode(str5));
+            ccstAssertEqual(out_str, u8"{\"text\":\"žôžä\"}");
+        }
+
+        void testUrlBadData()
+        {
+            ByteArray out;
+            std::vector<std::string> bad_data {
+                "SGVsbG8gd29ybGQ=",
+                "SGVsbG8gd29yZA==",
+                "SGVsbG9+d29ybGQh",
+                "Kyc/dm9hbC1eQg==",
+                "SGVsbG8gd29yZA=",
+                "SGVs_G8gd29ybGQ=",
+                "SGVsbG8gd29y?A==",
+                "SGVsbG8gd29ybA=X",
+                "SGVsbG8gd29yb===",
+                "SGVsbG8gd29y====",
+                "SGV=bG8gd29ybGQ=",
+                "SGVsbG8gd29yZA==\n",
+                " SGVsbG8gd29yZA==",
+            };
+            for (auto data : bad_data) {
+                try {
+                    auto out = Base64::urlDecode(data);
+                    ccstFailure("Should fail: %s", + data.c_str());
+                } catch (std::domain_error& e) {
+                    // OK
+                } catch (...) {
+                    ccstFailure("Unexpected exception: %s", + data.c_str());
+                }
+            }
+        }
+
         void testWrap()
         {
             std::string input("TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2Np\n"
@@ -190,58 +285,52 @@ namespace tests
                                             " proident, sunt in culpa qui officia deserunt mollit anim id"
                                             " est laborum.";
             ByteArray output_data;
-            bool result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             std::string output = CopyToString(output_data);
             ccstAssertEqual(expected_output, output);
             
             input.insert(0, "\n");
             input.append("\n");
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             output = CopyToString(output_data);
             ccstAssertEqual(expected_output, output);
             
             input = "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2Np";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             output = CopyToString(output_data);
             ccstAssertEqual("Lorem ipsum dolor sit amet, consectetur adipisci", output);
             
             input = "                            TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2Np                         ";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             output = CopyToString(output_data);
             ccstAssertEqual("Lorem ipsum dolor sit amet, consectetur adipisci", output);
 
             input = "\n\n  \nTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2Np\n\n  \n\n\n";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             output = CopyToString(output_data);
             ccstAssertEqual("Lorem ipsum dolor sit amet, consectetur adipisci", output);
             
             input = "\nTG9y\nZW0g\naXBz\ndW0g\nZG9s\nb3Ig\nc2l0\nIGFt\nZXQs\nIGNv\nbnNl\nY3Rl\ndHVy\nIGFk\naXBp\nc2Np\n\n";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             output = CopyToString(output_data);
             ccstAssertEqual("Lorem ipsum dolor sit amet, consectetur adipisci", output);
             
             // various non empty strings leading to empty data
             input = "                                    ";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             ccstAssertEqual(output_data.size(), 0);
             input = " ";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             ccstAssertEqual(output_data.size(), 0);
             input = "  ";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             ccstAssertEqual(output_data.size(), 0);
+            input = " \t ";
+            output_data = Base64::decode(input, 64);
+            ccstAssertEqual(output_data.size(), 0);
+
             input = "";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertTrue(result);
+            output_data = Base64::decode(input, 64);
             ccstAssertEqual(output_data.size(), 0);
         }
         
@@ -249,17 +338,26 @@ namespace tests
         {
             std::string input;
             ByteArray output_data;
-            bool result;
-            
-            input = "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2N\n"
-                    "bmcgZWxpdCwgc2VkIGRvIGVpdXNtb2QgdGVtcG9yIGluY2lkaWR1bnQgdXQgbG==\n";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertFalse(result);
-            
-            input = "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2N=\n"
-                    "bmcgZWxpdCwgc2VkIGRvIGVpdXNtb2QgdGVtcG9yIGluY2lkaWR1bnQgdXQgbG==\n";
-            result = Base64_Decode(input, 64, output_data);
-            ccstAssertFalse(result);
+            try {
+                input = "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2N\n"
+                        "bmcgZWxpdCwgc2VkIGRvIGVpdXNtb2QgdGVtcG9yIGluY2lkaWR1bnQgdXQgbG==\n";
+                output_data = Base64::decode(input, 64);
+                ccstFailure("Should fail");
+            } catch (std::domain_error & e) {
+                // expected
+            } catch (...) {
+                ccstFailure("Unexpected exception");
+            }
+            try {
+                input = "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2N=\n"
+                        "bmcgZWxpdCwgc2VkIGRvIGVpdXNtb2QgdGVtcG9yIGluY2lkaWR1bnQgdXQgbG==\n";
+                output_data = Base64::decode(input, 64);
+                ccstFailure("Should fail");
+            } catch (std::domain_error & e) {
+                // expected
+            } catch (...) {
+                ccstFailure("Unexpected exception");
+            }
         }
     };
     

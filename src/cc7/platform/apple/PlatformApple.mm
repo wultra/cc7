@@ -23,52 +23,48 @@
 #pragma mark - Assertion log
 
 #if defined(ENABLE_CC7_ASSERT)
-namespace cc7
+namespace cc7::debug {
+
+static void private_DumpAssertToLog(void * foo, const char * file, int line, const char * message)
 {
-namespace debug
+    NSLog(@"%@", [NSString stringWithUTF8String:message]);
+    //
+    // Break execution with using software breakpoint.
+    //
+    CC7_BREAKPOINT();
+}
+
+AssertionHandlerSetup Platform_GetDefaultAssertionHandler()
 {
-    static void private_DumpAssertToLog(void * foo, const char * file, int line, const char * message)
-    {
-        NSLog(@"%@", [NSString stringWithUTF8String:message]);
-        //
-        // Break execution with using software breakpoint.
-        //
-        CC7_BREAKPOINT();
-    }
-    
-    AssertionHandlerSetup Platform_GetDefaultAssertionHandler()
-    {
-        static AssertionHandlerSetup s_default_setup = { private_DumpAssertToLog, nullptr };
-        return s_default_setup;
-    }
-} // cc7::debug
-} // cc7
+    static AssertionHandlerSetup s_default_setup = { private_DumpAssertToLog, nullptr };
+    return s_default_setup;
+}
+
+} // namespace cc7::debug
 #endif
 
 #pragma mark - Debug log
 
 #if defined(ENABLE_CC7_LOG)
-namespace cc7
+namespace cc7::debug {
+
+static void private_LogImpl(void * foo, const char * message)
 {
-namespace debug
+    NSLog(@"CC7: %@", [NSString stringWithUTF8String:message]);
+}
+
+LogHandlerSetup Platform_GetDefaultLogHandler()
 {
-    static void private_LogImpl(void * foo, const char * message)
-    {
-        NSLog(@"CC7: %@", [NSString stringWithUTF8String:message]);
-    }
-    
-    LogHandlerSetup Platform_GetDefaultLogHandler()
-    {
-        static LogHandlerSetup s_default_setup = { private_LogImpl, nullptr };
-        return s_default_setup;
-    }
-    
-    bool Platform_IsDefaultLogEnabled()
-    {
-        return false;
-    }
-} // cc7::debug
-} // cc7
+    static LogHandlerSetup s_default_setup = { private_LogImpl, nullptr };
+    return s_default_setup;
+}
+
+bool Platform_IsDefaultLogEnabled()
+{
+    return false;
+}
+
+} // namespace cc7::debug
 #endif //ENABLE_CC7_LOG
 
 /*

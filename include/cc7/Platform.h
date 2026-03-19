@@ -66,6 +66,7 @@
         // Pure C
         #include <stdlib.h>
         #include <string.h>
+        #include <assert.h>
     #endif
     #include "TargetConditionals.h"
     // Switch between iOS & OSX & Others...
@@ -105,6 +106,7 @@
     // -------------------------------------------------------------------
     #include <stdlib.h>
     #include <string.h>
+    #include <assert.h>
     //
     #define CC7_ANDROID
     CC7_EXTERN_C void OPENSSL_cleanse(void *ptr, size_t len);
@@ -129,6 +131,7 @@
     #include <Windows.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <assert.h>
     //
     #define CC7_WINDOWS
     #define CC7_LITTLE_ENDIAN
@@ -143,6 +146,7 @@
     #include <Windows.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <assert.h>
     //
     #define CC7_WINDOWS
     #define CC7_LITTLE_ENDIAN
@@ -269,6 +273,9 @@
     // C++
     #include <string>
     #include <vector>
+    #include <stdexcept>
+    #include <memory>
+    #include <new>
 
     namespace cc7
     {
@@ -279,5 +286,16 @@
         typedef uint64_t    U64;
         
     } // cc7
+
+#define CC7_SHARED_PTR(Class)                                   \
+    typedef std::shared_ptr<Class> Class##Ptr;                  \
+    typedef std::shared_ptr<const Class> Const##Class##Ptr;     \
+    typedef std::weak_ptr<Class> Class##WeakPtr;                \
+    typedef std::weak_ptr<const Class> Const##Class##WeakPtr;
+
+    // compat
+    #if defined(CC7_NO_EXCEPTIONS)
+    #Warning "CC7_NO_EXCEPTIONS is no longer supported"
+    #endif
 
 #endif //__cplusplus

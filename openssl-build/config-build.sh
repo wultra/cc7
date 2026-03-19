@@ -18,21 +18,23 @@ OPENSSL_CONF_PARAMS+=" no-scrypt no-blake2 no-siphash"
 # -----------------------------------------------------------------------------
 # Apple specific
 #  - Note that we don't build all architectures and platforms. 
-#    The following lists exclude watchOS and macOSX variants from the build.
+#    The following lists exclude macOSX variants from the build.
 
-APPLE_PLATFORMS="iOS iOS_Simulator macOS_Catalyst tvOS tvOS_Simulator"
+APPLE_PLATFORMS="iOS iOS_Simulator macOS_Catalyst tvOS tvOS_Simulator watchOS watchOS_Simulator"
 APPLE_REF_PLATFORM="iOS"
 APPLE_TARGETS="ios-sim-cross-x86_64 ios-sim-cross-arm64"
 APPLE_TARGETS+=" ios64-cross-arm64"
 APPLE_TARGETS+=" mac-catalyst-x86_64 mac-catalyst-arm64"
 APPLE_TARGETS+=" tvos-sim-cross-x86_64 tvos-sim-cross-arm64"
 APPLE_TARGETS+=" tvos64-cross-arm64"
+APPLE_TARGETS+=" watchos-sim-cross-arm64 watchos-sim-cross-x86_64"
+APPLE_TARGETS+=" watchos-cross-arm64_32 watchos-cross-armv7k"
 # APPLE_TARGETS+=" macos64-x86_64 macos64-arm64"
 
 # Minimum system versions
-APPLE_IOS_MIN_SDK="12.0"
-APPLE_TVOS_MIN_SDK="12.0"
-APPLE_CATALYST_MIN_SDK="12.0"
+APPLE_IOS_MIN_SDK="13.0"
+APPLE_TVOS_MIN_SDK="13.0"
+APPLE_CATALYST_MIN_SDK="13.0"
 APPLE_WATCHOS_MIN_SDK="4.0"
 APPLE_OSX_MIN_SDK="11.0"
 
@@ -40,8 +42,8 @@ APPLE_OSX_MIN_SDK="11.0"
 # Android specific
 
 ANDROID_ARCHITECTURES="armeabi-v7a arm64-v8a x86 x86_64" 
-ANDROID_API_LEVEL_32="19"
-ANDROID_API_LEVEL_64="21"	# 64-bit archs were introduced in API lvl 21
+ANDROID_API_LEVEL_32="21"   # LTS NDK r27 supports API lvl 21+
+ANDROID_API_LEVEL_64="21"	# 64-bits were introduced in API lvl 21
 
 # -----------------------------------------------------------------------------
 # Other params

@@ -134,7 +134,11 @@ function PUBLISH_COMMIT_CHANGES
 
     local rel_json="$GHC_TMP/rel.json"
     
-    GITHUB_CREATE_RELEASE "${CC7_VERSION}" "${CC7_VERSION}" '- TBA' false false "$rel_json"
+    local pre_release='false'
+    if [ x$VERSION_PRE_RELEASE == x1 ]; then
+        pre_release='true'
+    fi
+    GITHUB_CREATE_RELEASE "${CC7_VERSION}" "${CC7_VERSION}" '- TBA' false $pre_release "$rel_json"
     
     PUBLISH_UPLOAD_ARTIFACT "$rel_json" "${OPENSSL_DEST_ANDROID_PATH}"
     PUBLISH_UPLOAD_ARTIFACT "$rel_json" "${OPENSSL_DEST_APPLE_PATH}"

@@ -16,62 +16,59 @@
 
 #import <cc7/objc/ObjcHelper.h>
 
-namespace cc7
+namespace cc7::objc {
+
+NSData * CopyToNSData(const cc7::ByteRange & range)
 {
-namespace objc
+    return [[NSData alloc] initWithBytes:range.data() length:range.size()];
+}
+
+NSString * CopyToNSString(const std::string & string)
 {
-    NSData * CopyToNSData(const cc7::ByteRange & range)
-    {
+    return [[NSString alloc] initWithUTF8String:string.c_str()];
+}
+
+NSData * CopyToNullableNSData(const cc7::ByteRange & range)
+{
+    if (!range.empty()) {
         return [[NSData alloc] initWithBytes:range.data() length:range.size()];
     }
-    
-    NSString * CopyToNSString(const std::string & string)
-    {
+    return nil;
+}
+
+NSString * CopyToNullableNSString(const std::string & string)
+{
+    if (!string.empty()) {
         return [[NSString alloc] initWithUTF8String:string.c_str()];
     }
-    
-    NSData * CopyToNullableNSData(const cc7::ByteRange & range)
-    {
-        if (!range.empty()) {
-            return [[NSData alloc] initWithBytes:range.data() length:range.size()];
-        }
-        return nil;
+    return nil;
+}
+
+ByteArray CopyFromNSData(NSData * data)
+{
+    ByteArray result;
+    if (data) {
+        result.assign(ByteRange(data.bytes, data.length));
     }
-    
-    NSString * CopyToNullableNSString(const std::string & string)
-    {
-        if (!string.empty()) {
-            return [[NSString alloc] initWithUTF8String:string.c_str()];
-        }
-        return nil;
+    return result;
+}
+
+std::string CopyFromNSString(NSString * string)
+{
+    std::string result;
+    if (string) {
+        result.assign(string.UTF8String);
     }
-    
-    ByteArray CopyFromNSData(NSData * data)
-    {
-        ByteArray result;
-        if (data) {
-            result.assign(ByteRange(data.bytes, data.length));
-        }
-        return result;
+    return result;
+}
+
+ByteArray CopyFromNSStringToByteArray(NSString * string)
+{
+    ByteArray result;
+    if (string) {
+        result.assign(cc7::MakeRange(string.UTF8String));
     }
+    return result;
+}
     
-    std::string CopyFromNSString(NSString * string)
-    {
-        std::string result;
-        if (string) {
-            result.assign(string.UTF8String);
-        }
-        return result;
-    }
-    
-    ByteArray CopyFromNSStringToByteArray(NSString * string)
-    {
-        ByteArray result;
-        if (string) {
-            result.assign(cc7::MakeRange(string.UTF8String));
-        }
-        return result;
-    }
-    
-} // cc7::objc
-} // cc7
+} // namespace cc7::objc

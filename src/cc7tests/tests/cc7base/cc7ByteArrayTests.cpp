@@ -35,6 +35,9 @@ namespace tests
             CC7_REGISTER_TEST_METHOD(testRelationalOperators)
             CC7_REGISTER_TEST_METHOD(testOtherMethods)
             CC7_REGISTER_TEST_METHOD(testIterators)
+            CC7_REGISTER_TEST_METHOD(testZeroRanges)
+            CC7_REGISTER_TEST_METHOD(testConcatVector)
+            CC7_REGISTER_TEST_METHOD(testConcatInitializer)
         }
         
         // Helper methods
@@ -320,6 +323,15 @@ namespace tests
             ccstAssertEqual(a1[7], 8);
             ccstAssertEqual(a1[8], 9);
             ccstAssertEqual(a1[9], 0xff);
+            try {
+                if (a1.at(99) == 0) {
+                    ccstFailure("at() must raise exception.");
+                } else {
+                    ccstFailure("at() must raise exception.");
+                }
+            } catch (std::exception & exc) {
+                ccstMessage("Correct: %s", exc.what());
+            }
         }
         
         void testRelationalOperators()
@@ -391,7 +403,7 @@ namespace tests
                 ccstAssertEqual(cc7::CopyToString(a2), "");
             }
         }
-        
+                
         void testIterators()
         {
             ByteArray a1 = { 1, 2, 3, 4, 5, 6, 7, 8 };
@@ -399,6 +411,64 @@ namespace tests
             ccstAssertEqual(a2, ByteArray({8, 7, 6, 5, 4, 3, 2, 1}));
         }
         
+        void testZeroRanges()
+        {
+            for (size_t s = 0; s < ByteRange::MAX_ZERO_BYTES_SIZE; s++) {
+                auto range = ByteRange::zero(s);
+                auto array = ByteArray::zero(s);
+                ccstAssertEqual(range, array);
+                for (size_t i = 0; i < s; i++) {
+                    ccstAssertTrue(array[i] == 0);
+                }
+            }
+            for (size_t s = ByteRange::MAX_ZERO_BYTES_SIZE; s < 2*ByteRange::MAX_ZERO_BYTES_SIZE; s++) {
+                auto array = ByteArray::zero(s);
+                for (size_t i = 0; i < s; i++) {
+                    ccstAssertTrue(array[i] == 0);
+                }
+            }
+        }
+        
+        void testConcatInitializer()
+        {
+            auto data = ConcatByteRanges({});
+            ccstAssertTrue(data.empty());
+            data = ConcatByteRanges({
+                MakeRange("hello"),
+                MakeRange(cc7::byte(32)),
+                MakeRange("world!")
+            });
+            auto expected = "hello world!";
+            ccstAssertEqual(cc7::MakeRange(expected), data);
+            data = ConcatByteRanges({
+                ByteRange(),
+                ByteRange(),
+                ByteRange(),
+                ByteRange()
+            });
+            ccstAssertTrue(data.empty());
+        }
+        
+        void testConcatVector()
+        {
+            auto data = ConcatByteRanges(std::vector<ByteRange>{});
+            ccstAssertTrue(data.empty());
+            data = ConcatByteRanges(std::vector<ByteRange> {
+                MakeRange("hello"),
+                MakeRange(cc7::byte(32)),
+                MakeRange("world!")
+            });
+            auto expected = "hello world!";
+            ccstAssertEqual(MakeRange(expected), data);
+            data = ConcatByteRanges(std::vector<ByteRange> {
+                ByteRange(),
+                ByteRange(),
+                ByteRange(),
+                ByteRange()
+            });
+            ccstAssertTrue(data.empty());
+        }
+
     };
     
     CC7_CREATE_UNIT_TEST(cc7ByteArrayTests, "cc7")

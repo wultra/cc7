@@ -15,53 +15,48 @@
  */
 
 #include <cc7tests/PerformanceTimer.h>
-#include <cc7tests/detail/StringUtils.h>
+#include <cc7/detail/StringUtils.h>
 #include <math.h>
 
-namespace cc7
+namespace cc7::tests {
+    
+PerformanceTimer::PerformanceTimer() :
+    _base(Platform_GetCurrentTime())
 {
-namespace tests
+}
+
+
+void PerformanceTimer::start()
 {
-    
-    PerformanceTimer::PerformanceTimer() :
-        _base(Platform_GetCurrentTime())
-    {
+    _base = Platform_GetCurrentTime();
+}
+
+
+double PerformanceTimer::elapsedTime()
+{
+    return Platform_GetTimeDiff(_base, Platform_GetCurrentTime());
+}
+
+
+double PerformanceTimer::measureBlock(std::function<void()> block)
+{
+    start();
+    block();
+    return elapsedTime();
+}
+
+
+std::string PerformanceTimer::humanReadableTime(double time)
+{
+    double seconds      = floor(time / 1000.0);
+    double minutes      = floor(seconds / 60.0);
+    double milliseconds = (time - seconds * 1000.0);
+    if (minutes > 0) {
+        return detail::FormattedString("%.0fm %.3fs", minutes, seconds);
+    } else if (seconds > 0) {
+        return detail::FormattedString("%.3fs", time / 1000);
     }
+    return detail::FormattedString("%.3fms", milliseconds);
+}
     
-    
-    void PerformanceTimer::start()
-    {
-        _base = Platform_GetCurrentTime();
-    }
-    
-    
-    double PerformanceTimer::elapsedTime()
-    {
-        return Platform_GetTimeDiff(_base, Platform_GetCurrentTime());
-    }
-    
-    
-    double PerformanceTimer::measureBlock(std::function<void()> block)
-    {
-        start();
-        block();
-        return elapsedTime();
-    }
-    
-    
-    std::string PerformanceTimer::humanReadableTime(double time)
-    {
-        double seconds      = floor(time / 1000.0);
-        double minutes      = floor(seconds / 60.0);
-        double milliseconds = (time - seconds * 1000.0);
-        if (minutes > 0) {
-            return detail::FormattedString("%.0fm %.3fs", minutes, seconds);
-        } else if (seconds > 0) {
-            return detail::FormattedString("%.3fs", time / 1000);
-        }
-        return detail::FormattedString("%.3fms", milliseconds);
-    }
-    
-    
-} // cc7::tests
-} // cc7
+} // namespace cc7::tests

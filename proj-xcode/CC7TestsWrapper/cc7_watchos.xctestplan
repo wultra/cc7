@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "8FD72F75-404B-4C94-8542-2C1D280F00E4",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:cc7.xcodeproj",
+        "identifier" : "BFB42CBC2F6AA50900AB063D",
+        "name" : "CC7TestsWrapper-watchos"
+      }
+    }
+  ],
+  "version" : 1
+}

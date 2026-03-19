@@ -21,6 +21,8 @@ if [ -z "$OPENSSL_VERSION" ]; then
     exit 1
 fi
 
+source "${INCLUDE_PATH}/ndk-helper.sh"
+
 REQUIRE_COMMAND clang
 REQUIRE_COMMAND tail
 
@@ -73,7 +75,9 @@ function BUILD_ANDROID
     
     for ABI in ${ANDROID_ARCHITECTURES}
     do
-        BUILD_ANDROID_ARCH $ABI "${TMP_PATH}"
+        if [ x$OPT_SKIP_ARCH_BUILD == x0 ]; then
+            BUILD_ANDROID_ARCH $ABI "${TMP_PATH}"
+        fi
     done
     # Make platform switch header
     BUILD_ANDROID_PLATFORM_SWITCH "${OPENSSL_DEST_ANDROID}/include"
@@ -264,7 +268,13 @@ function BUILD_ANDROID_PLATFORM_SWITCH
     LOG "Preparing platform switch to configuration.h..."
     
     if [ ${#ANDROID_CONF_ALL[@]} -eq 0 ]; then
-        FAILURE "No architecture has been produced (e.g. \$ANDROID_CONF_ALL array is empty)"
+        if [ x$OPT_SKIP_ARCH_BUILD == x0 ]; then
+            FAILURE "No architecture has been produced (e.g. \$ANDROID_CONF_ALL array is empty)"
+        else
+            # TODO: It would be better to repopulate headers for skip-arch-build switch, just like on apple build
+            WARNING "No architecture has been produced (e.g. \$ANDROID_CONF_ALL array is empty)"
+            return
+        fi
     fi
         
     # Copy template file into the final configuration file
@@ -309,57 +319,4 @@ function BUILD_ANDROID_PLATFORM_SWITCH
     echo "#else"                                                    >> "${DEST_CONF}"
     echo "#   error Unable to determine platform in OpenSSL build"  >> "${DEST_CONF}"
     echo "#endif"                                                   >> "${DEST_CONF}"
-}
-
-# -----------------------------------------------------------------------------
-# BUILD_ANDROID_LOOK_FOR_NDK search for NDK in various environment variables
-# and set such path into ANDROID_BUILD_NDK_HOME global variable.
-# Following variables are evaluated:
-#  - ANDROID_NDK_HOME
-#  - ANDROID_NDK
-#  - NDK_HOME
-#  - NDK_ROOT
-#  - ANDROID_HOME/ndk-bundle
-#  - ANDROID_SDK/ndk-bundle
-# -----------------------------------------------------------------------------
-function BUILD_ANDROID_LOOK_FOR_NDK
-{
-    local sdk_path=
-    local ndk_source=
-    if [ ! -z "${ANDROID_BUILD_NDK_HOME}" ]; then
-        return  # already set to global var
-    elif [ ! -z "${ANDROID_NDK_USER_HOME}" ]; then
-        ANDROID_BUILD_NDK_HOME="${ANDROID_NDK_USER_HOME}"
-        ndk_source='ANDROID_NDK_USER_HOME'
-    elif [ ! -z "${ANDROID_NDK_HOME}" ]; then
-        ANDROID_BUILD_NDK_HOME="${ANDROID_NDK_HOME}"
-        ndk_source='ANDROID_NDK_HOME'
-    elif [ ! -z "${ANDROID_NDK}" ]; then
-        ANDROID_BUILD_NDK_HOME="${ANDROID_NDK}"
-        ndk_source='ANDROID_NDK'
-    elif [ ! -z "${NDK_HOME}" ]; then
-        ANDROID_BUILD_NDK_HOME="${NDK_HOME}"
-        ndk_source='NDK_HOME'
-    elif [ ! -z "${NDK_ROOT}" ]; then
-        ANDROID_BUILD_NDK_HOME="${NDK_ROOT}"
-        ndk_source='NDK_ROOT'
-    elif [ ! -z "${ANDROID_HOME}" ]; then
-        sdk_path="${ANDROID_HOME}"
-        ndk_source='ANDROID_HOME'
-    elif [ ! -z "${ANDROID_SDK}" ]; then
-        sdk_path="${ANDROID_SDK}"
-        ndk_source='ANDROID_SDK'
-    else
-        FAILURE "Unable to determine location of Android NDK."
-    fi
-    if [ ! -z "$sdk_path" ]; then
-        if [ -d "$sdk_path/ndk-bundle" ]; then
-            ANDROID_BUILD_NDK_HOME="$sdk_path/ndk-bundle"
-            ndk_source+='/ndk-bundle'
-        else
-            FAILURE "Unable to determine location of Android NDK from SDK folder."
-        fi
-    fi
-    [[ ! -d "${ANDROID_BUILD_NDK_HOME}" ]] && FAILURE "Android NDK located via variable \$${ndk_source}, but directory doesn't exist: ${ANDROID_BUILD_NDK_HOME}"
-    DEBUG_LOG "Android NDK located via variable \$${ndk_source} at path: ${ANDROID_BUILD_NDK_HOME}"
 }

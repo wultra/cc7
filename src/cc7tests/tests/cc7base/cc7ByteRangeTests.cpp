@@ -153,17 +153,6 @@ namespace tests
                 ccstAssertEqual(s1[i], r1[i]);
                 ccstAssertEqual(s1[i], r1.at(i));
             }
-            
-            try {
-                if (r1[99] == 77) {
-                    ccstMessage("What a fortune. We have seventy-seven!");
-                } else {
-                    ccstMessage("Bad luck, no double sevens returned :(");
-                }
-            } catch (std::exception & exc) {
-                ccstFailure("operator[] should not raise exception.");
-            }
-            
             try {
                 if (r1.at(99) == 0) {
                     ccstFailure("at() must raise exception.");

@@ -18,21 +18,31 @@
 
 #include <cc7/Platform.h>
 
-namespace cc7
+namespace cc7::utilities {
+
+template<size_t Align> size_t AlignValue(size_t value)
 {
-namespace utilities
-{
-    template<size_t Align> size_t AlignValue(size_t value)
-    {
-        static_assert(Align > 0, "Align must be greater than 0");
-        static_assert((Align & (~Align + 1)) == Align, "Align must be power of 2");
-                      
-        if (value) {
-            return (value + (Align - 1)) & ~(Align - 1);
-        }
-        return Align;
+    static_assert(Align > 0, "Align must be greater than 0");
+    static_assert((Align & (~Align + 1)) == Align, "Align must be power of 2");
+                  
+    if (value) {
+        return (value + (Align - 1)) & ~(Align - 1);
     }
+    return Align;
+}
 
-} // cc7::utilities
-} // cc7
+template<size_t Align> size_t AlignValueUp(size_t value)
+{
+    static_assert(Align > 0, "Align must be greater than 0");
+    static_assert((Align & (~Align + 1)) == Align, "Align must be power of 2");
+                  
+    return (value + Align + (Align - 1)) & ~(Align - 1);
+}
 
+struct VaListGuard
+{
+    va_list& ref;
+    ~VaListGuard() { va_end(ref); }
+};
+
+} // namespace cc7::utilities
