@@ -235,6 +235,8 @@
 		BF5DC0EE2F6AE763001D0F04 /* libcc7-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8EEC0E26662A01009AC5FD /* libcc7-macos.a */; };
 		BF5DC0EF2F6AE778001D0F04 /* libcc7-watchos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB42C8B2F6A9F8C00AB063D /* libcc7-watchos.a */; };
 		BF5DC0F02F6AE77E001D0F04 /* libcc7tests-watchos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB42CB92F6AA15300AB063D /* libcc7tests-watchos.a */; };
+		BF5DC0F12F6AF95A001D0F04 /* CC7ObjcTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */; };
+		BF5DC0F22F6AF963001D0F04 /* CC7TestWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */; };
 		BF6833BE2EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
 		BF6833BF2EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
 		BF6833C02EBE137C00BF2561 /* DHKEM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF6833BD2EBE137C00BF2561 /* DHKEM.cpp */; };
@@ -379,8 +381,6 @@
 		BFB42CB12F6AA15300AB063D /* TestDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494001CE8E79400F8D81B /* TestDirectory.cpp */; };
 		BFB42CB22F6AA15300AB063D /* g_testFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF00592A2D9C49C400C0F3AF /* g_testFiles.cpp */; };
 		BFB42CB32F6AA15300AB063D /* X509Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF06AC382F45E029008C83B0 /* X509Tests.cpp */; };
-		BFB42CC02F6AA50900AB063D /* CC7TestWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF498AAD1CDCBEC000D7E904 /* CC7TestWrapper.mm */; };
-		BFB42CC12F6AA50900AB063D /* CC7ObjcTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */; };
 		BFB493FF1CE8E74600F8D81B /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB493FE1CE8E74600F8D81B /* TestFile.cpp */; };
 		BFB494011CE8E79400F8D81B /* TestDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494001CE8E79400F8D81B /* TestDirectory.cpp */; };
 		BFB494031CE8E7C600F8D81B /* TestResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494021CE8E7C600F8D81B /* TestResource.cpp */; };
@@ -1861,7 +1861,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Prepare platform / architecture specific framework\n\"${PROJECT_DIR}/../openssl-build/xcbuild-helper.sh\" \"${PLATFORM_NAME}\" \"${BUILT_PRODUCTS_DIR}\"\n";
+			shellScript = "# Prepare platform / architecture specific framework\n\"${PROJECT_DIR}/../openssl-build/xcbuild-helper.sh\" \"${EFFECTIVE_PLATFORM_NAME}\" \"${BUILT_PRODUCTS_DIR}\"\n";
 		};
 		BFB42C462F6A9F8C00AB063D /* [CC7] XCFramework Extract */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2243,8 +2243,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFB42CC02F6AA50900AB063D /* CC7TestWrapper.mm in Sources */,
-				BFB42CC12F6AA50900AB063D /* CC7ObjcTests.mm in Sources */,
+				BF5DC0F12F6AF95A001D0F04 /* CC7ObjcTests.mm in Sources */,
+				BF5DC0F22F6AF963001D0F04 /* CC7TestWrapper.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -395,7 +395,7 @@ function BUILD_APPLE_XC_FRAMEWORK
                 local BUILD_SUFFIX='-maccatalyst'
                 ;;
             watchOS)
-                local SELECTOR='watchossnull'
+                local SELECTOR='watchosnull'
                 local BUILD_SUFFIX='-watchos'
                 ;;
             watchOS_Simulator)
