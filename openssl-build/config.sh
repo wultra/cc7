@@ -21,7 +21,7 @@ OPENSSL_API_VERSION='3.0.0'     # exclude deprecated functions
 OPENSSL_SHA256='b28c91532a8b65a1f983b4c28b7488174e4a01008e29ce8e69bd789f28bc2a89'
 
 CC7_VERSION=${CC7_VERSION_EXT}
-CC7_BRANCH='feature/crypto4'
+CC7_BRANCH='develop'
 
 
 # -----------------------------------------------------------------------------
