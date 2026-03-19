@@ -578,41 +578,59 @@ function BUILD_APPLE_PLATFORM_SWITCH
         # Determine define condition
         case "${PLATFORM_CONF}" in
             *_macos64-x86_64.h)
-                IF_CONDITION="TARGET_OS_OSX && TARGET_CPU_X86_64" ;;
+                IF_CONDITION="TARGET_OS_OSX && TARGET_CPU_X86_64"
+                ;;
             *_macos64-arm64.h)
-                IF_CONDITION="TARGET_OS_OSX && TARGET_CPU_ARM64" ;;
+                IF_CONDITION="TARGET_OS_OSX && TARGET_CPU_ARM64"
+                ;;
             *_ios-sim-cross-x86_64.h)
-                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_SIMULATOR && TARGET_CPU_X86_64" ;;
+                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_SIMULATOR && TARGET_CPU_X86_64"
+                ;;
             *_ios-sim-cross-arm64.h)
-                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_SIMULATOR && TARGET_CPU_ARM64" ;;
+                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_SIMULATOR && TARGET_CPU_ARM64"
+                ;;
             *_ios-sim-cross-i386.h)
-                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_SIMULATOR && TARGET_CPU_X86" ;;
+                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_SIMULATOR && TARGET_CPU_X86"
+                ;;
             *_ios64-cross-arm64.h)
-                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64 && !defined(__arm64e__)" ;;
+                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64 && !defined(__arm64e__)"
+                ;;
             *_ios64-cross-arm64e.h)
-                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64 && defined(__arm64e__)" ;;
+                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64 && defined(__arm64e__)"
+                ;;
             *_ios-cross-armv7s.h)
-                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARM && defined(__ARM_ARCH_7S__)" ;;
+                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARM && defined(__ARM_ARCH_7S__)"
+                ;;
             *_ios-cross-armv7.h)
-                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARM && !defined(__ARM_ARCH_7S__)" ;;
+                IF_CONDITION="TARGET_OS_IOS && TARGET_OS_EMBEDDED && TARGET_CPU_ARM && !defined(__ARM_ARCH_7S__)"
+                ;;
             *_tvos-sim-cross-x86_64.h)
-                IF_CONDITION="TARGET_OS_TV && TARGET_OS_SIMULATOR && TARGET_CPU_X86_64" ;;
+                IF_CONDITION="TARGET_OS_TV && TARGET_OS_SIMULATOR && TARGET_CPU_X86_64"
+                ;;
             *_tvos-sim-cross-arm64.h)
-                IF_CONDITION="TARGET_OS_TV && TARGET_OS_SIMULATOR && TARGET_CPU_ARM64" ;;
+                IF_CONDITION="TARGET_OS_TV && TARGET_OS_SIMULATOR && TARGET_CPU_ARM64"
+                ;;
             *_tvos64-cross-arm64.h)
-                IF_CONDITION="TARGET_OS_TV && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64" ;;
+                IF_CONDITION="TARGET_OS_TV && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64"
+                ;;
             *_watchos-cross-armv7k.h)
-                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM" ;;
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM"
+                ;;
             *_watchos-cross-arm64_32.h)
-                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64" ;;
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64"
+                ;;
             *_watchos-sim-cross-arm64.h)
-                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_SIMULATOR || TARGET_CPU_ARM64" ;;
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_SIMULATOR && TARGET_CPU_ARM64"
+                ;;
             *_watchos-sim-cross-x86_64.h)
-                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_SIMULATOR && TARGET_CPU_X86_64" ;;
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_SIMULATOR && TARGET_CPU_X86_64"
+                ;;
             *_mac-catalyst-x86_64.h)
-                IF_CONDITION="(TARGET_OS_MACCATALYST || (TARGET_OS_IOS && TARGET_OS_SIMULATOR)) && TARGET_CPU_X86_64" ;;
+                IF_CONDITION="(TARGET_OS_MACCATALYST || (TARGET_OS_IOS && TARGET_OS_SIMULATOR)) && TARGET_CPU_X86_64"
+                ;;
             *_mac-catalyst-arm64.h)
-                IF_CONDITION="(TARGET_OS_MACCATALYST || (TARGET_OS_IOS && TARGET_OS_SIMULATOR)) && TARGET_CPU_ARM64" ;;
+                IF_CONDITION="(TARGET_OS_MACCATALYST || (TARGET_OS_IOS && TARGET_OS_SIMULATOR)) && TARGET_CPU_ARM64"
+                ;;
             *)
                 FAILURE "Unexpected platform config header: $PLATFORM_CONF"
                 ;;
@@ -714,7 +732,7 @@ function BUILD_APPLE_COMMON_OPTION
 }
 
 # -----------------------------------------------------------------------------
-# BUILD_APPLE_CUSTOM_CONFIG converts compile TARGET into custom configuraiton
+# BUILD_APPLE_CUSTOM_CONFIG converts compile TARGET into custom configuration
 # parameter.
 #
 # Parameters:

@@ -57,7 +57,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:cc7_ios.xctestplan"
+            reference = "container:CC7TestsWrapper/cc7_ios.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

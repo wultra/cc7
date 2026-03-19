@@ -66,7 +66,7 @@ function USAGE
     echo ""
     echo "  --skip-arch-build     Skip architecture builds and go directly to"
     echo "                        library files preparation. The switch is useful"
-    echo "                        in you're debugging script for library publishing."
+    echo "                        when you're debugging the script for library publishing."
     echo "                        It expects the architectures build passed before."
     echo ""
     echo "  -v0                   turn off all prints to stdout"

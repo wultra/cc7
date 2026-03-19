@@ -268,7 +268,13 @@ function BUILD_ANDROID_PLATFORM_SWITCH
     LOG "Preparing platform switch to configuration.h..."
     
     if [ ${#ANDROID_CONF_ALL[@]} -eq 0 ]; then
-        FAILURE "No architecture has been produced (e.g. \$ANDROID_CONF_ALL array is empty)"
+        if [ x$OPT_SKIP_ARCH_BUILD == x0 ]; then
+            FAILURE "No architecture has been produced (e.g. \$ANDROID_CONF_ALL array is empty)"
+        else
+            # TODO: It would be better to repopulate headers for skip-arch-build switch, just like on apple build
+            WARNING "No architecture has been produced (e.g. \$ANDROID_CONF_ALL array is empty)"
+            return
+        fi
     fi
         
     # Copy template file into the final configuration file

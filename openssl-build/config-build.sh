@@ -18,7 +18,7 @@ OPENSSL_CONF_PARAMS+=" no-scrypt no-blake2 no-siphash"
 # -----------------------------------------------------------------------------
 # Apple specific
 #  - Note that we don't build all architectures and platforms. 
-#    The following lists exclude watchOS and macOSX variants from the build.
+#    The following lists exclude macOSX variants from the build.
 
 APPLE_PLATFORMS="iOS iOS_Simulator macOS_Catalyst tvOS tvOS_Simulator watchOS watchOS_Simulator"
 APPLE_REF_PLATFORM="iOS"
