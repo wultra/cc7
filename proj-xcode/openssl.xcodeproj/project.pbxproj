@@ -1,0 +1,149 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		BFFC5DD82F6D62F800A1411B /* OpenSSL */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = BFFC5DD92F6D62F800A1411B /* Build configuration list for PBXAggregateTarget "OpenSSL" */;
+			buildPhases = (
+				BFFC5DDC2F6D630200A1411B /* [CC7] Fetch OpenSSL */,
+			);
+			dependencies = (
+			);
+			name = OpenSSL;
+			packageProductDependencies = (
+			);
+			productName = OpenSSL;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXGroup section */
+		BFFC5DD12F6D62BF00A1411B = {
+			isa = PBXGroup;
+			children = (
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		BFFC5DD22F6D62BF00A1411B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					BFFC5DD82F6D62F800A1411B = {
+						CreatedOnToolsVersion = 26.3;
+					};
+				};
+			};
+			buildConfigurationList = BFFC5DD52F6D62BF00A1411B /* Build configuration list for PBXProject "openssl" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BFFC5DD12F6D62BF00A1411B;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BFFC5DD82F6D62F800A1411B /* OpenSSL */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BFFC5DDC2F6D630200A1411B /* [CC7] Fetch OpenSSL */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CC7] Fetch OpenSSL";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Fetch precompiled openssl.xcframework\n\"${PROJECT_DIR}/../openssl-build/fetch.sh\" apple\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BFFC5DD62F6D62BF00A1411B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				DEVELOPMENT_TEAM = KTT9G859MR;
+				SUPPORTED_PLATFORMS = "xrsimulator xros watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
+			};
+			name = Debug;
+		};
+		BFFC5DD72F6D62BF00A1411B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				DEVELOPMENT_TEAM = KTT9G859MR;
+				SUPPORTED_PLATFORMS = "xrsimulator xros watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
+			};
+			name = Release;
+		};
+		BFFC5DDA2F6D62F800A1411B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KTT9G859MR;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BFFC5DDB2F6D62F800A1411B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KTT9G859MR;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BFFC5DD52F6D62BF00A1411B /* Build configuration list for PBXProject "openssl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFFC5DD62F6D62BF00A1411B /* Debug */,
+				BFFC5DD72F6D62BF00A1411B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFFC5DD92F6D62F800A1411B /* Build configuration list for PBXAggregateTarget "OpenSSL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFFC5DDA2F6D62F800A1411B /* Debug */,
+				BFFC5DDB2F6D62F800A1411B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFFC5DD22F6D62BF00A1411B /* Project object */;
+}

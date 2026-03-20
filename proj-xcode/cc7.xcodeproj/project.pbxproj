@@ -453,27 +453,6 @@
 			remoteGlobalIDString = BFB42C8C2F6AA15300AB063D;
 			remoteInfo = "cc7tests-watchos";
 		};
-		BF734A992485263F001F46BA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BF734A94248525E9001F46BA;
-			remoteInfo = OpenSSL;
-		};
-		BF734A9B24852644001F46BA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BF734A94248525E9001F46BA;
-			remoteInfo = OpenSSL;
-		};
-		BF8EEBFE26662A01009AC5FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BF734A94248525E9001F46BA;
-			remoteInfo = OpenSSL;
-		};
 		BF8EEC3026662A5D009AC5FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
@@ -488,19 +467,40 @@
 			remoteGlobalIDString = BF8EEBFC26662A01009AC5FD;
 			remoteInfo = "cc7-macos";
 		};
-		BFB42C452F6A9F8C00AB063D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BF734A94248525E9001F46BA;
-			remoteInfo = OpenSSL;
-		};
 		BFB42CBA2F6AA16F00AB063D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFB1A6AC1CB5937800B2D172 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = BFB42C432F6A9F8C00AB063D;
 			remoteInfo = "cc7-watchos";
+		};
+		BFFC5DFA2F6D64E100A1411B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFFC5DF62F6D64CB00A1411B /* openssl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BFFC5DD82F6D62F800A1411B;
+			remoteInfo = OpenSSL;
+		};
+		BFFC5DFC2F6D64ED00A1411B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFFC5DF62F6D64CB00A1411B /* openssl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BFFC5DD82F6D62F800A1411B;
+			remoteInfo = OpenSSL;
+		};
+		BFFC5DFE2F6D64F400A1411B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFFC5DF62F6D64CB00A1411B /* openssl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BFFC5DD82F6D62F800A1411B;
+			remoteInfo = OpenSSL;
+		};
+		BFFC5E002F6D64FA00A1411B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFFC5DF62F6D64CB00A1411B /* openssl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BFFC5DD82F6D62F800A1411B;
+			remoteInfo = OpenSSL;
 		};
 		BFFE8AD02449B5490032821F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -819,6 +819,7 @@
 		BFF21B822E13E824000BF450 /* ObjcJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjcJson.h; sourceTree = "<group>"; };
 		BFF21B832E13E858000BF450 /* ObjcJson.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ObjcJson.mm; sourceTree = "<group>"; };
 		BFF21B872E14194A000BF450 /* CC7ObjcTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CC7ObjcTests.mm; sourceTree = "<group>"; };
+		BFFC5DF62F6D64CB00A1411B /* openssl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = openssl.xcodeproj; sourceTree = "<group>"; };
 		BFFE8AAF2449B4F80032821F /* libcc7-tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcc7-tvos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFFE8ACF2449B53C0032821F /* libcc7tests-tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcc7tests-tvos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFFE8ADF2449B5820032821F /* CC7TestsWrapper-tvos.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CC7TestsWrapper-tvos.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1283,6 +1284,7 @@
 		BFB1A6AB1CB5937800B2D172 = {
 			isa = PBXGroup;
 			children = (
+				BFFC5DF62F6D64CB00A1411B /* openssl.xcodeproj */,
 				BFB1A6C11CB594BF00B2D172 /* include */,
 				BF4B4A831CB5977200BF2C9D /* src */,
 				BF498AA31CDCBE8400D7E904 /* CC7TestsWrapper */,
@@ -1470,6 +1472,13 @@
 			path = apple;
 			sourceTree = "<group>";
 		};
+		BFFC5DF72F6D64CB00A1411B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BFFE8AD22449B5520032821F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1546,7 +1555,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				BF8EEBFD26662A01009AC5FD /* PBXTargetDependency */,
+				BFFC5DFF2F6D64F400A1411B /* PBXTargetDependency */,
 			);
 			name = "cc7-macos";
 			productName = cc7;
@@ -1583,7 +1592,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				BF734A9A2485263F001F46BA /* PBXTargetDependency */,
+				BFFC5DFB2F6D64E100A1411B /* PBXTargetDependency */,
 			);
 			name = "cc7-ios";
 			productName = cc7;
@@ -1602,7 +1611,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				BFB42C442F6A9F8C00AB063D /* PBXTargetDependency */,
+				BFFC5E012F6D64FA00A1411B /* PBXTargetDependency */,
 			);
 			name = "cc7-watchos";
 			productName = cc7;
@@ -1657,7 +1666,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				BF734A9C24852644001F46BA /* PBXTargetDependency */,
+				BFFC5DFD2F6D64ED00A1411B /* PBXTargetDependency */,
 			);
 			name = "cc7-tvos";
 			productName = cc7;
@@ -1743,6 +1752,12 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BFB1A6B51CB5937800B2D172 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BFFC5DF72F6D64CB00A1411B /* Products */;
+					ProjectRef = BFFC5DF62F6D64CB00A1411B /* openssl.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				BFB1A6B31CB5937800B2D172 /* cc7-ios */,
@@ -2394,21 +2409,6 @@
 			target = BFB42C8C2F6AA15300AB063D /* cc7tests-watchos */;
 			targetProxy = BF5DC0EC2F6AE732001D0F04 /* PBXContainerItemProxy */;
 		};
-		BF734A9A2485263F001F46BA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BF734A94248525E9001F46BA /* OpenSSL */;
-			targetProxy = BF734A992485263F001F46BA /* PBXContainerItemProxy */;
-		};
-		BF734A9C24852644001F46BA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BF734A94248525E9001F46BA /* OpenSSL */;
-			targetProxy = BF734A9B24852644001F46BA /* PBXContainerItemProxy */;
-		};
-		BF8EEBFD26662A01009AC5FD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BF734A94248525E9001F46BA /* OpenSSL */;
-			targetProxy = BF8EEBFE26662A01009AC5FD /* PBXContainerItemProxy */;
-		};
 		BF8EEC3126662A5D009AC5FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BF8EEC0F26662A0B009AC5FD /* cc7tests-macos */;
@@ -2419,15 +2419,30 @@
 			target = BF8EEBFC26662A01009AC5FD /* cc7-macos */;
 			targetProxy = BF8EEC3226662A70009AC5FD /* PBXContainerItemProxy */;
 		};
-		BFB42C442F6A9F8C00AB063D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BF734A94248525E9001F46BA /* OpenSSL */;
-			targetProxy = BFB42C452F6A9F8C00AB063D /* PBXContainerItemProxy */;
-		};
 		BFB42CBB2F6AA16F00AB063D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BFB42C432F6A9F8C00AB063D /* cc7-watchos */;
 			targetProxy = BFB42CBA2F6AA16F00AB063D /* PBXContainerItemProxy */;
+		};
+		BFFC5DFB2F6D64E100A1411B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenSSL;
+			targetProxy = BFFC5DFA2F6D64E100A1411B /* PBXContainerItemProxy */;
+		};
+		BFFC5DFD2F6D64ED00A1411B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenSSL;
+			targetProxy = BFFC5DFC2F6D64ED00A1411B /* PBXContainerItemProxy */;
+		};
+		BFFC5DFF2F6D64F400A1411B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenSSL;
+			targetProxy = BFFC5DFE2F6D64F400A1411B /* PBXContainerItemProxy */;
+		};
+		BFFC5E012F6D64FA00A1411B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenSSL;
+			targetProxy = BFFC5E002F6D64FA00A1411B /* PBXContainerItemProxy */;
 		};
 		BFFE8AD12449B5490032821F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
