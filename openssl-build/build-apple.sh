@@ -616,8 +616,11 @@ function BUILD_APPLE_PLATFORM_SWITCH
             *_watchos-cross-armv7k.h)
                 IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM"
                 ;;
+            *_watchos-cross-arm64.h)
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64 && defined(__LP64__)"
+                ;;
             *_watchos-cross-arm64_32.h)
-                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64"
+                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64 && defined(__ILP32__)"
                 ;;
             *_watchos-sim-cross-arm64.h)
                 IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_SIMULATOR && TARGET_CPU_ARM64"
