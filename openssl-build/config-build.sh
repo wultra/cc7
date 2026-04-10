@@ -28,7 +28,7 @@ APPLE_TARGETS+=" mac-catalyst-x86_64 mac-catalyst-arm64"
 APPLE_TARGETS+=" tvos-sim-cross-x86_64 tvos-sim-cross-arm64"
 APPLE_TARGETS+=" tvos64-cross-arm64"
 APPLE_TARGETS+=" watchos-sim-cross-arm64 watchos-sim-cross-x86_64"
-APPLE_TARGETS+=" watchos-cross-arm64_32 watchos-cross-armv7k"
+APPLE_TARGETS+=" watchos-cross-arm64 watchos-cross-arm64_32 watchos-cross-armv7k"
 # APPLE_TARGETS+=" macos64-x86_64 macos64-arm64"
 
 # Minimum system versions
