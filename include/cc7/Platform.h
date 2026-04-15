@@ -273,7 +273,7 @@
     // C++
     #include <string>
     #include <vector>
-    #include <stdexcept>
+    #include <exception>
     #include <memory>
     #include <new>
 

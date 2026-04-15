@@ -80,9 +80,10 @@ static void addDNItems(const X509Name& name, const std::map<std::string, std::st
 static void signCSR(const EVPKeyPair& pkey, const std::string& pkey_alg, const X509Req& req)
 {
     auto mctx = EVPMDContext::empty();
-    const EVP_MD * digest;
+    const EVP_MD * digest = nullptr;
     bool failure = false;
     if (stringHasPrefix(pkey_alg, "P-")) {
+        // For P-XXX curves, select an appropriate hash.
         if (pkey_alg == ECCurveSpec::P_256.name) {
             digest = EVP_sha256();
         } else if (pkey_alg == ECCurveSpec::P_384.name) {
@@ -92,11 +93,11 @@ static void signCSR(const EVPKeyPair& pkey, const std::string& pkey_alg, const X
         } else {
             failure = true;
         }
-    } else if (stringHasPrefix(pkey_alg, "ML-DSA-")) {
-        // For algorithms like ML-DSA, there isn't a traditional external digest.
-        digest = nullptr;
     } else {
-        failure = true;
+        // For algorithms like ML-DSA, there isn't a traditional external digest.
+        auto is_supported_alg = stringHasPrefix(pkey_alg, "ML-DSA-");
+        // If algorithm is not supported, then report an error.
+        failure = !is_supported_alg;
     }
     
     if (failure) {
