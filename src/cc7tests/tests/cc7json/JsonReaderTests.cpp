@@ -42,7 +42,7 @@ public:
     
     void loadJsonData()
     {
-        _json1 =  u8"{"
+        _json1 =    "{"
                     " \"key1\" : \"value1\","
                     " \"true\" : true,"
                     " \"false\" : false,"
@@ -95,8 +95,8 @@ public:
         ccstAssertEqual(root.booleanAtPath("object.yyy"), false);
         ccstAssertEqual(root.integerAtPath("object.zzz.integer"), 64);
         ccstAssertEqual(root.doubleAtPath("object.zzz.double"), 6.4);
-        ccstAssertEqual(root.stringAtPath("object.zzz.unicode1"), u8"Ľalie poľné");
-        ccstAssertEqual(root.stringAtPath("object.zzz.unicode2"), u8"Ľalie poľné");
+        ccstAssertEqual(root.stringAtPath("object.zzz.unicode1"), "Ľalie poľné");
+        ccstAssertEqual(root.stringAtPath("object.zzz.unicode2"), "Ľalie poľné");
         
         auto&& array = root.arrayAtPath("array");
         ccstAssertEqual(array[0].asString(), "a");

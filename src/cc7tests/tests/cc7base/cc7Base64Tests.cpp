@@ -231,7 +231,7 @@ namespace tests
             ccstAssertEqual(out_str, "+'?voal-^B");
             
             out_str = CopyToString(Base64::urlDecode(str5));
-            ccstAssertEqual(out_str, u8"{\"text\":\"žôžä\"}");
+            ccstAssertEqual(out_str, "{\"text\":\"žôžä\"}");
         }
 
         void testUrlBadData()

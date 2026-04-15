@@ -428,7 +428,7 @@ inline ByteRange MakeRange(const std::string_view & str)
 template <typename POD>
 ByteRange MakeRange(const POD & value)
 {
-    static_assert(std::is_pod<POD>::value, "POD type is expected");
+    static_assert(std::is_trivially_copyable<POD>::value, "Trivially copyable type is expected");
     return ByteRange(&value, sizeof(value));
 }
 

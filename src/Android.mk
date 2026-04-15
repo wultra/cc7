@@ -37,7 +37,7 @@ NDK_TOOLCHAIN_VERSION := clang
 # Library name
 LOCAL_MODULE			:= libcc7
 LOCAL_CFLAGS			:= $(EXTERN_CFLAGS)
-LOCAL_CPPFLAGS			:= $(EXTERN_CFLAGS) -std=c++17 -frtti
+LOCAL_CPPFLAGS			:= $(EXTERN_CFLAGS) -std=c++23 -frtti
 LOCAL_CPP_FEATURES		+= exceptions
 LOCAL_STATIC_LIBRARIES	:= openssl_crypto
 
@@ -146,7 +146,7 @@ NDK_TOOLCHAIN_VERSION := clang
 # Library name
 LOCAL_MODULE			:= libcc7tests
 LOCAL_CFLAGS			:= $(EXTERN_CFLAGS)
-LOCAL_CPPFLAGS			:= $(EXTERN_CFLAGS) -std=c++17 -frtti
+LOCAL_CPPFLAGS			:= $(EXTERN_CFLAGS) -std=c++23 -frtti
 LOCAL_CPP_FEATURES		+= exceptions
 LOCAL_STATIC_LIBRARIES	:= cc7
 

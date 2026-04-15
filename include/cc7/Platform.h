@@ -273,9 +273,11 @@
     // C++
     #include <string>
     #include <vector>
+    #include <exception>
     #include <stdexcept>
     #include <memory>
     #include <new>
+    #include <type_traits>
 
     namespace cc7
     {

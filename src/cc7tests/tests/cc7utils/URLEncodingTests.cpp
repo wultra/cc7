@@ -64,11 +64,11 @@ public:
                 "%01%02%03%04%05%06%AA%BB%CC%DD%1E%E1%FE%EF"
             },
             {
-                u8"Jednou z dôležitých vlastností korpusov je ich reprezentatívnosť.",
+                "Jednou z dôležitých vlastností korpusov je ich reprezentatívnosť.",
                 "Jednou+z+d%C3%B4le%C5%BEit%C3%BDch+vlastnost%C3%AD+korpusov+je+ich+reprezentat%C3%ADvnos%C5%A5."
             },
             {
-                u8"Referenční korpus je stálý, takže opakované dotazy dávají vždy stejné výsledky.",
+                "Referenční korpus je stálý, takže opakované dotazy dávají vždy stejné výsledky.",
                 "Referen%C4%8Dn%C3%AD+korpus+je+st%C3%A1l%C3%BD%2C+tak%C5%BEe+opakovan%C3%A9+dotazy+d%C3%A1vaj%C3%AD+v%C5%BEdy+stejn%C3%A9+v%C3%BDsledky."
             },
             // end
