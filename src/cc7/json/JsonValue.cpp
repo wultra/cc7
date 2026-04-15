@@ -21,32 +21,28 @@
 
 namespace cc7::json {
 
-// Operators
+// Constructor
 
-bool JsonValue::operator==(const JsonValue& other) const
+JsonValue::JsonValue(Type t)
 {
-    if (other.isType(_t)) {
-        switch (_t) {
-            case Array:
-                return *_array == *other._array;
-            case String:
-                return *_string == *other._string;
-            case Object:
-                return *_object == *other._object;
-            case Boolean:
-                return _boolean == other._boolean;
-            case Integer:
-                return _integer == other._integer;
-            case Double:
-                return _double == other._double;
-            case NaT:
-            case Null:
-                return true;
-            default:
-                break;
-        }
+    switch (t) {
+        case NaT:       _v = TNaT::Value; break;
+        case Null:      _v = TNull::Value; break;
+        case String:    _v = TString(); break;
+        case Object:    _v = TObject(); break;
+        case Array:     _v = TArray(); break;
+        case Integer:   _v = 0; break;
+        case Double:    _v = 0.0; break;
+        case Boolean:   _v = false; break;
     }
-    return false;
+}
+
+JsonValue::~JsonValue()
+{
+    if (type() == String) {
+        // Cleanup string in destructor
+        detail::StringCleanup(std::get<TString>(_v));
+    }
 }
 
 // Object access
@@ -164,30 +160,32 @@ ByteArray JsonValue::dataFromHexStringAtPath(const std::string & path) const
 
 ByteArray JsonValue::asBase64() const
 {
-    castToType(String);
-    return Base64::decode(*_string);
+    return Base64::decode(asString());
 }
 
 ByteArray JsonValue::asBase64Url() const
 {
-    castToType(String);
-    return Base64::urlDecode(*_string);
+    return Base64::urlDecode(asString());
 }
 
 ByteArray JsonValue::asHexString() const
 {
-    castToType(String);
-    return FromHexString(*_string);
+    return FromHexString(asString());
 }
 
 // Append / Insert
 
 void JsonValue::reserve(size_t count)
 {
-    switch (_t) {
-        case Array: _array->reserve(count); break;
-        case String: _string->reserve(count); break;
-        default: break;
+    switch (type()) {
+        case Array:
+            asMutableArray().reserve(count);
+            break;
+        case String:
+            asMutableString().reserve(count);
+            break;
+        default:
+            break;
     }
 }
 

@@ -18,9 +18,9 @@
 
 #include <cc7/ByteArray.h>
 #include <cc7/Base64.h>
-#include <cc7/detail/StringUtils.h>
 #include <map>
 #include <vector>
+#include <variant>
 
 namespace cc7::json {
 
@@ -40,93 +40,43 @@ public:
         Double,
         Boolean,
     };
-    
+        
     typedef std::map<std::string, JsonValue> TObject;
     typedef std::vector<JsonValue> TArray;
     typedef std::string TString;
+        
+    JsonValue()                             : _v(TNaT::Value) {}
+    JsonValue(Type t);
+    ~JsonValue();
     
-    JsonValue()                     : _t(NaT), _copy_ptr(nullptr) {}
+    JsonValue(const JsonValue&) = default;
+    JsonValue& operator=(const JsonValue&) = default;
     
-    JsonValue(Type t)               : _t(t), _copy_ptr(nullptr)
-    {
-        switch (_t) {
-            case String: _string = new TString(); break;
-            case Object: _object = new TObject(); break;
-            case Array:  _array  = new TArray();  break;
-            default:
-                break;
-        }
-    }
+    JsonValue(JsonValue&&) noexcept = default;
+    JsonValue& operator=(JsonValue&&) noexcept = default;
     
-    explicit JsonValue(std::initializer_list<TObject::value_type> list) : _t(Object), _object(new TObject(list)) {}
-    explicit JsonValue(std::initializer_list<TArray::value_type> list)  : _t(Array),  _array(new TArray(list)) {}
+    explicit JsonValue(std::initializer_list<TObject::value_type> list) : _v(TObject(list)) {}
+    explicit JsonValue(std::initializer_list<TArray::value_type> list)  : _v(TArray(list)) {}
     
-    explicit JsonValue(bool v)      : _t(Boolean), _boolean(v) {}
-    explicit JsonValue(int64_t v)   : _t(Integer), _integer(v) {}
-    explicit JsonValue(double v)    : _t(Double),  _double(v) {}
-    explicit JsonValue(const char* v) : _t(String)
-    {
-        _string = new TString(v);
-    }
-    explicit JsonValue(const TString& v) : _t(String)
-    {
-        _string = new TString(v);
-    }
-    explicit JsonValue(const std::string_view& v) : _t(String)
-    {
-        _string = new TString(v);
-    }
-    explicit JsonValue(const TArray& v) : _t(Array)
-    {
-        _array = new TArray(v);
-    }
-    explicit JsonValue(const TObject& v) : _t(Object)
-    {
-        _object = new TObject(v);
-    }
-    
-    // Copy / Move
-    
-    JsonValue(const JsonValue & o)
-    {
-        copyFrom(o);
-    }
-    
-    JsonValue(JsonValue && o) : _t(o._t), _copy_ptr(o._copy_ptr)
-    {
-        o._t = NaT;
-    }
-    
-    JsonValue & operator=(const JsonValue & o)
-    {
-        if (&o != this) {
-            destroy();
-            copyFrom(o);
-        }
-        return *this;
-    }
-    
-    JsonValue & operator=(JsonValue && o)
-    {
-        _t = o._t;
-        _copy_ptr = o._copy_ptr;
-        o._t = NaT;
-        return *this;
-    }
-    
-    // Destructor
-    
-    ~JsonValue()
-    {
-        destroy();
-    }
+    explicit JsonValue(bool v)              : _v(v) {}
+    explicit JsonValue(int64_t v)           : _v(v) {}
+    explicit JsonValue(double v)            : _v(v) {}
+    explicit JsonValue(const char* v)       : _v(v) {}
+    explicit JsonValue(const TString& v)    : _v(v) {}
+    explicit JsonValue(const std::string_view& v) : _v(TString(v)) {}
+    explicit JsonValue(const TArray& v)     : _v(v) {}
+    explicit JsonValue(const TObject& v)    : _v(v) {}
     
     // operators
     
-    bool operator==(const JsonValue& other) const;
+    bool operator==(const JsonValue& other) const
+    {
+        return _v == other._v;
+    }
+    
     bool operator!=(const JsonValue& other) const
     {
-        return !this->operator==(other);
+        return _v != other._v;
     }
     
     // Object access
@@ -142,50 +92,37 @@ public:
     
     void assign(bool value)
     {
-        destroy();
-        _t = Boolean;
-        _boolean = value;
+        _v = value;
     }
     
     void assign(int64_t value)
     {
-        destroy();
-        _t = Integer;
-        _integer = value;
+        _v = value;
     }
     
     void assign(double value)
     {
-        destroy();
-        _t = Double;
-        _double = value;
+        _v = value;
     }
     
     void assign(const TString & value)
     {
-        destroy();
-        _t = String;
-        _string = new TString(value);
+        _v = value;
     }
     
     void assign(const TObject & value)
     {
-        destroy();
-        _t = Object;
-        _object = new TObject(value);
+        _v = value;
     }
     
     void assign(const TArray & value)
     {
-        destroy();
-        _t = Array;
-        _array = new TArray(value);
+        _v = value;
     }
     
     void assignNull()
     {
-        destroy();
-        _t = Null;
+        _v = TNull::Value;
     }
     
     // Append / Insert
@@ -200,65 +137,65 @@ public:
     
     Type type() const
     {
-        return _t;
+        return static_cast<Type>(_v.index());
     }
     
     const TObject & asObject() const
     {
-        castToPtrType(Object);
-        return *_object;
+        castToType(Object);
+        return std::get<TObject>(_v);
     }
     
     TObject & asMutableObject()
     {
-        castToPtrType(Object);
-        return *_object;
+        castToType(Object);
+        return std::get<TObject>(_v);
     }
     
     const TArray & asArray() const
     {
-        castToPtrType(Array);
-        return *_array;
+        castToType(Array);
+        return std::get<TArray>(_v);
     }
     
     TArray & asMutableArray()
     {
-        castToPtrType(Array);
-        return *_array;
+        castToType(Array);
+        return std::get<TArray>(_v);
     }
     
     const TString & asString() const
     {
-        castToPtrType(String);
-        return *_string;
+        castToType(String);
+        return std::get<TString>(_v);
     }
     
     TString & asMutableString()
     {
-        castToPtrType(String);
-        return *_string;
+        castToType(String);
+        return std::get<TString>(_v);
     }
     
     double asDouble() const
     {
-        if (_t == Integer) {
+        if (type() == Integer) {
             // Auto-cast from integer to double
-            return static_cast<double>(_integer);
+            return std::get<int64_t>(_v);
         }
         castToType(Double);
-        return _double;
+        return std::get<double>(_v);
     }
     
     int64_t asInteger() const
     {
         castToType(Integer);
-        return _integer;
+        return std::get<int64_t>(_v);
     }
     
     bool asBoolean() const
     {
         castToType(Boolean);
-        return _boolean;
+        return std::get<bool>(_v);
     }
     
     ByteArray asBase64() const;
@@ -267,17 +204,17 @@ public:
         
     bool isNull() const noexcept
     {
-        return _t == Null;
+        return type() == Null;
     }
     
     bool isValid() const noexcept
     {
-        return _t != NaT;
+        return type() != NaT;
     }
     
     bool isType(Type t) const noexcept
     {
-        return _t == t;
+        return type() == t;
     }
     
     bool containsValueAtPath(const std::string & path, Type expected_type = NaT) const
@@ -363,71 +300,37 @@ public:
     
 private:
     
-    // Private members
+    enum class TNaT  { Value };
+    enum class TNull { Value };
+
+    // Be aware that order of the types in variant must match order
+    // in enum Type. If not, then type() function will not work properly.
     
-    Type _t;
-    union
-    {
-        bool        _boolean;
-        int64_t     _integer;
-        double      _double;
-        TObject *   _object;
-        TArray *    _array;
-        TString *   _string;
-        void *      _copy_ptr;
-    };
+    typedef std::variant
+    <
+        TNaT,
+        TNull,
+        TObject,
+        TArray,
+        TString,
+        int64_t,
+        double,
+        bool
+    > Value;
+
+    Value _v;
     
     // Private methods
     
     const JsonValue * lookForValueAtPath(const std::string & path, Type expected_type, bool required) const;
-    
-    void destroy()
-    {
-        switch (_t) {
-            case Object:
-                delete _object;
-                break;
-            case Array:
-                delete _array;
-                break;
-            case String:
-                detail::StringCleanup(*_string);
-                delete _string;
-                break;
-            default:
-                break;
-        }
-        _integer = 0;
-    }
-    
-    void copyFrom(const JsonValue & o)
-    {
-        _t = o._t;
-        switch (o._t) {
-            case String: _string = new TString(*o._string); break;
-            case Object: _object = new TObject(*o._object); break;
-            case Array:  _array  = new TArray(*o._array);   break;
-            default:
-                _copy_ptr = o._copy_ptr;
-                break;
-        }
-    }
-    
+        
     void castToType(Type t) const
     {
-        if (_t != t) {
+        if (type() != t) {
             throw std::logic_error("Unable to cast JsonValue to " + typeToName(t));
         }
     }
-    
-    void castToPtrType(Type t) const
-    {
-        castToType(t);
-        if (_object == nullptr) {
-            throw std::logic_error("JsonValue with type " + typeToName(t) + " has no ");
-        }
-    }
-    
+        
     static std::string typeToName(Type t);
 };
 

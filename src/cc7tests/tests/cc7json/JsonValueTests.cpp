@@ -172,10 +172,21 @@ public:
     
     void testMove()
     {
+        // JsonValue move has a slightly different behavior now, because
+        // internal `std::variant` keeps the type of value as is. So, it's
+        // no longer defaulted to NaT as we did in original implementation.
+        //
+        // The analyzer may report a warning "Method called on moved-from object",
+        // but that's the point of this test.
+        
         auto val1 = JsonValue({ JsonValue("Hello"), JsonValue("World")});
         auto val2 = std::move(val1);
-        ccstAssertTrue(val1.isType(JsonValue::NaT));
+        
+        ccstAssertTrue(val1.isType(JsonValue::Array));
         ccstAssertTrue(val2.isType(JsonValue::Array));
+        ccstAssertEqual(0, val1.asArray().size());  // array in source object should be zeroed
+        ccstAssertEqual(2, val2.asArray().size());
+        
         ccstAssertEqual(val2, JsonValue({ JsonValue("Hello"), JsonValue("World")}));
     }
     
