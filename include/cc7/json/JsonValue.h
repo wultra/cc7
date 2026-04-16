@@ -48,17 +48,17 @@ public:
     JsonValue() noexcept                             : _v(TNaT::Value) {}
     JsonValue(Type t) noexcept;
         
-    explicit JsonValue(std::initializer_list<TObject::value_type> list) : _v(TObject(list)) {}
-    explicit JsonValue(std::initializer_list<TArray::value_type> list)  : _v(TArray(list)) {}
+    explicit JsonValue(std::initializer_list<TObject::value_type> list) noexcept : _v(TObject(list)) {}
+    explicit JsonValue(std::initializer_list<TArray::value_type> list) noexcept : _v(TArray(list)) {}
     
     explicit JsonValue(bool v) noexcept              : _v(v) {}
     explicit JsonValue(int64_t v) noexcept           : _v(v) {}
     explicit JsonValue(double v) noexcept            : _v(v) {}
-    explicit JsonValue(const TString& v)             : _v(v) {}
-    explicit JsonValue(const std::string_view& v)    : _v(TString(v)) {}
-    explicit JsonValue(const char* v)                : _v(TString(v)) {}
-    explicit JsonValue(const TArray& v)              : _v(v) {}
-    explicit JsonValue(const TObject& v)             : _v(v) {}
+    explicit JsonValue(const TString& v) noexcept    : _v(v) {}
+    explicit JsonValue(const std::string_view& v) noexcept : _v(TString(v)) {}
+    explicit JsonValue(const char* v) noexcept             : _v(TString(v)) {}
+    explicit JsonValue(const TArray& v) noexcept     : _v(v) {}
+    explicit JsonValue(const TObject& v) noexcept    : _v(v) {}
     
     // Destructor
     ~JsonValue();
@@ -111,19 +111,19 @@ public:
         _v = value;
     }
     
-    void assign(const TString & value)
+    void assign(const TString & value) noexcept
     {
         secureCleanup();
         _v = value;
     }
     
-    void assign(const TObject & value)
+    void assign(const TObject & value) noexcept
     {
         secureCleanup();
         _v = value;
     }
     
-    void assign(const TArray & value)
+    void assign(const TArray & value) noexcept
     {
         secureCleanup();
         _v = value;
@@ -138,8 +138,8 @@ public:
     // Append / Insert
     
     void reserve(size_t count);
-    void pushBack(const JsonValue& value);
-    void pushBack(std::initializer_list<TArray::value_type> list);
+    void pushBack(const JsonValue& value) noexcept;
+    void pushBack(std::initializer_list<TArray::value_type> list) noexcept;
     void insert(const std::string& key, const JsonValue& value);
     void insert(std::initializer_list<TObject::value_type> list);
     
@@ -337,7 +337,7 @@ private:
         
     void castToType(Type t) const;
         
-    static const char * typeToName(Type t) noexcept;
+    static std::string typeToName(Type t) noexcept;
 };
 
 } // namespace cc7::json

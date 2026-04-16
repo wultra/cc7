@@ -213,12 +213,12 @@ void JsonValue::reserve(size_t count)
     }
 }
 
-void JsonValue::pushBack(const JsonValue &value)
+void JsonValue::pushBack(const JsonValue &value) noexcept
 {
     asMutableArray().push_back(value);
 }
 
-void JsonValue::pushBack(std::initializer_list<TArray::value_type> list)
+void JsonValue::pushBack(std::initializer_list<TArray::value_type> list) noexcept
 {
     auto& array = asMutableArray();
     array.insert(array.end(), list);
@@ -247,11 +247,11 @@ void JsonValue::secureCleanup() noexcept
 void JsonValue::castToType(Type t) const
 {
     if (type() != t) {
-        throw std::logic_error("Unable to cast JsonValue to " + std::string(typeToName(t)));
+        throw std::logic_error("Unable to cast JsonValue to " + typeToName(t));
     }
 }
 
-const char * JsonValue::typeToName(Type t) noexcept
+std::string JsonValue::typeToName(Type t) noexcept
 {
     switch (t) {
         case Null: return "Null";
