@@ -45,36 +45,39 @@ public:
     typedef std::vector<JsonValue> TArray;
     typedef std::string TString;
         
-    JsonValue()                             : _v(TNaT::Value) {}
-    JsonValue(Type t);
+    JsonValue() noexcept                             : _v(TNaT::Value) {}
+    JsonValue(Type t) noexcept;
+        
+    explicit JsonValue(std::initializer_list<TObject::value_type> list) noexcept : _v(TObject(list)) {}
+    explicit JsonValue(std::initializer_list<TArray::value_type> list) noexcept : _v(TArray(list)) {}
+    
+    explicit JsonValue(bool v) noexcept              : _v(v) {}
+    explicit JsonValue(int64_t v) noexcept           : _v(v) {}
+    explicit JsonValue(double v) noexcept            : _v(v) {}
+    explicit JsonValue(const TString& v) noexcept    : _v(v) {}
+    explicit JsonValue(const std::string_view& v) noexcept : _v(TString(v)) {}
+    explicit JsonValue(const char* v) noexcept             : _v(TString(v)) {}
+    explicit JsonValue(const TArray& v) noexcept     : _v(v) {}
+    explicit JsonValue(const TObject& v) noexcept    : _v(v) {}
+    
+    // Destructor
     ~JsonValue();
     
+    // Copy
     JsonValue(const JsonValue&) = default;
-    JsonValue& operator=(const JsonValue&) = default;
-    
+    JsonValue& operator=(const JsonValue&);
+    // Move
     JsonValue(JsonValue&&) noexcept = default;
-    JsonValue& operator=(JsonValue&&) noexcept = default;
-    
-    explicit JsonValue(std::initializer_list<TObject::value_type> list) : _v(TObject(list)) {}
-    explicit JsonValue(std::initializer_list<TArray::value_type> list)  : _v(TArray(list)) {}
-    
-    explicit JsonValue(bool v)              : _v(v) {}
-    explicit JsonValue(int64_t v)           : _v(v) {}
-    explicit JsonValue(double v)            : _v(v) {}
-    explicit JsonValue(const char* v)       : _v(v) {}
-    explicit JsonValue(const TString& v)    : _v(v) {}
-    explicit JsonValue(const std::string_view& v) : _v(TString(v)) {}
-    explicit JsonValue(const TArray& v)     : _v(v) {}
-    explicit JsonValue(const TObject& v)    : _v(v) {}
-    
+    JsonValue& operator=(JsonValue&&) noexcept;
+
     // operators
     
-    bool operator==(const JsonValue& other) const
+    bool operator==(const JsonValue& other) const noexcept
     {
         return _v == other._v;
     }
     
-    bool operator!=(const JsonValue& other) const
+    bool operator!=(const JsonValue& other) const noexcept
     {
         return _v != other._v;
     }
@@ -90,46 +93,53 @@ public:
     
     // assign
     
-    void assign(bool value)
+    void assign(bool value) noexcept
     {
+        secureCleanup();
         _v = value;
     }
     
-    void assign(int64_t value)
+    void assign(int64_t value) noexcept
     {
+        secureCleanup();
         _v = value;
     }
     
-    void assign(double value)
+    void assign(double value) noexcept
     {
+        secureCleanup();
         _v = value;
     }
     
-    void assign(const TString & value)
+    void assign(const TString & value) noexcept
     {
+        secureCleanup();
         _v = value;
     }
     
-    void assign(const TObject & value)
+    void assign(const TObject & value) noexcept
     {
+        secureCleanup();
         _v = value;
     }
     
-    void assign(const TArray & value)
+    void assign(const TArray & value) noexcept
     {
+        secureCleanup();
         _v = value;
     }
     
-    void assignNull()
+    void assignNull() noexcept
     {
+        secureCleanup();
         _v = TNull::Value;
     }
     
     // Append / Insert
     
     void reserve(size_t count);
-    void pushBack(const JsonValue& value);
-    void pushBack(std::initializer_list<TArray::value_type> list);
+    void pushBack(const JsonValue& value) noexcept;
+    void pushBack(std::initializer_list<TArray::value_type> list) noexcept;
     void insert(const std::string& key, const JsonValue& value);
     void insert(std::initializer_list<TObject::value_type> list);
     
@@ -268,30 +278,32 @@ public:
     cc7::ByteArray dataFromBase64UrlStringAtPath(const std::string & path) const;
     cc7::ByteArray dataFromHexStringAtPath(const std::string & path) const;
     
-    void assignBase64(const cc7::ByteRange & data);
-    void assignBase64Url(const cc7::ByteRange & data);
-    void assignHexString(const cc7::ByteRange & data);
+    void assignBase64(const cc7::ByteRange & data) noexcept;
+    void assignBase64Url(const cc7::ByteRange & data) noexcept;
+    void assignHexString(const cc7::ByteRange & data) noexcept;
     
     // Static constructs
 
-    static JsonValue null();
-    static JsonValue yes();
-    static JsonValue no();
-    static JsonValue object();
-    static JsonValue array();
-    static JsonValue string();
-    static JsonValue object(std::initializer_list<TObject::value_type> list);
-    static JsonValue array(std::initializer_list<TArray::value_type> list);
-    static JsonValue string(const std::string_view& str);
+    static JsonValue null() noexcept;
+    static JsonValue yes() noexcept;
+    static JsonValue no() noexcept;
+    static JsonValue array() noexcept;
+    static JsonValue array(std::initializer_list<TArray::value_type> list) noexcept;
+    static JsonValue object() noexcept;
+    static JsonValue object(std::initializer_list<TObject::value_type> list) noexcept;
+    static JsonValue string() noexcept;
+    static JsonValue string(const TString& str) noexcept;
+    static JsonValue string(const std::string_view& str) noexcept;
+    static JsonValue string(const char* str) noexcept;
     
-    static JsonValue boolean(bool value);
-    static JsonValue count(size_t c);
-    static JsonValue integer(int64_t value);
-    static JsonValue number(double value);
+    static JsonValue boolean(bool value) noexcept;
+    static JsonValue count(size_t c) noexcept;
+    static JsonValue integer(int64_t value) noexcept;
+    static JsonValue number(double value) noexcept;
 
-    static JsonValue base64(const ByteRange& data);
-    static JsonValue base64Url(const ByteRange& data);
-    static JsonValue hexString(const ByteRange& data);
+    static JsonValue base64(const ByteRange& data) noexcept;
+    static JsonValue base64Url(const ByteRange& data) noexcept;
+    static JsonValue hexString(const ByteRange& data) noexcept;
     
     
     // Debug
@@ -322,16 +334,13 @@ private:
     
     // Private methods
     
+    void secureCleanup() noexcept;
+    
     const JsonValue * lookForValueAtPath(const std::string & path, Type expected_type, bool required) const;
         
-    void castToType(Type t) const
-    {
-        if (type() != t) {
-            throw std::logic_error("Unable to cast JsonValue to " + typeToName(t));
-        }
-    }
+    void castToType(Type t) const;
         
-    static std::string typeToName(Type t);
+    static std::string typeToName(Type t) noexcept;
 };
 
 } // namespace cc7::json
