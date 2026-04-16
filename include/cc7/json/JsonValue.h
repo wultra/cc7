@@ -18,9 +18,9 @@
 
 #include <cc7/ByteArray.h>
 #include <cc7/Base64.h>
-#include <cc7/detail/StringUtils.h>
 #include <map>
 #include <vector>
+#include <variant>
 
 namespace cc7::json {
 
@@ -40,93 +40,46 @@ public:
         Double,
         Boolean,
     };
-    
+        
     typedef std::map<std::string, JsonValue> TObject;
     typedef std::vector<JsonValue> TArray;
     typedef std::string TString;
+        
+    JsonValue() noexcept                             : _v(TNaT::Value) {}
+    JsonValue(Type t) noexcept;
+        
+    explicit JsonValue(std::initializer_list<TObject::value_type> list) noexcept : _v(TObject(list)) {}
+    explicit JsonValue(std::initializer_list<TArray::value_type> list) noexcept : _v(TArray(list)) {}
     
-    JsonValue()                     : _t(NaT), _copy_ptr(nullptr) {}
-    
-    JsonValue(Type t)               : _t(t), _copy_ptr(nullptr)
-    {
-        switch (_t) {
-            case String: _string = new TString(); break;
-            case Object: _object = new TObject(); break;
-            case Array:  _array  = new TArray();  break;
-            default:
-                break;
-        }
-    }
-    
-    explicit JsonValue(std::initializer_list<TObject::value_type> list) : _t(Object), _object(new TObject(list)) {}
-    explicit JsonValue(std::initializer_list<TArray::value_type> list)  : _t(Array),  _array(new TArray(list)) {}
-    
-    explicit JsonValue(bool v)      : _t(Boolean), _boolean(v) {}
-    explicit JsonValue(int64_t v)   : _t(Integer), _integer(v) {}
-    explicit JsonValue(double v)    : _t(Double),  _double(v) {}
-    explicit JsonValue(const char* v) : _t(String)
-    {
-        _string = new TString(v);
-    }
-    explicit JsonValue(const TString& v) : _t(String)
-    {
-        _string = new TString(v);
-    }
-    explicit JsonValue(const std::string_view& v) : _t(String)
-    {
-        _string = new TString(v);
-    }
-    explicit JsonValue(const TArray& v) : _t(Array)
-    {
-        _array = new TArray(v);
-    }
-    explicit JsonValue(const TObject& v) : _t(Object)
-    {
-        _object = new TObject(v);
-    }
-    
-    // Copy / Move
-    
-    JsonValue(const JsonValue & o)
-    {
-        copyFrom(o);
-    }
-    
-    JsonValue(JsonValue && o) : _t(o._t), _copy_ptr(o._copy_ptr)
-    {
-        o._t = NaT;
-    }
-    
-    JsonValue & operator=(const JsonValue & o)
-    {
-        if (&o != this) {
-            destroy();
-            copyFrom(o);
-        }
-        return *this;
-    }
-    
-    JsonValue & operator=(JsonValue && o)
-    {
-        _t = o._t;
-        _copy_ptr = o._copy_ptr;
-        o._t = NaT;
-        return *this;
-    }
+    explicit JsonValue(bool v) noexcept              : _v(v) {}
+    explicit JsonValue(int64_t v) noexcept           : _v(v) {}
+    explicit JsonValue(double v) noexcept            : _v(v) {}
+    explicit JsonValue(const TString& v) noexcept    : _v(v) {}
+    explicit JsonValue(const std::string_view& v) noexcept : _v(TString(v)) {}
+    explicit JsonValue(const char* v) noexcept             : _v(TString(v)) {}
+    explicit JsonValue(const TArray& v) noexcept     : _v(v) {}
+    explicit JsonValue(const TObject& v) noexcept    : _v(v) {}
     
     // Destructor
+    ~JsonValue();
     
-    ~JsonValue()
-    {
-        destroy();
-    }
-    
+    // Copy
+    JsonValue(const JsonValue&) = default;
+    JsonValue& operator=(const JsonValue&);
+    // Move
+    JsonValue(JsonValue&&) noexcept = default;
+    JsonValue& operator=(JsonValue&&) noexcept;
+
     // operators
     
-    bool operator==(const JsonValue& other) const;
-    bool operator!=(const JsonValue& other) const
+    bool operator==(const JsonValue& other) const noexcept
     {
-        return !this->operator==(other);
+        return _v == other._v;
+    }
+    
+    bool operator!=(const JsonValue& other) const noexcept
+    {
+        return _v != other._v;
     }
     
     // Object access
@@ -140,125 +93,116 @@ public:
     
     // assign
     
-    void assign(bool value)
+    void assign(bool value) noexcept
     {
-        destroy();
-        _t = Boolean;
-        _boolean = value;
+        secureCleanup();
+        _v = value;
     }
     
-    void assign(int64_t value)
+    void assign(int64_t value) noexcept
     {
-        destroy();
-        _t = Integer;
-        _integer = value;
+        secureCleanup();
+        _v = value;
     }
     
-    void assign(double value)
+    void assign(double value) noexcept
     {
-        destroy();
-        _t = Double;
-        _double = value;
+        secureCleanup();
+        _v = value;
     }
     
-    void assign(const TString & value)
+    void assign(const TString & value) noexcept
     {
-        destroy();
-        _t = String;
-        _string = new TString(value);
+        secureCleanup();
+        _v = value;
     }
     
-    void assign(const TObject & value)
+    void assign(const TObject & value) noexcept
     {
-        destroy();
-        _t = Object;
-        _object = new TObject(value);
+        secureCleanup();
+        _v = value;
     }
     
-    void assign(const TArray & value)
+    void assign(const TArray & value) noexcept
     {
-        destroy();
-        _t = Array;
-        _array = new TArray(value);
+        secureCleanup();
+        _v = value;
     }
     
-    void assignNull()
+    void assignNull() noexcept
     {
-        destroy();
-        _t = Null;
+        secureCleanup();
+        _v = TNull::Value;
     }
     
     // Append / Insert
     
     void reserve(size_t count);
-    void pushBack(const JsonValue& value);
-    void pushBack(std::initializer_list<TArray::value_type> list);
+    void pushBack(const JsonValue& value) noexcept;
+    void pushBack(std::initializer_list<TArray::value_type> list) noexcept;
     void insert(const std::string& key, const JsonValue& value);
     void insert(std::initializer_list<TObject::value_type> list);
     
     // casting
     
-    Type type() const
-    {
-        return _t;
-    }
+    Type type() const noexcept;
     
     const TObject & asObject() const
     {
-        castToPtrType(Object);
-        return *_object;
+        castToType(Object);
+        return std::get<TObject>(_v);
     }
     
     TObject & asMutableObject()
     {
-        castToPtrType(Object);
-        return *_object;
+        castToType(Object);
+        return std::get<TObject>(_v);
     }
     
     const TArray & asArray() const
     {
-        castToPtrType(Array);
-        return *_array;
+        castToType(Array);
+        return std::get<TArray>(_v);
     }
     
     TArray & asMutableArray()
     {
-        castToPtrType(Array);
-        return *_array;
+        castToType(Array);
+        return std::get<TArray>(_v);
     }
     
     const TString & asString() const
     {
-        castToPtrType(String);
-        return *_string;
+        castToType(String);
+        return std::get<TString>(_v);
     }
     
     TString & asMutableString()
     {
-        castToPtrType(String);
-        return *_string;
+        castToType(String);
+        return std::get<TString>(_v);
     }
     
     double asDouble() const
     {
-        if (_t == Integer) {
+        if (type() == Integer) {
             // Auto-cast from integer to double
-            return static_cast<double>(_integer);
+            return std::get<int64_t>(_v);
         }
         castToType(Double);
-        return _double;
+        return std::get<double>(_v);
     }
     
     int64_t asInteger() const
     {
         castToType(Integer);
-        return _integer;
+        return std::get<int64_t>(_v);
     }
     
     bool asBoolean() const
     {
         castToType(Boolean);
-        return _boolean;
+        return std::get<bool>(_v);
     }
     
     ByteArray asBase64() const;
@@ -267,17 +211,17 @@ public:
         
     bool isNull() const noexcept
     {
-        return _t == Null;
+        return type() == Null;
     }
     
     bool isValid() const noexcept
     {
-        return _t != NaT;
+        return type() != NaT;
     }
     
     bool isType(Type t) const noexcept
     {
-        return _t == t;
+        return type() == t;
     }
     
     bool containsValueAtPath(const std::string & path, Type expected_type = NaT) const
@@ -331,30 +275,32 @@ public:
     cc7::ByteArray dataFromBase64UrlStringAtPath(const std::string & path) const;
     cc7::ByteArray dataFromHexStringAtPath(const std::string & path) const;
     
-    void assignBase64(const cc7::ByteRange & data);
-    void assignBase64Url(const cc7::ByteRange & data);
-    void assignHexString(const cc7::ByteRange & data);
+    void assignBase64(const cc7::ByteRange & data) noexcept;
+    void assignBase64Url(const cc7::ByteRange & data) noexcept;
+    void assignHexString(const cc7::ByteRange & data) noexcept;
     
     // Static constructs
 
-    static JsonValue null();
-    static JsonValue yes();
-    static JsonValue no();
-    static JsonValue object();
-    static JsonValue array();
-    static JsonValue string();
-    static JsonValue object(std::initializer_list<TObject::value_type> list);
-    static JsonValue array(std::initializer_list<TArray::value_type> list);
-    static JsonValue string(const std::string_view& str);
+    static JsonValue null() noexcept;
+    static JsonValue yes() noexcept;
+    static JsonValue no() noexcept;
+    static JsonValue array() noexcept;
+    static JsonValue array(std::initializer_list<TArray::value_type> list) noexcept;
+    static JsonValue object() noexcept;
+    static JsonValue object(std::initializer_list<TObject::value_type> list) noexcept;
+    static JsonValue string() noexcept;
+    static JsonValue string(const TString& str) noexcept;
+    static JsonValue string(const std::string_view& str) noexcept;
+    static JsonValue string(const char* str) noexcept;
     
-    static JsonValue boolean(bool value);
-    static JsonValue count(size_t c);
-    static JsonValue integer(int64_t value);
-    static JsonValue number(double value);
+    static JsonValue boolean(bool value) noexcept;
+    static JsonValue count(size_t c) noexcept;
+    static JsonValue integer(int64_t value) noexcept;
+    static JsonValue number(double value) noexcept;
 
-    static JsonValue base64(const ByteRange& data);
-    static JsonValue base64Url(const ByteRange& data);
-    static JsonValue hexString(const ByteRange& data);
+    static JsonValue base64(const ByteRange& data) noexcept;
+    static JsonValue base64Url(const ByteRange& data) noexcept;
+    static JsonValue hexString(const ByteRange& data) noexcept;
     
     
     // Debug
@@ -363,72 +309,35 @@ public:
     
 private:
     
-    // Private members
+    enum class TNaT  { Value };
+    enum class TNull { Value };
+
+    // Be aware that order of the types in variant must match order
+    // in enum Type. If not, then type() function will not work properly.
     
-    Type _t;
-    union
-    {
-        bool        _boolean;
-        int64_t     _integer;
-        double      _double;
-        TObject *   _object;
-        TArray *    _array;
-        TString *   _string;
-        void *      _copy_ptr;
-    };
+    typedef std::variant
+    <
+        TNaT,
+        TNull,
+        TObject,
+        TArray,
+        TString,
+        int64_t,
+        double,
+        bool
+    > Value;
+
+    Value _v;
     
     // Private methods
     
+    void secureCleanup() noexcept;
+    
     const JsonValue * lookForValueAtPath(const std::string & path, Type expected_type, bool required) const;
-    
-    void destroy()
-    {
-        switch (_t) {
-            case Object:
-                delete _object;
-                break;
-            case Array:
-                delete _array;
-                break;
-            case String:
-                detail::StringCleanup(*_string);
-                delete _string;
-                break;
-            default:
-                break;
-        }
-        _integer = 0;
-    }
-    
-    void copyFrom(const JsonValue & o)
-    {
-        _t = o._t;
-        switch (o._t) {
-            case String: _string = new TString(*o._string); break;
-            case Object: _object = new TObject(*o._object); break;
-            case Array:  _array  = new TArray(*o._array);   break;
-            default:
-                _copy_ptr = o._copy_ptr;
-                break;
-        }
-    }
-    
-    void castToType(Type t) const
-    {
-        if (_t != t) {
-            throw std::logic_error("Unable to cast JsonValue to " + typeToName(t));
-        }
-    }
-    
-    void castToPtrType(Type t) const
-    {
-        castToType(t);
-        if (_object == nullptr) {
-            throw std::logic_error("JsonValue with type " + typeToName(t) + " has no ");
-        }
-    }
-    
-    static std::string typeToName(Type t);
+        
+    void castToType(Type t) const;
+        
+    static std::string typeToName(Type t) noexcept;
 };
 
 } // namespace cc7::json

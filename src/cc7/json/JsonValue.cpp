@@ -21,32 +21,52 @@
 
 namespace cc7::json {
 
-// Operators
+// Constructor, Destructor, Copy, Move
 
-bool JsonValue::operator==(const JsonValue& other) const
+JsonValue::JsonValue(Type t) noexcept
 {
-    if (other.isType(_t)) {
-        switch (_t) {
-            case Array:
-                return *_array == *other._array;
-            case String:
-                return *_string == *other._string;
-            case Object:
-                return *_object == *other._object;
-            case Boolean:
-                return _boolean == other._boolean;
-            case Integer:
-                return _integer == other._integer;
-            case Double:
-                return _double == other._double;
-            case NaT:
-            case Null:
-                return true;
-            default:
-                break;
-        }
+    switch (t) {
+        case NaT:       _v = TNaT::Value; break;
+        case Null:      _v = TNull::Value; break;
+        case String:    _v = TString(); break;
+        case Object:    _v = TObject(); break;
+        case Array:     _v = TArray(); break;
+        case Integer:   _v = 0; break;
+        case Double:    _v = 0.0; break;
+        case Boolean:   _v = false; break;
     }
-    return false;
+}
+
+JsonValue& JsonValue::operator=(const JsonValue& other)
+{
+    if (this != &other) {
+        secureCleanup();
+        _v = other._v;
+    }
+    return *this;
+}
+
+JsonValue& JsonValue::operator=(JsonValue&& other) noexcept
+{
+    if (this != &other) {
+        secureCleanup();
+        _v = std::move(other._v);
+    }
+    return *this;
+}
+
+JsonValue::~JsonValue()
+{
+    secureCleanup();
+}
+
+JsonValue::Type JsonValue::type() const noexcept
+{
+    auto index = _v.index();
+    if (index != std::variant_npos) {
+        return static_cast<Type>(index);
+    }
+    return NaT;
 }
 
 // Object access
@@ -128,17 +148,17 @@ const JsonValue * JsonValue::lookForValueAtPath(const std::string & path, Type e
 
 // ByteRange binding
 
-void JsonValue::assignBase64(const ByteRange &data)
+void JsonValue::assignBase64(const ByteRange &data) noexcept
 {
     assign(data.base64());
 }
 
-void JsonValue::assignBase64Url(const ByteRange &data)
+void JsonValue::assignBase64Url(const ByteRange &data) noexcept
 {
     assign(data.base64Url());
 }
 
-void JsonValue::assignHexString(const ByteRange &data)
+void JsonValue::assignHexString(const ByteRange &data) noexcept
 {
     assign(data.hexadecimal());
 }
@@ -164,39 +184,41 @@ ByteArray JsonValue::dataFromHexStringAtPath(const std::string & path) const
 
 ByteArray JsonValue::asBase64() const
 {
-    castToType(String);
-    return Base64::decode(*_string);
+    return Base64::decode(asString());
 }
 
 ByteArray JsonValue::asBase64Url() const
 {
-    castToType(String);
-    return Base64::urlDecode(*_string);
+    return Base64::urlDecode(asString());
 }
 
 ByteArray JsonValue::asHexString() const
 {
-    castToType(String);
-    return FromHexString(*_string);
+    return FromHexString(asString());
 }
 
 // Append / Insert
 
 void JsonValue::reserve(size_t count)
 {
-    switch (_t) {
-        case Array: _array->reserve(count); break;
-        case String: _string->reserve(count); break;
-        default: break;
+    switch (type()) {
+        case Array:
+            asMutableArray().reserve(count);
+            break;
+        case String:
+            asMutableString().reserve(count);
+            break;
+        default:
+            break;
     }
 }
 
-void JsonValue::pushBack(const JsonValue &value)
+void JsonValue::pushBack(const JsonValue &value) noexcept
 {
     asMutableArray().push_back(value);
 }
 
-void JsonValue::pushBack(std::initializer_list<TArray::value_type> list)
+void JsonValue::pushBack(std::initializer_list<TArray::value_type> list) noexcept
 {
     auto& array = asMutableArray();
     array.insert(array.end(), list);
@@ -214,7 +236,22 @@ void JsonValue::insert(std::initializer_list<TObject::value_type> list)
 
 // Utility
 
-std::string JsonValue::typeToName(Type t)
+void JsonValue::secureCleanup() noexcept
+{
+    if (type() == String) {
+        // Cleanup string in destructor or in value assignment.
+        detail::StringCleanup(std::get<TString>(_v));
+    }
+}
+
+void JsonValue::castToType(Type t) const
+{
+    if (type() != t) {
+        throw std::logic_error("Unable to cast JsonValue to " + typeToName(t));
+    }
+}
+
+std::string JsonValue::typeToName(Type t) noexcept
 {
     switch (t) {
         case Null: return "Null";
@@ -230,82 +267,92 @@ std::string JsonValue::typeToName(Type t)
 
 // Static constructors
 
-JsonValue JsonValue::object()
+JsonValue JsonValue::object() noexcept
 {
     return JsonValue(Object);
 }
 
-JsonValue JsonValue::array()
+JsonValue JsonValue::array() noexcept
 {
     return JsonValue(Array);
 }
 
-JsonValue JsonValue::string()
+JsonValue JsonValue::string() noexcept
 {
     return JsonValue(String);
 }
 
-JsonValue JsonValue::object(std::initializer_list<TObject::value_type> list)
+JsonValue JsonValue::object(std::initializer_list<TObject::value_type> list) noexcept
 {
     return JsonValue(list);
 }
 
-JsonValue JsonValue::array(std::initializer_list<TArray::value_type> list)
+JsonValue JsonValue::array(std::initializer_list<TArray::value_type> list) noexcept
 {
     return JsonValue(list);
 }
 
-JsonValue JsonValue::string(const std::string_view& str)
+JsonValue JsonValue::string(const std::string_view& str) noexcept
 {
     return JsonValue(str);
 }
 
-JsonValue JsonValue::null()
+JsonValue JsonValue::string(const char* str) noexcept
+{
+    return JsonValue(str);
+}
+
+JsonValue JsonValue::string(const TString& str) noexcept
+{
+    return JsonValue(str);
+}
+
+JsonValue JsonValue::null() noexcept
 {
     return JsonValue(Null);
 }
 
-JsonValue JsonValue::yes()
+JsonValue JsonValue::yes() noexcept
 {
     return JsonValue(true);
 }
 
-JsonValue JsonValue::no()
+JsonValue JsonValue::no() noexcept
 {
     return JsonValue(false);
 }
 
-JsonValue JsonValue::boolean(bool value)
+JsonValue JsonValue::boolean(bool value) noexcept
 {
     return JsonValue(value);
 }
 
-JsonValue JsonValue::count(size_t c)
+JsonValue JsonValue::count(size_t c) noexcept
 {
     return JsonValue((int64_t)c);
 }
 
-JsonValue JsonValue::integer(int64_t value)
+JsonValue JsonValue::integer(int64_t value) noexcept
 {
     return JsonValue(value);
 }
 
-JsonValue JsonValue::number(double value)
+JsonValue JsonValue::number(double value) noexcept
 {
     return JsonValue(value);
 }
 
-JsonValue JsonValue::base64(const ByteRange& data)
+JsonValue JsonValue::base64(const ByteRange& data) noexcept
 {
     return JsonValue(data.base64());
 }
 
-JsonValue JsonValue::base64Url(const ByteRange& data)
+JsonValue JsonValue::base64Url(const ByteRange& data) noexcept
 {
     return JsonValue(data.base64Url());
 }
 
-JsonValue JsonValue::hexString(const ByteRange& data)
+JsonValue JsonValue::hexString(const ByteRange& data) noexcept
 {
     return JsonValue(data.hexadecimal());
 }

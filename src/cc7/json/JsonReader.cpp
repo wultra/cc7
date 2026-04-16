@@ -16,6 +16,7 @@
 
 #include <cc7/json/JsonReader.h>
 #include <cc7/json/JsonException.h>
+#include <cc7/detail/StringUtils.h>
 
 namespace cc7::json {
 
