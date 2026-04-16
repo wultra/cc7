@@ -60,6 +60,15 @@ JsonValue::~JsonValue()
     secureCleanup();
 }
 
+JsonValue::Type JsonValue::type() const noexcept
+{
+    auto index = _v.index();
+    if (index != std::variant_npos) {
+        return static_cast<Type>(index);
+    }
+    return NaT;
+}
+
 // Object access
 
 JsonValue& JsonValue::operator[](const std::string& key)

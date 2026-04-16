@@ -145,10 +145,7 @@ public:
     
     // casting
     
-    Type type() const
-    {
-        return static_cast<Type>(_v.index());
-    }
+    Type type() const noexcept;
     
     const TObject & asObject() const
     {
