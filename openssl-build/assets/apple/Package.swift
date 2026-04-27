@@ -1,4 +1,4 @@
-// swift-tools-version:6.1
+// swift-tools-version:6.3
 import PackageDescription
 
 // ------------------------------------------------------------------------------- //
@@ -40,14 +40,9 @@ let package = Package(
             publicHeadersPath: "include",
             cSettings: [
                 .headerSearchPath("include"),
-                .unsafeFlags(["-std=c23"])
             ],
             cxxSettings: [
                 .headerSearchPath("include"),
-                .unsafeFlags(["-std=c++23"])
-            ],
-            linkerSettings: [
-                .unsafeFlags(["-ObjC"])
             ]
         ),
         .target(
@@ -68,11 +63,9 @@ let package = Package(
             ],
             cSettings: [
                 .headerSearchPath("include"),
-                .unsafeFlags(["-std=c23"])
             ],
             cxxSettings: [
                 .headerSearchPath("include"),
-                .unsafeFlags(["-std=c++23"])
             ]
         ),
         .testTarget(
@@ -91,13 +84,13 @@ let package = Package(
                 "."
             ],
             cSettings: [
-                .headerSearchPath("../../include"),
-                .unsafeFlags(["-std=c23"])
+                .headerSearchPath("../../include")
             ],
             cxxSettings: [
-                .headerSearchPath("../../include"),
-                .unsafeFlags(["-std=c++23"])
+                .headerSearchPath("../../include")
             ]
         )
-    ]
+    ],
+    cLanguageStandard: .c17,
+    cxxLanguageStandard: .cxx20
 )
