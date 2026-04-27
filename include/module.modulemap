@@ -1,0 +1,11 @@
+module cc7 {
+    umbrella header "cc7/CC7.h"
+    export *
+    module * { export * }
+}
+
+module cc7tests {
+    umbrella header "cc7tests/CC7Tests.h"
+    export *
+    module * { export * }
+}

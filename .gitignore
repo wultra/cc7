@@ -5,6 +5,10 @@ openssl-lib/
 # PA build system uses this file to keep legacy build status
 .apple-legacy-build
 
+# SPM
+.build
+.swiftpm
+
 # osx image file
 .DS_Store
 
