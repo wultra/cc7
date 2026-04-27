@@ -473,9 +473,9 @@ function BUILD_APPLE_SWIFT_PACKAGE
 
     local TMP_PKG="${OPENSSL_DEST_APPLE_XCFW_PACKAGE}.tmp"
     local OUT_PKG="${OPENSSL_DEST_APPLE_XCFW_PACKAGE}"
-    
-    sed -e "s/%ARTIFACT_URL%/$ARTIFACT_URL/g" "${TOP}/assets/apple/Package.swift" > "${TMP_PKG}"
-    sed -e "s/%ARTIFACT_HASH%/$ARTIFACT_HASH/g" "${TMP_PKG}" > "${OUT_PKG}"
+
+    sed -e "s|%ARTIFACT_URL%|${ARTIFACT_URL}|g" "${TOP}/assets/apple/Package.swift" > "${TMP_PKG}"
+    sed -e "s|%ARTIFACT_HASH%|${ARTIFACT_HASH}|g" "${TMP_PKG}" > "${OUT_PKG}"
     $RM "${TMP_PKG}"
 }
 
