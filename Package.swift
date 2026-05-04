@@ -43,6 +43,9 @@ let package = Package(
             ],
             cxxSettings: [
                 .headerSearchPath("include"),
+            ],
+            linkerSettings: [
+                .linkedFramework("Foundation")
             ]
         ),
         .target(
