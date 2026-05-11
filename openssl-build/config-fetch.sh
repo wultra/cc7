@@ -4,9 +4,9 @@
 # ------------------------------------------------------- #
 
 OPENSSL_FETCH_VERSION='3.5.6'
-OPENSSL_FETCH_ANDROID_URL='https://github.com/wultra/cc7/releases/download/0.7.0-rc1/openssl-3.5.6-android.tar.gz'
-OPENSSL_FETCH_ANDROID_HASH='8a5f5a8874fae20c1772107ebf1c38b465dcf33ecb9d25bed9bed569e256bda8'
-OPENSSL_FETCH_APPLE_URL='https://github.com/wultra/cc7/releases/download/0.7.0-rc1/openssl-3.5.6-apple.tar.gz'
-OPENSSL_FETCH_APPLE_HASH='028520cc88d700d881a353e5321d8267f54969621cba1ed1afb46c7340b709ea'
-OPENSSL_FETCH_APPLE_XCFW_URL='https://github.com/wultra/cc7/releases/download/0.7.0-rc1/openssl-3.5.6.xcframework.zip'
-OPENSSL_FETCH_APPLE_XCFW_HASH='75f8e7ed74e27e467981621fd3ffaafd7ea2ffed080c6480cc586eb541c55e6b'
+OPENSSL_FETCH_ANDROID_URL='https://github.com/wultra/cc7/releases/download/0.7.0-rc2/openssl-3.5.6-android.tar.gz'
+OPENSSL_FETCH_ANDROID_HASH='e9e9d922d6ffdd71063efc7c3990c4f44d33784ea1fb4b1b2ee567e719812e9a'
+OPENSSL_FETCH_APPLE_URL='https://github.com/wultra/cc7/releases/download/0.7.0-rc2/openssl-3.5.6-apple.tar.gz'
+OPENSSL_FETCH_APPLE_HASH='4a55a37462a3111a4732efff4ab50a2fcd8cc06d7c658e857faf33cf931869ce'
+OPENSSL_FETCH_APPLE_XCFW_URL='https://github.com/wultra/cc7/releases/download/0.7.0-rc2/openssl-3.5.6.xcframework.zip'
+OPENSSL_FETCH_APPLE_XCFW_HASH='ecd0081aec0534a12c971eb5a61626c7dc6ddb72c4281fd35703b4b4728bc02d'

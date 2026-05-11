@@ -22,8 +22,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "openssl",
-            url: "https://github.com/wultra/cc7/releases/download/0.7.0-rc1/openssl-3.5.6.xcframework.zip",
-            checksum: "75f8e7ed74e27e467981621fd3ffaafd7ea2ffed080c6480cc586eb541c55e6b"
+            url: "https://github.com/wultra/cc7/releases/download/0.7.0-rc2/openssl-3.5.6.xcframework.zip",
+            checksum: "ecd0081aec0534a12c971eb5a61626c7dc6ddb72c4281fd35703b4b4728bc02d"
         ),
         .target(
             name: "cc7",
