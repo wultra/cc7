@@ -1,0 +1,13 @@
+module cc7 {
+    requires cplusplus
+    umbrella header "cc7/CC7.h"
+    export *
+    module * { export * }
+}
+
+module cc7tests {
+    requires cplusplus
+    umbrella header "cc7tests/CC7Tests.h"
+    export *
+    module * { export * }
+}

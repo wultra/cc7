@@ -470,28 +470,13 @@ function BUILD_APPLE_SWIFT_PACKAGE
     LOG "    - hash  : ${ARTIFACT_HASH}"
     
     LOG "Preparing Package.swift..."
-    
-    cat > ${OPENSSL_DEST_APPLE_XCFW_PACKAGE} <<EOF
-// swift-tools-version:5.3
-import PackageDescription
 
-let package = Package(
-    name: "openssl",
-    platforms: [
-        .iOS(.v9),
-        .tvOS(.v9)
-    ],
-    products: [
-        .library(name: "openssl", targets: ["openssl"])
-    ],
-    targets: [
-        .binaryTarget(
-            name: "openssl",
-            url: "${ARTIFACT_URL}",
-            checksum: "${ARTIFACT_HASH}")
-    ]
-)
-EOF
+    local TMP_PKG="${OPENSSL_DEST_APPLE_XCFW_PACKAGE}.tmp"
+    local OUT_PKG="${OPENSSL_DEST_APPLE_XCFW_PACKAGE}"
+
+    sed -e "s|%ARTIFACT_URL%|${ARTIFACT_URL}|g" "${TOP}/assets/apple/Package.swift" > "${TMP_PKG}"
+    sed -e "s|%ARTIFACT_HASH%|${ARTIFACT_HASH}|g" "${TMP_PKG}" > "${OUT_PKG}"
+    $RM "${TMP_PKG}"
 }
 
 # -----------------------------------------------------------------------------
