@@ -6,7 +6,7 @@
 
 | Namespace | Description |
 |-----------|-------------|
-| `cc` | General utilities: Base64 encoding/decoding and foundational support objects |
+| `cc7` | General utilities: Base64 encoding/decoding and foundational support objects |
 | `cc7::crypto` | Cryptographic library built on top of OpenSSL, providing the subset of functions required by Wultra projects |
 | `cc7::json` | JSON parser and writer designed to minimise sensitive data leaking in memory |
 | `cc7::jwt` | Simple JWT / JWS signer and verifier |
