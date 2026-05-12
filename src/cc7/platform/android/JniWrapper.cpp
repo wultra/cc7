@@ -214,7 +214,7 @@ std::vector<int64_t> JNI::fromJava(jlongArray array)
             if (is_copy) {
                 // If returned pointer is a copy, then cleanup bytes, to do not leak
                 // possible sensitive information.
-                memset(bytes, 0, length);
+                memset(bytes, 0, length * sizeof(jlong));
             }
             // release allocated bytes
             _env->ReleaseLongArrayElements(array, bytes, JNI_ABORT);
@@ -301,7 +301,8 @@ JniObjectArray JNI::fromJava(jobjectArray array)
 JniObjectArray JNI::createObjectArray(jclass item_clazz, size_t size, bool null_if_empty)
 {
     jobjectArray array;
-    if (size && !null_if_empty) {
+    if (size || !null_if_empty) {
+        // Make array if has some size, or if null_if_empty is false (e.g. creates empty array)
         array = _env->NewObjectArray((jsize) size, item_clazz, nullptr);
         checkForJniFailure("NewObjectArray");
     } else {
@@ -582,7 +583,9 @@ bool JNI::isExactObjectType(jobject object, jclass clazz)
         return false;
     }
     auto object_clazz = _env->GetObjectClass(object);
-    return _env->IsSameObject(object_clazz, clazz);
+    auto result = _env->IsSameObject(object_clazz, clazz);
+    _env->DeleteLocalRef(object);
+    return result;
 }
 
 // Exceptions
@@ -642,6 +645,9 @@ static std::string _ExtractThrowableMessageFallback(JNIEnv * env, jthrowable thr
         return "java/lang/Throwable doesn't implement getMessage()";
     }
     jstring object = (jstring) env->CallObjectMethod(throwable, mid);
+    if (!object) {
+        return "java/lang/Throwable.getMessage returned null";
+    }
     auto str_ptr = env->GetStringUTFChars(object, nullptr);
     if (!str_ptr) {
         return "java/lang/Throwable.getMessage failed to convert result to string";
