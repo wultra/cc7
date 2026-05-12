@@ -19,15 +19,26 @@
 using namespace cc7::json;
 
 namespace cc7::objc {
-    
-static id JsonValueToObjCImpl(const JsonValue& value)
+
+static const int MAX_DEPTH = 32;
+
+static id JsonValueToObjCImpl(const JsonValue& value, int depth)
 {
+    if (depth > MAX_DEPTH) {
+        throw std::invalid_argument("JsonValue is too complex to convert");
+    }
     switch (value.type()) {
         case JsonValue::Object: {
             NSMutableDictionary* out = [NSMutableDictionary dictionary];
             for (const auto& entry : value.asObject()) {
                 NSString * key = [NSString stringWithUTF8String:entry.first.c_str()];
-                NSString * value = JsonValueToObjCImpl(entry.second);
+                if (!key) {
+                    throw std::invalid_argument("JsonValue contains invalid string");
+                }
+                id value = JsonValueToObjCImpl(entry.second, depth + 1);
+                if (!value) {
+                    throw std::invalid_argument("JsonValue failed to convert to ObjC representation");
+                }
                 [out setValue:value forKey:key];
             }
             return out;
@@ -35,12 +46,17 @@ static id JsonValueToObjCImpl(const JsonValue& value)
         case JsonValue::Array: {
             NSMutableArray* out = [NSMutableArray arrayWithCapacity:0];
             for (const auto& entry : value.asArray()) {
-                [out addObject:JsonValueToObjCImpl(entry)];
+                [out addObject:JsonValueToObjCImpl(entry, depth + 1)];
             }
             return out;
         }
-        case JsonValue::String:
-            return [NSString stringWithUTF8String:value.asString().c_str()];
+        case JsonValue::String: {
+            NSString * string = [NSString stringWithUTF8String:value.asString().c_str()];
+            if (!string) {
+                throw std::invalid_argument("JsonValue contains invalid string");
+            }
+            return string;
+        }
         case JsonValue::Integer:
             return [NSNumber numberWithInteger:value.asInteger()];
         case JsonValue::Double:
@@ -67,11 +83,14 @@ id JsonValueToObjC(const cc7::json::JsonValue& value, bool null_is_nil, bool nat
         default:
             break;
     }
-    return JsonValueToObjCImpl(value);
+    return JsonValueToObjCImpl(value, 0);
 }
 
-JsonValue JsonValueFromObjC(id repr)
+static JsonValue JsonValueFromObjCImpl(id repr, int depth)
 {
+    if (depth > MAX_DEPTH) {
+        throw std::invalid_argument("JSON representation is too complex to convert");
+    }
     Class stringClass = [NSString class];
     if ([repr isKindOfClass:[NSDictionary class]]) {
         // convert NSDictionary<NSString*, id>
@@ -80,8 +99,11 @@ JsonValue JsonValueFromObjC(id repr)
             if (![key isKindOfClass:stringClass]) {
                 throw std::invalid_argument("Unsupported key type in JSON representation");
             }
-            auto c_key = std::string([((NSString*)key) UTF8String]);
-            object[c_key] = JsonValueFromObjC(obj);
+            auto key_str = [((NSString*)key) UTF8String];
+            if (!key_str) {
+                throw std::invalid_argument("Key contains invalid UTF-8 sequence in JSON representation");
+            }
+            object[std::string(key_str)] = JsonValueFromObjCImpl(obj, depth + 1);
         }];
         return object;
         
@@ -89,19 +111,24 @@ JsonValue JsonValueFromObjC(id repr)
         // convert NSArray<id>
         auto __block array = JsonValue::array();
         [(NSArray*)repr enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
-            array.pushBack(JsonValueFromObjC(obj));
+            array.pushBack(JsonValueFromObjCImpl(obj, depth + 1));
         }];
         return array;
         
     } else if ([repr isKindOfClass:stringClass]) {
         // NSString
-        return JsonValue::string(std::string([((NSString*)repr) UTF8String]));
+        auto str = [((NSString*)repr) UTF8String];
+        if (!str) {
+            throw std::invalid_argument("String contains invalid UTF-8 sequence in JSON representation");
+        }
+        return JsonValue::string(std::string(str));
         
     } else if ([repr isKindOfClass:[NSNumber class]]) {
         
         NSNumber* n = (NSNumber*)repr;
         switch (n.objCType[0]) {
-            case 'c': {
+            case 'C':   // unsigned char
+            case 'c': { // char
                 auto cv = n.charValue;
                 if (cv == 0 || cv == 1) {
                     // @NO or @YES
@@ -109,13 +136,20 @@ JsonValue JsonValueFromObjC(id repr)
                 }
                 // fallback to integer
             }
-            case 'i':
-            case 's':
-            case 'q':
+            case 'Q':   // unsigned long long
+            case 'q':   // long long
+            case 'L':   // unsigned long
+            case 'l':   // long
+            case 'I':   // unsigned int
+            case 'i':   // int
+            case 'S':   // unsigned short
+            case 's':   // short
                 return JsonValue::integer(n.longLongValue);
             case 'f':
             case 'd':
                 return JsonValue::number(n.doubleValue);
+            case 'B':
+                return JsonValue::boolean(n.boolValue);
             default:
                 throw std::invalid_argument("Unsupported type of NSNumber in JSON representation");
         }
@@ -123,6 +157,11 @@ JsonValue JsonValueFromObjC(id repr)
         return JsonValue::null();
     }
     throw std::invalid_argument("Unsupported object type in ObjC JSON representation");
+}
+
+JsonValue JsonValueFromObjC(id repr)
+{
+    return JsonValueFromObjCImpl(repr, 0);
 }
     
 } // namespace cc7::objc
