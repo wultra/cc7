@@ -584,7 +584,7 @@ bool JNI::isExactObjectType(jobject object, jclass clazz)
     }
     auto object_clazz = _env->GetObjectClass(object);
     auto result = _env->IsSameObject(object_clazz, clazz);
-    _env->DeleteLocalRef(object);
+    _env->DeleteLocalRef(object_clazz);
     return result;
 }
 
