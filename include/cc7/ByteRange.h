@@ -256,7 +256,7 @@ public:
     
     const_reverse_iterator crend() const
     {
-        return const_reverse_iterator(_end);
+        return const_reverse_iterator(_begin);
     }
     
     // Non-STL methods
@@ -308,7 +308,7 @@ public:
     
     ByteRange subRange(size_type from, size_type count) const
     {
-        if ((from <= size()) && (from + count <= size())) {
+        if ((from <= size()) && (count <= size() - from)) {
             return ByteRange(begin() + from, count);
         }
         throw std::out_of_range("selectet region is out of range");
@@ -349,7 +349,7 @@ protected:
         
     void _validateBeginEnd(const_pointer begin, const_pointer end)
     {
-        if ((begin > end) || (!begin && end)) {
+        if (!begin != !end || begin > end) {
             throw std::invalid_argument("bad begin or end pointers provided");
         }
     }

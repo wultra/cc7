@@ -41,7 +41,7 @@ namespace cc7 {
 /**
  The encoding table, which maps digit to the character.
  */
-static char s_encoding_table[32] =
+static const char s_encoding_table[32] =
 {
     'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
     'Q','R','S','T','U','V','W','X','Y','Z','2','3','4','5','6','7'
