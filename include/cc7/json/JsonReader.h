@@ -81,6 +81,14 @@ private:
     cc7::byte   _consumedSeparator;
     
     std::string _error;
+    
+    /// Token size limit for parser. If parsed string or number exceed this size,
+    /// the error is reported.
+    static const size_t MAX_TOKEN_SIZE = 512*1024;
+    /// Max number of items allowed in the array.
+    static const size_t MAX_ARRAY_SIZE = 4096;
+    /// Max number of items allowed in the object map.
+    static const size_t MAX_OBJECT_SIZE = 4096;
 };
 
 } // namespace cc7::json

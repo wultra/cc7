@@ -87,10 +87,10 @@ cc7::byte JsonReader::getChar()
 const cc7::byte * JsonReader::shouldReadPtr(size_t requiredSize)
 {
     JSON_ASSERT(requiredSize > 0, "Required size must be greater than 0");
+    // If following check fails then there's a problem in some upper loop.
+    // The loop doesn't validate length & offset properly
+    JSON_ASSERT(_length >= _offset, "Offset is out of range");
     if ((_length - _offset) >= requiredSize) {
-        // If following check fails then there's a problem in some upper loop.
-        // The loop doesn't validate length & offset properly
-        JSON_ASSERT(_length > _offset, "Offset is out of range");
         return dataPtr();
     }
     _unexpectedEndOfStream = true;
@@ -265,7 +265,13 @@ JsonValue JsonReader::parseArray()
     {
         JsonValue value = parseValue(separator + 1);
         if (value.isValid()) {
-            result.push_back(value);
+            if (result.size() <= MAX_ARRAY_SIZE) {
+                result.push_back(value);
+            } else {
+                setParserError("Array is too big.");
+                error = true;
+                break;
+            }
         } else {
             if (_consumedSeparator != ']') {
                 // Consumed separator must be ']'. This is error, clear result and break loop.
@@ -294,10 +300,8 @@ JsonValue JsonReader::parseArray()
         break;
         
     }
-    
-    popStack();
-    
-    if (!error) {
+        
+    if (popStack() && !error) {
         return array;
     }
     return JsonValue();
@@ -342,8 +346,14 @@ JsonValue JsonReader::parseObject()
             // Read value
             JsonValue value =  parseValue(nullptr);
             if (value.isValid()) {
-                // store key - value pair
-                result[key.asString()] = value;
+                if (result.size() <= MAX_OBJECT_SIZE) {
+                    // store key - value pair
+                    result[key.asString()] = value;
+                } else {
+                    setParserError("Object is too big");
+                    error = true;
+                    break;
+                }
             } else {
                 // something is wrong, break loop.
                 // error is already set
@@ -373,9 +383,7 @@ JsonValue JsonReader::parseObject()
         break;
     }
     
-    popStack();
-    
-    if (!error) {
+    if (popStack() && !error) {
         return object;
     }
     return JsonValue();
@@ -399,6 +407,11 @@ JsonValue JsonReader::parseString()
     size_t range_length   = 0;
     while (!isEnd())
     {
+        if (result.size() + range_length > MAX_TOKEN_SIZE) {
+            setParserError("Maximum size of string reached");
+            return JsonValue();
+        }
+        
         uc = getChar();
         
         if (uc == '"') {
@@ -480,14 +493,17 @@ static bool _Hex2Char(const cc7::byte * p, cc7::byte & out)
 static bool _UTF8Encode(cc7::U32 codepoint, ByteArray & out)
 {
     cc7::byte buffer[4];
-    if(codepoint < 0x80) {
+    if (codepoint < 0x80) {
         buffer[0] = (char)codepoint;
         out.append(buffer, 1);
-    } else if(codepoint < 0x800) {
+    } else if (codepoint < 0x800) {
         buffer[0] = 0xC0 + ((codepoint & 0x7C0) >> 6);
         buffer[1] = 0x80 + ((codepoint & 0x03F));
         out.append(buffer, 2);
-    } else if(codepoint < 0x10000) {
+    } else if (codepoint < 0x10000) {
+        if (codepoint >= 0xD800 && codepoint <= 0xDFFF) {
+            return false;   // surrogates are not valid Unicode scalar values
+        }
         buffer[0] = 0xE0 + ((codepoint & 0xF000) >> 12);
         buffer[1] = 0x80 + ((codepoint & 0x0FC0) >> 6);
         buffer[2] = 0x80 + ((codepoint & 0x003F));
@@ -562,6 +578,7 @@ bool JsonReader::parseEscapedCharacter(ByteArray & result)
                 setParserError("Wrong hexadecimal value in escaped unicode character");
                 return true;
             }
+            // TODO: Fix high-low surrogate sequence here
             if (!_UTF8Encode((cc7::U32(uc_bytes[1]) << 8) | cc7::U32(uc_bytes[0]), result)) {
                 setParserError("Wrong UTF8 codepoint");
                 return true;
@@ -626,9 +643,9 @@ JsonValue JsonReader::parseNumber()
             break;
         }
     }
-    if (!error) {
+    if (!error && (_offset - begin <= MAX_TOKEN_SIZE)) {
         try {
-            std::string number(charPtr(+ begin), _offset - begin);
+            std::string number(charPtr(begin), _offset - begin);
             if (has_exponent || has_decimal_mark) {
                 return JsonValue(std::stod(number));
             } else {
