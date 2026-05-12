@@ -17,6 +17,7 @@
 #include <cc7/json/JsonWriter.h>
 #include <cc7/json/JsonException.h>
 #include <cc7/detail/StringUtils.h>
+#include <cmath>
 
 namespace cc7::json {
 
@@ -226,7 +227,7 @@ void JsonWriter::writeString(const JsonValue::TString& string)
 
 inline static char IntToHex4(int n)
 {
-    int nib = n & 0x3;
+    int nib = n & 0xF;
     return nib < 10 ? '0' + nib : 'a' - 10 + nib;
 }
 
@@ -283,6 +284,9 @@ void JsonWriter::writeInteger(int64_t value)
 
 void JsonWriter::writeDouble(double value)
 {
+    if (!std::isfinite(value)) {
+        throw JsonException("Floating point value is not a real number");
+    }
     auto string = detail::FormattedString(_conf.doubleFormat, value);
     _out.append(MakeRange(string));
 }

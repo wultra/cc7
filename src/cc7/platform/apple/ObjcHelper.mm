@@ -57,7 +57,10 @@ std::string CopyFromNSString(NSString * string)
 {
     std::string result;
     if (string) {
-        result.assign(string.UTF8String);
+        auto str_ptr = string.UTF8String;
+        if (str_ptr) {
+            result.assign(str_ptr);
+        }
     }
     return result;
 }

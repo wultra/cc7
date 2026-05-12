@@ -61,9 +61,9 @@ std::string ByteRange::hexString(bool lower_case) const noexcept
 
 bool ConstTimeEqual(const ByteRange & a, const ByteRange & b)
 {
-    auto size = std::min(a.size(), b.size());
-    return CRYPTO_memcmp(a.begin(), b.begin(), size) == 0 &&
-            a.size() == b.size();
+    if (a.size() != b.size()) return false;
+    if (a.size() == 0) return true;
+    return CRYPTO_memcmp(a.begin(), b.begin(), a.size()) == 0;
 }
 
 } // cc7

@@ -109,7 +109,7 @@ static JsonValue ArrayFromJava(JNI& jni, const JniCommon& specs, jobject obj)
     auto result = JsonValue::array();
     auto wrapped = jni.fromJava(obj);
     auto size = wrapped.callInt(specs.specList.methods.size);
-    for (size_t index = 0; index < size; size++) {
+    for (size_t index = 0; index < size; index++) {
         auto item = jni.fromJava(wrapped.callObject(specs.specList.methods.get, (jint) index));
         result.pushBack(AnyFromJava(jni, specs, item));
         item.releaseLocal();
