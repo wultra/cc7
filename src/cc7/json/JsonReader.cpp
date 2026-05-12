@@ -265,7 +265,7 @@ JsonValue JsonReader::parseArray()
     {
         JsonValue value = parseValue(separator + 1);
         if (value.isValid()) {
-            if (result.size() <= MAX_ARRAY_SIZE) {
+            if (result.size() < MAX_ARRAY_SIZE) {
                 result.push_back(value);
             } else {
                 setParserError("Array is too big.");
@@ -346,7 +346,7 @@ JsonValue JsonReader::parseObject()
             // Read value
             JsonValue value =  parseValue(nullptr);
             if (value.isValid()) {
-                if (result.size() <= MAX_OBJECT_SIZE) {
+                if (result.size() < MAX_OBJECT_SIZE) {
                     // store key - value pair
                     result[key.asString()] = value;
                 } else {

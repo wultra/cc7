@@ -35,11 +35,11 @@ static id JsonValueToObjCImpl(const JsonValue& value, int depth)
                 if (!key) {
                     throw std::invalid_argument("JsonValue contains invalid string");
                 }
-                id value = JsonValueToObjCImpl(entry.second, depth + 1);
-                if (!value) {
+                id objc_value = JsonValueToObjCImpl(entry.second, depth + 1);
+                if (!objc_value) {
                     throw std::invalid_argument("JsonValue failed to convert to ObjC representation");
                 }
-                [out setValue:value forKey:key];
+                [out setValue:objc_value forKey:key];
             }
             return out;
         }

@@ -17,6 +17,7 @@
 #include <cc7/json/JsonWriter.h>
 #include <cc7/json/JsonException.h>
 #include <cc7/detail/StringUtils.h>
+#include <cmath>
 
 namespace cc7::json {
 
