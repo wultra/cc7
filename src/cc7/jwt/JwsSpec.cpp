@@ -81,7 +81,7 @@ static cc7::ByteArray _SkipPaddingBytes(const cc7::ByteRange & r)
         ++offset;
     }
     // If the encoded number is negative, then keep zero byte as prefix.
-    if (r[offset] > 0x7F) {
+    if (offset < size && r[offset] > 0x7F) {
         if (offset == 0) {
             // We're already at the beginning of range, so prepend zero before the sequence
             out.push_back(0);
