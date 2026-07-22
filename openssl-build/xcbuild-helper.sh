@@ -33,13 +33,6 @@ LOG "Translating platform dir suffix '${OPT_PLATFORM_SUFFIX}' into platform..."
 LIBRARY_IDENTIFIER=$(TRANSLATE_BUILD_SUFFIX ${OPT_PLATFORM_SUFFIX})
 
 LOG "Copying inner framework for platform '${LIBRARY_IDENTIFIER}'"
-
-if [ -d "${OPT_DEST_FOLDER}/openssl.framework" ]; then
-    LOG "  remove-existing-path"
-    LOG "       at: ${OPT_DEST_FOLDER}/openssl.framework"
-    $RM -r "${OPT_DEST_FOLDER}/openssl.framework"
-fi
-
 LOG "  copy"
 LOG "     from: ${XCFRAMEWORK}/${LIBRARY_IDENTIFIER}/openssl.framework"
 LOG "       to: ${OPT_DEST_FOLDER}/openssl.framework"

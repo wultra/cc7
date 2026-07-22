@@ -69,12 +69,12 @@ function BUILD_APPLE
         fi
     done
     
-    # Build FAT frameworks per platform
+    # Build FAT libraries per platform
     LOG_LINE
-    APPLE_FW_ALL=()         # All intermediate frameworks
+    APPLE_LIB_ALL=()        # All intermediate libraries
     for PLATFORM in ${APPLE_PLATFORMS}
     do
-        BUILD_APPLE_FAT_FRAMEWORK ${PLATFORM} ${LIB_NAME} "${TMP_PATH}"
+        BUILD_APPLE_FAT_LIB ${PLATFORM} ${LIB_NAME} "${TMP_PATH}"
     done
     # Build final XCFramework
     BUILD_APPLE_XC_FRAMEWORK ${LIB_NAME} "${TMP_PATH}" "${BUILD_LOG}"
@@ -244,22 +244,22 @@ function SKIP_APPLE_TARGET
 }
 
 # -----------------------------------------------------------------------------
-# BUILD_APPLE_FAT_FRAMEWORK builds FAT OpenSSL framework for given platform
+# BUILD_APPLE_FAT_LIB builds FAT OpenSSL library for given platform
 #
 # Parameters:
 #   $1   - platform to build (e.g. iOS, iOS_Simulator, etc...)
 #   $2   - output library name (e.g. openssl)
 #   $3   - path to temporary folder
 # -----------------------------------------------------------------------------
-function BUILD_APPLE_FAT_FRAMEWORK
+function BUILD_APPLE_FAT_LIB
 {
     local PLATFORM=$1
     local OUT_NAME="$2"
     local TMP_PATH="$3"
-    local OUT_PATH="${TMP_PATH}/$PLATFORM/${OUT_NAME}.framework"
+    local OUT_PATH="${TMP_PATH}/$PLATFORM/${OUT_NAME}"
     local MIN_OS_VERSION=$(BUILD_APPLE_SDK_MIN_VERSION $PLATFORM)
     
-    LOG "Building intermediate $PLATFORM ($MIN_OS_VERSION+) FAT framework..."
+    LOG "Building intermediate $PLATFORM ($MIN_OS_VERSION+) FAT library..."
     
     [[ -d "$OUT_PATH" ]] && $RM -rf "$OUT_PATH"
     $MD "${OUT_PATH}"
@@ -272,10 +272,10 @@ function BUILD_APPLE_FAT_FRAMEWORK
             LIBS+=("$TMP_PATH/$TARGET/openssl.tmp/${OUT_NAME}.a")
             if [ x$COPY_HEADERS == x1 ]; then
                 COPY_HEADERS=0
-                DEBUG_LOG "Installing headers for FAT framework..."
-                $CP -r "$TMP_PATH/$TARGET/openssl.tmp/include/openssl" "$OUT_PATH"
-                $MV "$OUT_PATH/openssl" "$OUT_PATH/Headers"
-                BUILD_APPLE_PLATFORM_SWITCH "$OUT_PATH/Headers"
+                DEBUG_LOG "Installing headers for library..."
+                $MD "$OUT_PATH/Headers"
+                $CP -r "$TMP_PATH/$TARGET/openssl.tmp/include/openssl" "$OUT_PATH/Headers/openssl"
+                BUILD_APPLE_PLATFORM_SWITCH "$OUT_PATH/Headers/openssl"
             fi
         fi
     done
@@ -288,19 +288,16 @@ function BUILD_APPLE_FAT_FRAMEWORK
     
     # Make FAT library. Don't lipo a single file
     if [[ ${#LIBS[@]} -gt 1 ]]; then
-        lipo -create ${LIBS[@]} -output "$OUT_PATH/$OUT_NAME"
+        lipo -create ${LIBS[@]} -output "$OUT_PATH/${OUT_NAME}.a"
     else
-        $CP ${LIBS[0]} "$OUT_PATH/$OUT_NAME"
+        $CP ${LIBS[0]} "$OUT_PATH/${OUT_NAME}.a"
     fi
-    if otool -l "$OUT_PATH/$OUT_NAME" | grep __bitcode >/dev/null; then
+    if otool -l "$OUT_PATH/${OUT_NAME}.a" | grep __bitcode >/dev/null; then
         LOG "  + library contains Bitcode"
     fi
     
-    # Make proper Info.plist
-    sed -e "s/%MIN_OS_VERSION%/$MIN_OS_VERSION/g" "${TOP}/assets/apple/Info-template.plist" > "$OUT_PATH/Info.plist"
-    
-    # Keep final framework in the list
-    APPLE_FW_ALL+=("${OUT_PATH}")
+    # Keep final library folder in the list
+    APPLE_LIB_ALL+=("${OUT_PATH}")
 }
 
 # -----------------------------------------------------------------------------
@@ -327,8 +324,8 @@ function BUILD_APPLE_XC_FRAMEWORK
     LOG "Creating final ${LIB_NAME}.xcframework..."
     
     local XCFW_ARGS=
-    for ARG in ${APPLE_FW_ALL[@]}; do
-        XCFW_ARGS+="-framework ${ARG} "
+    for ARG in ${APPLE_LIB_ALL[@]}; do
+        XCFW_ARGS+="-library ${ARG}/${LIB_NAME}.a -headers ${ARG}/Headers "
     done
     $MD "${OPENSSL_DEST_APPLE}"
 
@@ -414,7 +411,7 @@ function BUILD_APPLE_XC_FRAMEWORK
         local LIB_IDENTIFIER=${TMP[0]#\"}
         echo "    $BUILD_SUFFIX)"                                       >> $HELPER
         echo "      echo \"$LIB_IDENTIFIER\" ;;"                        >> $HELPER
-        [[ $PLATFORM == "$APPLE_REF_PLATFORM" ]] && SRC_HEADERS="${FW_PATH}/$LIB_IDENTIFIER/openssl.framework"
+        [[ $PLATFORM == "$APPLE_REF_PLATFORM" ]] && SRC_HEADERS="${FW_PATH}/$LIB_IDENTIFIER"
     done
     # Close 'case' & 'function'
     echo '    *)'                                                       >> $HELPER
@@ -427,8 +424,7 @@ function BUILD_APPLE_XC_FRAMEWORK
     [[ -z "${SRC_HEADERS}" ]] && FAILURE "Failed to acquire path to $APPLE_REF_PLATFORM platform headers."
     
     $MD "${DST_HEADERS}"
-    $CP -r "${SRC_HEADERS}/Headers" "${DST_HEADERS}"
-    $MV "${DST_HEADERS}/Headers" "${DST_HEADERS}/openssl"
+    $CP -r "${SRC_HEADERS}/Headers/openssl" "${DST_HEADERS}"
     
     # Cleanup
     $RM "${JSON_INFO}" "${FILT_INFO}"
