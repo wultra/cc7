@@ -288,9 +288,9 @@ function BUILD_APPLE_FAT_LIB
     
     # Make FAT library. Don't lipo a single file
     if [[ ${#LIBS[@]} -gt 1 ]]; then
-        lipo -create ${LIBS[@]} -output "$OUT_PATH/${OUT_NAME}.a"
+        lipo -create "${LIBS[@]}" -output "$OUT_PATH/${OUT_NAME}.a"
     else
-        $CP ${LIBS[0]} "$OUT_PATH/${OUT_NAME}.a"
+        $CP "${LIBS[0]}" "$OUT_PATH/${OUT_NAME}.a"
     fi
     if otool -l "$OUT_PATH/${OUT_NAME}.a" | grep __bitcode >/dev/null; then
         LOG "  + library contains Bitcode"
@@ -324,7 +324,7 @@ function BUILD_APPLE_XC_FRAMEWORK
     LOG "Creating final ${LIB_NAME}.xcframework..."
     
     local XCFW_ARGS=
-    for ARG in ${APPLE_LIB_ALL[@]}; do
+    for ARG in "${APPLE_LIB_ALL[@]}"; do
         XCFW_ARGS+="-library ${ARG}/${LIB_NAME}.a -headers ${ARG}/Headers "
     done
     $MD "${OPENSSL_DEST_APPLE}"
