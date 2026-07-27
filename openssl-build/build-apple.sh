@@ -117,6 +117,7 @@ function BUILD_APPLE_TARGET
     local TARGET=$1
     local OUT_NAME="$2"
     local TMP_PATH="$3/$TARGET"
+    local OUT_LIB_NAME="lib${OUT_NAME}.a"
         
     local ARCH=$(BUILD_APPLE_ARCH_NAME ${TARGET})
     local SDK=$(BUILD_APPLE_SDK_NAME ${TARGET})
@@ -217,7 +218,7 @@ function BUILD_APPLE_TARGET
     # Make library
     DEBUG_LOG "Copying library to temporary folder..."
     echo "### libtool" >> ${BUILD_LOG}
-    libtool -static -no_warning_for_no_symbols -o "${OUT_PATH}/${OUT_NAME}.a" "$SRC_PATH/libcrypto.a" \
+    libtool -static -no_warning_for_no_symbols -o "${OUT_PATH}/${OUT_LIB_NAME}" "$SRC_PATH/libcrypto.a" \
         >> ${BUILD_LOG} 2>&1
 }
 
@@ -257,6 +258,7 @@ function BUILD_APPLE_FAT_LIB
     local OUT_NAME="$2"
     local TMP_PATH="$3"
     local OUT_PATH="${TMP_PATH}/$PLATFORM/${OUT_NAME}"
+    local OUT_LIB_NAME="lib${OUT_NAME}.a"
     local MIN_OS_VERSION=$(BUILD_APPLE_SDK_MIN_VERSION $PLATFORM)
     
     LOG "Building intermediate $PLATFORM ($MIN_OS_VERSION+) FAT library..."
@@ -269,7 +271,7 @@ function BUILD_APPLE_FAT_LIB
     local COPY_HEADERS=1
     for TARGET in ${APPLE_TARGETS}; do
         if [ $(BUILD_APPLE_FAT_NAME $TARGET) == $PLATFORM ]; then
-            LIBS+=("$TMP_PATH/$TARGET/openssl.tmp/${OUT_NAME}.a")
+            LIBS+=("$TMP_PATH/$TARGET/openssl.tmp/${OUT_LIB_NAME}")
             if [ x$COPY_HEADERS == x1 ]; then
                 COPY_HEADERS=0
                 DEBUG_LOG "Installing headers for library..."
@@ -288,11 +290,11 @@ function BUILD_APPLE_FAT_LIB
     
     # Make FAT library. Don't lipo a single file
     if [[ ${#LIBS[@]} -gt 1 ]]; then
-        lipo -create "${LIBS[@]}" -output "$OUT_PATH/${OUT_NAME}.a"
+        lipo -create "${LIBS[@]}" -output "$OUT_PATH/${OUT_LIB_NAME}"
     else
-        $CP "${LIBS[0]}" "$OUT_PATH/${OUT_NAME}.a"
+        $CP "${LIBS[0]}" "$OUT_PATH/${OUT_LIB_NAME}"
     fi
-    if otool -l "$OUT_PATH/${OUT_NAME}.a" | grep __bitcode >/dev/null; then
+    if otool -l "$OUT_PATH/${OUT_LIB_NAME}" | grep __bitcode >/dev/null; then
         LOG "  + library contains Bitcode"
     fi
     
@@ -303,7 +305,7 @@ function BUILD_APPLE_FAT_LIB
 # -----------------------------------------------------------------------------
 # BUILD_APPLE_XC_FRAMEWORK builds final XCFramework and prepares helper script
 # for Xcode build. The helper script is responsible for copying platform
-# specific framework from the final XCFramework.
+# specific libraries from the final XCFramework.
 #
 # Parameters:
 #   $1   - library name (e.g. openssl)
@@ -315,6 +317,7 @@ function BUILD_APPLE_XC_FRAMEWORK
     local LIB_NAME="$1"
     local TMP_PATH="$2"
     local BUILD_LOG="$3"
+    local OUT_LIB_NAME="lib${LIB_NAME}.a"
     local FW_PATH="${OPENSSL_DEST_APPLE}/${LIB_NAME}.xcframework"
     local JSON_INFO="${OPENSSL_DEST_APPLE}/Info.json"
     local FILT_INFO="${OPENSSL_DEST_APPLE}/Info-filtered.json"
@@ -325,7 +328,7 @@ function BUILD_APPLE_XC_FRAMEWORK
     
     local XCFW_ARGS=
     for ARG in "${APPLE_LIB_ALL[@]}"; do
-        XCFW_ARGS+="-library ${ARG}/${LIB_NAME}.a -headers ${ARG}/Headers "
+        XCFW_ARGS+="-library ${ARG}/${OUT_LIB_NAME} -headers ${ARG}/Headers "
     done
     $MD "${OPENSSL_DEST_APPLE}"
 
