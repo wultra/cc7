@@ -1,6 +1,6 @@
 #!/bin/bash
 # -----------------------------------------------------------------------------
-# This script helps with extracting platform specific framework from final
+# This script helps with extracting platform specific library from final
 # xcframework.
 # -----------------------------------------------------------------------------
 
@@ -34,9 +34,9 @@ LIBRARY_IDENTIFIER=$(TRANSLATE_BUILD_SUFFIX ${OPT_PLATFORM_SUFFIX})
 
 LOG "Copying library for platform '${LIBRARY_IDENTIFIER}'"
 LOG "  copy"
-LOG "     from: ${XCFRAMEWORK}/${LIBRARY_IDENTIFIER}/openssl.a"
-LOG "       to: ${OPT_DEST_FOLDER}/openssl.a"
+LOG "     from: ${XCFRAMEWORK}/${LIBRARY_IDENTIFIER}/libopenssl.a"
+LOG "       to: ${OPT_DEST_FOLDER}/libopenssl.a"
 
-$CP -r "${XCFRAMEWORK}/${LIBRARY_IDENTIFIER}/openssl.a" "${OPT_DEST_FOLDER}"
+$CP -r "${XCFRAMEWORK}/${LIBRARY_IDENTIFIER}/libopenssl.a" "${OPT_DEST_FOLDER}"
 
 EXIT_SUCCESS
