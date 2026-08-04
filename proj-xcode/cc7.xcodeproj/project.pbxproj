@@ -2492,8 +2492,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2515,8 +2514,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2559,8 +2557,7 @@
 					"@loader_path/Frameworks",
 				);
 				OTHER_LDFLAGS = (
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2582,8 +2579,7 @@
 					"@loader_path/Frameworks",
 				);
 				OTHER_LDFLAGS = (
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2598,8 +2594,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2615,8 +2610,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2780,8 +2774,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -2797,8 +2790,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -2813,8 +2805,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2829,8 +2820,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2871,8 +2861,7 @@
 					"@loader_path/Frameworks",
 				);
 				OTHER_LDFLAGS = (
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2894,8 +2883,7 @@
 					"@loader_path/Frameworks",
 				);
 				OTHER_LDFLAGS = (
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2909,8 +2897,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2925,8 +2912,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2967,8 +2953,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2990,8 +2975,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
-					"-framework",
-					openssl,
+					"-lopenssl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
