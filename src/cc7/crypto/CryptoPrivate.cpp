@@ -96,7 +96,7 @@ public:
     static int callback(OSSL_PROVIDER *provider, void *cbdata)
     {
         auto name = OSSL_PROVIDER_get0_name(provider);
-        printf("Provider name: %s\n", name);
+        CC7_LOG("OpenSSL provider: %s", name);
         return 1;
     }
     

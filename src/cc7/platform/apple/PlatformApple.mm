@@ -27,7 +27,10 @@ namespace cc7::debug {
 
 static void private_DumpAssertToLog(void * foo, const char * file, int line, const char * message)
 {
-    NSLog(@"%@", [NSString stringWithUTF8String:message]);
+    const auto setup = GetLogHandler();
+    if (setup.handler) {
+        setup.handler(setup.handler_data, message);
+    }
     //
     // Break execution with using software breakpoint.
     //
@@ -61,7 +64,7 @@ LogHandlerSetup Platform_GetDefaultLogHandler()
 
 bool Platform_IsDefaultLogEnabled()
 {
-    return false;
+    return true;
 }
 
 } // namespace cc7::debug

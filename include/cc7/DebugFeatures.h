@@ -38,9 +38,9 @@ struct AssertionHandlerSetup
 };
 
 /**
- Defines log handler function. You can override behavior of the CC7_LOG() macto
- in DEBUG CC7 library builds and register your own handler. The handler will be
- notified about all logs produced by CC7_LOG() macro.
+ Defines a handler for messages produced by CC7_LOG() in all build configurations.
+ Logging is enabled by default. The handler runs synchronously on the logging thread
+ and may be called concurrently. The formatted string is valid only during the call.
  */
 typedef void (*LogHandler)(void * handler_data, const char * formatted_string);
 
@@ -92,19 +92,14 @@ AssertionHandlerSetup Platform_GetDefaultAssertionHandler();
 #if defined(ENABLE_CC7_LOG)
     
 /**
- Sets a new setup to internal log handler. This function is available only
- when CC7_LOG() macro is enabled and functional.
- 
- Note that the function is not thread-safe. It is recommended to use this feature
- only during the unit testing.
+ Sets the internal log handler. A null handler restores the platform default.
+ This function is thread-safe. Calls already in progress may still use the previous
+ handler, so its handler_data must remain valid until those calls finish.
  */
 void SetLogHandler(const LogHandlerSetup & new_setup);
 
 /**
- Returns current log handler's setup.
- 
- Note that the function is not thread-safe. It is recommended to use this feature
- only during the unit testing.
+ Returns a thread-safe snapshot of the current log handler's setup.
  */
 LogHandlerSetup GetLogHandler();
 
@@ -115,12 +110,12 @@ LogHandlerSetup GetLogHandler();
 LogHandlerSetup Platform_GetDefaultLogHandler();
 
 /**
- Sets CC7 logging enabled or disabled.
+ Sets CC7 logging enabled or disabled. This function is thread-safe.
  */
 void SetLogEnabled(bool enabled);
 
 /**
- Returns true if CC7 logging is enabled.
+ Returns true if CC7 logging is enabled. This function is thread-safe.
  */
 bool IsLogEnabled();
 

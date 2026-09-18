@@ -15,6 +15,8 @@
  */
 
 #include <cc7/DebugFeatures.h>
+#include <atomic>
+#include <mutex>
 
 namespace cc7 {
 namespace debug {
@@ -66,31 +68,42 @@ AssertionHandlerSetup GetAssertionHandler()
 //
 // Log handler
 //
-static LogHandlerSetup s_log_setup = { nullptr, nullptr };
-static bool s_log_enabled = Platform_IsDefaultLogEnabled();
+struct LogState
+{
+    std::mutex mutex;
+    LogHandlerSetup setup = { nullptr, nullptr };
+    std::atomic<bool> enabled { Platform_IsDefaultLogEnabled() };
+};
+
+static LogState& GetLogState()
+{
+    static LogState state;
+    return state;
+}
 
 void SetLogHandler(const LogHandlerSetup & new_setup)
 {
-    if (!new_setup.handler) {
-        s_log_setup = Platform_GetDefaultLogHandler();
-    } else {
-        s_log_setup = new_setup;
-    }
+    auto setup = new_setup.handler ? new_setup : Platform_GetDefaultLogHandler();
+    auto& state = GetLogState();
+    std::lock_guard<std::mutex> lock(state.mutex);
+    state.setup = setup;
 }
 
 LogHandlerSetup GetLogHandler()
 {
-    return s_log_setup;
+    auto& state = GetLogState();
+    std::lock_guard<std::mutex> lock(state.mutex);
+    return state.setup.handler ? state.setup : Platform_GetDefaultLogHandler();
 }
 
 void SetLogEnabled(bool enabled)
 {
-    s_log_enabled = enabled;
+    GetLogState().enabled.store(enabled);
 }
 
 bool IsLogEnabled()
 {
-    return s_log_enabled;
+    return GetLogState().enabled.load();
 }
 #endif //ENABLE_CC7_LOG
 
@@ -157,22 +170,35 @@ void CC7LogImpl(const char * fmt, ...)
         return;
     }
     
+    const auto setup = cc7::debug::GetLogHandler();
+    if (!setup.handler) {
+        return;
+    }
+
     char message[1024];
     va_list args;
     va_start(args, fmt);
-    vsnprintf(message, 1024, fmt, args);
-    message[1024 - 1] = 0;
+    const int length = vsnprintf(message, sizeof(message), fmt, args);
     va_end(args);
-    
-    // Pass that message to the assert handler
-    if (!cc7::debug::s_log_setup.handler) {
-        cc7::debug::s_log_setup = cc7::debug::Platform_GetDefaultLogHandler();
-        if (cc7::debug::s_log_setup.handler) {
-            cc7::debug::s_log_setup.handler(cc7::debug::s_log_setup.handler_data, message);
-        }
-    } else {
-        cc7::debug::s_log_setup.handler(cc7::debug::s_log_setup.handler_data, message);
+
+    if (length < 0) {
+        setup.handler(setup.handler_data, "CC7: Failed to format log message");
+        return;
     }
+    if (static_cast<size_t>(length) < sizeof(message)) {
+        setup.handler(setup.handler_data, message);
+        return;
+    }
+
+    std::vector<char> full_message(static_cast<size_t>(length) + 1);
+    va_start(args, fmt);
+    const int full_length = vsnprintf(full_message.data(), full_message.size(), fmt, args);
+    va_end(args);
+    if (full_length != length) {
+        setup.handler(setup.handler_data, "CC7: Failed to format full log message");
+        return;
+    }
+    setup.handler(setup.handler_data, full_message.data());
 }
 
 void CC7LogEnableImpl(bool enable)

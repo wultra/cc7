@@ -28,6 +28,7 @@ namespace tests
         {
             CC7_REGISTER_TEST_METHOD(testPlatformBits)
             CC7_REGISTER_TEST_METHOD(testDebugFeatures)
+            CC7_REGISTER_TEST_METHOD(testLogging)
             CC7_REGISTER_TEST_METHOD(testEndian16)
             CC7_REGISTER_TEST_METHOD(testEndian32)
             CC7_REGISTER_TEST_METHOD(testEndian64)
@@ -67,6 +68,42 @@ namespace tests
 #endif
         }
         
+        void testLogging()
+        {
+            std::vector<std::string> messages;
+            struct LogStateGuard
+            {
+                cc7::debug::LogHandlerSetup setup = cc7::debug::GetLogHandler();
+                bool enabled = cc7::debug::IsLogEnabled();
+                ~LogStateGuard()
+                {
+                    cc7::debug::SetLogHandler(setup);
+                    cc7::debug::SetLogEnabled(enabled);
+                }
+            } guard;
+
+            cc7::debug::SetLogHandler({
+                [](void * context, const char * message) {
+                    cc7::debug::GetLogHandler();
+                    static_cast<std::vector<std::string>*>(context)->emplace_back(message);
+                },
+                &messages
+            });
+            cc7::debug::SetLogEnabled(true);
+            CC7_LOG("message %d", 42);
+            const std::string long_message = std::string(8192, 'x') + "-\xc5\xbe";
+            CC7_LOG("%s: end", long_message.c_str());
+            CC7_LOG("%s", "\xff\xfe");
+            cc7::debug::SetLogEnabled(false);
+            CC7_LOG("not captured");
+
+            ccstAssertTrue(cc7::debug::Platform_IsDefaultLogEnabled());
+            ccstAssertEqual(messages.size(), 3);
+            ccstAssertEqual(messages[0], "message 42");
+            ccstAssertEqual(messages[1], long_message + ": end");
+            ccstAssertEqual(messages[2], std::string("\xff\xfe"));
+        }
+
         void testEndianIntrinsics()
         {
 #if !defined(CC7_BSWAP_16)

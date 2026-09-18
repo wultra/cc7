@@ -165,11 +165,12 @@
 // Setup for implicit features
 // =======================================================================
 
+#ifndef ENABLE_CC7_LOG
+    #define ENABLE_CC7_LOG
+#endif
+
 #if defined (DEBUG)
-    // DEBUG builds have CC7_LOG and CC7_ASSERT macros turned on by default
-    #ifndef ENABLE_CC7_LOG
-        #define ENABLE_CC7_LOG
-    #endif
+    // Assertions remain limited to DEBUG builds.
     #ifndef ENABLE_CC7_ASSERT
         #define ENABLE_CC7_ASSERT
     #endif

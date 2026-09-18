@@ -296,7 +296,7 @@ void JsonWriter::writeDouble(double value)
 void JsonValue::debugDump() const
 {
     JsonWriter writer(JsonWriter::HumanReadable | JsonWriter::KeepNull);
-    printf("%s\n", writer.toString(*this).c_str());
+    CC7_LOG("%s", writer.toString(*this).c_str());
 }
 
 } // namespace cc7::json

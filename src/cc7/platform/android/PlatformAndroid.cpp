@@ -41,11 +41,6 @@ AssertionHandlerSetup Platform_GetDefaultAssertionHandler()
     return s_default_setup;
 }
 
-bool Platform_IsDefaultLogEnabled()
-{
-    return true;
-}
-
 } // cc7::debug
 #endif //ENABLE_CC7_ASSERT
 
@@ -62,6 +57,11 @@ LogHandlerSetup Platform_GetDefaultLogHandler()
 {
     static LogHandlerSetup s_default_setup = { private_AndroidLogImpl, nullptr };
     return s_default_setup;
+}
+
+bool Platform_IsDefaultLogEnabled()
+{
+    return true;
 }
     
 } // cc7::debug

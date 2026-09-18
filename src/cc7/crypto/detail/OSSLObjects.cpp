@@ -19,6 +19,17 @@
 
 namespace cc7::crypto {
 
+#if defined(ENABLE_CC7_LOG)
+void OSSLPrintErrors()
+{
+    ERR_print_errors_cb([](const char * message, size_t length, void *) -> int {
+        const std::string text(message, length);
+        CC7_LOG("OpenSSL: %s", text.c_str());
+        return 1;
+    }, nullptr);
+}
+#endif
+
 cc7::ByteArray BigNum_ToArray(const BigNum & bn)
 {
     cc7::ByteArray array;

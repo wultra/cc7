@@ -37,7 +37,7 @@ const std::string & BaseException::exceptionClass() const noexcept
     return CLASS_NAME;
 }
 
-#ifdef DEBUG
+#if defined(ENABLE_CC7_LOG)
 static std::string formatDebugDump(const std::string & indent, const std::string & type, const std::string & msg)
 {
     return indent + "[ " + type + " ]: " +  msg;
@@ -87,9 +87,9 @@ std::string BaseException::debugDump() const noexcept
 #else
 std::string BaseException::debugDump() const noexcept
 {
-    // In non-DEBUG build return message
+    // Without diagnostic logging, return only the message.
     return _message;
 }
-#endif // DEBUG
+#endif // ENABLE_CC7_LOG
 
 } // cc7

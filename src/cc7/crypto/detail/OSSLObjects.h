@@ -148,8 +148,9 @@ typedef TLLObject<BIO, nullptr, TWrapIntToVoid<BIO, BIO_free>> OSSLBIO;
 typedef TLLObject<BUF_MEM, TFuncWithParam1<BUF_MEM, unsigned long, BUF_MEM_new_ex, BUF_MEM_FLAG_SECURE>, BUF_MEM_free> OSSLBuf;
 
 
-#if DEBUG
-    #define OSSL_print_errors() ERR_print_errors_fp(stderr)
+#if defined(ENABLE_CC7_LOG)
+    void OSSLPrintErrors();
+    #define OSSL_print_errors() cc7::crypto::OSSLPrintErrors()
 #else
     #define OSSL_print_errors()
 #endif
