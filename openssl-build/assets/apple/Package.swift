@@ -9,10 +9,10 @@ import PackageDescription
 let package = Package(
     name: "cc7",
     platforms: [
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v4),
-        .macCatalyst(.v13)
+        .iOS(.v15),
+        .tvOS(.v15),
+        .watchOS(.v9),
+        .macCatalyst(.v15)
     ],
     products: [
         .library(name: "openssl", targets: ["openssl"]),
