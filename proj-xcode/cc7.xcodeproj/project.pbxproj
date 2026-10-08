@@ -1717,7 +1717,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 2610;
+				LastUpgradeCheck = 2700;
 				ORGANIZATIONNAME = "Wultra s.r.o.";
 				TargetAttributes = {
 					BF498AA11CDCBE8300D7E904 = {
@@ -2485,15 +2485,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
 				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_LDFLAGS = (
-					"-lopenssl",
-				);
+				OTHER_LDFLAGS = "-lopenssl";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -2507,15 +2505,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
 				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_LDFLAGS = (
-					"-lopenssl",
-				);
+				OTHER_LDFLAGS = "-lopenssl";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -2528,7 +2524,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2539,7 +2534,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = KTT9G859MR;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2556,9 +2550,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_LDFLAGS = (
-					"-lopenssl",
-				);
+				OTHER_LDFLAGS = "-lopenssl";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2578,9 +2570,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_LDFLAGS = (
-					"-lopenssl",
-				);
+				OTHER_LDFLAGS = "-lopenssl";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2695,14 +2685,14 @@
 					"$(PROJECT_DIR)/../include",
 					"$(PROJECT_DIR)/../openssl-lib/apple/include",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fvisibility=hidden";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				TVOS_DEPLOYMENT_TARGET = 13.0;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				TVOS_DEPLOYMENT_TARGET = 15.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 				XROS_DEPLOYMENT_TARGET = 1.3;
 			};
 			name = Debug;
@@ -2756,14 +2746,14 @@
 					"$(PROJECT_DIR)/../include",
 					"$(PROJECT_DIR)/../openssl-lib/apple/include",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-fvisibility=hidden";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				TVOS_DEPLOYMENT_TARGET = 13.0;
+				TVOS_DEPLOYMENT_TARGET = 15.0;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 				XROS_DEPLOYMENT_TARGET = 1.3;
 			};
 			name = Release;
@@ -2860,13 +2850,12 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_LDFLAGS = (
-					"-lopenssl",
-				);
+				OTHER_LDFLAGS = "-lopenssl";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
@@ -2882,12 +2871,11 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_LDFLAGS = (
-					"-lopenssl",
-				);
+				OTHER_LDFLAGS = "-lopenssl";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -2951,14 +2939,12 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_LDFLAGS = (
-					"-lopenssl",
-				);
+				OTHER_LDFLAGS = "-lopenssl";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TVOS_DEPLOYMENT_TARGET = 17.0;
 			};
 			name = Debug;
 		};
@@ -2973,13 +2959,11 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_LDFLAGS = (
-					"-lopenssl",
-				);
+				OTHER_LDFLAGS = "-lopenssl";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
 			};
 			name = Release;
 		};

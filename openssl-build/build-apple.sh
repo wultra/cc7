@@ -46,7 +46,6 @@ function BUILD_APPLE
     LOG "Building OpenSSL ${OPENSSL_VERSION} for Apple platforms..."
     LOG "  - macOS $(sw_vers -productVersion) ($(uname -m))"
     LOG "  - Xcode $(GET_XCODE_VERSION --full)"
-    BUILD_APPLE_XCODE_SWITCH
     
     DEBUG_LOG "Destination folders cleanup"
     
@@ -597,9 +596,6 @@ function BUILD_APPLE_PLATFORM_SWITCH
             *_tvos64-cross-arm64.h)
                 IF_CONDITION="TARGET_OS_TV && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64"
                 ;;
-            *_watchos-cross-armv7k.h)
-                IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM"
-                ;;
             *_watchos-cross-arm64.h)
                 IF_CONDITION="TARGET_OS_WATCH && TARGET_OS_EMBEDDED && TARGET_CPU_ARM64 && defined(__LP64__)"
                 ;;
@@ -642,27 +638,6 @@ function BUILD_APPLE_PLATFORM_SWITCH
 }
 
 # -----------------------------------------------------------------------------
-# BUILD_APPLE_XCODE_SWITCH prepares various runtime variables depending
-# on Xcode version.
-# -----------------------------------------------------------------------------
-function BUILD_APPLE_XCODE_SWITCH
-{
-    local xcv=$(GET_XCODE_VERSION --full)
-    case $xcv in
-        12.*) 
-            BUILD_APPLE_MACABI_VER=13.0 
-            ;;
-        13.* | 14.* | 15.* | 16.* | 26.*) 
-            BUILD_APPLE_MACABI_VER=13.1
-            ;;
-        *) 
-            BUILD_APPLE_MACABI_VER=13.0
-            WARNING "Build on Xcode $xcv is not tested."
-            ;;
-    esac
-}
-
-# -----------------------------------------------------------------------------
 # BUILD_APPLE_SDK_NAME converts compile TARGET into SDK name. For example, for
 # "ios-cross-armv7" target prints "iphoneos".
 #
@@ -697,8 +672,8 @@ function BUILD_APPLE_SDK_NAME
 function BUILD_APPLE_TARGET_OPTION
 {   
     case $1 in
-        mac-catalyst-x86_64)        echo "x86_64-apple-ios${BUILD_APPLE_MACABI_VER}-macabi" ;;
-        mac-catalyst-arm64)         echo "arm64-apple-ios${BUILD_APPLE_MACABI_VER}-macabi" ;;
+        mac-catalyst-x86_64)        echo "x86_64-apple-ios${APPLE_CATALYST_MIN_SDK}-macabi" ;;
+        mac-catalyst-arm64)         echo "arm64-apple-ios${APPLE_CATALYST_MIN_SDK}-macabi" ;;
         ios-sim-cross-arm64)        echo "arm64-apple-ios${APPLE_IOS_MIN_SDK}-simulator" ;;
         tvos-sim-cross-arm64)       echo "arm64-apple-tvos${APPLE_TVOS_MIN_SDK}-simulator" ;;
         watchos-sim-cross-arm64)    echo "arm64-apple-watchos${APPLE_WATCHOS_MIN_SDK}-simulator" ;;
