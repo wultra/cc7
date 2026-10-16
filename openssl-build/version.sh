@@ -3,4 +3,4 @@
 #  Use  >> build.sh --publish << to update its content.   #
 # ------------------------------------------------------- #
     
-CC7_VERSION_EXT='0.7.2'
+CC7_VERSION_EXT='0.8.0'

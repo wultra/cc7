@@ -9,10 +9,10 @@ import PackageDescription
 let package = Package(
     name: "cc7",
     platforms: [
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v4),
-        .macCatalyst(.v13)
+        .iOS(.v15),
+        .tvOS(.v15),
+        .watchOS(.v9),
+        .macCatalyst(.v15)
     ],
     products: [
         .library(name: "openssl", targets: ["openssl"]),
@@ -22,8 +22,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "openssl",
-            url: "https://github.com/wultra/cc7/releases/download/0.7.2/openssl-3.5.6.xcframework.zip",
-            checksum: "7816096d4db2a6e13fcc65c1e266efc091ac6c6efa0c1d355058a2df1049bdf2"
+            url: "https://github.com/wultra/cc7/releases/download/0.8.0/openssl-3.5.6.xcframework.zip",
+            checksum: "447ab234ed4c113a3524b8b217ad189ed0e30277030e44bdaff19d467292f1c8"
         ),
         .target(
             name: "cc7",
